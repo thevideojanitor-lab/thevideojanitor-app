@@ -9,23 +9,23 @@ import {
 const faqs = [
   {
     q: "How does the credit system work?",
-    a: "Each credit equals one short-form video edit (up to 90 seconds). Submit raw footage with a brief for any client, and one credit is used per edit. Unused credits roll over for one month.",
+    a: "Each credit equals one short-form video edit (up to 90 seconds). Upload your raw footage with a brief, and one credit is used per edit. Unused credits roll over for one month.",
   },
   {
-    q: "Can we use this across multiple client accounts?",
-    a: "Absolutely. All plans support multi-brand editing. On the Full Service plan, you get dedicated multi-brand support and an account manager to coordinate across your roster.",
-  },
-  {
-    q: "What if an editor doesn't match our client's brand?",
-    a: "Swap anytime with zero friction. Hit 'Swap Editor' in your dashboard and we'll match you with someone new within 24 hours. No awkward conversations needed.",
+    q: "What if I don't like my editor?",
+    a: "Swap anytime with zero friction. Just hit 'Swap Editor' in your dashboard and we'll match you with someone new within 24 hours. No awkward conversations needed.",
   },
   {
     q: "What's included in each edit?",
     a: "Color correction, cuts, transitions, captions/subtitles, music/SFX, platform-specific formatting, and trending effects. Custom brand templates are available on Deep Clean and above.",
   },
   {
-    q: "Can we cancel anytime?",
+    q: "Can I cancel anytime?",
     a: "Yes. No contracts, no cancellation fees. Cancel before your next billing cycle and you won't be charged again. Any remaining credits stay active until the end of your current period.",
+  },
+  {
+    q: "What platforms do you optimize for?",
+    a: "TikTok, Instagram Reels, YouTube Shorts, LinkedIn, and X (Twitter). Each edit is formatted and optimized for the platform you specify.",
   },
 ];
 
