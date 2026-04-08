@@ -20,7 +20,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="ghost" size="sm">View Plans</Button>
+          <Button variant="ghost" size="sm">Book Demo</Button>
           <Button variant="hero" size="sm">Join Waitlist</Button>
         </div>
 
@@ -36,7 +36,7 @@ const Navbar = () => {
           <a href="#showcase" className="block text-sm text-muted-foreground py-2" onClick={() => setMobileOpen(false)}>Showcase</a>
           <a href="#faq" className="block text-sm text-muted-foreground py-2" onClick={() => setMobileOpen(false)}>FAQ</a>
           <div className="flex gap-3 pt-2">
-            <Button variant="ghost" size="sm" className="flex-1">View Plans</Button>
+            <Button variant="ghost" size="sm" className="flex-1">Book Demo</Button>
             <Button variant="hero" size="sm" className="flex-1">Join Waitlist</Button>
           </div>
         </div>

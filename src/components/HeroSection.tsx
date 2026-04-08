@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Shield, Clock, RefreshCw } from "lucide-react";
-import heroBg from "@/assets/hero-bg-creator.jpg";
+import heroBg from "@/assets/hero-bg.jpg";
 
 const trustSignals = [
   { icon: Shield, label: "Vetted Editors" },
@@ -24,7 +24,7 @@ const HeroSection = () => {
           transition={{ duration: 0.5 }}
           className="text-sm font-medium uppercase tracking-widest text-primary mb-6"
         >
-          Trusted by 100+ creators
+          Trusted by 50+ creators and agencies
         </motion.p>
 
         <motion.h1
@@ -33,8 +33,8 @@ const HeroSection = () => {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6"
         >
-          Post more.{" "}
-          <span className="text-gradient">Edit less.</span>
+          Short-form video editing,{" "}
+          <span className="text-gradient">without the freelancer mess.</span>
         </motion.h1>
 
         <motion.p
@@ -53,10 +53,10 @@ const HeroSection = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
         >
           <Button variant="hero" size="lg" className="text-base px-8 py-6">
-            Join Waitlist
+            View Plans
           </Button>
           <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
-            View Plans
+            Join Waitlist
           </Button>
         </motion.div>
 

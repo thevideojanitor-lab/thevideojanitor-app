@@ -6,19 +6,19 @@ const steps = [
     icon: CreditCard,
     step: "01",
     title: "Subscribe",
-    description: "Pick a plan that fits how often you post. No contracts, cancel anytime.",
+    description: "Pick a plan that fits your volume. No contracts, cancel anytime.",
   },
   {
     icon: Upload,
     step: "02",
     title: "Submit",
-    description: "Upload your raw clips and a quick brief. We match you with the perfect editor.",
+    description: "Upload raw footage and a brief. We match you with the right editor.",
   },
   {
     icon: Sparkles,
     step: "03",
     title: "Receive",
-    description: "Get polished, platform-ready reels back within 48 hours. Post and grow.",
+    description: "Get polished, platform-ready reels back within 48 hours.",
   },
 ];
 

@@ -9,7 +9,7 @@ import {
 const faqs = [
   {
     q: "How does the credit system work?",
-    a: "Each credit equals one short-form video edit (up to 90 seconds). Upload your raw footage with a brief, and one credit is used per edit. Unused credits roll over for one month.",
+    a: "Each credit equals one short-form video edit (up to 90 seconds). Submit your raw footage with a brief, and one credit is used per edit. Unused credits roll over for one month.",
   },
   {
     q: "What if I don't like my editor?",

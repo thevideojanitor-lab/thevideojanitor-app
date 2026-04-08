@@ -13,18 +13,18 @@ const FinalCta = () => {
           className="text-center max-w-2xl mx-auto"
         >
           <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
-            Post more.{" "}
-            <span className="text-gradient">Edit less.</span>
+            Stop managing freelancers.{" "}
+            <span className="text-gradient">Just upload.</span>
           </h2>
           <p className="text-lg text-text-secondary mb-10">
-            Join 100+ creators getting polished short-form content on autopilot. 100% satisfaction guarantee.
+            Join 50+ creators and agencies getting polished short-form content on autopilot. 100% satisfaction guarantee.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="hero" size="lg" className="text-base px-8 py-6">
-              Join Waitlist
+              View Plans
             </Button>
             <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
-              View Plans
+              Join Waitlist
             </Button>
           </div>
         </motion.div>
