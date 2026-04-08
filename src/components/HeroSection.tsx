@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Shield, Clock, TrendingUp } from "lucide-react";
-import heroBg from "@/assets/hero-bg-agency.jpg";
+import { Shield, Clock, RefreshCw } from "lucide-react";
+import heroBg from "@/assets/hero-bg-creator.jpg";
 
 const trustSignals = [
   { icon: Shield, label: "Vetted Editors" },
   { icon: Clock, label: "48h Turnaround" },
-  { icon: TrendingUp, label: "Scale Without Hiring" },
+  { icon: RefreshCw, label: "Swap Anytime" },
 ];
 
 const HeroSection = () => {
@@ -24,7 +24,7 @@ const HeroSection = () => {
           transition={{ duration: 0.5 }}
           className="text-sm font-medium uppercase tracking-widest text-primary mb-6"
         >
-          Trusted by 30+ agencies
+          Trusted by 100+ creators
         </motion.p>
 
         <motion.h1
@@ -33,8 +33,8 @@ const HeroSection = () => {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6"
         >
-          Agency Overflow?{" "}
-          <span className="text-gradient">We handle the editing. You handle the strategy.</span>
+          Post more.{" "}
+          <span className="text-gradient">Edit less.</span>
         </motion.h1>
 
         <motion.p
@@ -43,7 +43,7 @@ const HeroSection = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          Subscribe to a plan. Get matched with a vetted editor. Receive polished reels in 48 hours. Scale without hiring.
+          Subscribe to a plan. Get matched with a vetted editor. Receive polished reels in 48 hours. Swap editors anytime.
         </motion.p>
 
         <motion.div
@@ -53,7 +53,7 @@ const HeroSection = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
         >
           <Button variant="hero" size="lg" className="text-base px-8 py-6">
-            Book Demo
+            Join Waitlist
           </Button>
           <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
             View Plans

@@ -6,19 +6,19 @@ const steps = [
     icon: CreditCard,
     step: "01",
     title: "Subscribe",
-    description: "Pick a plan that fits your agency's volume. No contracts, cancel anytime.",
+    description: "Pick a plan that fits how often you post. No contracts, cancel anytime.",
   },
   {
     icon: Upload,
     step: "02",
     title: "Submit",
-    description: "Upload raw footage and a brief for any client. We match you with the right editor.",
+    description: "Upload your raw clips and a quick brief. We match you with the perfect editor.",
   },
   {
     icon: Sparkles,
     step: "03",
     title: "Receive",
-    description: "Get polished, platform-ready reels back within 48 hours. Deliver to your clients.",
+    description: "Get polished, platform-ready reels back within 48 hours. Post and grow.",
   },
 ];
 
@@ -32,8 +32,8 @@ const HowItWorks = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">How It Works for Agencies</p>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold">Three steps. Zero overhead.</h2>
+          <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">How It Works</p>
+          <h2 className="font-heading text-3xl md:text-4xl font-bold">Three steps. Zero headaches.</h2>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
