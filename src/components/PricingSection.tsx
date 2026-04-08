@@ -9,7 +9,7 @@ const plans = [
     period: "/mo",
     credits: "4 credits",
     activeRequests: "1 active request",
-    bestFor: "Solopreneurs posting 1x/week",
+    bestFor: "Small agencies, 1–2 clients",
     features: ["48h standard turnaround", "1 revision per edit", "Dedicated editor", "Platform optimization"],
     popular: false,
   },
@@ -19,7 +19,7 @@ const plans = [
     period: "/mo",
     credits: "10 credits",
     activeRequests: "2 active requests",
-    bestFor: "Creators posting 2–3x/week",
+    bestFor: "Growing agencies, 3–5 clients",
     features: ["48h standard turnaround", "2 revisions per edit", "Priority matching", "Swap editors anytime", "Custom brand templates"],
     popular: true,
   },
@@ -29,7 +29,7 @@ const plans = [
     period: "/mo",
     credits: "25 credits",
     activeRequests: "5 active requests",
-    bestFor: "Agencies & high-volume brands",
+    bestFor: "Established agencies, 6+ clients",
     features: ["24h rush turnaround", "Unlimited revisions", "Dedicated team", "Account manager", "Multi-brand support", "API access"],
     popular: false,
   },
@@ -45,9 +45,9 @@ const PricingSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">Pricing</p>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">Simple plans. No surprises.</h2>
-          <p className="text-muted-foreground max-w-lg mx-auto">Buy credits, submit requests, get edits back. Scale up or down anytime.</p>
+          <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">Pricing for Agencies</p>
+          <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">Predictable pricing. Predictable results.</h2>
+          <p className="text-muted-foreground max-w-lg mx-auto">Scale your editing output without scaling your payroll. No contracts, cancel anytime.</p>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">

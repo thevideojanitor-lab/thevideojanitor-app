@@ -3,25 +3,25 @@ import { Star } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Sarah Chen",
-    role: "Content Creator",
-    company: "200K+ followers",
-    quote: "I used to spend 10 hours a week editing. Now I upload raw clips and get back fire reels in two days. Game changer.",
-    avatar: "SC",
-  },
-  {
     name: "Marcus Rivera",
     role: "Founder",
     company: "Bolt Agency",
-    quote: "We manage 12 client accounts. TheVideoJanitors handles all our short-form. The quality is consistently top-tier.",
+    quote: "We manage 12 client accounts. TheVideoJanitors handles all our short-form. The quality is consistently top-tier and our clients love the output.",
     avatar: "MR",
   },
   {
-    name: "Priya Patel",
-    role: "E-commerce Manager",
-    company: "NovaBrand",
-    quote: "Our UGC ads convert 3x better since switching. The editors actually understand platform trends.",
-    avatar: "PP",
+    name: "Jessica Lane",
+    role: "Head of Content",
+    company: "Bright Agency",
+    quote: "We scaled from 5 to 15 clients without hiring a single editor. The turnaround is reliable, and the editors actually understand platform trends.",
+    avatar: "JL",
+  },
+  {
+    name: "Daniel Okoye",
+    role: "Creative Director",
+    company: "Acme Marketing",
+    quote: "Freelancer management was eating 20% of our week. Now we just upload briefs and get polished content back. It's transformed our workflow.",
+    avatar: "DO",
   },
 ];
 
@@ -36,7 +36,7 @@ const TestimonialsSection = () => {
           className="text-center mb-16"
         >
           <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">Testimonials</p>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold">Creators love the results.</h2>
+          <h2 className="font-heading text-3xl md:text-4xl font-bold">Agencies trust the results.</h2>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">

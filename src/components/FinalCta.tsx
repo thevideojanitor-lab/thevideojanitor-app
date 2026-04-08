@@ -13,18 +13,18 @@ const FinalCta = () => {
           className="text-center max-w-2xl mx-auto"
         >
           <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
-            Stop managing freelancers.{" "}
-            <span className="text-gradient">Just upload.</span>
+            Scale your agency{" "}
+            <span className="text-gradient">without the editing overhead.</span>
           </h2>
           <p className="text-lg text-text-secondary mb-10">
-            Join 50+ creators and agencies getting polished short-form content on autopilot. 100% satisfaction guarantee.
+            Join 30+ agencies getting polished short-form content on autopilot. 100% satisfaction guarantee.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="hero" size="lg" className="text-base px-8 py-6">
-              View Plans
+              Book Demo
             </Button>
             <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
-              Join Waitlist
+              View Plans
             </Button>
           </div>
         </motion.div>
