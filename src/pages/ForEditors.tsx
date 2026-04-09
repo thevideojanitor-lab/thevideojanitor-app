@@ -9,6 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import editorHeroBg from "@/assets/editor-hero-bg.jpg";
+import SEO from "@/components/SEO";
 
 const trustSignals = [
   { icon: ShieldCheck, label: "No Bidding Wars" },
@@ -131,6 +132,12 @@ const faqs = [
 
 const ForEditors = () => {
   return (
+    <>
+    <SEO 
+    title="For Editors - Join Our Network"
+        description="Join 100+ vetted editors. Get consistent work, fair pay, and weekly payouts. No bidding wars, no chasing clients."
+        keywords="video editor jobs, freelance editing, remote video editing, video editing work"
+      />
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
 
@@ -340,6 +347,7 @@ const ForEditors = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 

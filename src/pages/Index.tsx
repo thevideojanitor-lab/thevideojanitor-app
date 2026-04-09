@@ -8,9 +8,12 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import FaqSection from "@/components/FaqSection";
 import FinalCta from "@/components/FinalCta";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 
 const Index = () => {
   return (
+    <>
+    <SEO />
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <HeroSection />
@@ -23,6 +26,7 @@ const Index = () => {
       <FinalCta />
       <Footer />
     </div>
+    </>
   );
 };
 

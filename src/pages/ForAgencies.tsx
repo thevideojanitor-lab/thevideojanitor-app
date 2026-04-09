@@ -5,6 +5,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import agencyHeroBg from "@/assets/agency-hero-bg.jpg";
+import SEO from "@/components/SEO";
 
 const trustSignals = [
   { icon: ShieldCheck, label: "Vetted Editors" },
@@ -92,6 +93,11 @@ const testimonials = [
 
 const ForAgencies = () => {
   return (
+    <>
+    <SEO title="For Agencies - Scale Without Hiring"
+        description="Professional video editing for agencies. Vetted editors, 48h turnaround, consistent quality. Scale from 5 to 50 clients effortlessly."
+        keywords="agency video editing, white label video editing, video production agency, content agency"
+      />
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
 
@@ -255,6 +261,7 @@ const ForAgencies = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 
