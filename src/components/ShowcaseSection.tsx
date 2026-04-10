@@ -66,9 +66,6 @@ const ShowcaseSection = () => {
                 src={showAfter ? after : before}
                 alt={`${label} ${showAfter ? "after" : "before"} editing`}
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                loading="lazy"
-                width={576}
-                height={1024}
               />
               <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-background/90 to-transparent p-4">
                 <span className="text-xs font-medium uppercase tracking-wider">{label}</span>
