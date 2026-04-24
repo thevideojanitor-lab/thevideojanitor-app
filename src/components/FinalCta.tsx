@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 const FinalCta = () => {
   return (
@@ -10,23 +12,30 @@ const FinalCta = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center max-w-2xl mx-auto"
+          className="text-center max-w-3xl mx-auto"
         >
           <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
-            Stop managing freelancers.{" "}
-            <span className="text-gradient">Just upload.</span>
+            Upload footage.{" "}
+            <span className="text-gradient">We'll clean up the rest.</span>
           </h2>
-          <p className="text-lg text-text-secondary mb-10">
-            Join 50+ creators and agencies getting polished short-form content on autopilot. 100% satisfaction guarantee.
+          <p className="text-lg text-text-secondary mb-10 max-w-xl mx-auto">
+            Join 50+ creators and agencies getting polished short-form content on autopilot. Vetted editors. 48h turnaround. Zero freelancer mess.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="hero" size="lg" className="text-base px-8 py-6">
-              View Plans
-            </Button>
-            <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
-              Join Waitlist
-            </Button>
+            <Link to="/pricing">
+              <Button variant="hero" size="lg" className="text-base px-8 py-6">
+                View Plans <ArrowRight className="w-5 h-5 ml-1" />
+              </Button>
+            </Link>
+            <Link to="/for-editors">
+              <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
+                Apply as Editor
+              </Button>
+            </Link>
           </div>
+          <p className="text-xs text-muted-foreground mt-6">
+            No contracts · Credits roll over while subscribed · Cancel anytime
+          </p>
         </motion.div>
       </div>
     </section>

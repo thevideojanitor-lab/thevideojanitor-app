@@ -1,43 +1,58 @@
-import { useState, useEffect } from "react";
+// src/components/Navbar.tsx
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Users, Video, Building2 } from "lucide-react";
+import {
+  Menu, X, ChevronDown, Video, Building2,
+  Users, Briefcase, Info, HelpCircle,
+} from "lucide-react";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     setMobileOpen(false);
+    setSolutionsOpen(false);
   }, [location]);
 
-  const isHomePage = location.pathname === "/";
-  const isEditorsPage = location.pathname === "/for-editors";
-  const isAgenciesPage = location.pathname === "/for-agencies";
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setSolutionsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+  const isActive = (path: string) => location.pathname === path;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-    setMobileOpen(false);
-  };
+  const solutions = [
+    { label: "For Creators", path: "/for-creators", icon: Video, desc: "Post more. Edit less." },
+    { label: "For Agencies", path: "/for-agencies", icon: Building2, desc: "Scale without hiring." },
+    { label: "For Brands", path: "/for-brands", icon: Briefcase, desc: "Content that converts." },
+    { label: "For Editors", path: "/for-editors", icon: Users, desc: "Get consistent work." },
+  ];
+
+  const navLinks = [
+    { label: "How It Works", path: "/how-it-works" },
+    { label: "Pricing", path: "/pricing" },
+    { label: "Showcase", path: "/showcase" },
+    { label: "Our Editors", path: "/editors" },
+    { label: "About", path: "/about" },
+    { label: "FAQ", path: "/faq" },
+  ];
 
   return (
     <nav
@@ -48,116 +63,80 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
-        <Link
-          to="/"
-          className="font-heading text-xl font-bold tracking-tight text-foreground hover:opacity-80 transition-opacity"
-        >
+        {/* Logo */}
+        <Link to="/" className="font-heading text-xl font-bold tracking-tight shrink-0">
           The<span className="text-primary">Video</span>Janitors
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-6">
-          {/* Navigation Links */}
-          <div className="flex items-center gap-6">
-            {isHomePage ? (
-              <>
-                <button
-                  onClick={() => scrollToSection("how-it-works")}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  How It Works
-                </button>
-                <button
-                  onClick={() => scrollToSection("pricing")}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Pricing
-                </button>
-                <button
-                  onClick={() => scrollToSection("showcase")}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Showcase
-                </button>
-              </>
-            ) : (
-              <>
-                <Link
-                  to="/"
-                  className={`text-sm transition-colors ${
-                    isHomePage
-                      ? "text-primary font-medium"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  Home
-                </Link>
-              </>
+        {/* Desktop Nav */}
+        <div className="hidden lg:flex items-center gap-1">
+          {/* Solutions Dropdown */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setSolutionsOpen(!solutionsOpen)}
+              className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-lg hover:bg-muted"
+            >
+              Solutions
+              <ChevronDown
+                className={`w-4 h-4 transition-transform duration-200 ${
+                  solutionsOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {solutionsOpen && (
+              <div className="absolute top-full left-0 mt-2 w-72 bg-card border border-border rounded-xl shadow-xl p-2 z-50">
+                {solutions.map(({ label, path, icon: Icon, desc }) => (
+                  <Link
+                    key={path}
+                    to={path}
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted transition-colors group"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                      <Icon className="w-4 h-4 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium">{label}</p>
+                      <p className="text-xs text-muted-foreground">{desc}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             )}
           </div>
 
-          {/* Separator */}
-          <div className="w-px h-6 bg-border" />
-
-          {/* For Buttons */}
-          <div className="flex items-center gap-2">
-            <Link to="/for-agencies">
-              <Button
-                variant={isAgenciesPage ? "default" : "ghost"}
-                size="sm"
-                className="gap-2"
-              >
-                <Building2 className="w-4 h-4" />
-                For Agencies
-              </Button>
-            </Link>
-            <Link to="/for-editors">
-              <Button
-                variant={isEditorsPage ? "default" : "ghost"}
-                size="sm"
-                className="gap-2"
-              >
-                <Users className="w-4 h-4" />
-                For Editors
-              </Button>
-            </Link>
-            <Link to="/">
-              <Button
-                variant={isHomePage ? "default" : "ghost"}
-                size="sm"
-                className="gap-2"
-              >
-                <Video className="w-4 h-4" />
-                For Creators
-              </Button>
-            </Link>
-          </div>
-
-          {/* Separator */}
-          <div className="w-px h-6 bg-border" />
-
-          {/* CTA Buttons */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => window.open("https://calendly.com/yourlink", "_blank")}
+          {navLinks.map(({ label, path }) => (
+            <Link
+              key={path}
+              to={path}
+              className={`text-sm px-3 py-2 rounded-lg transition-colors ${
+                isActive(path)
+                  ? "text-primary font-medium bg-primary/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
             >
-              Book Demo
-            </Button>
-            <Button
-              variant="hero"
-              size="sm"
-              onClick={() => window.open("#waitlist", "_self")}
-            >
-              Get Started
-            </Button>
-          </div>
+              {label}
+            </Link>
+          ))}
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* CTA Buttons */}
+        <div className="hidden lg:flex items-center gap-3 shrink-0">
+          <Link to="/for-editors">
+            <Button variant="ghost" size="sm">
+              Apply as Editor
+            </Button>
+          </Link>
+          <Link to="/pricing">
+            <Button variant="hero" size="sm">
+              Get Started
+            </Button>
+          </Link>
+        </div>
+
+        {/* Mobile Toggle */}
         <button
-          className="lg:hidden text-foreground"
+          className="lg:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -165,93 +144,55 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-background border-b border-border px-4 pb-4 space-y-4 animate-in slide-in-from-top">
-          {/* Page Links */}
-          <div className="space-y-2">
-            {isHomePage ? (
-              <>
-                <button
-                  onClick={() => scrollToSection("how-it-works")}
-                  className="block text-sm text-muted-foreground py-2 w-full text-left hover:text-foreground transition-colors"
-                >
-                  How It Works
-                </button>
-                <button
-                  onClick={() => scrollToSection("pricing")}
-                  className="block text-sm text-muted-foreground py-2 w-full text-left hover:text-foreground transition-colors"
-                >
-                  Pricing
-                </button>
-                <button
-                  onClick={() => scrollToSection("showcase")}
-                  className="block text-sm text-muted-foreground py-2 w-full text-left hover:text-foreground transition-colors"
-                >
-                  Showcase
-                </button>
-              </>
-            ) : (
-              <Link
-                to="/"
-                className="block text-sm text-muted-foreground py-2 hover:text-foreground transition-colors"
-              >
-                Home
-              </Link>
-            )}
-          </div>
+        <div className="lg:hidden bg-background border-b border-border px-4 pb-6 space-y-1 max-h-[85vh] overflow-y-auto">
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground pt-4 pb-2 px-3">
+            Solutions
+          </p>
+          {solutions.map(({ label, path, icon: Icon }) => (
+            <Link
+              key={path}
+              to={path}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-muted transition-colors"
+            >
+              <Icon className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium">{label}</span>
+            </Link>
+          ))}
 
-          {/* Divider */}
-          <div className="border-t border-border" />
+          <div className="border-t border-border my-3" />
 
-          {/* For Buttons - Mobile */}
-          <div className="space-y-2">
-            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-2">
-              Solutions
-            </p>
-            <Link to="/for-agencies" className="block">
-              <Button
-                variant={isAgenciesPage ? "default" : "ghost"}
-                size="sm"
-                className="w-full justify-start gap-2"
-              >
-                <Building2 className="w-4 h-4" />
-                For Agencies
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground px-3 pb-2">
+            Platform
+          </p>
+          {navLinks.map(({ label, path }) => (
+            <Link
+              key={path}
+              to={path}
+              className={`flex items-center gap-2 px-3 py-2.5 text-sm rounded-lg transition-colors ${
+                isActive(path)
+                  ? "text-primary font-medium bg-primary/10"
+                  : "hover:bg-muted"
+              }`}
+            >
+              {label === "About" && <Info className="w-4 h-4 text-muted-foreground" />}
+              {label === "FAQ" && <HelpCircle className="w-4 h-4 text-muted-foreground" />}
+              {label}
+            </Link>
+          ))}
+
+          <div className="border-t border-border mt-3 pt-3 flex flex-col gap-2">
+            <Link to="/for-editors">
+              <Button variant="ghost" size="sm" className="w-full">
+                Apply as Editor
               </Button>
             </Link>
-            <Link to="/for-editors" className="block">
-              <Button
-                variant={isEditorsPage ? "default" : "ghost"}
-                size="sm"
-                className="w-full justify-start gap-2"
-              >
-                <Users className="w-4 h-4" />
-                For Editors
+            <Link to="/pricing">
+              <Button variant="hero" size="sm" className="w-full">
+                Get Started
               </Button>
             </Link>
-            <Link to="/" className="block">
-              <Button
-                variant={isHomePage ? "default" : "ghost"}
-                size="sm"
-                className="w-full justify-start gap-2"
-              >
-                <Video className="w-4 h-4" />
-                For Creators
-              </Button>
-            </Link>
-          </div>
-
-          {/* Divider */}
-          <div className="border-t border-border" />
-
-          {/* CTA Buttons - Mobile */}
-          <div className="flex flex-col gap-2">
-            <Button variant="ghost" size="sm" className="w-full">
-              Book Demo
-            </Button>
-            <Button variant="hero" size="sm" className="w-full">
-              Get Started
-            </Button>
           </div>
         </div>
       )}
