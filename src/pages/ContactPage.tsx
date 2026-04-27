@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import { ContactFormspree } from "@/components/ContactFormspree";
 
 const helpTopics = [
   {
@@ -183,102 +184,7 @@ const ContactPage = () => {
                     </Button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className="text-xs font-medium text-muted-foreground mb-2 block">
-                          Full Name *
-                        </label>
-                        <Input
-                          placeholder="Your name"
-                          value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          required
-                          className="bg-card border-border"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-xs font-medium text-muted-foreground mb-2 block">
-                          Email Address *
-                        </label>
-                        <Input
-                          type="email"
-                          placeholder="you@example.com"
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          required
-                          className="bg-card border-border"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-medium text-muted-foreground mb-2 block">
-                        Inquiry Type *
-                      </label>
-                      <select
-                        value={formData.inquiryType}
-                        onChange={(e) =>
-                          setFormData({ ...formData, inquiryType: e.target.value as InquiryType })
-                        }
-                        required
-                        className="w-full px-4 py-2.5 bg-card border border-border rounded-lg text-sm focus:outline-none focus:border-primary/50 transition-colors"
-                      >
-                        <option value="general">General Question</option>
-                        <option value="billing">Billing & Credits</option>
-                        <option value="request">Active Request Issue</option>
-                        <option value="editor">Editor Application</option>
-                        <option value="agency">Agency / Enterprise Inquiry</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-medium text-muted-foreground mb-2 block">
-                        Subject *
-                      </label>
-                      <Input
-                        placeholder="What's this about?"
-                        value={formData.subject}
-                        onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                        required
-                        className="bg-card border-border"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-medium text-muted-foreground mb-2 block">
-                        Message *
-                      </label>
-                      <Textarea
-                        placeholder="Tell us what you need help with. The more detail you include, the faster we can help."
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        required
-                        className="bg-card border-border min-h-[160px]"
-                      />
-                    </div>
-
-                    <Button
-                      type="submit"
-                      variant="hero"
-                      className="w-full"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          Send Message <ArrowRight className="w-4 h-4 ml-2" />
-                        </>
-                      )}
-                    </Button>
-                    <p className="text-xs text-center text-muted-foreground">
-                      We'll never share your information. Response within 24 hours.
-                    </p>
-                  </form>
+                  <ContactFormspree />
                 )}
               </motion.div>
 

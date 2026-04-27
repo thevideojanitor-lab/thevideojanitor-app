@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { EditorApplicationEmbed } from "@/components/EditorApplicationEmbed";
 
 const FinalCta = () => {
   return (
@@ -27,11 +28,10 @@ const FinalCta = () => {
                 View Plans <ArrowRight className="w-5 h-5 ml-1" />
               </Button>
             </Link>
-            <Link to="/for-editors">
-              <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
-                Apply as Editor
-              </Button>
-            </Link>
+            <EditorApplicationEmbed 
+  buttonVariant="hero-outline" 
+  buttonText="Apply as Editor" 
+/>
           </div>
           <p className="text-xs text-muted-foreground mt-6">
             No contracts · Credits roll over while subscribed · Cancel anytime

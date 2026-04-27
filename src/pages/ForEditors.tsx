@@ -10,6 +10,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import editorHeroBg from "@/assets/editor-hero-bg.jpg";
 import SEO from "@/components/SEO";
+import { EditorApplicationEmbed } from "@/components/EditorApplicationEmbed";
 
 const trustSignals = [
   { icon: ShieldCheck, label: "No Bidding Wars" },
@@ -337,9 +338,12 @@ const ForEditors = () => {
             <p className="text-lg text-text-secondary mb-10 max-w-xl mx-auto">
               Join 100+ editors earning reliable income doing what they love. No bidding. No chasing clients. Just great work and fair pay.
             </p>
-            <Button variant="hero" size="lg" className="text-base px-8 py-6">
-              Apply Now <ArrowRight className="w-5 h-5 ml-1" />
-            </Button>
+            <EditorApplicationEmbed 
+  buttonVariant="hero" 
+  buttonSize="lg" 
+  buttonText="Apply to be an Editor"
+  className="text-base px-8 py-6"
+/>
             <p className="text-xs text-muted-foreground mt-6">Weekly payouts via PayPal/Stripe · No upfront fees · Cancel anytime</p>
           </motion.div>
         </div>
