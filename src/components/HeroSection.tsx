@@ -4,6 +4,10 @@ import { Shield, Clock, RefreshCw, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
 import { EditorApplicationEmbed } from "@/components/EditorApplicationEmbed";
+import { TallyModal } from "@/components/TallyModal";
+
+
+const WAITLIST_URL = "https://tally.so/embed/xX0z6G";
 
 const stats = [
   { value: "48h", label: "Turnaround" },

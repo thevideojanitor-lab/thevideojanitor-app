@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
+import { TallyModal } from "@/components/TallyModal";
+const WAITLIST_URL = "https://tally.so/embed/xX0z6G";
 
 const painPoints = [
   "Spending 10+ hours a week editing instead of creating",
@@ -260,11 +262,15 @@ const ForCreators = () => {
               <p className="text-lg text-text-secondary mb-10">
                 Join creators who've reclaimed 10+ hours a week. Upload footage, get polished content back. Simple as that.
               </p>
-              <Link to="/pricing">
+              <TallyModal
+                url={WAITLIST_URL}
+                title="Join the Waitlist"
+                subtitle="Get early access when we launch"
+              >
                 <Button variant="hero" size="lg" className="text-base px-8 py-6">
                   Get Started Today <ArrowRight className="w-5 h-5 ml-1" />
                 </Button>
-              </Link>
+              </TallyModal>
               <p className="text-xs text-muted-foreground mt-4">
                 No contracts · Cancel anytime · Credits roll over while subscribed
               </p>

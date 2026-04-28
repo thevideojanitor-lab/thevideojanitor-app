@@ -6,6 +6,10 @@ import {
   Menu, X, ChevronDown, Video, Building2,
   Users, Briefcase, Info, HelpCircle,
 } from "lucide-react";
+import { TallyModal } from "@/components/TallyModal";
+
+const EDITOR_FORM_URL = "https://tally.so/embed/Y5o9X0";
+const WAITLIST_FORM_URL = "https://tally.so/embed/xX0z6G";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -25,7 +29,6 @@ const Navbar = () => {
     setSolutionsOpen(false);
   }, [location]);
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -122,16 +125,25 @@ const Navbar = () => {
 
         {/* CTA Buttons */}
         <div className="hidden lg:flex items-center gap-3 shrink-0">
-          <Link to="/for-editors">
+          <TallyModal
+            url={EDITOR_FORM_URL}
+            title="Editor Application"
+            subtitle="Apply to join our vetted editor network"
+          >
             <Button variant="ghost" size="sm">
               Apply as Editor
             </Button>
-          </Link>
-          <Link to="/pricing">
+          </TallyModal>
+
+          <TallyModal
+            url={WAITLIST_FORM_URL}
+            title="Join the Waitlist"
+            subtitle="Get early access when we launch"
+          >
             <Button variant="hero" size="sm">
               Get Started
             </Button>
-          </Link>
+          </TallyModal>
         </div>
 
         {/* Mobile Toggle */}
@@ -183,16 +195,16 @@ const Navbar = () => {
           ))}
 
           <div className="border-t border-border mt-3 pt-3 flex flex-col gap-2">
-            <Link to="/for-editors">
+            <TallyModal url={EDITOR_FORM_URL}>
               <Button variant="ghost" size="sm" className="w-full">
                 Apply as Editor
               </Button>
-            </Link>
-            <Link to="/pricing">
+            </TallyModal>
+            <TallyModal url={WAITLIST_FORM_URL}>
               <Button variant="hero" size="sm" className="w-full">
                 Get Started
               </Button>
-            </Link>
+            </TallyModal>
           </div>
         </div>
       )}

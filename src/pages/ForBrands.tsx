@@ -5,6 +5,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
+import { TallyModal } from "@/components/TallyModal";
+
+const WAITLIST_URL = "https://tally.so/embed/xX0z6G";
 
 const useCases = [
   { icon: ShoppingBag, title: "Product Promos", desc: "Showcase your products with engaging short-form ads for TikTok, Reels, and Shorts." },
@@ -61,16 +64,16 @@ const ForBrands = () => {
               transition={{ delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <Link to="/pricing">
+              <TallyModal url={WAITLIST_URL} title="Join the Waitlist" subtitle="Get early access for your brand">
                 <Button variant="hero" size="lg" className="text-base px-8 py-6">
                   View Plans <ArrowRight className="w-5 h-5 ml-1" />
                 </Button>
-              </Link>
-              <Link to="/contact">
+              </TallyModal>
+              <TallyModal url={WAITLIST_URL} title="Join the Waitlist" subtitle="Book a demo with our team">
                 <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
                   Book a Demo
                 </Button>
-              </Link>
+              </TallyModal>
             </motion.div>
           </div>
         </section>
@@ -146,11 +149,11 @@ const ForBrands = () => {
               <p className="text-lg text-text-secondary mb-10">
                 Start with a plan that fits your volume. Scale up as your content needs grow.
               </p>
-              <Link to="/pricing">
+              <TallyModal url={WAITLIST_URL} title="Join the Waitlist" subtitle="Get early access for your brand">
                 <Button variant="hero" size="lg" className="text-base px-8 py-6">
                   See Pricing <ArrowRight className="w-5 h-5 ml-1" />
                 </Button>
-              </Link>
+              </TallyModal>
             </motion.div>
           </div>
         </section>

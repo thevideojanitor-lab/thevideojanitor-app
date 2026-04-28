@@ -79,7 +79,7 @@ const plans = [
       "Account manager",
       "Rush turnaround priority",
     ],
-    addons: ["+ Team seats", "+ API access", "+ Custom integrations"],
+    addons: ["+ Team seats","+ Custom integrations"],
     popular: false,
     cta: "Start with Full Service",
   },

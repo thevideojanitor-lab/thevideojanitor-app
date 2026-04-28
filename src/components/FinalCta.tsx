@@ -1,8 +1,12 @@
+// src/components/FinalCta.tsx
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { EditorApplicationEmbed } from "@/components/EditorApplicationEmbed";
+import { TallyModal } from "@/components/TallyModal";
+
+const WAITLIST_URL = "https://tally.so/embed/xX0z6G";
+const EDITOR_URL = "https://tally.so/embed/Y5o9X0";
 
 const FinalCta = () => {
   return (
@@ -23,15 +27,16 @@ const FinalCta = () => {
             Join 50+ creators and agencies getting polished short-form content on autopilot. Vetted editors. 48h turnaround. Zero freelancer mess.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/pricing">
+            <TallyModal url={WAITLIST_URL} title="Join the Waitlist" subtitle="Get early access when we launch">
               <Button variant="hero" size="lg" className="text-base px-8 py-6">
                 View Plans <ArrowRight className="w-5 h-5 ml-1" />
               </Button>
-            </Link>
-            <EditorApplicationEmbed 
-  buttonVariant="hero-outline" 
-  buttonText="Apply as Editor" 
-/>
+            </TallyModal>
+            <TallyModal url={EDITOR_URL} title="Editor Application" subtitle="Apply to join our vetted editor network">
+              <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
+                Apply as Editor
+              </Button>
+            </TallyModal>
           </div>
           <p className="text-xs text-muted-foreground mt-6">
             No contracts · Credits roll over while subscribed · Cancel anytime

@@ -32,8 +32,8 @@ export const EditorApplicationEmbed = ({
   }, [isOpen]);
 
   // Replace with your actual Tally form ID
-  const TALLY_FORM_ID = "xX0z6G"; // e.g., "wA1X2Y"
-  const tallyUrl = `https://tally.so/embed/${TALLY_FORM_ID}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
+  const TALLY_FORM_ID = "Y5o9X0"; // e.g., "wA1X2Y"
+  const tallyUrl = `https://tally.so/embed/Y5o9X0?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
 
   return (
     <>

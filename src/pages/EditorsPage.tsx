@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import { EditorApplicationEmbed } from "@/components/EditorApplicationEmbed";
 
 // Tier badge config
 const tierConfig = {
@@ -456,11 +457,10 @@ const EditorsPage = () => {
                 <p className="text-sm text-muted-foreground mb-6">
                   Consistent jobs, fair pay, weekly payouts. No bidding wars, no chasing clients.
                 </p>
-                <Link to="/for-editors">
-                  <Button variant="hero-outline" className="w-full">
-                    Apply Now <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
+                <EditorApplicationEmbed 
+                              buttonVariant="hero-outline" 
+                              buttonText="Apply as Editor" 
+                            />
               </motion.div>
             </div>
           </div>
