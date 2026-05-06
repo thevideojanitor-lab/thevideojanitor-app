@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Shield, Clock, RefreshCw, Star } from "lucide-react";
+import { Shield, Clock, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
 import { EditorApplicationEmbed } from "@/components/EditorApplicationEmbed";
@@ -20,7 +20,6 @@ const trustSignals = [
   { icon: Shield, label: "Vetted Editors Only" },
   { icon: Clock, label: "48h Turnaround" },
   { icon: RefreshCw, label: "Swap Anytime" },
-  { icon: Star, label: "Rated 4.8/5" },
 ];
 
 const HeroSection = () => {

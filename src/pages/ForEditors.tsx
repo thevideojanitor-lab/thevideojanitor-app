@@ -46,7 +46,7 @@ const benefits = [
 
 const steps = [
   { step: "01", title: "Apply", description: "Submit your portfolio and editing samples. We review within 48 hours." },
-  { step: "02", title: "Test Edit", description: "Complete a short paid test edit so we can assess your style and quality." },
+  { step: "02", title: "Test Edit", description: "Complete an online interview so we can assess your style and quality." },
   { step: "03", title: "Get Assigned", description: "Once approved, get matched with jobs that fit your skills and availability." },
   { step: "04", title: "Earn & Level Up", description: "Deliver great work, earn credits, cash out weekly. Hit milestones to tier up." },
 ];
@@ -58,7 +58,7 @@ const tiers = [
     color: "text-muted-foreground",
     bgColor: "bg-muted-foreground/10",
     borderColor: "border-border",
-    requirements: ["Pass test edit", "Complete onboarding", "Agree to editor terms"],
+    requirements: ["Pass online interview", "Complete onboarding", "Agree to editor terms"],
     benefits: ["Access to standard jobs", "48h turnaround assignments", "Community access", "Base rate per credit"],
   },
   {

@@ -374,8 +374,8 @@ const EditorsPage = () => {
                 },
                 {
                   step: "03",
-                  title: "Paid Test Edit",
-                  desc: "Every approved applicant completes a paid test edit using a real brief. We assess quality, adherence, and communication.",
+                  title: "Online Interview",
+                  desc: "Every approved applicant completes an online interview. We assess quality, experience, and communication.",
                 },
                 {
                   step: "04",
