@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, Repeat, TrendingUp, Play, Star, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";

@@ -1,5 +1,5 @@
 // src/pages/EditorsPage.tsx
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import {
   Star, Award, Crown, Clock, CheckCircle2,

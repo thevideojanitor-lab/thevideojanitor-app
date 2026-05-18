@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PricingSection from "@/components/PricingSection";
 import SEO from "@/components/SEO";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";

@@ -12,6 +12,17 @@ dist
 dist-ssr
 *.local
 
+# Environment variables (never commit real keys)
+.env
+.env.local
+.env.production
+.env.*.local
+supabase/.env
+supabase/functions/.env
+
+# Claude Code local settings (may contain personal config)
+.claude/settings.local.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

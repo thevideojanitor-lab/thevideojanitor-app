@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Award, Star, Clock, CheckCircle, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 

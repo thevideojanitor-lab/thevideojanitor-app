@@ -1,5 +1,5 @@
 // src/pages/ForAgencies.tsx
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Shield, Clock, TrendingUp, Check, ShieldCheck, CircleCheck, ArrowUpRight, Quote } from "lucide-react";
 import Navbar from "@/components/Navbar";

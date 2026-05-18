@@ -1,5 +1,5 @@
 // src/pages/ForCreators.tsx
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import {
   Upload, Clock, RefreshCw, Star,

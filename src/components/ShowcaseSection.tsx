@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 import beforeImg1 from "@/assets/showcase-before-1.jpg";
 import afterImg1 from "@/assets/showcase-after-1.jpg";
