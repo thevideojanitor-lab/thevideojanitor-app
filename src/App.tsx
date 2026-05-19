@@ -29,6 +29,8 @@ import CookiePage from "@/pages/legal/CookiePage";
 import AuthCallback from "@/pages/auth/AuthCallback";
 const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
 const SignupPage = lazy(() => import("@/pages/auth/SignupPage"));
+const SelectRolePage = lazy(() => import("@/pages/auth/SelectRolePage"))
+const ForgotPasswordPage = lazy(() => import("@/pages/auth/ForgotPasswordPage"));
 
 // Client Onboarding
 const OnboardingLayout = lazy(() => import("@/pages/onboarding/OnboardingLayout"));
@@ -136,6 +138,26 @@ function App() {
             }
           />
           <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route
+            path="/auth/select-role"
+            element={
+              <PublicOnlyRoute>
+                <AppSuspense>
+                  <SelectRolePage />
+                </AppSuspense>
+              </PublicOnlyRoute>
+            }
+          />
+          <Route
+            path="/auth/forgot-password"
+            element={
+              <PublicOnlyRoute>
+                <AppSuspense>
+                  <ForgotPasswordPage />
+                </AppSuspense>
+              </PublicOnlyRoute>
+            }
+          />
 
           {/* ── Onboarding (client only, onboarding_complete=false) ── */}
           <Route

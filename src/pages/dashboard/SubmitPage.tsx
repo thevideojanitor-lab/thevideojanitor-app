@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
-import { Check, ChevronRight, AlertCircle, Loader2, Star } from "lucide-react"
+import { Check, ChevronRight, AlertCircle, Loader2, Star, Clock } from "lucide-react"
 import { slideInFromRight, scaleIn } from "@/lib/animations"
 import { useAuthStore } from "@/stores/authStore"
 import { useCreditsStore } from "@/stores/creditsStore"
@@ -404,12 +404,37 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
 
 // ── Step 4: Matching ──────────────────────────────────────────────────────────
 
-function MatchingStep({ editor, dueAt, requestId }: {
+function MatchingStep({ editor, dueAt, requestId, matchFailed }: {
   editor: MatchedEditor | null
   dueAt: string | null
   requestId: string | null
+  matchFailed: boolean
 }) {
   const navigate = useNavigate()
+
+  if (!editor && matchFailed) {
+    return (
+      <motion.div variants={scaleIn} initial="hidden" animate="visible" className="text-center py-16 space-y-5">
+        <div className="w-14 h-14 mx-auto rounded-2xl bg-[rgba(255,95,21,0.12)] border border-[rgba(255,95,21,0.2)] flex items-center justify-center">
+          <Clock size={24} className="text-[#FF5F15]" />
+        </div>
+        <div>
+          <p className="font-heading text-base font-semibold text-[#F9FAFB] mb-1">Request received</p>
+          <p className="text-sm text-[#9CA3AF] max-w-xs mx-auto">
+            No editors are available right now. We'll match you automatically as soon as one opens up — usually within a few hours.
+          </p>
+        </div>
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => navigate(requestId ? `/dashboard/requests/${requestId}` : "/dashboard")}
+          className="bg-[#404040] border border-[#2A2A2A] text-[#F9FAFB] font-semibold rounded-lg px-6 py-2.5 text-sm hover:bg-[#4A4A4A] transition-colors"
+        >
+          View My Requests
+        </motion.button>
+      </motion.div>
+    )
+  }
 
   if (!editor) {
     return (
@@ -518,7 +543,7 @@ const STEP_ORDER: Step[] = ["type", "footage", "brief", "matching"]
 
 export default function SubmitPage() {
   const { user, region } = useAuthStore()
-  const { balance, deduct, refresh: refreshCredits } = useCreditsStore()
+  const { balance, total, loading: creditsLoading, deduct, refresh: refreshCredits } = useCreditsStore()
   const { config, fetch: fetchPricing } = usePricingStore()
   const navigate = useNavigate()
 
@@ -530,6 +555,7 @@ export default function SubmitPage() {
   const [totalCost, setTotalCost] = useState(0)
   const [submitting, setSubmitting] = useState(false)
   const [matchedEditor, setMatchedEditor] = useState<MatchedEditor | null>(null)
+  const [matchFailed, setMatchFailed] = useState(false)
   const [dueAt, setDueAt] = useState<string | null>(null)
   const [requestId, setRequestId] = useState<string | null>(null)
   const [matchProgress, setMatchProgress] = useState(0)
@@ -606,6 +632,8 @@ export default function SubmitPage() {
       if (matchData?.matched) {
         setMatchedEditor(matchData.editor)
         setDueAt(matchData.dueAt)
+      } else {
+        setMatchFailed(true)
       }
       setRequestId(reqData?.id ?? null)
 
@@ -642,6 +670,29 @@ export default function SubmitPage() {
             <div key={i} className="h-36 bg-[#404040] rounded-xl animate-pulse" />
           ))}
         </div>
+      </div>
+    )
+  }
+
+  // No active subscription — guide the user to subscribe first
+  if (!creditsLoading && total === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-5 text-center">
+        <div className="w-16 h-16 rounded-2xl bg-[#FF5F15]/10 border border-[#FF5F15]/20 flex items-center justify-center">
+          <AlertCircle size={28} className="text-[#FF5F15]" />
+        </div>
+        <div>
+          <h2 className="font-heading text-xl font-bold text-[#F9FAFB] mb-2">No active subscription</h2>
+          <p className="text-sm text-[#9CA3AF] max-w-xs">You need an active plan to submit editing requests. Subscribe to get your monthly credits.</p>
+        </div>
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => navigate("/dashboard/subscription")}
+          className="bg-[#FF5F15] text-[#121212] font-semibold rounded-lg px-6 py-3 text-sm hover:bg-[#E54E08] transition-colors"
+        >
+          View Plans
+        </motion.button>
       </div>
     )
   }
@@ -716,7 +767,7 @@ export default function SubmitPage() {
             />
           )}
           {step === "matching" && (
-            <MatchingStep editor={matchedEditor} dueAt={dueAt} requestId={requestId} />
+            <MatchingStep editor={matchedEditor} dueAt={dueAt} requestId={requestId} matchFailed={matchFailed} />
           )}
         </motion.div>
       </AnimatePresence>

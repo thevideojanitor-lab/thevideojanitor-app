@@ -20,6 +20,8 @@ export default function Chat({ requestId, onUnreadChange }: Props) {
   const unreadRef = useRef(0)
 
   useEffect(() => {
+    unreadRef.current = 0
+    onUnreadChange?.(0)
     loadMessages()
     const ch = supabase
       .channel(`chat-${requestId}`)
@@ -46,9 +48,23 @@ export default function Chat({ requestId, onUnreadChange }: Props) {
       .select("*")
       .eq("request_id", requestId)
       .order("created_at", { ascending: true })
-    setMessages((data as Message[]) ?? [])
+    const msgs = (data as Message[]) ?? []
+    setMessages(msgs)
     setLoading(false)
     setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: "instant" as ScrollBehavior }), 50)
+
+    // Mark unread incoming messages as read
+    if (user?.id) {
+      const unreadIds = msgs
+        .filter((m) => m.sender_id !== user.id && !m.read_at)
+        .map((m) => m.id)
+      if (unreadIds.length > 0) {
+        await supabase
+          .from("messages")
+          .update({ read_at: new Date().toISOString() })
+          .in("id", unreadIds)
+      }
+    }
   }
 
   async function handleSend(e: React.FormEvent) {

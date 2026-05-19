@@ -6,9 +6,25 @@ export default function AuthCallback() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) navigate("/dashboard")
-      else navigate("/auth/login")
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!session) { navigate("/auth/login"); return }
+
+      const { data: userRow } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", session.user.id)
+        .maybeSingle()
+
+      if (!userRow) {
+        // New OAuth user — no users row yet, let them pick their role
+        navigate("/auth/select-role")
+      } else if (userRow.role === "editor") {
+        navigate("/editor")
+      } else if (userRow.role === "admin") {
+        navigate("/admin")
+      } else {
+        navigate("/dashboard")
+      }
     })
   }, [navigate])
 

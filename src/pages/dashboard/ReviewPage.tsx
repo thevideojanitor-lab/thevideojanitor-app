@@ -278,6 +278,15 @@ export default function ReviewPage() {
     if (!request || !user?.id || approveState !== "idle") return
     setApproveState("approving")
     try {
+      // Fetch editor payout rate from platform_config
+      const { data: rateRow } = await supabase
+        .from("platform_config")
+        .select("value")
+        .eq("key", "payout_rates")
+        .single()
+      const rates = rateRow?.value as Record<string, Record<string, number>> | null
+      const payoutAmount = rates?.[user.currency]?.[request.edit_type] ?? 0
+
       await Promise.all([
         supabase
           .from("requests")
@@ -288,7 +297,7 @@ export default function ReviewPage() {
               supabase.from("editor_payouts").insert({
                 editor_id: request.editor_id,
                 request_id: request.id,
-                amount: 0,
+                amount: payoutAmount,
                 currency: user.currency,
                 status: "pending",
                 payout_method: user.currency === "INR" ? "razorpay_payout" : "stripe_connect",
