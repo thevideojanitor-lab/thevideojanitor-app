@@ -103,7 +103,7 @@ export default function DashboardLayout() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 z-40 md:hidden"
+              className="fixed inset-0 bg-[#121212]/60 z-40 md:hidden"
               onClick={() => setSidebarOpen(false)}
             />
             <motion.aside
@@ -174,9 +174,7 @@ export default function DashboardLayout() {
           </div>
 
           <div className="flex items-center gap-4 ml-auto">
-            <div className="hidden sm:block">
-              <CreditsDisplay compact />
-            </div>
+            <CreditsDisplay compact />
 
             <NotificationBell />
 

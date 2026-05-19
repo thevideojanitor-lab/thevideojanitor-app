@@ -5,6 +5,7 @@ import { AlertCircle, Eye, EyeOff, Loader2 } from "lucide-react"
 import { fadeUp, staggerContainer } from "@/lib/animations"
 import { signInWithEmail, signInWithGoogle } from "@/hooks/useAuth"
 import { useAuthStore } from "@/stores/authStore"
+import AuthBackground from "@/components/AuthBackground"
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -47,12 +48,13 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#121212] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#121212] flex items-center justify-center px-4 relative overflow-hidden">
+      <AuthBackground />
       <motion.div
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
-        className="w-full max-w-sm space-y-6"
+        className="relative z-10 w-full max-w-sm space-y-6"
       >
         {/* Logo */}
         <motion.div variants={fadeUp} className="text-center">

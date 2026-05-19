@@ -58,6 +58,7 @@ const EditorHome          = lazy(() => import("@/pages/editor/EditorHome"))
 const EditorPayouts       = lazy(() => import("@/pages/editor/EditorPayouts"))
 const EditorPayoutsConnect = lazy(() => import("@/pages/editor/EditorPayoutsConnect"))
 const EditorBankSetup     = lazy(() => import("@/pages/editor/EditorBankSetup"))
+const EditorProfile       = lazy(() => import("@/pages/editor/EditorProfile"))
 
 // Dashboard extras
 const HelpPage = lazy(() => import("@/pages/dashboard/HelpPage"));
@@ -208,6 +209,7 @@ function App() {
             <Route path="payouts" element={<AppSuspense><EditorPayouts /></AppSuspense>} />
             <Route path="payouts/connect" element={<AppSuspense><EditorPayoutsConnect /></AppSuspense>} />
             <Route path="payouts/bank-setup" element={<AppSuspense><EditorBankSetup /></AppSuspense>} />
+            <Route path="profile" element={<AppSuspense><EditorProfile /></AppSuspense>} />
             <Route path="help" element={<AppSuspense><EditorHome /></AppSuspense>} />
           </Route>
 

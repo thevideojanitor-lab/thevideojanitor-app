@@ -13,7 +13,7 @@ export default function EditorOnboardingLayout() {
   const navigate = useNavigate()
 
   const currentStep = STEPS.find((s) => pathname.startsWith(s.path))?.step ?? 1
-  const pct = ((currentStep - 1) / (STEPS.length - 1)) * 100
+  const pct = (currentStep / STEPS.length) * 100
 
   return (
     <div className="min-h-screen bg-[#121212] flex flex-col">

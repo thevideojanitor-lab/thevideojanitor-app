@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom"
+import { NavLink, Outlet, useNavigate, useLocation, Navigate } from "react-router-dom"
 import { LayoutDashboard, FileVideo, Users, Briefcase, DollarSign, GitMerge, Settings, Shield, LogOut } from "lucide-react"
 import { useAuthStore } from "@/stores/authStore"
 import { signOut } from "@/hooks/useAuth"
@@ -18,6 +18,12 @@ const ROLE_LABELS: Record<string, string> = {
   super_admin:   "Super Admin",
   ops_admin:     "Ops Admin",
   finance_admin: "Finance Admin",
+}
+
+// Billing-sensitive routes — ops admins get no billing, finance admins get payouts only.
+const ROUTE_ACCESS: Record<string, string[]> = {
+  "/admin/payouts":  ["super_admin", "finance_admin"],
+  "/admin/settings": ["super_admin"],
 }
 
 function NavItem({ to, icon: Icon, label, end }: typeof NAV[0]) {
@@ -42,6 +48,15 @@ function NavItem({ to, icon: Icon, label, end }: typeof NAV[0]) {
 export default function AdminLayout() {
   const { user, adminRole } = useAuthStore()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const visibleNav = NAV.filter((item) => {
+    const allowed = ROUTE_ACCESS[item.to]
+    return !allowed || (!!adminRole && allowed.includes(adminRole))
+  })
+
+  const restriction = ROUTE_ACCESS[location.pathname]
+  const accessDenied = !!restriction && !(!!adminRole && restriction.includes(adminRole))
 
   const handleSignOut = async () => {
     await signOut()
@@ -63,7 +78,7 @@ export default function AdminLayout() {
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-          {NAV.map((item) => (
+          {visibleNav.map((item) => (
             <NavItem key={item.to} {...item} />
           ))}
         </nav>
@@ -98,7 +113,7 @@ export default function AdminLayout() {
         </header>
 
         <main className="flex-1 p-6">
-          <Outlet />
+          {accessDenied ? <Navigate to="/admin" replace /> : <Outlet />}
         </main>
       </div>
     </div>

@@ -13,7 +13,7 @@ const VIBE_COLORS: Record<string, string> = {
   calm: "bg-[#3B82F6]/15 text-[#3B82F6] border-[#3B82F6]/30",
   funny: "bg-yellow-500/15 text-yellow-400 border-yellow-500/30",
   professional: "bg-[#9CA3AF]/15 text-[#9CA3AF] border-[#2A2A2A]",
-  emotional: "bg-purple-500/15 text-purple-400 border-purple-500/30",
+  emotional: "bg-[rgba(59,130,246,0.15)] text-[#60a5fa] border-[rgba(59,130,246,0.3)]",
   inspirational: "bg-green-500/15 text-green-400 border-green-500/30",
 }
 
@@ -30,7 +30,7 @@ export default function BriefViewer({ request, onClose }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 z-40"
+            className="fixed inset-0 bg-[#121212]/60 z-40"
             onClick={onClose}
           />
 
@@ -163,7 +163,7 @@ export default function BriefViewer({ request, onClose }: Props) {
                   href={request.footage_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 bg-[#3B82F6] text-white text-sm font-semibold rounded-lg py-2.5 hover:bg-[#2563EB] transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 bg-[#3B82F6] text-[#F9FAFB] text-sm font-semibold rounded-lg py-2.5 hover:bg-[#2563EB] transition-colors"
                 >
                   <Download size={15} />
                   Download Footage

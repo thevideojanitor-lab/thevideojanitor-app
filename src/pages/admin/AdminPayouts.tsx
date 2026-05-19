@@ -195,7 +195,13 @@ export default function AdminPayouts() {
 
       {/* Table */}
       <motion.div variants={fadeUp} initial="hidden" animate="visible" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl overflow-hidden">
-        {loading ? <div className="p-8 text-center text-xs text-[#9CA3AF]">Loading…</div> : filtered.length === 0 ? (
+        {loading ? (
+          <div className="p-4 space-y-2.5">
+            {[0, 1, 2, 3, 4, 5].map((s) => (
+              <div key={s} className="h-9 bg-[#404040]/40 rounded-lg animate-pulse" />
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="p-8 text-center text-xs text-[#9CA3AF]">No payouts for this week.</div>
         ) : (
           <div className="overflow-x-auto">
@@ -246,7 +252,7 @@ export default function AdminPayouts() {
       {/* ── Pay Now Confirm ── */}
       <AnimatePresence>
         {confirmRow && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
             <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Confirm Payout</h2>
@@ -271,7 +277,7 @@ export default function AdminPayouts() {
       {/* ── Bulk Pay Confirm ── */}
       <AnimatePresence>
         {bulkCurrency && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
             <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Bulk {bulkCurrency} Payout</h2>

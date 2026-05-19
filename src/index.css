@@ -50,7 +50,6 @@
     --text-muted: 0 0% 55%;
     --text-secondary: 0 0% 75%;
     --gradient-primary: linear-gradient(135deg, hsl(19, 100%, 54.1%), hsl(30, 100%, 60%));
-    --shadow-glow: 0 0 40px hsl(19 100% 54.1% / 0.15);
     --shadow-card: 0 4px 24px hsl(0 0% 0% / 0.3);
 
     font-family: 'Inter', sans-serif;
@@ -81,9 +80,6 @@
   .text-gradient {
     @apply bg-clip-text text-transparent;
     background-image: var(--gradient-primary);
-  }
-  .glow-primary {
-    box-shadow: var(--shadow-glow);
   }
   .card-shadow {
     box-shadow: var(--shadow-card);

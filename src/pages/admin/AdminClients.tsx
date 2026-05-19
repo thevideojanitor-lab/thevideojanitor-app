@@ -226,7 +226,13 @@ export default function AdminClients() {
       </div>
 
       <motion.div variants={fadeUp} initial="hidden" animate="visible" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl overflow-hidden">
-        {loading ? <div className="p-8 text-center text-xs text-[#9CA3AF]">Loading…</div> : (
+        {loading ? (
+          <div className="p-4 space-y-2.5">
+            {[0, 1, 2, 3, 4, 5].map((s) => (
+              <div key={s} className="h-9 bg-[#404040]/40 rounded-lg animate-pulse" />
+            ))}
+          </div>
+        ) : (
           <>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
@@ -269,7 +275,7 @@ export default function AdminClients() {
       <AnimatePresence>
         {activeAction?.key === "view" && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/60 z-40" onClick={close} />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-[#121212]/60 z-40" onClick={close} />
             <motion.div variants={slideInFromRight} initial="hidden" animate="visible" exit="exit" className="fixed top-0 right-0 bottom-0 w-full max-w-lg bg-[#1A1A1A] border-l border-[#2A2A2A] z-50 flex flex-col overflow-y-auto">
               <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A] sticky top-0 bg-[#1A1A1A]">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">{activeAction.client.email}</h2>
@@ -309,7 +315,7 @@ export default function AdminClients() {
       {/* ── Adjust Credits Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "credits" && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
             <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Adjust Credits</h2>
@@ -332,7 +338,7 @@ export default function AdminClients() {
       {/* ── Change Plan Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "plan" && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
             <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Change Plan</h2>
@@ -362,7 +368,7 @@ export default function AdminClients() {
       {/* ── Suspend Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "suspend" && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
             <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Suspend Client</h2>
@@ -372,7 +378,7 @@ export default function AdminClients() {
               <input value={suspendReason} onChange={(e) => setSuspendReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] outline-none" />
               <div className="flex gap-2">
                 <button onClick={close} className="flex-1 border border-[#404040] text-[#9CA3AF] text-sm rounded-lg py-2.5 hover:text-[#F9FAFB] transition-colors">Cancel</button>
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleSuspend} disabled={!suspendReason.trim() || working} className="flex-1 bg-red-500 text-white font-semibold text-sm rounded-lg py-2.5 hover:bg-red-600 disabled:opacity-40 transition-colors">
+                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleSuspend} disabled={!suspendReason.trim() || working} className="flex-1 bg-red-500 text-[#F9FAFB] font-semibold text-sm rounded-lg py-2.5 hover:bg-red-600 disabled:opacity-40 transition-colors">
                   {working ? "Suspending…" : "Suspend"}
                 </motion.button>
               </div>
@@ -384,7 +390,7 @@ export default function AdminClients() {
       {/* ── Impersonate Confirm ── */}
       <AnimatePresence>
         {activeAction?.key === "impersonate" && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
             <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
               <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Impersonate Client</h2>
               <p className="text-xs text-[#9CA3AF]">You will see the client dashboard as <span className="text-[#F9FAFB] font-semibold">{activeAction.client.email}</span>. An orange banner will show at all times.</p>

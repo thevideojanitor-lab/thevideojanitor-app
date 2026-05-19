@@ -10,6 +10,10 @@
     <meta property="og:title" content="TheVideoJanitors | Fast, Reliable Short-Form Video Editing" />
     <meta property="og:description" content="Get polished reels in 48 hours. No freelancer hassle. Subscribe to a plan and receive edits back fast." />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://thevideojanitors.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="TheVideoJanitors | Fast, Reliable Short-Form Video Editing" />
+    <meta name="twitter:description" content="Get polished reels in 48 hours. No freelancer hassle. Subscribe to a plan and receive edits back fast." />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -19,9 +23,23 @@
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "TheVideoJanitors",
+      "url": "https://thevideojanitors.com",
       "applicationCategory": "BusinessApplication",
-      "description": "Subscription-based short-form video editing marketplace.",
-      "offers": { "@type": "AggregateOffer", "priceCurrency": "USD", "lowPrice": "299" }
+      "description": "Subscription-based short-form video editing marketplace. Submit raw footage, get polished Reels and TikToks back in 48 hours.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "99",
+        "highPrice": "599",
+        "offerCount": "3"
+      },
+      "featureList": [
+        "Automatic editor matching",
+        "48-hour delivery",
+        "Up to 3 revision rounds",
+        "Real-time request tracking",
+        "Weekly editor payouts"
+      ]
     }
     </script>
   </head>
@@ -29,5 +47,36 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Fallback for crawlers and AI tools that cannot execute JavaScript -->
+    <noscript>
+      <main style="font-family:sans-serif;max-width:800px;margin:40px auto;padding:0 20px;color:#111">
+        <h1>TheVideoJanitors — Fast, Reliable Short-Form Video Editing</h1>
+        <p>Clean edits. Fast delivery. No freelancer roulette.</p>
+        <p>Submit raw footage and a brief. Get a polished Reel, TikTok, or YouTube Short back within 48 hours, matched to a vetted editor automatically.</p>
+
+        <h2>Plans</h2>
+        <ul>
+          <li><strong>Quick Sweep</strong> — $99/month — 350 credits</li>
+          <li><strong>Deep Clean</strong> — $249/month — 950 credits</li>
+          <li><strong>Full Service</strong> — $599/month — 2,500 credits</li>
+        </ul>
+        <p>INR pricing available for Indian users (&#8377;2,499 &#8211; &#8377;13,999/month).</p>
+
+        <h2>How It Works</h2>
+        <ol>
+          <li>Subscribe to a plan and receive monthly editing credits.</li>
+          <li>Submit a request: paste your footage link (Drive/Dropbox) and fill in the brief.</li>
+          <li>We match you with the best available editor for your content niche.</li>
+          <li>Your editor delivers within 48 hours.</li>
+          <li>Review, request up to 3 revisions, then approve.</li>
+        </ol>
+
+        <h2>For Editors</h2>
+        <p>Join as a vetted editor, fulfil client requests, and receive weekly payouts via Stripe (USD) or Razorpay (INR).</p>
+
+        <p>Full details: <a href="https://thevideojanitors.com/llms.txt">thevideojanitors.com/llms.txt</a></p>
+      </main>
+    </noscript>
   </body>
 </html>

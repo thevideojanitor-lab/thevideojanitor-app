@@ -7,11 +7,12 @@ import {
 } from "@tanstack/react-table"
 import {
   AlertTriangle, ChevronDown, ChevronLeft, ChevronRight,
-  ChevronUp, ChevronsLeft, ChevronsRight, Eye, MoreHorizontal, X,
+  ChevronUp, ChevronsLeft, ChevronsRight, Eye, MoreHorizontal, Star, X,
 } from "lucide-react"
 import { fadeUp, scaleIn, slideInFromRight } from "@/lib/animations"
 import { supabase } from "@/lib/supabase"
 import { useAuthStore } from "@/stores/authStore"
+import { useToast } from "@/hooks/use-toast"
 import StatusBadge from "@/components/StatusBadge"
 import type { Request } from "@/lib/supabase"
 
@@ -89,6 +90,7 @@ function RowMenu({ req, onAction }: { req: Request; onAction: (action: string, r
 
 export default function AdminRequests() {
   const { user } = useAuthStore()
+  const { toast } = useToast()
   const [rows, setRows] = useState<Request[]>([])
   const [loading, setLoading] = useState(true)
   const [sorting, setSorting] = useState<SortingState>([{ id: "submitted_at", desc: true }])
@@ -201,30 +203,47 @@ export default function AdminRequests() {
   async function handleReassign(editorId: string) {
     if (!user || !activeAction) return
     setReassigning(editorId)
-    await supabase.from("requests").update({ editor_id: editorId, status: "matched" }).eq("id", activeAction.req.id)
-    await logAction(user.id, "editor_reassign", "request", activeAction.req.id, `Reassigned to ${editorId}`)
+    const { error } = await supabase.from("requests").update({ editor_id: editorId, status: "matched" }).eq("id", activeAction.req.id)
     setReassigning(null)
+    if (error) {
+      toast({ title: "Couldn't reassign editor", description: "Please try again.", variant: "destructive" })
+      return
+    }
+    await logAction(user.id, "editor_reassign", "request", activeAction.req.id, `Reassigned to ${editorId}`)
     setActiveAction(null)
+    toast({ title: "Editor reassigned", description: "The request has been moved to the new editor." })
     loadRequests()
   }
 
   async function handleExtend() {
     if (!user || !activeAction || !extendDate || !extendReason.trim()) return
     setWorking(true)
-    await supabase.from("requests").update({ due_at: new Date(extendDate).toISOString() }).eq("id", activeAction.req.id)
+    const { error } = await supabase.from("requests").update({ due_at: new Date(extendDate).toISOString() }).eq("id", activeAction.req.id)
+    if (error) {
+      setWorking(false)
+      toast({ title: "Couldn't extend the deadline", description: "Please try again.", variant: "destructive" })
+      return
+    }
     await logAction(user.id, "extend_deadline", "request", activeAction.req.id, extendReason)
     setWorking(false)
     setActiveAction(null)
+    toast({ title: "Deadline extended", description: "The new due date has been saved." })
     loadRequests()
   }
 
   async function handleForceApprove() {
     if (!user || !activeAction || !actionReason.trim()) return
     setWorking(true)
-    await supabase.from("requests").update({ status: "approved", approved_at: new Date().toISOString() }).eq("id", activeAction.req.id)
+    const { error } = await supabase.from("requests").update({ status: "approved", approved_at: new Date().toISOString() }).eq("id", activeAction.req.id)
+    if (error) {
+      setWorking(false)
+      toast({ title: "Couldn't approve the request", description: "Please try again.", variant: "destructive" })
+      return
+    }
     await logAction(user.id, "force_approve", "request", activeAction.req.id, actionReason)
     setWorking(false)
     setActiveAction(null)
+    toast({ title: "Request approved", description: "The request was force-approved and logged." })
     loadRequests()
   }
 
@@ -234,13 +253,23 @@ export default function AdminRequests() {
     if (isNaN(amount) || amount <= 0) return
     setWorking(true)
     // Increment client's credits_remaining
-    const { data: sub } = await supabase.from("subscriptions").select("id, credits_remaining").eq("client_id", activeAction.req.client_id).eq("status", "active").single()
-    if (sub) {
-      await supabase.from("subscriptions").update({ credits_remaining: sub.credits_remaining + amount }).eq("id", sub.id)
+    const { data: sub, error: subErr } = await supabase.from("subscriptions").select("id, credits_remaining").eq("client_id", activeAction.req.client_id).eq("status", "active").single()
+    if (subErr || !sub) {
+      setWorking(false)
+      toast({ title: "Couldn't refund credits", description: "No active subscription found for this client.", variant: "destructive" })
+      return
+    }
+    const { error: updateErr } = await supabase.from("subscriptions").update({ credits_remaining: sub.credits_remaining + amount }).eq("id", sub.id)
+    if (updateErr) {
+      setWorking(false)
+      toast({ title: "Couldn't refund credits", description: "Please try again.", variant: "destructive" })
+      return
     }
     await logAction(user.id, "refund_credits", "request", activeAction.req.id, `${amount} credits — ${actionReason}`)
     setWorking(false)
     setActiveAction(null)
+    toast({ title: `${amount} credits refunded`, description: "The client's balance has been updated." })
+    loadRequests()
   }
 
   const closeActive = () => setActiveAction(null)
@@ -285,7 +314,11 @@ export default function AdminRequests() {
       {/* Table */}
       <motion.div variants={fadeUp} initial="hidden" animate="visible" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-xs text-[#9CA3AF]">Loading…</div>
+          <div className="p-4 space-y-2.5">
+            {[0, 1, 2, 3, 4, 5].map((s) => (
+              <div key={s} className="h-9 bg-[#404040]/40 rounded-lg animate-pulse" />
+            ))}
+          </div>
         ) : (
           <>
             <div className="overflow-x-auto">
@@ -342,7 +375,7 @@ export default function AdminRequests() {
       <AnimatePresence>
         {drawerReq && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/60 z-40" onClick={() => setDrawerReq(null)} />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-[#121212]/60 z-40" onClick={() => setDrawerReq(null)} />
             <motion.div variants={slideInFromRight} initial="hidden" animate="visible" exit="exit" className="fixed top-0 right-0 bottom-0 w-full max-w-lg bg-[#1A1A1A] border-l border-[#2A2A2A] z-50 flex flex-col overflow-y-auto">
               <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A] sticky top-0 bg-[#1A1A1A]">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Request Details</h2>
@@ -369,10 +402,27 @@ export default function AdminRequests() {
                   ))}
                 </div>
                 <div className="bg-[#404040] rounded-xl p-4">
-                  <p className="text-[10px] uppercase tracking-wider text-[#9CA3AF] mb-2">Brief</p>
-                  <pre className="text-xs text-[#F9FAFB] whitespace-pre-wrap font-sans leading-relaxed">
-                    {JSON.stringify(drawerReq.brief, null, 2)}
-                  </pre>
+                  <p className="text-[10px] uppercase tracking-wider text-[#9CA3AF] mb-3">Brief</p>
+                  {drawerReq.brief && Object.keys(drawerReq.brief).length > 0 ? (
+                    <div className="space-y-3">
+                      {Object.entries(drawerReq.brief as Record<string, unknown>).map(([k, v]) => {
+                        const value = Array.isArray(v) ? v.join(", ") : String(v ?? "")
+                        if (!value.trim()) return null
+                        return (
+                          <div key={k}>
+                            <p className="text-[10px] uppercase tracking-wider text-[#9CA3AF] mb-0.5 capitalize">
+                              {k.replace(/_/g, " ")}
+                            </p>
+                            <p className="text-xs text-[#F9FAFB] leading-relaxed whitespace-pre-wrap break-words">
+                              {value}
+                            </p>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-[#9CA3AF]">No brief details provided.</p>
+                  )}
                 </div>
                 {drawerReq.footage_url && (
                   <a href={drawerReq.footage_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-xs text-[#FF5F15] hover:underline">
@@ -388,7 +438,7 @@ export default function AdminRequests() {
       {/* ── Reassign Editor Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "reassign" && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
             <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-lg max-h-[80vh] flex flex-col">
               <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A]">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Reassign Editor</h2>
@@ -408,7 +458,7 @@ export default function AdminRequests() {
                           Avail: {avail}/20 · Rating: {rating}/10 · Style: 15/30 ·
                           <span className="text-[#FF5F15] font-bold ml-1">Total: {total}/100</span>
                         </p>
-                        <p className="text-[10px] text-[#9CA3AF]">Queue: {e.current_queue_count}/{e.max_queue_capacity} · ⭐ {e.rating.toFixed(2)}</p>
+                        <p className="text-[10px] text-[#9CA3AF]">Queue: {e.current_queue_count}/{e.max_queue_capacity} · <Star size={9} className="inline-block -mt-0.5 fill-yellow-400 text-yellow-400" /> {e.rating.toFixed(2)}</p>
                       </div>
                       <motion.button
                         whileHover={{ scale: 1.04 }}
@@ -431,7 +481,7 @@ export default function AdminRequests() {
       {/* ── Extend Deadline Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "extend" && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
             <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Extend Deadline</h2>
@@ -453,7 +503,7 @@ export default function AdminRequests() {
       {/* ── Force Approve Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "approve" && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
             <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Force Approve</h2>
@@ -477,7 +527,7 @@ export default function AdminRequests() {
       {/* ── Refund Credits Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "refund" && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
             <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Refund Credits</h2>
@@ -500,7 +550,7 @@ export default function AdminRequests() {
       <AnimatePresence>
         {activeAction?.key === "chat" && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/60 z-40" onClick={closeActive} />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-[#121212]/60 z-40" onClick={closeActive} />
             <motion.div variants={slideInFromRight} initial="hidden" animate="visible" exit="exit" className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#1A1A1A] border-l border-[#2A2A2A] z-50 flex flex-col">
               <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A]">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Chat — Read Only</h2>

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { motion } from "motion/react"
-import { Loader2, Check } from "lucide-react"
+import { Loader2, Check, ArrowLeft } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { useAuthStore } from "@/stores/authStore"
 import { track } from "@vercel/analytics"
@@ -95,16 +95,24 @@ export default function PreferencesStep() {
         />
       </div>
 
-      <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.97 }}
-        onClick={handleComplete}
-        disabled={saving}
-        className="w-full bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3.5 flex items-center justify-center gap-2 hover:bg-[#E54E08] transition-colors disabled:opacity-60"
-      >
-        {saving ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />}
-        {saving ? "Finishing setup…" : "Complete Setup"}
-      </motion.button>
+      <div className="flex gap-3">
+        <button
+          onClick={() => navigate("/onboarding/style")}
+          className="flex items-center gap-1.5 px-4 py-3.5 border border-[#404040] text-[#F9FAFB] rounded-lg text-sm font-medium hover:bg-[#404040] transition-colors"
+        >
+          <ArrowLeft size={16} /> Back
+        </button>
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={handleComplete}
+          disabled={saving}
+          className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3.5 flex items-center justify-center gap-2 hover:bg-[#E54E08] transition-colors disabled:opacity-60"
+        >
+          {saving ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />}
+          {saving ? "Finishing setup…" : "Complete Setup"}
+        </motion.button>
+      </div>
     </div>
   )
 }

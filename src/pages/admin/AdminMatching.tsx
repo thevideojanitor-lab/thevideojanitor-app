@@ -137,7 +137,7 @@ function EditorScoreCard({
         <ScoreBar label="Niche match" value={s.niche} max={40} color="#FF5F15" />
         <ScoreBar label="Availability" value={s.availability} max={20} color="#3B82F6" />
         <ScoreBar label="Rating" value={s.rating} max={10} color="#F59E0B" />
-        <ScoreBar label="Style" value={s.style} max={30} color="#8B5CF6" />
+        <ScoreBar label="Style" value={s.style} max={30} color="#9CA3AF" />
       </div>
 
       {/* Total + queue + assign */}

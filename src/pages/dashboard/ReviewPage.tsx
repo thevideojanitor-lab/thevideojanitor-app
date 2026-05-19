@@ -5,12 +5,15 @@ import MuxPlayer from "@mux/mux-player-react"
 import {
   AlertCircle,
   ArrowLeft,
+  ArrowLeftRight,
+  Check,
   ChevronRight,
   Clock,
   Copy,
   Download,
   MessageSquare,
   Plus,
+  RotateCcw,
   Star,
   Trash2,
   X,
@@ -544,7 +547,7 @@ export default function ReviewPage() {
                 >
                   {t === "chat" ? "Chat" : "Review"}
                   {t === "chat" && chatUnread > 0 && (
-                    <span className="bg-white/20 text-white text-[10px] font-bold rounded-full px-1.5 py-0.5">
+                    <span className="bg-[#121212]/20 text-[#121212] text-[10px] font-bold rounded-full px-1.5 py-0.5">
                       {chatUnread}
                     </span>
                   )}
@@ -597,7 +600,7 @@ export default function ReviewPage() {
 
                   {/* ── Mux player ── */}
                   {deliverable?.mux_playback_id ? (
-                    <div ref={playerWrapRef} className="rounded-xl overflow-hidden bg-[#000] aspect-video">
+                    <div ref={playerWrapRef} className="rounded-xl overflow-hidden bg-[#121212] aspect-video">
                       <MuxPlayer
                         playbackId={deliverable.mux_playback_id}
                         streamType="on-demand"
@@ -757,7 +760,7 @@ export default function ReviewPage() {
                       variants={staggerContainer}
                       initial="hidden"
                       animate="visible"
-                      className="flex gap-2"
+                      className="space-y-2.5"
                     >
                       <motion.button
                         variants={fadeUp}
@@ -765,30 +768,29 @@ export default function ReviewPage() {
                         whileTap={{ scale: 0.97 }}
                         onClick={handleApprove}
                         disabled={approveState !== "idle"}
-                        className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3.5 text-sm hover:bg-[#E54E08] transition-colors disabled:opacity-60"
+                        className="w-full flex items-center justify-center gap-2 bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3.5 text-sm hover:bg-[#E54E08] transition-colors disabled:opacity-60"
                       >
-                        ✓ Approve
+                        <Check size={16} />
+                        Approve Edit
                       </motion.button>
-                      <motion.button
-                        variants={fadeUp}
-                        whileHover={{ scale: canRevise ? 1.02 : 1 }}
-                        whileTap={{ scale: canRevise ? 0.97 : 1 }}
-                        onClick={() => canRevise && setRevisionOpen(true)}
-                        disabled={!canRevise}
-                        title={!canRevise ? "Max revisions reached" : undefined}
-                        className="flex-1 border border-yellow-500/30 text-yellow-400 font-medium rounded-lg py-3.5 text-sm hover:bg-yellow-500/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                      >
-                        ↩ Request Revision
-                      </motion.button>
-                      <motion.button
-                        variants={fadeUp}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.97 }}
-                        onClick={() => setSwapOpen(true)}
-                        className="flex-1 border border-[#404040] text-[#F9FAFB] font-medium rounded-lg py-3.5 text-sm hover:bg-[#404040] transition-colors"
-                      >
-                        ↔ Swap Editor
-                      </motion.button>
+                      <motion.div variants={fadeUp} className="grid grid-cols-2 gap-2">
+                        <button
+                          onClick={() => canRevise && setRevisionOpen(true)}
+                          disabled={!canRevise}
+                          title={!canRevise ? "Max revisions reached" : undefined}
+                          className="flex items-center justify-center gap-1.5 border border-[#2A2A2A] text-yellow-400 font-medium rounded-lg py-2.5 text-xs hover:bg-yellow-500/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          <RotateCcw size={13} />
+                          Request a revision
+                        </button>
+                        <button
+                          onClick={() => setSwapOpen(true)}
+                          className="flex items-center justify-center gap-1.5 border border-[#2A2A2A] text-[#9CA3AF] font-medium rounded-lg py-2.5 text-xs hover:bg-[#404040] hover:text-[#F9FAFB] transition-colors"
+                        >
+                          <ArrowLeftRight size={13} />
+                          Swap editor
+                        </button>
+                      </motion.div>
                     </motion.div>
                   )}
                 </motion.div>
@@ -853,7 +855,7 @@ export default function ReviewPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 z-40"
+              className="fixed inset-0 bg-[#121212]/60 z-40"
               onClick={() => setRevisionOpen(false)}
             />
             <motion.div
@@ -930,7 +932,7 @@ export default function ReviewPage() {
       {/* ── Swap editor modal ── */}
       <AnimatePresence>
         {swapOpen && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
             <motion.div
               variants={scaleIn}
               initial="hidden"

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "motion/react"
-import { CheckSquare, ChevronDown, Clock, Download, FileText, Inbox, Upload } from "lucide-react"
+import { CheckSquare, ChevronDown, Clock, Download, FileText, Inbox, MessageSquare, Upload, X } from "lucide-react"
 import { fadeUp, slideInFromBottom, staggerContainer } from "@/lib/animations"
 import { supabase } from "@/lib/supabase"
 import { useAuthStore } from "@/stores/authStore"
@@ -10,6 +10,7 @@ import CountdownTimer from "@/components/CountdownTimer"
 import StatusBadge from "@/components/StatusBadge"
 import BriefViewer from "@/components/BriefViewer"
 import DeliveryUploadModal from "@/components/DeliveryUploadModal"
+import Chat from "@/components/Chat"
 import { useToast } from "@/hooks/use-toast"
 import type { Request, Brief, RevisionComment } from "@/lib/supabase"
 
@@ -116,10 +117,12 @@ function QueueCard({
   req,
   onViewBrief,
   onUpload,
+  onChat,
 }: {
   req: Request
   onViewBrief: (r: Request) => void
   onUpload: (r: Request) => void
+  onChat: (r: Request) => void
 }) {
   const canUpload = ["matched", "in_progress", "in_revision"].includes(req.status)
   const preview = getBriefPreview(req.brief)
@@ -213,6 +216,13 @@ function QueueCard({
 
       {/* Actions */}
       <div className="flex gap-2">
+        <button
+          onClick={() => onChat(req)}
+          className="flex items-center justify-center gap-1.5 border border-[#2A2A2A] text-[#9CA3AF] text-xs font-medium rounded-lg py-2.5 px-3 hover:bg-[#4A4A4A] hover:text-[#F9FAFB] transition-colors shrink-0"
+        >
+          <MessageSquare size={13} />
+          Message
+        </button>
         {req.footage_url && (
           <a
             href={req.footage_url}
@@ -229,7 +239,7 @@ function QueueCard({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => onUpload(req)}
-            className="flex-1 flex items-center justify-center gap-1.5 bg-[#3B82F6] text-white text-xs font-semibold rounded-lg py-2.5 hover:bg-[#2563EB] transition-colors"
+            className="flex-1 flex items-center justify-center gap-1.5 bg-[#3B82F6] text-[#F9FAFB] text-xs font-semibold rounded-lg py-2.5 hover:bg-[#2563EB] transition-colors"
           >
             <Upload size={13} />
             {req.status === "in_revision" ? "Upload Revision" : "Upload Edit"}
@@ -343,6 +353,7 @@ export default function EditorDashboard() {
   const [tab, setTab] = useState<Tab>("active")
   const [briefRequest, setBriefRequest] = useState<Request | null>(null)
   const [uploadRequest, setUploadRequest] = useState<Request | null>(null)
+  const [chatRequest, setChatRequest] = useState<Request | null>(null)
   const prevActiveLen = useRef(0)
 
   const displayCurrency = (payoutCurrency ?? currency) as "USD" | "INR"
@@ -430,7 +441,7 @@ export default function EditorDashboard() {
                 onClick={() => setTab(t.id)}
                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-semibold rounded-lg transition-all ${
                   tab === t.id
-                    ? "bg-[#3B82F6] text-white shadow-sm"
+                    ? "bg-[#3B82F6] text-[#F9FAFB] shadow-sm"
                     : "text-[#9CA3AF] hover:text-[#F9FAFB]"
                 }`}
               >
@@ -439,7 +450,7 @@ export default function EditorDashboard() {
                   <span
                     className={`text-[10px] rounded-full px-1.5 py-0.5 font-bold ${
                       tab === t.id
-                        ? "bg-white/20 text-white"
+                        ? "bg-[#121212]/25 text-[#F9FAFB]"
                         : "bg-[#404040] text-[#9CA3AF]"
                     }`}
                   >
@@ -483,6 +494,7 @@ export default function EditorDashboard() {
                         req={r}
                         onViewBrief={setBriefRequest}
                         onUpload={setUploadRequest}
+                        onChat={setChatRequest}
                       />
                     ))}
                   </AnimatePresence>
@@ -506,6 +518,41 @@ export default function EditorDashboard() {
               if (user?.id) refresh(user.id)
             }}
           />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {chatRequest && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-[#121212]/80 backdrop-blur-sm z-50 flex items-end md:items-center justify-center p-4"
+            onClick={() => setChatRequest(null)}
+          >
+            <motion.div
+              variants={slideInFromBottom}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="w-full max-w-md bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between px-4 py-3 border-b border-[#2A2A2A]">
+                <p className="text-sm font-semibold text-[#F9FAFB]">
+                  Message — {maskClientHandle(chatRequest.client_id)}
+                </p>
+                <button
+                  onClick={() => setChatRequest(null)}
+                  className="text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+              <Chat requestId={chatRequest.id} />
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>

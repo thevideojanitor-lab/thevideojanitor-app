@@ -1,0 +1,77 @@
+# TheVideoJanitors
+
+> Clean edits. Fast delivery. No freelancer roulette.
+
+TheVideoJanitors is a subscription-based short-form video editing platform. Clients subscribe to a monthly plan, submit raw footage with a creative brief, and receive polished edits within 48 hours — matched to a vetted editor automatically.
+
+## What We Do
+
+Managed video editing marketplace for creators, brands, and agencies who post short-form content on Instagram Reels, TikTok, and YouTube Shorts. No hiring freelancers, no back-and-forth on rates, no missed deadlines.
+
+## How It Works
+
+1. Client subscribes to a plan and receives monthly editing credits
+2. Client submits a request: raw footage link (Google Drive / Dropbox) + brief (vibe, captions, aspect ratios)
+3. Platform automatically matches the request to a vetted editor based on niche, availability, and rating
+4. Editor delivers within 48 hours
+5. Client reviews, requests up to 3 revisions, then approves
+6. Credits are deducted at submission — not at delivery
+
+## Pricing (USD)
+
+- Quick Sweep: $99/month — 350 credits
+- Deep Clean: $249/month — 950 credits
+- Full Service: $599/month — 2,500 credits
+
+Credit packs (top-up):
+- Small: $33 — 100 credits
+- Medium: $75 — 250 credits (10% off)
+- Large: $140 — 500 credits (13% off)
+
+Edit costs per job:
+- Basic edit: 50 credits
+- Standard edit: 70 credits
+- Premium edit: 100 credits
+
+## Pricing (INR — India)
+
+- Quick Sweep: ₹2,499/month — 350 credits
+- Deep Clean: ₹5,999/month — 950 credits
+- Full Service: ₹13,999/month — 2,500 credits
+
+## User Roles
+
+- **Clients**: Creators, brands, agencies who submit video editing requests
+- **Editors**: Vetted video editors who fulfil requests and receive weekly payouts
+- **Admins**: Platform operators who manage matching, payouts, and disputes
+
+## Key Features
+
+- Automatic editor matching (niche, availability, performance score)
+- 48-hour delivery guarantee
+- Up to 3 revision rounds per request
+- Real-time request status tracking
+- Credit balance visible at all times
+- Weekly payouts for editors (Stripe Connect for USD, Razorpay for INR)
+- Dual-currency support: USD via Stripe, INR via Razorpay
+
+## Tech Stack
+
+React 18, TypeScript, Supabase (Postgres + Auth + Realtime), Stripe Billing, Razorpay, Netlify
+
+## Pages
+
+- [Home](https://thevideojanitors.com/): Landing page — product overview, pricing, how it works
+- [For Creators](https://thevideojanitors.com/for-creators): Why TheVideoJanitors for content creators
+- [For Agencies](https://thevideojanitors.com/for-agencies): Agency and brand use cases
+- [For Editors](https://thevideojanitors.com/for-editors): How to join as an editor and earn
+- [Pricing](https://thevideojanitors.com/#pricing): Subscription plans and credit packs
+- [Sign Up](https://thevideojanitors.com/auth/signup): Create a client or editor account
+- [Login](https://thevideojanitors.com/auth/login): Sign in to existing account
+- [FAQ](https://thevideojanitors.com/faq): Common questions answered
+- [Contact](https://thevideojanitors.com/contact): Reach the team
+
+## Contact
+
+Website: https://thevideojanitors.com
+Email: hello@thevideojanitors.com

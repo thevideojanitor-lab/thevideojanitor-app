@@ -1,14 +1,104 @@
+# TheVideoJanitors — robots.txt
+
+# Search engines
 User-agent: Googlebot
 Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /admin
+Disallow: /onboarding
+Disallow: /auth
 
 User-agent: Bingbot
 Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /admin
+Disallow: /onboarding
+Disallow: /auth
 
+# AI crawlers — explicitly allowed on public pages
+User-agent: ClaudeBot
+Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /admin
+Disallow: /onboarding
+Disallow: /auth
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /admin
+Disallow: /onboarding
+Disallow: /auth
+
+User-agent: GPTBot
+Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /admin
+Disallow: /onboarding
+Disallow: /auth
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /admin
+Disallow: /onboarding
+Disallow: /auth
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /admin
+Disallow: /onboarding
+Disallow: /auth
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /admin
+Disallow: /onboarding
+Disallow: /auth
+
+User-agent: YouBot
+Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /admin
+Disallow: /onboarding
+Disallow: /auth
+
+User-agent: CCBot
+Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /admin
+Disallow: /onboarding
+Disallow: /auth
+
+# Social crawlers
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
+# All others
 User-agent: *
 Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /admin
+Disallow: /onboarding
+Disallow: /auth
+
+Sitemap: https://thevideojanitors.com/sitemap.xml

@@ -91,7 +91,7 @@ export default function NotificationBell() {
         animate={ring ? { rotate: [0, -18, 18, -12, 12, 0] } : { rotate: 0 }}
         transition={{ duration: 0.6, ease: "easeInOut" }}
         className="relative text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
-        aria-label="Notifications"
+        aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : "Notifications"}
       >
         <Bell size={20} />
         <AnimatePresence>
@@ -102,6 +102,7 @@ export default function NotificationBell() {
               animate={{ scale: 1 }}
               exit={{ scale: 0 }}
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              aria-hidden="true"
               className="absolute -top-1 -right-1 min-w-[16px] h-4 bg-[#FF5F15] text-[#121212] text-[9px] font-bold rounded-full flex items-center justify-center px-1"
             >
               {unreadCount > 9 ? "9+" : unreadCount}

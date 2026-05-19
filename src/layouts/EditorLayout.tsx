@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { NavLink, Outlet, useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
-import { LayoutDashboard, Inbox, CheckSquare, DollarSign, HelpCircle, Menu, X, LogOut } from "lucide-react"
+import { LayoutDashboard, Inbox, CheckSquare, DollarSign, UserCircle, HelpCircle, Menu, X, LogOut } from "lucide-react"
 import { slideInFromRight } from "@/lib/animations"
 import { useAuthStore } from "@/stores/authStore"
 import { useEditorStore } from "@/stores/editorStore"
@@ -13,6 +13,7 @@ const NAV = [
   { to: "/editor/queue", icon: Inbox, label: "My Queue" },
   { to: "/editor/completed", icon: CheckSquare, label: "Completed" },
   { to: "/editor/payouts",  icon: DollarSign, label: "Payouts" },
+  { to: "/editor/profile",  icon: UserCircle, label: "Profile" },
   { to: "/editor/help", icon: HelpCircle, label: "Help" },
 ]
 
@@ -93,7 +94,7 @@ export default function EditorLayout() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 z-40 md:hidden"
+              className="fixed inset-0 bg-[#121212]/60 z-40 md:hidden"
               onClick={() => setSidebarOpen(false)}
             />
             <motion.aside
@@ -159,12 +160,16 @@ export default function EditorLayout() {
 
             <NotificationBell />
 
-            {/* Avatar */}
-            <div className="w-8 h-8 rounded-full bg-[#3B82F6]/20 border border-[#3B82F6]/30 flex items-center justify-center">
+            {/* Avatar — links to profile */}
+            <button
+              onClick={() => navigate("/editor/profile")}
+              aria-label="Your profile"
+              className="w-8 h-8 rounded-full bg-[#3B82F6]/20 border border-[#3B82F6]/30 flex items-center justify-center hover:border-[#3B82F6]/60 transition-colors"
+            >
               <span className="text-xs font-semibold text-[#3B82F6]">
                 {user?.email?.charAt(0).toUpperCase() ?? "?"}
               </span>
-            </div>
+            </button>
           </div>
         </header>
 

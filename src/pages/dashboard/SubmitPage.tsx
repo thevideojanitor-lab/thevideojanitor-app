@@ -47,7 +47,7 @@ function TypeStep({ onNext, balance, editCosts }: {
 }) {
   const [selected, setSelected] = useState<EditType | null>(null)
 
-  const getCost = (key: EditType) => editCosts[key] ?? (key === "basic" ? 50 : key === "standard" ? 70 : 100)
+  const getCost = (key: EditType) => editCosts[key]
 
   return (
     <div className="space-y-6">
@@ -489,8 +489,8 @@ function CostBar({ cost, balance, onSubmit, loading }: {
           <span className="text-[#9CA3AF]">Balance</span>
           <span className={`font-semibold ${canAfford ? "text-[#F9FAFB]" : "text-red-400"}`}>{balance} cr</span>
           {canAfford
-            ? <span className="text-[10px] text-[#4ade80] font-semibold">✓ Good to go</span>
-            : <span className="text-[10px] text-red-400 font-semibold">✗ Not enough</span>
+            ? <span className="text-[10px] text-[#4ade80] font-semibold flex items-center gap-1"><Check size={11} /> Good to go</span>
+            : <span className="text-[10px] text-red-400 font-semibold flex items-center gap-1"><AlertCircle size={11} /> Not enough</span>
           }
         </div>
         <motion.button
@@ -500,7 +500,7 @@ function CostBar({ cost, balance, onSubmit, loading }: {
           disabled={!canAfford || loading}
           className={`shrink-0 px-5 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition-all ${
             canAfford
-              ? "bg-[#FF5F15] text-[#121212] hover:bg-[#E54E08] shadow-[0_0_20px_rgba(255,95,21,0.3)]"
+              ? "bg-[#FF5F15] text-[#121212] hover:bg-[#E54E08]"
               : "bg-[#2A2A2A] text-[#9CA3AF] cursor-not-allowed"
           }`}
         >
@@ -517,9 +517,9 @@ function CostBar({ cost, balance, onSubmit, loading }: {
 const STEP_ORDER: Step[] = ["type", "footage", "brief", "matching"]
 
 export default function SubmitPage() {
-  const { user } = useAuthStore()
+  const { user, region } = useAuthStore()
   const { balance, deduct, refresh: refreshCredits } = useCreditsStore()
-  const { config } = usePricingStore()
+  const { config, fetch: fetchPricing } = usePricingStore()
   const navigate = useNavigate()
 
   const [step, setStep] = useState<Step>("type")
@@ -533,9 +533,6 @@ export default function SubmitPage() {
   const [dueAt, setDueAt] = useState<string | null>(null)
   const [requestId, setRequestId] = useState<string | null>(null)
   const [matchProgress, setMatchProgress] = useState(0)
-
-  const editCosts = (config?.editCosts as Record<string, number>) ?? { basic: 50, standard: 70, premium: 100, extra_ratio: 10 }
-  const extraRatioCost = editCosts.extra_ratio ?? 10
 
   const currentStepIndex = STEP_ORDER.indexOf(step)
 
@@ -626,6 +623,31 @@ export default function SubmitPage() {
   useEffect(() => {
     if (step !== "matching") setMatchProgress(0)
   }, [step])
+
+  // Edit costs come from platform_config — never hardcoded. Gate the wizard until loaded.
+  useEffect(() => {
+    if (!config) fetchPricing(region)
+  }, [])
+
+  if (!config) {
+    return (
+      <div className="pb-20 space-y-6">
+        <div className="h-1 bg-[#2A2A2A] rounded-full" />
+        <div className="space-y-2">
+          <div className="h-7 w-2/3 bg-[#404040] rounded-lg animate-pulse" />
+          <div className="h-4 w-1/2 bg-[#404040] rounded animate-pulse" />
+        </div>
+        <div className="grid gap-3">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="h-36 bg-[#404040] rounded-xl animate-pulse" />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  const editCosts = config.editCosts as Record<string, number>
+  const extraRatioCost = editCosts.extra_ratio
 
   return (
     <div className="pb-20">

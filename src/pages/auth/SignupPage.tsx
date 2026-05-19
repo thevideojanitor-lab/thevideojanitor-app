@@ -1,15 +1,17 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { motion } from "motion/react"
-import { AlertCircle, CheckCircle, Eye, EyeOff, Loader2 } from "lucide-react"
+import { AlertCircle, CheckCircle, Eye, EyeOff, Loader2, Scissors, Video } from "lucide-react"
 import { fadeUp, staggerContainer } from "@/lib/animations"
 import { signUpWithEmail, signInWithGoogle } from "@/hooks/useAuth"
+import AuthBackground from "@/components/AuthBackground"
 
 export default function SignupPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirm, setConfirm] = useState("")
   const [showPw, setShowPw] = useState(false)
+  const [selectedRole, setSelectedRole] = useState<"client" | "editor">("client")
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
@@ -23,7 +25,7 @@ export default function SignupPage() {
     if (!email.trim() || !passwordStrong || !passwordMatch) return
     setError(null)
     setLoading(true)
-    const { error } = await signUpWithEmail(email.trim(), password)
+    const { error } = await signUpWithEmail(email.trim(), password, selectedRole)
     if (error) {
       setError(error.includes("already") ? "An account with this email already exists. Sign in instead." : error)
       setLoading(false)
@@ -44,12 +46,13 @@ export default function SignupPage() {
 
   if (done) {
     return (
-      <div className="min-h-screen bg-[#121212] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#121212] flex items-center justify-center px-4 relative overflow-hidden">
+        <AuthBackground />
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.35, ease: "easeOut" }}
-          className="w-full max-w-sm text-center space-y-5"
+          className="relative z-10 w-full max-w-sm text-center space-y-5"
         >
           <div className="w-16 h-16 mx-auto rounded-2xl bg-[rgba(34,197,94,0.15)] border border-[rgba(34,197,94,0.3)] flex items-center justify-center">
             <CheckCircle size={32} className="text-[#4ade80]" />
@@ -69,19 +72,22 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#121212] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#121212] flex items-center justify-center px-4 relative overflow-hidden">
+      <AuthBackground />
       <motion.div
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
-        className="w-full max-w-sm space-y-6"
+        className="relative z-10 w-full max-w-sm space-y-6"
       >
         {/* Logo */}
         <motion.div variants={fadeUp} className="text-center">
           <Link to="/" className="font-heading text-xl font-bold text-[#F9FAFB] hover:text-[#FF5F15] transition-colors">
             TheVideoJanitors
           </Link>
-          <p className="text-sm text-[#9CA3AF] mt-2">Create your account — it's free to start</p>
+          <p className="text-sm text-[#9CA3AF] mt-2">
+            {selectedRole === "editor" ? "Join as an editor — start earning" : "Create your account — it's free to start"}
+          </p>
         </motion.div>
 
         {/* Card */}
@@ -89,6 +95,34 @@ export default function SignupPage() {
           variants={fadeUp}
           className="bg-[#404040] border border-[#2A2A2A] rounded-2xl p-6 space-y-4"
         >
+          {/* Role picker */}
+          <div className="flex gap-2">
+            {([
+              { role: "client", icon: Video, label: "I'm a Creator" },
+              { role: "editor", icon: Scissors, label: "I'm an Editor" },
+            ] as const).map(({ role, icon: Icon, label }) => (
+              <button
+                key={role}
+                type="button"
+                onClick={() => setSelectedRole(role)}
+                className={`flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl border text-xs font-semibold transition-all ${
+                  selectedRole === role
+                    ? "bg-[#FF5F15]/15 text-[#FF5F15] border-[#FF5F15]/40"
+                    : "bg-[#1A1A1A] text-[#9CA3AF] border-[#2A2A2A] hover:border-[#404040] hover:text-[#F9FAFB]"
+                }`}
+              >
+                <Icon size={16} />
+                {label}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-px bg-[#2A2A2A]" />
+            <span className="text-xs text-[#9CA3AF]">then sign up with</span>
+            <div className="flex-1 h-px bg-[#2A2A2A]" />
+          </div>
+
           {/* Google */}
           <motion.button
             whileHover={{ scale: 1.01 }}

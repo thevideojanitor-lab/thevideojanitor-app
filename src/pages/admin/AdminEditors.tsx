@@ -207,7 +207,13 @@ export default function AdminEditors() {
       </div>
 
       <motion.div variants={fadeUp} initial="hidden" animate="visible" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl overflow-hidden">
-        {loading ? <div className="p-8 text-center text-xs text-[#9CA3AF]">Loading…</div> : (
+        {loading ? (
+          <div className="p-4 space-y-2.5">
+            {[0, 1, 2, 3, 4, 5].map((s) => (
+              <div key={s} className="h-9 bg-[#404040]/40 rounded-lg animate-pulse" />
+            ))}
+          </div>
+        ) : (
           <>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
@@ -250,7 +256,7 @@ export default function AdminEditors() {
       <AnimatePresence>
         {activeAction?.key === "view" && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/60 z-40" onClick={close} />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-[#121212]/60 z-40" onClick={close} />
             <motion.div variants={slideInFromRight} initial="hidden" animate="visible" exit="exit" className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#1A1A1A] border-l border-[#2A2A2A] z-50 flex flex-col overflow-y-auto">
               <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A] sticky top-0 bg-[#1A1A1A]">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">{activeAction.editor.display_name ?? activeAction.editor.email}</h2>
@@ -259,7 +265,7 @@ export default function AdminEditors() {
               <div className="p-5 space-y-4">
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   {[
-                    ["Rating", `⭐ ${activeAction.editor.rating.toFixed(2)}`],
+                    ["Rating", activeAction.editor.rating.toFixed(2)],
                     ["Completed", String(activeAction.editor.completed_count)],
                     ["Queue", `${activeAction.editor.current_queue_count}/${activeAction.editor.max_queue_capacity}`],
                     ["Strikes", String(activeAction.editor.unresponsive_count)],
@@ -287,7 +293,7 @@ export default function AdminEditors() {
       {/* ── Edit Profile Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "edit" && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
             <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-3">
               <div className="flex items-center justify-between">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Edit Profile</h2>
@@ -315,7 +321,7 @@ export default function AdminEditors() {
       {["suspend","remove","reset_unresponsive"].map((actionKey) => (
         <AnimatePresence key={actionKey}>
           {activeAction?.key === actionKey && (
-            <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+            <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
               <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
                 <div className="flex items-center justify-between">
                   <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">
@@ -334,7 +340,7 @@ export default function AdminEditors() {
                   <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
                     onClick={actionKey === "suspend" ? handleSuspend : actionKey === "remove" ? handleRemove : handleResetStrikes}
                     disabled={!reason.trim() || working}
-                    className={`flex-1 font-semibold text-sm rounded-lg py-2.5 disabled:opacity-40 transition-colors ${actionKey === "reset_unresponsive" ? "bg-[#FF5F15] text-[#121212] hover:bg-[#E54E08]" : "bg-red-500 text-white hover:bg-red-600"}`}
+                    className={`flex-1 font-semibold text-sm rounded-lg py-2.5 disabled:opacity-40 transition-colors ${actionKey === "reset_unresponsive" ? "bg-[#FF5F15] text-[#121212] hover:bg-[#E54E08]" : "bg-red-500 text-[#F9FAFB] hover:bg-red-600"}`}
                   >
                     {working ? "Working…" : actionKey === "suspend" ? "Suspend" : actionKey === "remove" ? "Remove" : "Reset"}
                   </motion.button>
@@ -349,7 +355,7 @@ export default function AdminEditors() {
       <AnimatePresence>
         {activeAction?.key === "payouts" && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/60 z-40" onClick={close} />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-[#121212]/60 z-40" onClick={close} />
             <motion.div variants={slideInFromRight} initial="hidden" animate="visible" exit="exit" className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#1A1A1A] border-l border-[#2A2A2A] z-50 flex flex-col overflow-y-auto">
               <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A] sticky top-0 bg-[#1A1A1A]">
                 <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Payout History</h2>

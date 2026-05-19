@@ -6,6 +6,7 @@ import { fadeUp, staggerContainer } from "@/lib/animations"
 import { supabase } from "@/lib/supabase"
 import { useAuthStore } from "@/stores/authStore"
 import { useToast } from "@/hooks/use-toast"
+import EditorBankSetup from "./EditorBankSetup"
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string
 
@@ -18,12 +19,11 @@ export default function EditorPayoutsConnect() {
   const [loading, setLoading] = useState(true)
   const [connecting, setConnecting] = useState(false)
 
-  // Check current connection status
+  // Check current connection status (Stripe only — skipped for IN region)
   useEffect(() => {
-    if (!user?.id) return
+    if (!user?.id || user.region === "IN") return
     checkConnection()
 
-    // Handle return from Stripe Connect onboarding
     const returned = searchParams.get("stripe_return")
     if (returned === "1") verifyAndSave()
   }, [user?.id])
@@ -42,10 +42,14 @@ export default function EditorPayoutsConnect() {
   async function verifyAndSave() {
     const accountId = searchParams.get("account_id")
     if (!accountId || !user?.id) return
-    await supabase
+    const { error } = await supabase
       .from("editor_profiles")
       .update({ stripe_account_id: accountId })
       .eq("user_id", user.id)
+    if (error) {
+      toast({ title: "Couldn't save your bank connection", description: "Please connect again to finish setup.", variant: "destructive" })
+      return
+    }
     setConnected(true)
     toast({ title: "Bank account connected!", description: "You'll receive payouts every week." })
   }
@@ -76,10 +80,22 @@ export default function EditorPayoutsConnect() {
     }
   }
 
+  // Indian editors use Razorpay bank/UPI — Stripe Connect is for USD editors only
+  if (user?.region === "IN") return <EditorBankSetup />
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 size={24} className="animate-spin text-[#FF5F15]" />
+      <div className="max-w-md mx-auto pt-8 space-y-6">
+        <div className="space-y-2">
+          <div className="h-7 w-56 bg-[#404040] rounded-lg animate-pulse" />
+          <div className="h-4 w-full bg-[#404040] rounded animate-pulse" />
+        </div>
+        <div className="space-y-3">
+          {[0, 1, 2].map((s) => (
+            <div key={s} className="h-16 bg-[#404040] rounded-xl animate-pulse" />
+          ))}
+        </div>
+        <div className="h-12 bg-[#404040] rounded-xl animate-pulse" />
       </div>
     )
   }

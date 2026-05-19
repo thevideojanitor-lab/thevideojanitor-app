@@ -1,7 +1,7 @@
 import { useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
-import { Upload, X, Loader2 } from "lucide-react"
+import { Upload, X, Loader2, AlertCircle } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { useAuthStore } from "@/stores/authStore"
 
@@ -47,6 +47,7 @@ export default function BrandKitStep() {
   const [referenceVideo, setReferenceVideo] = useState("")
   const [saving, setSaving] = useState(false)
   const [showCheck, setShowCheck] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
   const handleFile = (f: File) => {
@@ -63,25 +64,29 @@ export default function BrandKitStep() {
   const handleSave = async () => {
     if (!user?.id) return
     setSaving(true)
+    setError(null)
 
     let brandKitUrl: string | null = null
 
     if (logoFile) {
       const ext = logoFile.name.split(".").pop()
       const path = `${user.id}/logo.${ext}`
-      const { error } = await supabase.storage
+      const { error: uploadErr } = await supabase.storage
         .from("brand-assets")
         .upload(path, logoFile, { upsert: true })
-      if (!error) {
-        const { data } = supabase.storage.from("brand-assets").getPublicUrl(path)
-        brandKitUrl = data.publicUrl
+      if (uploadErr) {
+        setSaving(false)
+        setError("We couldn't upload your logo. Try a different file, or remove it and continue without one.")
+        return
       }
+      const { data } = supabase.storage.from("brand-assets").getPublicUrl(path)
+      brandKitUrl = data.publicUrl
     }
 
     const brandColors: Record<string, string> = {}
     selectedColors.forEach((c, i) => { brandColors[`color_${i + 1}`] = c })
 
-    await supabase
+    const { error: updateErr } = await supabase
       .from("client_profiles")
       .update({
         brand_kit_url: brandKitUrl,
@@ -90,6 +95,12 @@ export default function BrandKitStep() {
         updated_at: new Date().toISOString(),
       })
       .eq("user_id", user.id)
+
+    if (updateErr) {
+      setSaving(false)
+      setError("Something went wrong saving your brand details. Please try again.")
+      return
+    }
 
     setSaving(false)
     setShowCheck(true)
@@ -174,6 +185,13 @@ export default function BrandKitStep() {
             className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-4 py-3 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 outline-none"
           />
         </div>
+
+        {error && (
+          <div className="flex items-start gap-2 bg-red-500/10 border border-red-500/20 rounded-lg p-3">
+            <AlertCircle size={16} className="text-red-400 mt-0.5 shrink-0" />
+            <p className="text-sm text-red-400">{error}</p>
+          </div>
+        )}
 
         <motion.button
           whileHover={{ scale: 1.02 }}

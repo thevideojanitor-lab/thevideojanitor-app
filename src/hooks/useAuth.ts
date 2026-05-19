@@ -118,7 +118,8 @@ export function useAuth(): AuthState {
 
 export async function signUpWithEmail(
   email: string,
-  password: string
+  password: string,
+  role: "client" | "editor" = "client"
 ): Promise<{ error: string | null }> {
   const regionConfig = await detectRegion()
 
@@ -128,20 +129,21 @@ export async function signUpWithEmail(
 
   const uid = data.user.id
 
-  // Create users row
   const { error: userErr } = await supabase.from("users").insert({
     id: uid,
     email,
-    role: "client",
+    role,
     region: regionConfig.region,
     currency: regionConfig.currency,
   })
   if (userErr) return { error: userErr.message }
 
-  // Create client_profiles row
-  await supabase.from("client_profiles").insert({ user_id: uid })
+  if (role === "client") {
+    // Client profile row — triggers onboarding flow
+    await supabase.from("client_profiles").insert({ user_id: uid })
+  }
+  // Editor: no profile row yet — created at end of editor onboarding (LaunchStep)
 
-  // Persist region permanently
   await persistRegionToUser(uid, regionConfig)
 
   return { error: null }

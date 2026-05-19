@@ -80,8 +80,18 @@ export default function EditorBankSetup() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 size={24} className="animate-spin text-[#FF5F15]" />
+      <div className="max-w-md mx-auto pt-4 space-y-6">
+        <div className="space-y-2">
+          <div className="h-7 w-48 bg-[#404040] rounded-lg animate-pulse" />
+          <div className="h-4 w-full bg-[#404040] rounded animate-pulse" />
+        </div>
+        <div className="h-11 bg-[#404040] rounded-xl animate-pulse" />
+        <div className="space-y-3">
+          {[0, 1, 2].map((s) => (
+            <div key={s} className="h-16 bg-[#404040] rounded-lg animate-pulse" />
+          ))}
+        </div>
+        <div className="h-12 bg-[#404040] rounded-xl animate-pulse" />
       </div>
     )
   }

@@ -40,10 +40,11 @@ const PLAN_META: Record<PlanKey, { label: string; tagline: string; popular: bool
   },
 }
 
-const PACK_META = [
-  { key: "small", usdLabel: "$33", inrLabel: "₹825", credits: 100, tag: null },
-  { key: "medium", usdLabel: "$75", inrLabel: "₹1,875", credits: 250, tag: "10% off" },
-  { key: "large", usdLabel: "$140", inrLabel: "₹3,499", credits: 500, tag: "13% off" },
+// Static pack metadata only — amounts and credits come from platform_config.
+const PACK_META: { key: "small" | "medium" | "large"; tag: string | null }[] = [
+  { key: "small", tag: null },
+  { key: "medium", tag: "10% off" },
+  { key: "large", tag: "13% off" },
 ]
 
 // ── Stripe Payment Form ───────────────────────────────────────────────────────
@@ -421,7 +422,7 @@ export default function SubscriptionPage() {
             >
               {cycle}
               {cycle === "annual" && (
-                <span className="absolute -top-2 -right-2 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+                <span className="absolute -top-2 -right-2 bg-green-500 text-[#121212] text-[9px] font-bold px-1.5 py-0.5 rounded-full">
                   20% OFF
                 </span>
               )}
@@ -548,31 +549,40 @@ export default function SubscriptionPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {PACK_META.map(({ key, usdLabel, inrLabel, credits, tag }) => (
+          {PACK_META.map(({ key, tag }) => {
+            const pack = config?.creditPacks?.[key]
+            const credits = pack?.credits ?? 0
+            const priceLabel = pack
+              ? currency === "INR"
+                ? `₹${(pack.amount / 100).toLocaleString("en-IN")}`
+                : `$${pack.amount / 100}`
+              : "—"
+            return (
             <div key={key} className="relative bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 hover:border-[#FF5F15]/30 transition-colors">
               {tag && (
-                <span className="absolute -top-2.5 right-3 bg-green-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">
+                <span className="absolute -top-2.5 right-3 bg-green-500 text-[#121212] text-[9px] font-bold px-2 py-0.5 rounded-full">
                   {tag}
                 </span>
               )}
               <div className="mb-4">
                 <p className="font-heading text-2xl font-bold text-[#FF5F15]">
-                  {currency === "INR" ? inrLabel : usdLabel}
+                  {priceLabel}
                 </p>
-                <p className="text-sm text-[#9CA3AF]">{credits} credits</p>
+                <p className="text-sm text-[#9CA3AF]">{pack ? `${credits} credits` : "—"}</p>
               </div>
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => !subscription ? null : handleBuyCreditPack(key, credits)}
-                disabled={!subscription || loadingPack === key}
+                disabled={!subscription || !pack || loadingPack === key}
                 className="w-full border border-[#FF5F15]/40 text-[#FF5F15] font-semibold rounded-lg py-2 text-sm hover:bg-[#FF5F15]/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loadingPack === key ? <Loader2 size={14} className="animate-spin" /> : null}
                 {loadingPack === key ? "Processing…" : !subscription ? "Subscribe first" : "Buy Pack"}
               </motion.button>
             </div>
-          ))}
+            )
+          })}
         </div>
         <p className="text-xs text-[#9CA3AF] mt-3">Credits expire at subscription renewal (no rollover).</p>
       </motion.div>
@@ -580,7 +590,7 @@ export default function SubscriptionPage() {
       {/* Payment modal overlay */}
       <AnimatePresence>
         {(showModal === "stripe" && selectedPlan) && (
-          <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 z-50 flex items-center justify-center p-4">
             <StripeModal
               plan={selectedPlan}
               billingCycle={billing}
@@ -590,7 +600,7 @@ export default function SubscriptionPage() {
           </div>
         )}
         {showModal === "cancel" && subscription && (
-          <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-[#121212]/70 z-50 flex items-center justify-center p-4">
             <CancelModal
               gateway={subscription.gateway}
               subId={subscription.gateway_subscription_id ?? ""}
