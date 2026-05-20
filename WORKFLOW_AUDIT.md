@@ -218,7 +218,7 @@ activeChannels.push(notifChannel)
 |---|---|---|---|
 | 3 | Google OAuth always creates `role: "client"` | `useAuth.ts:74` | ✅ Fixed — `AuthCallback` checks for users row; new OAuth users go to `/auth/select-role` (`SelectRolePage.tsx`) to choose Creator or Editor before row is created |
 | 4 | No subscription → SubmitPage dead end | `SubmitPage.tsx` | ✅ Fixed — after config loads, checks `total === 0`; shows "No active subscription" screen with "View Plans" CTA to `/dashboard/subscription` |
-| 5 | Revision limit UI-only, no server enforcement | `ReviewPage.tsx:434` | ✅ Fixed — `enforce_revision_limit` DB trigger applied via Supabase MCP; any `revision_round > 3` raises a Postgres exception |
+| 5 | Revision limit UI-only, no server enforcement | `ReviewPage.tsx:434` | ✅ Fixed — `enforce_revision_limit` DB trigger (migration `005`); any `revision_round > 3` raises a Postgres exception |
 | 6 | Notification bell has no Realtime channel | `src/lib/realtime.ts` | ✅ Already working — `NotificationBell` manages its own channel (`notifications-${user.id}`) independently |
 
 ### P2 — Quality Gaps
@@ -226,11 +226,11 @@ activeChannels.push(notifChannel)
 | # | Item | Fix |
 |---|---|---|
 | 7 | Forgot password is a dead button | ✅ Fixed — `ForgotPasswordPage.tsx` created; `LoginPage.tsx` wired to `/auth/forgot-password`; route added to `App.tsx` |
-| 8 | Swap creates `admin_actions` with client `user_id` | ✅ Fixed — migration `005` adds INSERT policy allowing any authenticated user to log to `admin_actions` |
+| 8 | Swap creates `admin_actions` with client `user_id` | ✅ Fixed — migration `006` adds INSERT policy allowing any authenticated user to log to `admin_actions` |
 | 9 | `messages.read_at` never written | ✅ Fixed — `Chat.tsx` marks all unread incoming messages as read on load; resets unread badge count on mount |
 | 10 | No-editor-available has no UI feedback | ✅ Fixed — `matchFailed` state added to `SubmitPage`; `MatchingStep` shows "Request received, matching soon" with a View Requests CTA instead of infinite spinner |
 | 11 | Payout triggers never called from frontend | ✅ Already working — `AdminPayouts.tsx` calls `trigger-stripe-payout` / `trigger-razorpay-payout` via `payOne` and `payBulk` |
-| 12 | `run-cron-jobs` not confirmed scheduled | ✅ Fixed — migration `006` schedules two pg_cron jobs: `auto-close-abandoned` (hourly at :00) and `reassign-unresponsive-editors` (hourly at :30) directly in the DB |
+| 12 | `run-cron-jobs` not confirmed scheduled | ✅ Fixed — migration `007` schedules two pg_cron jobs: `auto-close-abandoned` (hourly at :00) and `reassign-unresponsive-editors` (hourly at :30) directly in the DB |
 
 ---
 

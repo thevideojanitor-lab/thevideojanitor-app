@@ -622,20 +622,24 @@ export default function SubmitPage() {
       clearInterval(interval)
       setMatchProgress(95)
 
-      // 4. Call match-editor
-      const { data: matchData } = await supabase.functions.invoke("match-editor", {
+      // 4. Call match-editor — surface invoke errors instead of silently falling through
+      const { data: matchData, error: matchError } = await supabase.functions.invoke("match-editor", {
         body: { requestId: reqData?.id },
       })
 
       setMatchProgress(100)
+      setRequestId(reqData?.id ?? null)
 
-      if (matchData?.matched) {
+      if (matchError) {
+        // Request row exists in pending_match; credits already deducted.
+        // Show match-failed state so the user sees a clear status instead of an empty wait.
+        setMatchFailed(true)
+      } else if (matchData?.matched) {
         setMatchedEditor(matchData.editor)
         setDueAt(matchData.dueAt)
       } else {
         setMatchFailed(true)
       }
-      setRequestId(reqData?.id ?? null)
 
       if (user?.id) refreshCredits(user.id)
     } catch {
