@@ -1,5 +1,7 @@
 import { corsHeaders, corsResponse, corsError } from "../_shared/cors.ts"
 import { getSupabaseAdmin, getUserFromAuth } from "../_shared/supabase-admin.ts"
+import { sendEmail } from "../_shared/sendgrid.ts"
+import { jobAssignedEmail } from "../_shared/email-templates.ts"
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders })
@@ -82,12 +84,27 @@ Deno.serve(async (req) => {
     .update({ current_queue_count: (best.current_queue_count as number) + 1 })
     .eq("user_id", best.user_id)
 
-  // Notify editor
+  // Notify editor — in-app
   await supabase.from("notifications").insert({
     user_id: best.user_id,
     message: "New edit request assigned to you!",
     type: "request",
   })
+
+  // Notify editor — email
+  const { data: editorAuth } = await supabase.auth.admin.getUserById(best.user_id as string)
+  if (editorAuth?.user?.email) {
+    const { subject, html } = jobAssignedEmail({
+      editorName: (best.display_name as string | null) ?? editorAuth.user.email.split("@")[0],
+      clientName: request.brief?.brand_name as string ?? "Your client",
+      editType: request.edit_type,
+      aspectRatio: (request.aspect_ratios as string[])?.[0] ?? "9:16",
+      creditsCost: request.credits_cost,
+      dueHours: 48,
+      requestId: requestId,
+    })
+    await sendEmail({ to: editorAuth.user.email, subject, html })
+  }
 
   return corsResponse({
     matched: true,

@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+﻿import { Helmet } from "react-helmet-async";
 
 interface SEOProps {
   title?: string;
@@ -15,7 +15,7 @@ const SEO = ({
   ogImage = "/og-image.jpg",
   canonical,
 }: SEOProps) => {
-  const siteUrl = "https://thevideojanitors.com";
+  const siteUrl = "https://thevideojanitor.com";
   const fullTitle = title.includes("TheVideoJanitors") ? title : `${title} | TheVideoJanitors`;
 
   return (

@@ -1,4 +1,4 @@
-// src/pages/PricingPage.tsx
+﻿// src/pages/PricingPage.tsx
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PricingSection from "@/components/PricingSection";
@@ -60,7 +60,7 @@ const PricingPage = () => {
         title="Pricing - TheVideoJanitors"
         description="Simple, transparent pricing. Quick Sweep at $99/mo, Deep Clean at $249/mo, Full Service at $599/mo. Buy credits, submit requests, get polished edits in 48 hours."
         keywords="video editing pricing, video editing subscription, short form editing plans, video editing credits"
-        canonical="https://thevideojanitors.com/pricing"
+        canonical="https://thevideojanitor.com/pricing"
       />
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />

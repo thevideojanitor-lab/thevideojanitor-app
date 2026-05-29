@@ -1,4 +1,4 @@
-// src/pages/HowItWorksPage.tsx
+﻿// src/pages/HowItWorksPage.tsx
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -183,7 +183,7 @@ const HowItWorksPage = () => {
         title="How It Works - TheVideoJanitors"
         description="Learn how TheVideoJanitors works. Buy credits, submit requests, get matched with vetted editors, review edits, and request swaps. 48-hour turnaround guaranteed."
         keywords="how video editing subscription works, video editing service process, managed video editing"
-        canonical="https://thevideojanitors.com/how-it-works"
+        canonical="https://thevideojanitor.com/how-it-works"
       />
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />

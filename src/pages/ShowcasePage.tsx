@@ -1,4 +1,4 @@
-// src/pages/ShowcasePage.tsx
+﻿// src/pages/ShowcasePage.tsx
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ShowcaseSection from "@/components/ShowcaseSection";
@@ -57,7 +57,7 @@ const ShowcasePage = () => {
         title="Showcase - TheVideoJanitors"
         description="See before and after examples of short-form video editing by TheVideoJanitors. Talking heads, product demos, UGC ads, podcast clips, and more."
         keywords="video editing examples, before after video editing, short form video examples, reel editing samples"
-        canonical="https://thevideojanitors.com/showcase"
+        canonical="https://thevideojanitor.com/showcase"
       />
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />

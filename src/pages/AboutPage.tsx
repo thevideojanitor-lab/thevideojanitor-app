@@ -1,4 +1,4 @@
-// src/pages/AboutPage.tsx
+﻿// src/pages/AboutPage.tsx
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -59,7 +59,7 @@ const AboutPage = () => {
         title="About Us - TheVideoJanitors"
         description="Learn why TheVideoJanitors was built, what makes us different, and our mission for both editors and clients. Managed short-form video editing without the mess."
         keywords="about thevideojanitors, video editing company, managed video editing platform"
-        canonical="https://thevideojanitors.com/about"
+        canonical="https://thevideojanitor.com/about"
       />
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />

@@ -1,4 +1,4 @@
-// src/pages/FaqPage.tsx
+﻿// src/pages/FaqPage.tsx
 import { useState } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
@@ -226,7 +226,7 @@ const FaqPage = () => {
         title="FAQ - TheVideoJanitors"
         description="Answers to all common questions about credits, revisions, editor swaps, turnaround time, file types, billing, and what's included."
         keywords="video editing faq, video janitors help, video editing credits, revision policy"
-        canonical="https://thevideojanitors.com/faq"
+        canonical="https://thevideojanitor.com/faq"
       />
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />

@@ -1,4 +1,4 @@
-// src/pages/legal/RefundPage.tsx
+﻿// src/pages/legal/RefundPage.tsx
 import SEO from "@/components/SEO";
 import LegalLayout, { LegalSection, LegalList } from "@/components/LegalLayout";
 
@@ -68,10 +68,10 @@ const RefundPage = () => (
         <p>
           To request a refund review, contact{" "}
           <a
-            href="mailto:billing@thevideojanitors.com"
+            href="mailto:billing@thevideojanitor.com"
             className="text-primary hover:underline"
           >
-            billing@thevideojanitors.com
+            billing@thevideojanitor.com
           </a>{" "}
           within 7 days of the charge.
         </p>
@@ -111,10 +111,10 @@ const RefundPage = () => (
         <p>
           For billing questions, email{" "}
           <a
-            href="mailto:billing@thevideojanitors.com"
+            href="mailto:billing@thevideojanitor.com"
             className="text-primary hover:underline"
           >
-            billing@thevideojanitors.com
+            billing@thevideojanitor.com
           </a>
           . We respond within 24 hours.
         </p>

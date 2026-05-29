@@ -1,4 +1,4 @@
-// src/pages/legal/PrivacyPage.tsx
+﻿// src/pages/legal/PrivacyPage.tsx
 import SEO from "@/components/SEO";
 import LegalLayout, { LegalSection, LegalList } from "@/components/LegalLayout";
 
@@ -79,10 +79,10 @@ const PrivacyPage = () => (
         <p>
           To exercise these rights, email{" "}
           <a
-            href="mailto:privacy@thevideojanitors.com"
+            href="mailto:privacy@thevideojanitor.com"
             className="text-primary hover:underline"
           >
-            privacy@thevideojanitors.com
+            privacy@thevideojanitor.com
           </a>
         </p>
       </LegalSection>

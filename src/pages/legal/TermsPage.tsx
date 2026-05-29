@@ -1,4 +1,4 @@
-// src/pages/legal/TermsPage.tsx
+﻿// src/pages/legal/TermsPage.tsx
 import SEO from "@/components/SEO";
 import LegalLayout, { LegalSection, LegalList } from "@/components/LegalLayout";
 
@@ -116,10 +116,10 @@ const TermsPage = () => (
         <p>
           Questions about these terms? Email us at{" "}
           <a
-            href="mailto:legal@thevideojanitors.com"
+            href="mailto:legal@thevideojanitor.com"
             className="text-primary hover:underline"
           >
-            legal@thevideojanitors.com
+            legal@thevideojanitor.com
           </a>
         </p>
       </LegalSection>

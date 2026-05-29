@@ -1,6 +1,14 @@
 import Stripe from "npm:stripe@14"
 import { corsHeaders } from "../_shared/cors.ts"
 import { getSupabaseAdmin } from "../_shared/supabase-admin.ts"
+import { sendEmail } from "../_shared/sendgrid.ts"
+import { paymentConfirmedEmail, paymentFailedEmail } from "../_shared/email-templates.ts"
+
+const PLAN_NAMES: Record<string, string> = {
+  quick_sweep: "Quick Sweep",
+  deep_clean: "Deep Clean",
+  full_service: "Full Service",
+}
 
 const PLAN_CREDITS: Record<string, number> = {
   quick_sweep: 350,
@@ -60,12 +68,26 @@ Deno.serve(async (req) => {
         })
         .eq("gateway_subscription_id", stripeSubId)
 
-      // Notify client
+      // Notify client — in-app
       await supabase.from("notifications").insert({
         user_id: sub.client_id,
         message: "Payment successful! Your credits have been refreshed.",
         type: "billing",
       })
+
+      // Notify client — email
+      const { data: paidAuth } = await supabase.auth.admin.getUserById(sub.client_id)
+      if (paidAuth?.user?.email) {
+        const { subject, html } = paymentConfirmedEmail({
+          clientName: paidAuth.user.email.split("@")[0],
+          plan: PLAN_NAMES[sub.plan] ?? sub.plan,
+          credits,
+          amount: `$${(invoice.amount_paid / 100).toFixed(2)}`,
+          currency: "USD",
+          renewsAt: "your next billing date",
+        })
+        await sendEmail({ to: paidAuth.user.email, subject, html })
+      }
       break
     }
 
@@ -128,16 +150,29 @@ Deno.serve(async (req) => {
 
         const { data: sub } = await supabase
           .from("subscriptions")
-          .select("client_id")
+          .select("client_id, plan, amount_paid")
           .eq("gateway_subscription_id", stripeSubId)
           .single()
 
         if (sub) {
+          // Notify client — in-app
           await supabase.from("notifications").insert({
             user_id: sub.client_id,
             message: "Payment failed 3 times. Please update your payment method to continue.",
             type: "billing_error",
           })
+
+          // Notify client — email
+          const { data: failedAuth } = await supabase.auth.admin.getUserById(sub.client_id)
+          if (failedAuth?.user?.email) {
+            const { subject, html } = paymentFailedEmail({
+              clientName: failedAuth.user.email.split("@")[0],
+              plan: PLAN_NAMES[sub.plan] ?? sub.plan,
+              amount: `$${((sub.amount_paid ?? 0) / 100).toFixed(2)}`,
+              currency: "USD",
+            })
+            await sendEmail({ to: failedAuth.user.email, subject, html })
+          }
         }
       }
       break

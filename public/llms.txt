@@ -1,4 +1,4 @@
-# TheVideoJanitors
+﻿# TheVideoJanitors
 
 > Clean edits. Fast delivery. No freelancer roulette.
 
@@ -61,17 +61,17 @@ React 18, TypeScript, Supabase (Postgres + Auth + Realtime), Stripe Billing, Raz
 
 ## Pages
 
-- [Home](https://thevideojanitors.com/): Landing page — product overview, pricing, how it works
-- [For Creators](https://thevideojanitors.com/for-creators): Why TheVideoJanitors for content creators
-- [For Agencies](https://thevideojanitors.com/for-agencies): Agency and brand use cases
-- [For Editors](https://thevideojanitors.com/for-editors): How to join as an editor and earn
-- [Pricing](https://thevideojanitors.com/#pricing): Subscription plans and credit packs
-- [Sign Up](https://thevideojanitors.com/auth/signup): Create a client or editor account
-- [Login](https://thevideojanitors.com/auth/login): Sign in to existing account
-- [FAQ](https://thevideojanitors.com/faq): Common questions answered
-- [Contact](https://thevideojanitors.com/contact): Reach the team
+- [Home](https://thevideojanitor.com/): Landing page — product overview, pricing, how it works
+- [For Creators](https://thevideojanitor.com/for-creators): Why TheVideoJanitors for content creators
+- [For Agencies](https://thevideojanitor.com/for-agencies): Agency and brand use cases
+- [For Editors](https://thevideojanitor.com/for-editors): How to join as an editor and earn
+- [Pricing](https://thevideojanitor.com/#pricing): Subscription plans and credit packs
+- [Sign Up](https://thevideojanitor.com/auth/signup): Create a client or editor account
+- [Login](https://thevideojanitor.com/auth/login): Sign in to existing account
+- [FAQ](https://thevideojanitor.com/faq): Common questions answered
+- [Contact](https://thevideojanitor.com/contact): Reach the team
 
 ## Contact
 
-Website: https://thevideojanitors.com
-Email: hello@thevideojanitors.com
+Website: https://thevideojanitor.com
+Email: hello@thevideojanitor.com

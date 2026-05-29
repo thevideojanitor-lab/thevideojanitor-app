@@ -1,4 +1,4 @@
-import Stripe from "npm:stripe@14"
+﻿import Stripe from "npm:stripe@14"
 import { corsHeaders, corsResponse, corsError } from "../_shared/cors.ts"
 import { getSupabaseAdmin, getUserFromAuth } from "../_shared/supabase-admin.ts"
 
@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
     customerId = customer.id
   }
 
-  const origin = req.headers.get("origin") ?? "https://thevideojanitors.com"
+  const origin = req.headers.get("origin") ?? "https://thevideojanitor.com"
 
   const session = await stripe.checkout.sessions.create({
     customer: customerId,

@@ -1,4 +1,4 @@
-// src/components/Footer.tsx
+﻿// src/components/Footer.tsx
 import { Link } from "react-router-dom";
 import { Mail, Twitter, Linkedin, Instagram, Youtube } from "lucide-react";
 
@@ -133,11 +133,11 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="mailto:hello@thevideojanitors.com"
+                  href="mailto:hello@thevideojanitor.com"
                   className="hover:text-primary transition-colors inline-flex items-center gap-1.5"
                 >
                   <Mail className="w-3 h-3" />
-                  hello@thevideojanitors.com
+                  hello@thevideojanitor.com
                 </a>
               </li>
             </ul>

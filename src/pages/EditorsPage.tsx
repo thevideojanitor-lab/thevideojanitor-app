@@ -1,4 +1,4 @@
-// src/pages/EditorsPage.tsx
+﻿// src/pages/EditorsPage.tsx
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -131,7 +131,7 @@ const EditorsPage = () => {
         title="Meet the Editors - TheVideoJanitors"
         description="Meet the vetted video editors behind TheVideoJanitors. Verified, Priority, and Premier tier editors specializing in short-form content for creators, agencies, and brands."
         keywords="vetted video editors, short-form video editors, professional video editors, trusted editors"
-        canonical="https://thevideojanitors.com/editors"
+        canonical="https://thevideojanitor.com/editors"
       />
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />

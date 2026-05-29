@@ -1,4 +1,4 @@
-// src/pages/legal/CookiePage.tsx
+﻿// src/pages/legal/CookiePage.tsx
 import SEO from "@/components/SEO";
 import LegalLayout, { LegalSection, LegalList } from "@/components/LegalLayout";
 
@@ -109,10 +109,10 @@ const CookiePage = () => (
         <p>
           Questions about cookies? Email{" "}
           <a
-            href="mailto:privacy@thevideojanitors.com"
+            href="mailto:privacy@thevideojanitor.com"
             className="text-primary hover:underline"
           >
-            privacy@thevideojanitors.com
+            privacy@thevideojanitor.com
           </a>
         </p>
       </LegalSection>

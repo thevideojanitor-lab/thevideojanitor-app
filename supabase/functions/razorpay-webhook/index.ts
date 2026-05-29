@@ -1,5 +1,13 @@
 import { corsHeaders } from "../_shared/cors.ts"
 import { getSupabaseAdmin } from "../_shared/supabase-admin.ts"
+import { sendEmail } from "../_shared/sendgrid.ts"
+import { paymentConfirmedEmail } from "../_shared/email-templates.ts"
+
+const PLAN_NAMES: Record<string, string> = {
+  quick_sweep: "Quick Sweep",
+  deep_clean: "Deep Clean",
+  full_service: "Full Service",
+}
 
 const PLAN_CREDITS: Record<string, number> = {
   quick_sweep: 350,
@@ -63,11 +71,29 @@ Deno.serve(async (req) => {
         })
         .eq("gateway_subscription_id", sub.id)
 
+      // Notify client — in-app
       await supabase.from("notifications").insert({
         user_id: dbSub.client_id,
         message: "Payment successful! Your credits have been refreshed.",
         type: "billing",
       })
+
+      // Notify client — email
+      const { data: rzpAuth } = await supabase.auth.admin.getUserById(dbSub.client_id)
+      if (rzpAuth?.user?.email) {
+        const renewsAtFormatted = renewsAt
+          ? new Date(renewsAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
+          : "your next billing date"
+        const { subject, html } = paymentConfirmedEmail({
+          clientName: rzpAuth.user.email.split("@")[0],
+          plan: PLAN_NAMES[dbSub.plan] ?? dbSub.plan,
+          credits,
+          amount: `₹${((payment?.amount ?? 0) / 100).toLocaleString("en-IN")}`,
+          currency: "INR",
+          renewsAt: renewsAtFormatted,
+        })
+        await sendEmail({ to: rzpAuth.user.email, subject, html })
+      }
       break
     }
 

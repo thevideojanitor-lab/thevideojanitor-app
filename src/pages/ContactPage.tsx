@@ -1,4 +1,4 @@
-// src/pages/ContactPage.tsx
+﻿// src/pages/ContactPage.tsx
 import { useState } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
@@ -81,7 +81,7 @@ const ContactPage = () => {
         title="Contact & Support - TheVideoJanitors"
         description="Get in touch with TheVideoJanitors. Support for billing, requests, editor applications, and general questions. Response within 24 hours."
         keywords="contact video janitors, video editing support, help video editing"
-        canonical="https://thevideojanitors.com/contact"
+        canonical="https://thevideojanitor.com/contact"
       />
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />
@@ -128,10 +128,10 @@ const ContactPage = () => {
                 <div>
                   <p className="text-xs text-muted-foreground">Email</p>
                   <a
-                    href="mailto:support@thevideojanitors.com"
+                    href="mailto:support@thevideojanitor.com"
                     className="text-sm font-medium hover:text-primary transition-colors"
                   >
-                    support@thevideojanitors.com
+                    support@thevideojanitor.com
                   </a>
                 </div>
               </div>

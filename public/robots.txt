@@ -1,4 +1,4 @@
-# TheVideoJanitors — robots.txt
+﻿# TheVideoJanitors — robots.txt
 
 # Search engines
 User-agent: Googlebot
@@ -101,4 +101,4 @@ Disallow: /admin
 Disallow: /onboarding
 Disallow: /auth
 
-Sitemap: https://thevideojanitors.com/sitemap.xml
+Sitemap: https://thevideojanitor.com/sitemap.xml
