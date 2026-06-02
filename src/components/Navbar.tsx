@@ -7,6 +7,7 @@ import {
   Users, Briefcase, Info, HelpCircle,
 } from "lucide-react";
 import { TallyModal } from "@/components/TallyModal";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const EDITOR_FORM_URL = "https://tally.so/embed/Y5o9X0";
 const WAITLIST_FORM_URL = "https://tally.so/embed/xX0z6G";
@@ -125,6 +126,7 @@ const Navbar = () => {
 
         {/* CTA Buttons */}
         <div className="hidden lg:flex items-center gap-3 shrink-0">
+          <ThemeToggle />
           <TallyModal
             url={EDITOR_FORM_URL}
             title="Editor Application"

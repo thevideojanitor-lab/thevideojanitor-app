@@ -17,7 +17,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
 
-  // Navigate as soon as the authStore is populated (handles all auth paths)
   useEffect(() => {
     if (!user || !role) return
     if (role === "editor") navigate("/editor", { replace: true })
@@ -35,7 +34,6 @@ export default function LoginPage() {
       setError("Invalid email or password. Please try again.")
       setLoading(false)
     }
-    // On success: loading stays true while onAuthStateChange fires → useEffect above navigates
   }
 
   async function handleGoogle() {
@@ -48,7 +46,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#121212] flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4 relative overflow-hidden">
       <AuthBackground />
       <motion.div
         variants={staggerContainer}
@@ -56,18 +54,16 @@ export default function LoginPage() {
         animate="visible"
         className="relative z-10 w-full max-w-sm space-y-6"
       >
-        {/* Logo */}
         <motion.div variants={fadeUp} className="text-center">
-          <Link to="/" className="font-heading text-xl font-bold text-[#F9FAFB] hover:text-[#FF5F15] transition-colors">
+          <Link to="/" className="font-heading text-xl font-bold text-foreground hover:text-primary transition-colors">
             TheVideoJanitors
           </Link>
-          <p className="text-sm text-[#9CA3AF] mt-2">Sign in to your account</p>
+          <p className="text-sm text-muted-foreground mt-2">Sign in to your account</p>
         </motion.div>
 
-        {/* Card */}
         <motion.div
           variants={fadeUp}
-          className="bg-[#404040] border border-[#2A2A2A] rounded-2xl p-6 space-y-4"
+          className="bg-card border border-border rounded-2xl p-6 space-y-4"
         >
           {/* Google */}
           <motion.button
@@ -75,7 +71,7 @@ export default function LoginPage() {
             whileTap={{ scale: 0.98 }}
             onClick={handleGoogle}
             disabled={googleLoading || loading}
-            className="w-full flex items-center justify-center gap-3 border border-[#2A2A2A] bg-[#1A1A1A] hover:bg-[#2A2A2A] text-[#F9FAFB] text-sm font-medium rounded-xl py-2.5 transition-colors disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-3 border border-border bg-input hover:bg-muted text-foreground text-sm font-medium rounded-xl py-2.5 transition-colors disabled:opacity-50"
           >
             {googleLoading ? (
               <Loader2 size={16} className="animate-spin" />
@@ -91,15 +87,14 @@ export default function LoginPage() {
           </motion.button>
 
           <div className="flex items-center gap-3">
-            <div className="flex-1 h-px bg-[#2A2A2A]" />
-            <span className="text-xs text-[#9CA3AF]">or</span>
-            <div className="flex-1 h-px bg-[#2A2A2A]" />
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-muted-foreground">or</span>
+            <div className="flex-1 h-px bg-border" />
           </div>
 
-          {/* Email/password form */}
           <form onSubmit={handleSubmit} className="space-y-3">
             <div className="space-y-1.5">
-              <label className="text-xs text-[#9CA3AF]">Email</label>
+              <label className="text-xs text-muted-foreground">Email</label>
               <input
                 type="email"
                 value={email}
@@ -107,16 +102,16 @@ export default function LoginPage() {
                 placeholder="you@example.com"
                 autoComplete="email"
                 required
-                className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 transition-colors"
+                className="w-full bg-input border border-border rounded-xl px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors"
               />
             </div>
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="text-xs text-[#9CA3AF]">Password</label>
+                <label className="text-xs text-muted-foreground">Password</label>
                 <button
                   type="button"
-                  className="text-[10px] text-[#FF5F15] hover:underline"
+                  className="text-[10px] text-primary hover:underline"
                   onClick={() => navigate("/auth/forgot-password")}
                 >
                   Forgot password?
@@ -130,19 +125,18 @@ export default function LoginPage() {
                   placeholder="Your password"
                   autoComplete="current-password"
                   required
-                  className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl px-3 py-2.5 pr-10 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 transition-colors"
+                  className="w-full bg-input border border-border rounded-xl px-3 py-2.5 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPw((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
               </div>
             </div>
 
-            {/* Error */}
             {error && (
               <motion.div
                 initial={{ opacity: 0, y: -4 }}
@@ -159,7 +153,7 @@ export default function LoginPage() {
               whileTap={{ scale: 0.97 }}
               type="submit"
               disabled={loading || googleLoading || !email || !password}
-              className="w-full flex items-center justify-center gap-2 bg-[#FF5F15] text-[#121212] font-semibold rounded-xl py-2.5 text-sm hover:bg-[#E54E08] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold rounded-xl py-2.5 text-sm hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
               {loading ? <Loader2 size={15} className="animate-spin" /> : null}
               {loading ? "Signing in…" : "Sign In"}
@@ -167,10 +161,9 @@ export default function LoginPage() {
           </form>
         </motion.div>
 
-        {/* Footer */}
-        <motion.p variants={fadeUp} className="text-center text-sm text-[#9CA3AF]">
+        <motion.p variants={fadeUp} className="text-center text-sm text-muted-foreground">
           Don't have an account?{" "}
-          <Link to="/auth/signup" className="text-[#FF5F15] font-semibold hover:underline">
+          <Link to="/auth/signup" className="text-primary font-semibold hover:underline">
             Sign up
           </Link>
         </motion.p>

@@ -31,7 +31,6 @@ export default function SignupPage() {
       setLoading(false)
     } else {
       setDone(true)
-      // useAuth onAuthStateChange fires → PublicOnlyRoute → /onboarding
     }
   }
 
@@ -46,7 +45,7 @@ export default function SignupPage() {
 
   if (done) {
     return (
-      <div className="min-h-screen bg-[#121212] flex items-center justify-center px-4 relative overflow-hidden">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4 relative overflow-hidden">
         <AuthBackground />
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -54,16 +53,16 @@ export default function SignupPage() {
           transition={{ duration: 0.35, ease: "easeOut" }}
           className="relative z-10 w-full max-w-sm text-center space-y-5"
         >
-          <div className="w-16 h-16 mx-auto rounded-2xl bg-[rgba(34,197,94,0.15)] border border-[rgba(34,197,94,0.3)] flex items-center justify-center">
-            <CheckCircle size={32} className="text-[#4ade80]" />
+          <div className="w-16 h-16 mx-auto rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center">
+            <CheckCircle size={32} className="text-green-400" />
           </div>
           <div>
-            <h2 className="font-heading text-xl font-bold text-[#F9FAFB] mb-2">Check your inbox</h2>
-            <p className="text-sm text-[#9CA3AF]">
-              We sent a confirmation link to <span className="text-[#F9FAFB] font-medium">{email}</span>. Click it to activate your account.
+            <h2 className="font-heading text-xl font-bold text-foreground mb-2">Check your inbox</h2>
+            <p className="text-sm text-muted-foreground">
+              We sent a confirmation link to <span className="text-foreground font-medium">{email}</span>. Click it to activate your account.
             </p>
           </div>
-          <Link to="/auth/login" className="text-sm text-[#FF5F15] hover:underline">
+          <Link to="/auth/login" className="text-sm text-primary hover:underline">
             Back to login
           </Link>
         </motion.div>
@@ -72,7 +71,7 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#121212] flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4 relative overflow-hidden">
       <AuthBackground />
       <motion.div
         variants={staggerContainer}
@@ -80,20 +79,18 @@ export default function SignupPage() {
         animate="visible"
         className="relative z-10 w-full max-w-sm space-y-6"
       >
-        {/* Logo */}
         <motion.div variants={fadeUp} className="text-center">
-          <Link to="/" className="font-heading text-xl font-bold text-[#F9FAFB] hover:text-[#FF5F15] transition-colors">
+          <Link to="/" className="font-heading text-xl font-bold text-foreground hover:text-primary transition-colors">
             TheVideoJanitors
           </Link>
-          <p className="text-sm text-[#9CA3AF] mt-2">
+          <p className="text-sm text-muted-foreground mt-2">
             {selectedRole === "editor" ? "Join as an editor — start earning" : "Create your account — it's free to start"}
           </p>
         </motion.div>
 
-        {/* Card */}
         <motion.div
           variants={fadeUp}
-          className="bg-[#404040] border border-[#2A2A2A] rounded-2xl p-6 space-y-4"
+          className="bg-card border border-border rounded-2xl p-6 space-y-4"
         >
           {/* Role picker */}
           <div className="flex gap-2">
@@ -107,8 +104,8 @@ export default function SignupPage() {
                 onClick={() => setSelectedRole(role)}
                 className={`flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl border text-xs font-semibold transition-all ${
                   selectedRole === role
-                    ? "bg-[#FF5F15]/15 text-[#FF5F15] border-[#FF5F15]/40"
-                    : "bg-[#1A1A1A] text-[#9CA3AF] border-[#2A2A2A] hover:border-[#404040] hover:text-[#F9FAFB]"
+                    ? "bg-primary/15 text-primary border-primary/40"
+                    : "bg-input text-muted-foreground border-border hover:border-muted-foreground/40 hover:text-foreground"
                 }`}
               >
                 <Icon size={16} />
@@ -118,9 +115,9 @@ export default function SignupPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex-1 h-px bg-[#2A2A2A]" />
-            <span className="text-xs text-[#9CA3AF]">then sign up with</span>
-            <div className="flex-1 h-px bg-[#2A2A2A]" />
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-muted-foreground">then sign up with</span>
+            <div className="flex-1 h-px bg-border" />
           </div>
 
           {/* Google */}
@@ -129,7 +126,7 @@ export default function SignupPage() {
             whileTap={{ scale: 0.98 }}
             onClick={handleGoogle}
             disabled={googleLoading || loading}
-            className="w-full flex items-center justify-center gap-3 border border-[#2A2A2A] bg-[#1A1A1A] hover:bg-[#2A2A2A] text-[#F9FAFB] text-sm font-medium rounded-xl py-2.5 transition-colors disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-3 border border-border bg-input hover:bg-muted text-foreground text-sm font-medium rounded-xl py-2.5 transition-colors disabled:opacity-50"
           >
             {googleLoading ? (
               <Loader2 size={16} className="animate-spin" />
@@ -145,14 +142,14 @@ export default function SignupPage() {
           </motion.button>
 
           <div className="flex items-center gap-3">
-            <div className="flex-1 h-px bg-[#2A2A2A]" />
-            <span className="text-xs text-[#9CA3AF]">or</span>
-            <div className="flex-1 h-px bg-[#2A2A2A]" />
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-muted-foreground">or</span>
+            <div className="flex-1 h-px bg-border" />
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-3">
             <div className="space-y-1.5">
-              <label className="text-xs text-[#9CA3AF]">Email</label>
+              <label className="text-xs text-muted-foreground">Email</label>
               <input
                 type="email"
                 value={email}
@@ -160,12 +157,12 @@ export default function SignupPage() {
                 placeholder="you@example.com"
                 autoComplete="email"
                 required
-                className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 transition-colors"
+                className="w-full bg-input border border-border rounded-xl px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs text-[#9CA3AF]">Password</label>
+              <label className="text-xs text-muted-foreground">Password</label>
               <div className="relative">
                 <input
                   type={showPw ? "text" : "password"}
@@ -174,23 +171,22 @@ export default function SignupPage() {
                   placeholder="At least 8 characters"
                   autoComplete="new-password"
                   required
-                  className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl px-3 py-2.5 pr-10 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 transition-colors"
+                  className="w-full bg-input border border-border rounded-xl px-3 py-2.5 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPw((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
               </div>
-              {/* Password strength */}
               {password.length > 0 && (
                 <div className="flex items-center gap-1.5">
-                  <div className={`h-1 flex-1 rounded-full transition-colors ${password.length >= 8 ? "bg-[#4ade80]" : "bg-[#2A2A2A]"}`} />
-                  <div className={`h-1 flex-1 rounded-full transition-colors ${password.length >= 12 ? "bg-[#4ade80]" : "bg-[#2A2A2A]"}`} />
-                  <div className={`h-1 flex-1 rounded-full transition-colors ${password.length >= 16 ? "bg-[#4ade80]" : "bg-[#2A2A2A]"}`} />
-                  <span className="text-[10px] text-[#9CA3AF] ml-1">
+                  <div className={`h-1 flex-1 rounded-full transition-colors ${password.length >= 8 ? "bg-green-400" : "bg-border"}`} />
+                  <div className={`h-1 flex-1 rounded-full transition-colors ${password.length >= 12 ? "bg-green-400" : "bg-border"}`} />
+                  <div className={`h-1 flex-1 rounded-full transition-colors ${password.length >= 16 ? "bg-green-400" : "bg-border"}`} />
+                  <span className="text-[10px] text-muted-foreground ml-1">
                     {password.length < 8 ? "Too short" : password.length < 12 ? "Good" : "Strong"}
                   </span>
                 </div>
@@ -198,7 +194,7 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs text-[#9CA3AF]">Confirm password</label>
+              <label className="text-xs text-muted-foreground">Confirm password</label>
               <input
                 type={showPw ? "text" : "password"}
                 value={confirm}
@@ -206,8 +202,8 @@ export default function SignupPage() {
                 placeholder="Repeat your password"
                 autoComplete="new-password"
                 required
-                className={`w-full bg-[#1A1A1A] border rounded-xl px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 transition-colors ${
-                  confirm && !passwordMatch ? "border-red-500/60" : "border-[#2A2A2A]"
+                className={`w-full bg-input border rounded-xl px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors ${
+                  confirm && !passwordMatch ? "border-red-500/60" : "border-border"
                 }`}
               />
               {confirm && !passwordMatch && (
@@ -231,24 +227,24 @@ export default function SignupPage() {
               whileTap={{ scale: 0.97 }}
               type="submit"
               disabled={loading || googleLoading || !email || !passwordStrong || !passwordMatch}
-              className="w-full flex items-center justify-center gap-2 bg-[#FF5F15] text-[#121212] font-semibold rounded-xl py-2.5 text-sm hover:bg-[#E54E08] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold rounded-xl py-2.5 text-sm hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
               {loading ? <Loader2 size={15} className="animate-spin" /> : null}
               {loading ? "Creating account…" : "Create Account"}
             </motion.button>
           </form>
 
-          <p className="text-[10px] text-[#9CA3AF] text-center">
+          <p className="text-[10px] text-muted-foreground text-center">
             By signing up you agree to our{" "}
-            <Link to="/legal/terms" className="text-[#FF5F15] hover:underline">Terms</Link>
+            <Link to="/legal/terms" className="text-primary hover:underline">Terms</Link>
             {" "}and{" "}
-            <Link to="/legal/privacy" className="text-[#FF5F15] hover:underline">Privacy Policy</Link>.
+            <Link to="/legal/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
           </p>
         </motion.div>
 
-        <motion.p variants={fadeUp} className="text-center text-sm text-[#9CA3AF]">
+        <motion.p variants={fadeUp} className="text-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link to="/auth/login" className="text-[#FF5F15] font-semibold hover:underline">
+          <Link to="/auth/login" className="text-primary font-semibold hover:underline">
             Sign in
           </Link>
         </motion.p>

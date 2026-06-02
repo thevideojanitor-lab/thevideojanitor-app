@@ -16,7 +16,7 @@
     --popover-foreground: 210 20% 98%;
 
     --primary: 19 100% 54.1%;
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 0 0% 7%;
 
     --secondary: 0 0% 25.1%;
     --secondary-foreground: 210 20% 98%;
@@ -51,8 +51,57 @@
     --text-secondary: 0 0% 75%;
     --gradient-primary: linear-gradient(135deg, hsl(19, 100%, 54.1%), hsl(30, 100%, 60%));
     --shadow-card: 0 4px 24px hsl(0 0% 0% / 0.3);
+    --editor-accent: 217 91% 60%;
 
     font-family: 'Inter', sans-serif;
+  }
+
+  /* ── Warm Sand light mode — sharpened ── */
+  [data-theme="light"] {
+    --background: 42 40% 97%;
+    --foreground: 28 18% 8%;
+
+    --card: 38 30% 90%;
+    --card-foreground: 28 18% 8%;
+
+    --popover: 38 30% 90%;
+    --popover-foreground: 28 18% 8%;
+
+    --primary: 22 100% 52%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 36 24% 85%;
+    --secondary-foreground: 28 18% 8%;
+
+    --muted: 36 26% 85%;
+    --muted-foreground: 30 12% 36%;
+
+    --accent: 22 100% 52%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 86% 56%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 33 22% 72%;
+    --input: 0 0% 100%;
+    --ring: 22 100% 52%;
+
+    --sidebar-background: 40 34% 93%;
+    --sidebar-foreground: 28 18% 8%;
+    --sidebar-primary: 22 100% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 36 26% 85%;
+    --sidebar-accent-foreground: 28 18% 8%;
+    --sidebar-border: 33 22% 72%;
+    --sidebar-ring: 22 100% 52%;
+
+    --surface: 38 30% 90%;
+    --surface-elevated: 36 26% 85%;
+    --text-muted: 30 12% 36%;
+    --text-secondary: 28 14% 26%;
+    --shadow-card: 0 4px 28px hsl(28 18% 8% / 0.12);
+
+    --editor-accent: 221 85% 50%;
   }
 }
 
@@ -139,4 +188,84 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ── Auth background: bokeh embers ── */
+
+/* Near orbs — large, bright, strong outer glow */
+.bokeh-near {
+  background: radial-gradient(
+    circle,
+    rgba(255, 95, 21, 0.88)  0%,
+    rgba(255, 95, 21, 0.42) 35%,
+    rgba(255, 95, 21, 0.08) 65%,
+    transparent             82%
+  );
+  box-shadow:
+    0 0 18px 5px  rgba(255, 95, 21, 0.28),
+    0 0 45px 12px rgba(255, 95, 21, 0.10);
+}
+
+/* Mid orbs — medium, moderate glow */
+.bokeh-mid {
+  background: radial-gradient(
+    circle,
+    rgba(255, 95, 21, 0.65)  0%,
+    rgba(255, 95, 21, 0.26) 40%,
+    rgba(255, 95, 21, 0.05) 65%,
+    transparent             80%
+  );
+  box-shadow:
+    0 0 10px 3px rgba(255, 95, 21, 0.16),
+    0 0 26px 6px rgba(255, 95, 21, 0.06);
+}
+
+/* Far orbs — tiny dots, barely perceptible */
+.bokeh-far {
+  background: radial-gradient(
+    circle,
+    rgba(255, 95, 21, 0.50)  0%,
+    rgba(255, 95, 21, 0.16) 50%,
+    transparent             76%
+  );
+  box-shadow:
+    0 0 6px 2px rgba(255, 95, 21, 0.12);
+}
+
+/* Light mode — more opaque so orbs read against warm-white bg */
+[data-theme="light"] .bokeh-near {
+  background: radial-gradient(
+    circle,
+    rgba(255, 95, 21, 0.92)  0%,
+    rgba(255, 95, 21, 0.52) 35%,
+    rgba(255, 95, 21, 0.12) 65%,
+    transparent             82%
+  );
+  box-shadow:
+    0 0 20px 6px  rgba(255, 95, 21, 0.32),
+    0 0 50px 14px rgba(255, 95, 21, 0.12);
+}
+
+[data-theme="light"] .bokeh-mid {
+  background: radial-gradient(
+    circle,
+    rgba(255, 95, 21, 0.75)  0%,
+    rgba(255, 95, 21, 0.34) 40%,
+    rgba(255, 95, 21, 0.08) 65%,
+    transparent             80%
+  );
+  box-shadow:
+    0 0 12px 3px rgba(255, 95, 21, 0.20),
+    0 0 30px 7px rgba(255, 95, 21, 0.08);
+}
+
+[data-theme="light"] .bokeh-far {
+  background: radial-gradient(
+    circle,
+    rgba(255, 95, 21, 0.62)  0%,
+    rgba(255, 95, 21, 0.22) 50%,
+    transparent             76%
+  );
+  box-shadow:
+    0 0 7px 2px rgba(255, 95, 21, 0.16);
 }

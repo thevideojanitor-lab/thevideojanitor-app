@@ -1,0 +1,114 @@
+<style>
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .panel { border: 1px solid #2A2A2A; border-radius: 14px; padding: 20px; }
+  .panel-bad { border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.04); }
+  .panel-good { border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.04); }
+  .panel-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+  .label-bad { color: #f87171; }
+  .label-good { color: #4ade80; }
+  .hero-mock { background: #121212; border: 1px solid #2A2A2A; border-radius: 10px; padding: 28px 20px; text-align: center; }
+  .hero-badge { display: inline-block; background: rgba(255,95,21,0.12); border: 1px solid rgba(255,95,21,0.25); color: #FF5F15; font-size: 11px; font-weight: 600; padding: 5px 14px; border-radius: 20px; margin-bottom: 14px; }
+  .hero-h1 { font-size: 18px; font-weight: 800; color: #F9FAFB; line-height: 1.3; margin-bottom: 10px; }
+  .hero-sub { font-size: 12px; color: #9CA3AF; line-height: 1.6; margin-bottom: 14px; }
+  .hero-btns { display: flex; gap: 8px; justify-content: center; }
+  .btn-p { background: #FF5F15; color: #121212; padding: 8px 18px; border-radius: 8px; font-size: 12px; font-weight: 700; }
+  .btn-g { border: 1px solid #404040; color: #F9FAFB; padding: 8px 18px; border-radius: 8px; font-size: 12px; font-weight: 600; }
+  .stats-row { display: flex; gap: 12px; justify-content: center; margin-top: 14px; }
+  .stat { text-align: center; }
+  .stat-val { font-size: 16px; font-weight: 800; color: #FF5F15; }
+  .stat-lbl { font-size: 10px; color: #9CA3AF; }
+  .flag { display: inline-block; background: rgba(239,68,68,0.15); color: #f87171; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-left: 6px; }
+  .flag-ok { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .annotation { font-size: 12px; color: #9CA3AF; margin-top: 6px; padding-left: 12px; border-left: 2px solid #2A2A2A; line-height: 1.5; }
+  .issue { display: flex; gap: 8px; font-size: 12px; color: #d1d5db; margin-bottom: 8px; align-items: flex-start; line-height: 1.5; }
+  .pill { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+  .pill-red { background: rgba(239,68,68,0.2); color: #f87171; }
+  .pill-green { background: rgba(34,197,94,0.2); color: #4ade80; }
+  .audience-pills { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .aud { font-size: 11px; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+  .aud-creator { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .aud-brand { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .aud-agency { background: rgba(255,95,21,0.15); color: #FF5F15; }
+  .insight-box { background: rgba(255,95,21,0.07); border: 1px solid rgba(255,95,21,0.2); border-radius: 12px; padding: 18px; margin-top: 20px; }
+  .seo-box { background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.2); border-radius: 12px; padding: 18px; margin-top: 14px; }
+  .kw { display: inline-block; background: rgba(59,130,246,0.12); color: #60a5fa; font-size: 11px; padding: 3px 9px; border-radius: 6px; margin: 3px; font-family: monospace; }
+  @media (max-width: 700px) { .split { grid-template-columns: 1fr; } }
+</style>
+
+<h2>Hero Section — What's Broken vs. What Works</h2>
+<p class="subtitle">Side-by-side: current state vs. a version that converts all three audiences honestly</p>
+
+<div class="split">
+  <!-- Current -->
+  <div class="panel panel-bad">
+    <div class="panel-label label-bad">✗ Current Hero — Problems</div>
+    <div class="hero-mock">
+      <div class="hero-badge">Trusted by 50+ creators and agencies <span class="flag">FAKE</span></div>
+      <div class="hero-h1">Video editing made simple.<br><span style="color:#FF5F15">Buy credits, submit requests,</span><br>get matched with vetted editors.</div>
+      <div class="hero-sub">Upload footage. We'll clean up the rest. Polished short-form videos back in 48 hours. No freelancer roulette. No chasing. No mess.</div>
+      <div class="hero-btns">
+        <div class="btn-p">View Pricing</div>
+        <div class="btn-g">Join Waitlist <span class="flag">TALLY FORM</span></div>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-val">50+<span class="flag">FAKE</span></div><div class="stat-lbl">Clients Served</div></div>
+        <div class="stat"><div class="stat-val">48h</div><div class="stat-lbl">Turnaround</div></div>
+        <div class="stat"><div class="stat-val">100%</div><div class="stat-lbl">Vetted Editors</div></div>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <div class="issue"><div class="pill pill-red">1</div><span><strong>"50+ clients"</strong> — your DB has 9 users, zero completed jobs. This is discovered instantly and kills trust permanently.</span></div>
+      <div class="issue"><div class="pill pill-red">2</div><span><strong>Headline is process-focused</strong> — "buy credits, submit requests" tells me HOW it works before I care enough to find out.</span></div>
+      <div class="issue"><div class="pill pill-red">3</div><span><strong>"Join Waitlist" → Tally form</strong> — this says "we're not ready." If you're launching, this must die.</span></div>
+      <div class="issue"><div class="pill pill-red">4</div><span><strong>"View Pricing"</strong> as primary CTA is wrong — send them to sign up, not to a scroll-down page.</span></div>
+    </div>
+  </div>
+
+  <!-- Fixed -->
+  <div class="panel panel-good">
+    <div class="panel-label label-good">✓ Honest Launch Version — Converts All 3</div>
+    <div class="hero-mock">
+      <div class="hero-badge">Short-form video editing, on demand <span class="flag-ok" style="background:rgba(34,197,94,0.15);color:#4ade80;display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;margin-left:6px;">REAL</span></div>
+      <div class="hero-h1">Stop stressing about<br><span style="color:#FF5F15">video editing.</span><br>We handle it in 48 hours.</div>
+      <div class="hero-sub">Submit your raw footage. Get matched with a vetted editor. Receive polished Reels, Shorts & TikToks — without the freelancer lottery.</div>
+      <div class="hero-btns">
+        <div class="btn-p">Start for Free →</div>
+        <div class="btn-g">See How It Works</div>
+      </div>
+      <div class="audience-pills">
+        <div class="aud aud-creator">For Creators</div>
+        <div class="aud aud-brand">For Brands</div>
+        <div class="aud aud-agency">For Agencies</div>
+      </div>
+      <div style="margin-top:12px;font-size:10px;color:#9CA3AF;">↑ These 3 pills route to your existing /for-* pages</div>
+    </div>
+    <div style="margin-top:14px">
+      <div class="issue"><div class="pill pill-green">1</div><span><strong>No fake stats.</strong> "On demand" + "48 hours" are real commitments you can keep. Trust is built on honesty, not inflated numbers.</span></div>
+      <div class="issue"><div class="pill pill-green">2</div><span><strong>Outcome first</strong> — "Stop stressing" speaks to every persona. Creator, brand manager, agency PM — all of them are stressed about video.</span></div>
+      <div class="issue"><div class="pill pill-green">3</div><span><strong>"Start for Free →"</strong> goes to /auth/signup. Real funnel. Real conversion.</span></div>
+      <div class="issue"><div class="pill pill-green">4</div><span><strong>3 audience pills</strong> below the fold — one hero, three paths. You don't need a different page per audience, just a routing mechanism.</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="insight-box">
+  <p style="font-weight:700;color:#F9FAFB;margin-bottom:8px;">The fake stats problem — be honest about this</p>
+  <p style="font-size:13px;color:#d1d5db;line-height:1.6;">You have 9 users and 0 completed jobs. "50+ clients served" will get caught — by a sharp investor, a journalist, or an angry Reddit post. Early-stage companies that get caught faking social proof don't recover easily. <strong>Replace with real commitments:</strong> "48-hour turnaround, guaranteed" or "Swap your editor anytime, no questions" — these are things you can actually deliver and they're more compelling than made-up numbers.</p>
+</div>
+
+<div class="seo-box">
+  <p style="font-weight:700;color:#60a5fa;margin-bottom:10px;">The keywords that will actually rank (no one owns these yet)</p>
+  <div>
+    <span class="kw">video editing subscription</span>
+    <span class="kw">short-form video editing service</span>
+    <span class="kw">managed video editing</span>
+    <span class="kw">reels editing service</span>
+    <span class="kw">tiktok video editor subscription</span>
+    <span class="kw">youtube shorts editing service</span>
+    <span class="kw">video editing for creators</span>
+    <span class="kw">video editor retainer</span>
+  </div>
+  <p style="font-size:12px;color:#9CA3AF;margin-top:10px;">These have real search volume + weak competition. Fiverr doesn't own them. Neither does anyone else. Your blog and landing pages can rank here within 3–6 months if you start now.</p>
+</div>
+
+<p class="subtitle" style="margin-top:20px;">Does the "honest launch" hero direction feel right? Next question in terminal.</p>

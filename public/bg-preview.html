@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Auth Background Options — TheVideoJanitors</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0a0a;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #F9FAFB;
+    padding: 48px 32px;
+  }
+
+  h1 {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9CA3AF;
+    margin-bottom: 40px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .option {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #FF5F15;
+    color: #121212;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #F9FAFB;
+  }
+
+  .desc {
+    font-size: 12px;
+    color: #9CA3AF;
+    line-height: 1.5;
+  }
+
+  /* The preview window */
+  .preview {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #2A2A2A;
+  }
+
+  /* Shared card style */
+  .card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    background: rgba(26, 26, 26, 0.92);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 22px 20px;
+    z-index: 10;
+    backdrop-filter: blur(12px);
+  }
+
+  .card-logo {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #FF5F15;
+    margin-bottom: 10px;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #F9FAFB;
+    margin-bottom: 4px;
+  }
+
+  .card-sub {
+    font-size: 10px;
+    color: #9CA3AF;
+    margin-bottom: 16px;
+  }
+
+  .input-mock {
+    height: 28px;
+    background: #111;
+    border: 1px solid #2A2A2A;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-mock span {
+    font-size: 10px;
+    color: #4a4a4a;
+  }
+
+  .btn {
+    width: 100%;
+    height: 30px;
+    background: #FF5F15;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #121212;
+    margin-top: 12px;
+  }
+
+  /* ═══════════════════════════════════════════
+     OPTION 1 — Warm Bloom
+     Two large blurred radial orange blobs, pure dark bg
+  ═══════════════════════════════════════════ */
+  .opt1-bg {
+    background: #121212;
+    position: absolute; inset: 0;
+  }
+
+  .opt1-blob1 {
+    position: absolute;
+    width: 55%;
+    height: 80%;
+    top: -20%;
+    left: -10%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,95,21,0.22) 0%, rgba(255,95,21,0.08) 40%, transparent 72%);
+    filter: blur(40px);
+    animation: drift1 18s ease-in-out infinite alternate;
+  }
+
+  .opt1-blob2 {
+    position: absolute;
+    width: 50%;
+    height: 70%;
+    bottom: -20%;
+    right: -5%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,95,21,0.16) 0%, rgba(255,95,21,0.05) 45%, transparent 70%);
+    filter: blur(36px);
+    animation: drift2 22s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift1 {
+    from { transform: translate(0, 0); }
+    to   { transform: translate(4%, 6%); }
+  }
+  @keyframes drift2 {
+    from { transform: translate(0, 0); }
+    to   { transform: translate(-5%, -4%); }
+  }
+
+  /* ═══════════════════════════════════════════
+     OPTION 2 — Bokeh Embers
+     Floating glowing circles at different sizes/opacities
+  ═══════════════════════════════════════════ */
+  .opt2-bg {
+    background: #121212;
+    position: absolute; inset: 0;
+    overflow: hidden;
+  }
+
+  .bokeh {
+    position: absolute;
+    border-radius: 50%;
+    animation: float linear infinite;
+  }
+
+  @keyframes float {
+    0%   { transform: translateY(0px) translateX(0px); }
+    25%  { transform: translateY(-12px) translateX(6px); }
+    50%  { transform: translateY(-5px) translateX(12px); }
+    75%  { transform: translateY(-18px) translateX(3px); }
+    100% { transform: translateY(0px) translateX(0px); }
+  }
+
+  /* ═══════════════════════════════════════════
+     OPTION 3 — Dot Grid + Glow
+     Subtle dot grid across whole screen, orange glow behind card
+  ═══════════════════════════════════════════ */
+  .opt3-bg {
+    position: absolute; inset: 0;
+    background-color: #121212;
+    background-image: radial-gradient(circle, #2a2a2a 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  .opt3-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 70%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,95,21,0.18) 0%, rgba(255,95,21,0.06) 40%, transparent 70%);
+    filter: blur(30px);
+    animation: pulse3 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse3 {
+    from { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+  }
+
+  /* ═══════════════════════════════════════════
+     OPTION 4 — Mesh Gradient
+     Smooth flowing orange-to-dark gradient mesh
+  ═══════════════════════════════════════════ */
+  .opt4-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 15% 20%, rgba(255,95,21,0.28) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 50% at 80% 75%, rgba(200,60,10,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 80% at 50% 50%, rgba(30,15,5,1) 30%, #121212 100%);
+    animation: meshShift 12s ease-in-out infinite alternate;
+  }
+
+  @keyframes meshShift {
+    from { filter: hue-rotate(0deg); }
+    to   { filter: hue-rotate(8deg); }
+  }
+
+  /* ═══════════════════════════════════════════
+     OPTION 5 — Film Grain + Edge Light
+     Static noise texture + subtle orange vignette from corner
+  ═══════════════════════════════════════════ */
+  .opt5-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 0% 0%, rgba(255,95,21,0.20) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 100% 100%, rgba(255,95,21,0.08) 0%, transparent 55%),
+      #111111;
+  }
+
+  .opt5-grain {
+    position: absolute; inset: 0;
+    opacity: 0.55;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* ═══════════════════════════════════════════
+     OPTION 6 — Scanline Beams
+     Horizontal light beams like a studio scan
+  ═══════════════════════════════════════════ */
+  .opt6-bg {
+    background: #0e0e0e;
+    position: absolute; inset: 0;
+    overflow: hidden;
+  }
+
+  .beam {
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    animation: scanDrift linear infinite;
+  }
+
+  @keyframes scanDrift {
+    0%   { opacity: 0; transform: translateY(0); }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(40px); }
+  }
+
+  .opt6-glow {
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 50%;
+    background: radial-gradient(ellipse, rgba(255,95,21,0.12) 0%, transparent 70%);
+    filter: blur(20px);
+  }
+
+  /* wide last option */
+  .option.wide {
+    grid-column: 1 / -1;
+  }
+
+  .option.wide .preview {
+    max-width: 600px;
+  }
+
+</style>
+</head>
+<body>
+
+<h1>TheVideoJanitors — Auth Background Options</h1>
+
+<div class="grid">
+
+  <!-- ── OPTION 1: Warm Bloom ── -->
+  <div class="option">
+    <div class="label">
+      <div class="num">1</div>
+      <div>
+        <div class="name">Warm Bloom</div>
+        <div class="desc">Two massive blurred orange light clouds drifting slowly. No shapes, no edges. The rest of the screen stays pure dark.</div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="opt1-bg"></div>
+      <div class="opt1-blob1"></div>
+      <div class="opt1-blob2"></div>
+      <div class="card">
+        <div class="card-logo">TheVideoJanitors</div>
+        <div class="card-title">Welcome back</div>
+        <div class="card-sub">Sign in to your account</div>
+        <div class="input-mock"><span>Email address</span></div>
+        <div class="input-mock"><span>Password</span></div>
+        <div class="btn">Sign in</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OPTION 2: Bokeh Embers ── -->
+  <div class="option">
+    <div class="label">
+      <div class="num">2</div>
+      <div>
+        <div class="name">Bokeh Embers</div>
+        <div class="desc">Floating glowing circles like camera bokeh — big ones glow bright, tiny ones fade to dots in the distance. Cinematic.</div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="opt2-bg">
+        <!-- Near circles -->
+        <div class="bokeh" style="width:28px;height:28px;top:12%;left:8%;background:radial-gradient(circle,rgba(255,95,21,0.70),rgba(255,95,21,0.10) 60%,transparent);box-shadow:0 0 18px 6px rgba(255,95,21,0.25);animation-duration:9s;animation-delay:0s;"></div>
+        <div class="bokeh" style="width:20px;height:20px;top:72%;left:78%;background:radial-gradient(circle,rgba(255,95,21,0.65),rgba(255,95,21,0.08) 55%,transparent);box-shadow:0 0 14px 4px rgba(255,95,21,0.22);animation-duration:11s;animation-delay:-3s;"></div>
+        <div class="bokeh" style="width:24px;height:24px;top:55%;left:14%;background:radial-gradient(circle,rgba(255,95,21,0.60),transparent 60%);box-shadow:0 0 16px 5px rgba(255,95,21,0.20);animation-duration:8s;animation-delay:-2s;"></div>
+        <div class="bokeh" style="width:18px;height:18px;top:20%;left:85%;background:radial-gradient(circle,rgba(255,95,21,0.55),transparent 55%);box-shadow:0 0 12px 4px rgba(255,95,21,0.18);animation-duration:13s;animation-delay:-5s;"></div>
+        <!-- Mid circles -->
+        <div class="bokeh" style="width:12px;height:12px;top:35%;left:70%;background:radial-gradient(circle,rgba(255,95,21,0.40),transparent 55%);box-shadow:0 0 8px 3px rgba(255,95,21,0.14);animation-duration:15s;animation-delay:-1s;"></div>
+        <div class="bokeh" style="width:14px;height:14px;top:80%;left:30%;background:radial-gradient(circle,rgba(255,95,21,0.38),transparent 55%);box-shadow:0 0 9px 3px rgba(255,95,21,0.12);animation-duration:12s;animation-delay:-7s;"></div>
+        <div class="bokeh" style="width:10px;height:10px;top:10%;left:45%;background:radial-gradient(circle,rgba(255,95,21,0.35),transparent 50%);box-shadow:0 0 7px 2px rgba(255,95,21,0.12);animation-duration:17s;animation-delay:-4s;"></div>
+        <div class="bokeh" style="width:16px;height:16px;top:60%;left:88%;background:radial-gradient(circle,rgba(255,95,21,0.42),transparent 55%);box-shadow:0 0 10px 3px rgba(255,95,21,0.14);animation-duration:10s;animation-delay:-6s;"></div>
+        <!-- Tiny far dots -->
+        <div class="bokeh" style="width:5px;height:5px;top:25%;left:25%;background:rgba(255,95,21,0.30);animation-duration:20s;animation-delay:-2s;"></div>
+        <div class="bokeh" style="width:4px;height:4px;top:48%;left:55%;background:rgba(255,95,21,0.25);animation-duration:18s;animation-delay:-8s;"></div>
+        <div class="bokeh" style="width:6px;height:6px;top:88%;left:60%;background:rgba(255,95,21,0.28);animation-duration:22s;animation-delay:-3s;"></div>
+        <div class="bokeh" style="width:4px;height:4px;top:5%;left:65%;background:rgba(255,95,21,0.22);animation-duration:25s;animation-delay:-11s;"></div>
+        <div class="bokeh" style="width:5px;height:5px;top:42%;left:5%;background:rgba(255,95,21,0.26);animation-duration:16s;animation-delay:-9s;"></div>
+        <div class="bokeh" style="width:3px;height:3px;top:70%;left:48%;background:rgba(255,95,21,0.20);animation-duration:19s;animation-delay:-14s;"></div>
+        <div class="bokeh" style="width:5px;height:5px;top:15%;left:92%;background:rgba(255,95,21,0.24);animation-duration:21s;animation-delay:-6s;"></div>
+      </div>
+      <div class="card">
+        <div class="card-logo">TheVideoJanitors</div>
+        <div class="card-title">Welcome back</div>
+        <div class="card-sub">Sign in to your account</div>
+        <div class="input-mock"><span>Email address</span></div>
+        <div class="input-mock"><span>Password</span></div>
+        <div class="btn">Sign in</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OPTION 3: Dot Grid + Glow ── -->
+  <div class="option">
+    <div class="label">
+      <div class="num">3</div>
+      <div>
+        <div class="name">Dot Grid + Glow</div>
+        <div class="desc">Faint dot grid across the entire screen with an orange radial glow pulsing softly behind the login card. Sharp and technical.</div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="opt3-bg"></div>
+      <div class="opt3-glow"></div>
+      <div class="card">
+        <div class="card-logo">TheVideoJanitors</div>
+        <div class="card-title">Welcome back</div>
+        <div class="card-sub">Sign in to your account</div>
+        <div class="input-mock"><span>Email address</span></div>
+        <div class="input-mock"><span>Password</span></div>
+        <div class="btn">Sign in</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OPTION 4: Mesh Gradient ── -->
+  <div class="option">
+    <div class="label">
+      <div class="num">4</div>
+      <div>
+        <div class="name">Mesh Gradient</div>
+        <div class="desc">Smooth organic gradient that blends deep charcoal with warm orange in flowing shapes. No hard edges — looks painterly and rich.</div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="opt4-bg"></div>
+      <div class="card">
+        <div class="card-logo">TheVideoJanitors</div>
+        <div class="card-title">Welcome back</div>
+        <div class="card-sub">Sign in to your account</div>
+        <div class="input-mock"><span>Email address</span></div>
+        <div class="input-mock"><span>Password</span></div>
+        <div class="btn">Sign in</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OPTION 5: Film Grain + Corner Light ── -->
+  <div class="option">
+    <div class="label">
+      <div class="num">5</div>
+      <div>
+        <div class="name">Film Grain + Corner Light</div>
+        <div class="desc">Subtle film grain texture over a dark gradient. Orange light bleeds in from top-left corner. No movement. Like aged film.</div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="opt5-bg"></div>
+      <div class="opt5-grain"></div>
+      <div class="card">
+        <div class="card-logo">TheVideoJanitors</div>
+        <div class="card-title">Welcome back</div>
+        <div class="card-sub">Sign in to your account</div>
+        <div class="input-mock"><span>Email address</span></div>
+        <div class="input-mock"><span>Password</span></div>
+        <div class="btn">Sign in</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OPTION 6: Scanline Beams ── -->
+  <div class="option">
+    <div class="label">
+      <div class="num">6</div>
+      <div>
+        <div class="name">Scanline Beams</div>
+        <div class="desc">Thin horizontal light beams scan slowly across a dark bg, like a studio projector or video monitor. Orange warm glow at the bottom.</div>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="opt6-bg">
+        <div class="beam" style="top:15%;background:linear-gradient(90deg,transparent 0%,rgba(255,95,21,0.10) 20%,rgba(255,95,21,0.22) 50%,rgba(255,95,21,0.10) 80%,transparent 100%);animation-duration:14s;animation-delay:0s;"></div>
+        <div class="beam" style="top:32%;background:linear-gradient(90deg,transparent 0%,rgba(255,95,21,0.06) 25%,rgba(255,95,21,0.16) 55%,rgba(255,95,21,0.06) 80%,transparent 100%);animation-duration:18s;animation-delay:-4s;"></div>
+        <div class="beam" style="top:55%;background:linear-gradient(90deg,transparent 0%,rgba(255,95,21,0.08) 20%,rgba(255,95,21,0.20) 50%,rgba(255,95,21,0.08) 80%,transparent 100%);animation-duration:11s;animation-delay:-7s;"></div>
+        <div class="beam" style="top:70%;background:linear-gradient(90deg,transparent 0%,rgba(255,95,21,0.05) 30%,rgba(255,95,21,0.12) 60%,rgba(255,95,21,0.05) 85%,transparent 100%);animation-duration:16s;animation-delay:-2s;"></div>
+        <div class="beam" style="top:85%;background:linear-gradient(90deg,transparent 0%,rgba(255,95,21,0.07) 25%,rgba(255,95,21,0.18) 52%,rgba(255,95,21,0.07) 78%,transparent 100%);animation-duration:12s;animation-delay:-9s;"></div>
+        <div class="opt6-glow"></div>
+      </div>
+      <div class="card">
+        <div class="card-logo">TheVideoJanitors</div>
+        <div class="card-title">Welcome back</div>
+        <div class="card-sub">Sign in to your account</div>
+        <div class="input-mock"><span>Email address</span></div>
+        <div class="input-mock"><span>Password</span></div>
+        <div class="btn">Sign in</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p style="margin-top:48px;font-size:12px;color:#555;text-align:center;">
+  Tell me which number you want — or combine elements from different options.
+</p>
+
+</body>
+</html>

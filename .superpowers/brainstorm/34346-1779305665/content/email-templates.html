@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheVideoJanitors — Email Notification Templates</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0e0e0e;
+    color: #F9FAFB;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding: 32px 16px;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #F9FAFB;
+    margin-bottom: 6px;
+  }
+  .page-subtitle {
+    font-size: 13px;
+    color: #9CA3AF;
+    margin-bottom: 36px;
+  }
+  .section-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #FF5F15;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .email-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+  .email-card {
+    background: #1a1a1a;
+    border: 1px solid #2A2A2A;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .email-card:hover { border-color: #FF5F15; }
+  .email-meta {
+    padding: 12px 16px;
+    border-bottom: 1px solid #2A2A2A;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .trigger-badge {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .badge-client { background: rgba(255,95,21,0.15); color: #FF5F15; }
+  .badge-editor { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .badge-admin  { background: rgba(234,179,8,0.15);  color: #facc15; }
+  .email-title-meta { font-size: 11px; color: #9CA3AF; margin-left: auto; }
+
+  /* Email preview wrapper */
+  .email-preview {
+    padding: 16px;
+  }
+  /* Actual email body mockup */
+  .email-body {
+    background: #121212;
+    border: 1px solid #2A2A2A;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 13px;
+  }
+  .email-header-bar {
+    background: #1A1A1A;
+    border-bottom: 1px solid #2A2A2A;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-dot {
+    width: 8px; height: 8px;
+    background: #FF5F15;
+    border-radius: 50%;
+  }
+  .logo-text {
+    font-size: 12px;
+    font-weight: 700;
+    color: #F9FAFB;
+    letter-spacing: 0.02em;
+  }
+  .email-content {
+    padding: 20px;
+  }
+  .email-subject {
+    font-size: 15px;
+    font-weight: 700;
+    color: #F9FAFB;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .email-greeting {
+    font-size: 12px;
+    color: #9CA3AF;
+    margin-bottom: 14px;
+  }
+  .email-body-text {
+    font-size: 12px;
+    color: #F9FAFB;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .email-detail-box {
+    background: #1A1A1A;
+    border: 1px solid #2A2A2A;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    font-size: 11px;
+  }
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    color: #9CA3AF;
+  }
+  .detail-row span:last-child { color: #F9FAFB; font-weight: 500; }
+  .email-cta {
+    display: inline-block;
+    background: #FF5F15;
+    color: #121212;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 9px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-bottom: 14px;
+  }
+  .email-footer-text {
+    font-size: 10px;
+    color: #4A4A4A;
+    border-top: 1px solid #2A2A2A;
+    padding: 10px 20px;
+    line-height: 1.5;
+  }
+  .accent-blue { color: #60a5fa; }
+  .accent-orange { color: #FF5F15; font-weight: 600; }
+  .accent-green { color: #4ade80; }
+  .accent-yellow { color: #facc15; }
+
+  /* Trigger map */
+  .trigger-map {
+    background: #1a1a1a;
+    border: 1px solid #2A2A2A;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+  .trigger-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .trigger-table th {
+    text-align: left;
+    color: #9CA3AF;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 6px 8px;
+    border-bottom: 1px solid #2A2A2A;
+  }
+  .trigger-table td {
+    padding: 8px 8px;
+    border-bottom: 1px solid #1e1e1e;
+    vertical-align: middle;
+  }
+  .trigger-table tr:last-child td { border-bottom: none; }
+  .event-name { font-weight: 600; color: #F9FAFB; }
+  .event-trigger { color: #9CA3AF; font-size: 11px; }
+  .recipients { display: flex; gap: 4px; flex-wrap: wrap; }
+  .r-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Email Notification System — TheVideoJanitors</h1>
+<p class="page-subtitle">Resend integration · Deno edge functions · 9 core triggers</p>
+
+<!-- TRIGGER MAP -->
+<div class="section-label">Event Trigger Map</div>
+<div class="trigger-map">
+  <table class="trigger-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Event</th>
+        <th>Trigger Point</th>
+        <th>Recipients</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#9CA3AF">1</td>
+        <td><div class="event-name">Welcome</div><div class="event-trigger">User signs up</div></td>
+        <td style="color:#9CA3AF;font-size:11px">Auth signup → Edge Function</td>
+        <td><div class="recipients"><span class="r-badge badge-client">Client</span><span class="r-badge badge-editor">Editor</span></div></td>
+      </tr>
+      <tr>
+        <td style="color:#9CA3AF">2</td>
+        <td><div class="event-name">Request Submitted</div><div class="event-trigger">Client submits edit request</div></td>
+        <td style="color:#9CA3AF;font-size:11px">match-editor function</td>
+        <td><div class="recipients"><span class="r-badge badge-client">Client</span></div></td>
+      </tr>
+      <tr>
+        <td style="color:#9CA3AF">3</td>
+        <td><div class="event-name">New Job Assigned</div><div class="event-trigger">Editor matched to request</div></td>
+        <td style="color:#9CA3AF;font-size:11px">match-editor function</td>
+        <td><div class="recipients"><span class="r-badge badge-editor">Editor</span></div></td>
+      </tr>
+      <tr>
+        <td style="color:#9CA3AF">4</td>
+        <td><div class="event-name">Edit Delivered</div><div class="event-trigger">Editor submits deliverable</div></td>
+        <td style="color:#9CA3AF;font-size:11px">deliverable upload → status update</td>
+        <td><div class="recipients"><span class="r-badge badge-client">Client</span></div></td>
+      </tr>
+      <tr>
+        <td style="color:#9CA3AF">5</td>
+        <td><div class="event-name">Revision Requested</div><div class="event-trigger">Client requests changes</div></td>
+        <td style="color:#9CA3AF;font-size:11px">request status → in_revision</td>
+        <td><div class="recipients"><span class="r-badge badge-editor">Editor</span></div></td>
+      </tr>
+      <tr>
+        <td style="color:#9CA3AF">6</td>
+        <td><div class="event-name">Edit Approved</div><div class="event-trigger">Client approves deliverable</div></td>
+        <td style="color:#9CA3AF;font-size:11px">request status → approved</td>
+        <td><div class="recipients"><span class="r-badge badge-editor">Editor</span></div></td>
+      </tr>
+      <tr>
+        <td style="color:#9CA3AF">7</td>
+        <td><div class="event-name">Payment Successful</div><div class="event-trigger">Stripe/Razorpay invoice paid</div></td>
+        <td style="color:#9CA3AF;font-size:11px">stripe-webhook / razorpay-webhook</td>
+        <td><div class="recipients"><span class="r-badge badge-client">Client</span></div></td>
+      </tr>
+      <tr>
+        <td style="color:#9CA3AF">8</td>
+        <td><div class="event-name">Payout Sent</div><div class="event-trigger">Editor payout processed</div></td>
+        <td style="color:#9CA3AF;font-size:11px">trigger-stripe-payout / trigger-razorpay-payout</td>
+        <td><div class="recipients"><span class="r-badge badge-editor">Editor</span></div></td>
+      </tr>
+      <tr>
+        <td style="color:#9CA3AF">9</td>
+        <td><div class="event-name">Delivery Overdue</div><div class="event-trigger">48h deadline missed</div></td>
+        <td style="color:#9CA3AF;font-size:11px">run-cron-jobs</td>
+        <td><div class="recipients"><span class="r-badge badge-client">Client</span><span class="r-badge badge-admin">Admin</span></div></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- EMAIL TEMPLATE PREVIEWS -->
+<div class="section-label">Template Previews</div>
+<div class="email-grid">
+
+  <!-- 1. Welcome -->
+  <div class="email-card">
+    <div class="email-meta">
+      <span class="trigger-badge badge-client">Client</span>
+      <span style="font-size:12px;color:#F9FAFB;font-weight:600">Welcome</span>
+      <span class="email-title-meta">Trigger #1</span>
+    </div>
+    <div class="email-preview">
+      <div class="email-body">
+        <div class="email-header-bar">
+          <div class="logo-dot"></div>
+          <span class="logo-text">TheVideoJanitors</span>
+        </div>
+        <div class="email-content">
+          <div class="email-subject">Your account is ready. Let's clean up your feed.</div>
+          <div class="email-greeting">Hi Alex,</div>
+          <div class="email-body-text">
+            Welcome to TheVideoJanitors — managed short-form editing, 48-hour delivery, no freelancer roulette.<br><br>
+            Your next step: <strong style="color:#FF5F15">subscribe to a plan</strong> and submit your first edit request.
+          </div>
+          <a class="email-cta" href="#">Choose Your Plan →</a>
+        </div>
+        <div class="email-footer-text">TheVideoJanitors · Unsubscribe · Privacy Policy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Request Submitted -->
+  <div class="email-card">
+    <div class="email-meta">
+      <span class="trigger-badge badge-client">Client</span>
+      <span style="font-size:12px;color:#F9FAFB;font-weight:600">Request Submitted</span>
+      <span class="email-title-meta">Trigger #2</span>
+    </div>
+    <div class="email-preview">
+      <div class="email-body">
+        <div class="email-header-bar">
+          <div class="logo-dot"></div>
+          <span class="logo-text">TheVideoJanitors</span>
+        </div>
+        <div class="email-content">
+          <div class="email-subject">Edit request received — matching you with an editor</div>
+          <div class="email-greeting">Hi Alex,</div>
+          <div class="email-body-text">We've received your edit request. We're matching you with the best available editor right now.</div>
+          <div class="email-detail-box">
+            <div class="detail-row"><span>Type</span><span>Standard Edit</span></div>
+            <div class="detail-row"><span>Credits used</span><span class="accent-orange">70 cr</span></div>
+            <div class="detail-row"><span>Expected delivery</span><span>within 48 hours</span></div>
+          </div>
+          <a class="email-cta" href="#">Track Your Request →</a>
+        </div>
+        <div class="email-footer-text">TheVideoJanitors · Unsubscribe · Privacy Policy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. New Job Assigned (Editor) -->
+  <div class="email-card">
+    <div class="email-meta">
+      <span class="trigger-badge badge-editor">Editor</span>
+      <span style="font-size:12px;color:#F9FAFB;font-weight:600">New Job Assigned</span>
+      <span class="email-title-meta">Trigger #3</span>
+    </div>
+    <div class="email-preview">
+      <div class="email-body">
+        <div class="email-header-bar">
+          <div class="logo-dot" style="background:#3B82F6"></div>
+          <span class="logo-text">TheVideoJanitors</span>
+        </div>
+        <div class="email-content">
+          <div class="email-subject">New job in your queue — due in 48h</div>
+          <div class="email-greeting">Hi Jordan,</div>
+          <div class="email-body-text">You've been assigned a new edit job. Check your dashboard to review the brief and start editing.</div>
+          <div class="email-detail-box">
+            <div class="detail-row"><span>Edit type</span><span>Standard</span></div>
+            <div class="detail-row"><span>Niche</span><span>Fitness / Lifestyle</span></div>
+            <div class="detail-row"><span>Deadline</span><span class="accent-orange">48 hours</span></div>
+          </div>
+          <a class="email-cta" href="#" style="background:#3B82F6;color:#fff">View Job Brief →</a>
+        </div>
+        <div class="email-footer-text">TheVideoJanitors · Unsubscribe · Privacy Policy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Edit Delivered -->
+  <div class="email-card">
+    <div class="email-meta">
+      <span class="trigger-badge badge-client">Client</span>
+      <span style="font-size:12px;color:#F9FAFB;font-weight:600">Edit Delivered</span>
+      <span class="email-title-meta">Trigger #4</span>
+    </div>
+    <div class="email-preview">
+      <div class="email-body">
+        <div class="email-header-bar">
+          <div class="logo-dot"></div>
+          <span class="logo-text">TheVideoJanitors</span>
+        </div>
+        <div class="email-content">
+          <div class="email-subject">Your edit is ready to review 🎬</div>
+          <div class="email-greeting">Hi Alex,</div>
+          <div class="email-body-text">
+            Your edit has been delivered. You have <strong style="color:#facc15">7 days</strong> to review and approve — or request up to 3 revisions.
+          </div>
+          <div class="email-detail-box">
+            <div class="detail-row"><span>Revisions remaining</span><span class="accent-green">3 of 3</span></div>
+            <div class="detail-row"><span>Auto-closes</span><span>in 7 days</span></div>
+          </div>
+          <a class="email-cta" href="#">Review Your Edit →</a>
+        </div>
+        <div class="email-footer-text">TheVideoJanitors · Unsubscribe · Privacy Policy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Revision Requested (Editor) -->
+  <div class="email-card">
+    <div class="email-meta">
+      <span class="trigger-badge badge-editor">Editor</span>
+      <span style="font-size:12px;color:#F9FAFB;font-weight:600">Revision Requested</span>
+      <span class="email-title-meta">Trigger #5</span>
+    </div>
+    <div class="email-preview">
+      <div class="email-body">
+        <div class="email-header-bar">
+          <div class="logo-dot" style="background:#3B82F6"></div>
+          <span class="logo-text">TheVideoJanitors</span>
+        </div>
+        <div class="email-content">
+          <div class="email-subject">Revision requested — round 2 of 3</div>
+          <div class="email-greeting">Hi Jordan,</div>
+          <div class="email-body-text">Your client has requested changes. Check their feedback below and re-deliver when ready.</div>
+          <div class="email-detail-box">
+            <div class="detail-row"><span>Revision round</span><span class="accent-yellow">2 of 3</span></div>
+            <div class="detail-row"><span>Feedback</span><span style="color:#F9FAFB">"Trim intro by 3s..."</span></div>
+          </div>
+          <a class="email-cta" href="#" style="background:#3B82F6;color:#fff">View Feedback →</a>
+        </div>
+        <div class="email-footer-text">TheVideoJanitors · Unsubscribe · Privacy Policy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Edit Approved (Editor) -->
+  <div class="email-card">
+    <div class="email-meta">
+      <span class="trigger-badge badge-editor">Editor</span>
+      <span style="font-size:12px;color:#F9FAFB;font-weight:600">Edit Approved</span>
+      <span class="email-title-meta">Trigger #6</span>
+    </div>
+    <div class="email-preview">
+      <div class="email-body">
+        <div class="email-header-bar">
+          <div class="logo-dot" style="background:#3B82F6"></div>
+          <span class="logo-text">TheVideoJanitors</span>
+        </div>
+        <div class="email-content">
+          <div class="email-subject">Job approved — payout queued</div>
+          <div class="email-greeting">Hi Jordan,</div>
+          <div class="email-body-text">Your client approved the edit. Your payout has been queued for this week's batch.</div>
+          <div class="email-detail-box">
+            <div class="detail-row"><span>Payout amount</span><span class="accent-green">$24.00</span></div>
+            <div class="detail-row"><span>Expected</span><span>This Friday</span></div>
+          </div>
+          <a class="email-cta" href="#" style="background:#3B82F6;color:#fff">View Earnings →</a>
+        </div>
+        <div class="email-footer-text">TheVideoJanitors · Unsubscribe · Privacy Policy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Payment Successful -->
+  <div class="email-card">
+    <div class="email-meta">
+      <span class="trigger-badge badge-client">Client</span>
+      <span style="font-size:12px;color:#F9FAFB;font-weight:600">Payment Successful</span>
+      <span class="email-title-meta">Trigger #7</span>
+    </div>
+    <div class="email-preview">
+      <div class="email-body">
+        <div class="email-header-bar">
+          <div class="logo-dot"></div>
+          <span class="logo-text">TheVideoJanitors</span>
+        </div>
+        <div class="email-content">
+          <div class="email-subject">Payment confirmed — credits refreshed</div>
+          <div class="email-greeting">Hi Alex,</div>
+          <div class="email-body-text">Your subscription has been renewed. Your credits are fully refreshed and ready to use.</div>
+          <div class="email-detail-box">
+            <div class="detail-row"><span>Plan</span><span>Deep Clean</span></div>
+            <div class="detail-row"><span>Credits</span><span class="accent-orange">950 cr</span></div>
+            <div class="detail-row"><span>Renews</span><span>Jun 21, 2026</span></div>
+          </div>
+          <a class="email-cta" href="#">Go to Dashboard →</a>
+        </div>
+        <div class="email-footer-text">TheVideoJanitors · Unsubscribe · Privacy Policy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Payout Sent -->
+  <div class="email-card">
+    <div class="email-meta">
+      <span class="trigger-badge badge-editor">Editor</span>
+      <span style="font-size:12px;color:#F9FAFB;font-weight:600">Payout Sent</span>
+      <span class="email-title-meta">Trigger #8</span>
+    </div>
+    <div class="email-preview">
+      <div class="email-body">
+        <div class="email-header-bar">
+          <div class="logo-dot" style="background:#3B82F6"></div>
+          <span class="logo-text">TheVideoJanitors</span>
+        </div>
+        <div class="email-content">
+          <div class="email-subject">Your payout has been sent</div>
+          <div class="email-greeting">Hi Jordan,</div>
+          <div class="email-body-text">We've processed your payout. It should arrive in your account within 1–2 business days.</div>
+          <div class="email-detail-box">
+            <div class="detail-row"><span>Amount</span><span class="accent-green">$24.00</span></div>
+            <div class="detail-row"><span>Method</span><span>Stripe Connect</span></div>
+            <div class="detail-row"><span>Jobs included</span><span>3</span></div>
+          </div>
+          <a class="email-cta" href="#" style="background:#3B82F6;color:#fff">View Payout Details →</a>
+        </div>
+        <div class="email-footer-text">TheVideoJanitors · Unsubscribe · Privacy Policy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. Delivery Overdue -->
+  <div class="email-card">
+    <div class="email-meta">
+      <span class="trigger-badge badge-client">Client</span>
+      <span class="trigger-badge badge-admin">Admin</span>
+      <span style="font-size:12px;color:#F9FAFB;font-weight:600">Delivery Overdue</span>
+      <span class="email-title-meta">Trigger #9</span>
+    </div>
+    <div class="email-preview">
+      <div class="email-body">
+        <div class="email-header-bar">
+          <div class="logo-dot" style="background:#f87171"></div>
+          <span class="logo-text">TheVideoJanitors</span>
+        </div>
+        <div class="email-content">
+          <div class="email-subject">Update: your edit is taking a bit longer</div>
+          <div class="email-greeting">Hi Alex,</div>
+          <div class="email-body-text">Your edit is past the expected 48-hour window. We're following up with your editor and will keep you posted. No action needed from you.</div>
+          <div class="email-detail-box">
+            <div class="detail-row"><span>Status</span><span style="color:#f87171">Overdue</span></div>
+            <div class="detail-row"><span>Expected resolution</span><span>Within 12 hours</span></div>
+          </div>
+          <a class="email-cta" href="#" style="background:#f87171">View Request Status →</a>
+        </div>
+        <div class="email-footer-text">TheVideoJanitors · Unsubscribe · Privacy Policy</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Architecture note -->
+<div class="section-label">Implementation Architecture</div>
+<div class="trigger-map">
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;font-size:12px">
+    <div>
+      <div style="color:#9CA3AF;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">Shared Utility</div>
+      <div style="color:#F9FAFB;font-weight:600;margin-bottom:4px">_shared/resend.ts</div>
+      <div style="color:#9CA3AF;line-height:1.5">Single <code style="color:#FF5F15">sendEmail()</code> function. All edge functions import from here. One API key. One place to debug.</div>
+    </div>
+    <div>
+      <div style="color:#9CA3AF;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">Send Strategy</div>
+      <div style="color:#F9FAFB;font-weight:600;margin-bottom:4px">Fire & forget</div>
+      <div style="color:#9CA3AF;line-height:1.5">Emails never block the main response. Wrap in <code style="color:#FF5F15">try/catch</code> with console.error only — email failure never fails the business operation.</div>
+    </div>
+    <div>
+      <div style="color:#9CA3AF;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">Template Engine</div>
+      <div style="color:#F9FAFB;font-weight:600;margin-bottom:4px">Inline HTML strings</div>
+      <div style="color:#9CA3AF;line-height:1.5">No React Email or MJML — Deno edge functions use plain string templates. Simple, zero extra deps, fast cold start.</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

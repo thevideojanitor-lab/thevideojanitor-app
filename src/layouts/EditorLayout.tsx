@@ -7,6 +7,7 @@ import { useAuthStore } from "@/stores/authStore"
 import { useEditorStore } from "@/stores/editorStore"
 import { signOut } from "@/hooks/useAuth"
 import NotificationBell from "@/components/NotificationBell"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 const NAV = [
   { to: "/editor", icon: LayoutDashboard, label: "Dashboard", end: true },
@@ -26,8 +27,8 @@ function NavItem({ to, icon: Icon, label, end, onClick }: typeof NAV[0] & { onCl
       className={({ isActive }) =>
         `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
           isActive
-            ? "bg-[#3B82F6]/10 text-[#3B82F6] border-l-2 border-[#3B82F6] pl-[14px]"
-            : "text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-[#404040]/50"
+            ? "bg-editor-accent/10 text-editor-accent border-l-2 border-editor-accent pl-[14px]"
+            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
         }`
       }
     >
@@ -57,13 +58,13 @@ export default function EditorLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-[#121212] flex">
+    <div className="min-h-screen bg-background flex">
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex flex-col w-64 bg-[#1A1A1A] border-r border-[#2A2A2A] fixed inset-y-0 left-0 z-30">
-        <div className="px-6 py-5 border-b border-[#2A2A2A]">
-          <span className="font-heading text-lg font-bold text-[#F9FAFB]">TheVideoJanitors</span>
+      <aside className="hidden md:flex flex-col w-64 bg-sidebar border-r border-border fixed inset-y-0 left-0 z-30">
+        <div className="px-6 py-5 border-b border-border">
+          <span className="font-heading text-lg font-bold text-foreground">TheVideoJanitors</span>
           <div className="mt-1">
-            <span className="text-[10px] font-medium text-[#3B82F6] bg-[#3B82F6]/10 border border-[#3B82F6]/20 rounded px-2 py-0.5 uppercase tracking-wider">
+            <span className="text-[10px] font-medium text-editor-accent bg-editor-accent/10 border border-editor-accent/20 rounded px-2 py-0.5 uppercase tracking-wider">
               Editor
             </span>
           </div>
@@ -75,10 +76,10 @@ export default function EditorLayout() {
           ))}
         </nav>
 
-        <div className="px-3 py-4 border-t border-[#2A2A2A]">
+        <div className="px-3 py-4 border-t border-border">
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-3 px-4 py-2.5 w-full rounded-lg text-sm font-medium text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-[#404040]/50 transition-colors"
+            className="flex items-center gap-3 px-4 py-2.5 w-full rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
           >
             <LogOut size={18} />
             Sign Out
@@ -94,7 +95,7 @@ export default function EditorLayout() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-[#121212]/60 z-40 md:hidden"
+              className="fixed inset-0 bg-background/60 z-40 md:hidden"
               onClick={() => setSidebarOpen(false)}
             />
             <motion.aside
@@ -102,18 +103,18 @@ export default function EditorLayout() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="fixed top-0 right-0 bottom-0 w-72 bg-[#1A1A1A] border-l border-[#2A2A2A] z-50 flex flex-col md:hidden"
+              className="fixed top-0 right-0 bottom-0 w-72 bg-sidebar border-l border-border z-50 flex flex-col md:hidden"
             >
-              <div className="flex items-center justify-between px-6 py-5 border-b border-[#2A2A2A]">
+              <div className="flex items-center justify-between px-6 py-5 border-b border-border">
                 <div>
-                  <span className="font-heading text-lg font-bold text-[#F9FAFB]">TheVideoJanitors</span>
+                  <span className="font-heading text-lg font-bold text-foreground">TheVideoJanitors</span>
                   <div className="mt-1">
-                    <span className="text-[10px] font-medium text-[#3B82F6] bg-[#3B82F6]/10 rounded px-2 py-0.5 uppercase tracking-wider">
+                    <span className="text-[10px] font-medium text-editor-accent bg-editor-accent/10 rounded px-2 py-0.5 uppercase tracking-wider">
                       Editor
                     </span>
                   </div>
                 </div>
-                <button onClick={() => setSidebarOpen(false)} className="text-[#9CA3AF] hover:text-[#F9FAFB]">
+                <button onClick={() => setSidebarOpen(false)} className="text-muted-foreground hover:text-foreground">
                   <X size={20} />
                 </button>
               </div>
@@ -122,10 +123,10 @@ export default function EditorLayout() {
                   <NavItem key={item.to} {...item} onClick={() => setSidebarOpen(false)} />
                 ))}
               </nav>
-              <div className="px-3 py-4 border-t border-[#2A2A2A]">
+              <div className="px-3 py-4 border-t border-border">
                 <button
                   onClick={handleSignOut}
-                  className="flex items-center gap-3 px-4 py-2.5 w-full rounded-lg text-sm font-medium text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-[#404040]/50 transition-colors"
+                  className="flex items-center gap-3 px-4 py-2.5 w-full rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
                 >
                   <LogOut size={18} />
                   Sign Out
@@ -139,34 +140,33 @@ export default function EditorLayout() {
       {/* Main content */}
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
         {/* Header */}
-        <header className="h-16 bg-[#1A1A1A] border-b border-[#2A2A2A] flex items-center justify-between px-4 md:px-6 sticky top-0 z-20">
+        <header className="h-16 bg-sidebar border-b border-border flex items-center justify-between px-4 md:px-6 sticky top-0 z-20">
           <button
-            className="md:hidden text-[#9CA3AF] hover:text-[#F9FAFB]"
+            className="md:hidden text-muted-foreground hover:text-foreground"
             onClick={() => setSidebarOpen(true)}
           >
             <Menu size={22} />
           </button>
 
-          <div className="md:hidden font-heading text-base font-bold text-[#F9FAFB]">
+          <div className="md:hidden font-heading text-base font-bold text-foreground">
             TheVideoJanitors
           </div>
 
-          <div className="flex items-center gap-4 ml-auto">
-            {/* This week's earnings — live from editorStore */}
-            <div className="hidden sm:flex items-center gap-2 bg-[#3B82F6]/10 border border-[#3B82F6]/20 rounded-lg px-3 py-1.5">
-              <span className="text-xs text-[#9CA3AF] font-sans uppercase tracking-wider">This Week</span>
-              <span className="font-heading text-sm font-bold text-[#3B82F6]">{formattedEarnings}</span>
+          <div className="flex items-center gap-3 ml-auto">
+            <div className="hidden sm:flex items-center gap-2 bg-editor-accent/10 border border-editor-accent/20 rounded-lg px-3 py-1.5">
+              <span className="text-xs text-muted-foreground font-sans uppercase tracking-wider">This Week</span>
+              <span className="font-heading text-sm font-bold text-editor-accent">{formattedEarnings}</span>
             </div>
 
             <NotificationBell />
+            <ThemeToggle />
 
-            {/* Avatar — links to profile */}
             <button
               onClick={() => navigate("/editor/profile")}
               aria-label="Your profile"
-              className="w-8 h-8 rounded-full bg-[#3B82F6]/20 border border-[#3B82F6]/30 flex items-center justify-center hover:border-[#3B82F6]/60 transition-colors"
+              className="w-8 h-8 rounded-full bg-editor-accent/20 border border-editor-accent/30 flex items-center justify-center hover:border-editor-accent/60 transition-colors"
             >
-              <span className="text-xs font-semibold text-[#3B82F6]">
+              <span className="text-xs font-semibold text-editor-accent">
                 {user?.email?.charAt(0).toUpperCase() ?? "?"}
               </span>
             </button>
@@ -178,7 +178,7 @@ export default function EditorLayout() {
         </main>
 
         {/* Mobile bottom nav */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#1A1A1A] border-t border-[#2A2A2A] flex z-20">
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-sidebar border-t border-border flex z-20">
           {NAV.map(({ to, icon: Icon, label, end }) => (
             <NavLink
               key={to}
@@ -186,7 +186,7 @@ export default function EditorLayout() {
               end={end}
               className={({ isActive }) =>
                 `flex-1 flex flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors ${
-                  isActive ? "text-[#3B82F6]" : "text-[#9CA3AF]"
+                  isActive ? "text-editor-accent" : "text-muted-foreground"
                 }`
               }
             >

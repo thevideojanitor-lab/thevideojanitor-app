@@ -1,0 +1,67 @@
+<style>
+  .brutal-box { background: rgba(255,95,21,0.08); border: 1px solid rgba(255,95,21,0.3); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .ok-box { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .warn-box { background: rgba(234,179,8,0.08); border: 1px solid rgba(234,179,8,0.3); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 6px; margin-bottom: 10px; }
+  .tag-red { background: rgba(239,68,68,0.15); color: #f87171; }
+  .tag-green { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .tag-orange { background: rgba(255,95,21,0.15); color: #FF5F15; }
+  .tag-yellow { background: rgba(234,179,8,0.15); color: #facc15; }
+  .item-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 14px; color: #d1d5db; line-height: 1.5; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+  .dot-red { background: #f87171; }
+  .dot-green { background: #4ade80; }
+  .dot-yellow { background: #facc15; }
+  .navbar-mock { display: flex; align-items: center; justify-content: space-between; background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 10px; padding: 12px 20px; margin: 12px 0; font-size: 13px; }
+  .nav-links { display: flex; gap: 16px; color: #9CA3AF; }
+  .nav-cta { background: #FF5F15; color: #121212; padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; }
+  .missing { background: rgba(239,68,68,0.1); border: 2px dashed #f87171; padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; color: #f87171; }
+  .section { margin-bottom: 28px; }
+</style>
+
+<h2>Brutal Honest Audit — Your Landing Page Right Now</h2>
+<p class="subtitle">Before deciding what to build, here's exactly what the current state is</p>
+
+<div class="section">
+  <div class="tag tag-red">Critical Miss</div>
+  <div class="brutal-box">
+    <p style="font-weight:600;margin-bottom:12px;color:#F9FAFB;">Your navbar has NO login button. Zero.</p>
+    <div class="navbar-mock">
+      <span style="color:#FF5F15;font-weight:700;">TheVideoJanitors</span>
+      <div class="nav-links">
+        <span>Solutions ▾</span>
+        <span>How It Works</span>
+        <span>Pricing</span>
+        <span>Showcase</span>
+        <span>About</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <span style="color:#9CA3AF;font-size:12px;">Apply as Editor</span>
+        <div class="missing">?? LOGIN</div>
+        <div class="nav-cta">Get Started → Waitlist Form</div>
+      </div>
+    </div>
+    <div class="item-row"><div class="dot dot-red"></div><span>If someone signed up last week, they cannot find their way back in. There is no /auth/login link anywhere visible.</span></div>
+    <div class="item-row"><div class="dot dot-red"></div><span>"Get Started" opens a Tally waitlist form — it doesn't go to /auth/signup. So even if users want to pay right now, they can't.</span></div>
+    <div class="item-row"><div class="dot dot-red"></div><span>This sends a subconscious signal: "this is not a real product yet." It erodes trust even for visitors who would have converted.</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="tag tag-green">What's Working</div>
+  <div class="ok-box">
+    <div class="item-row"><div class="dot dot-green"></div><span>You have a beautiful, content-rich marketing site — hero, how-it-works, pricing, showcase, testimonials, FAQ. Solid foundation.</span></div>
+    <div class="item-row"><div class="dot dot-green"></div><span>The /editors page, /for-creators, /for-brands etc. give you good SEO surface area.</span></div>
+    <div class="item-row"><div class="dot dot-green"></div><span>The product behind the landing page is actually built and (mostly) working now. The disconnect is the gate.</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="tag tag-yellow">The Real Question</div>
+  <div class="warn-box">
+    <p style="font-weight:600;color:#F9FAFB;margin-bottom:10px;">Are you in waitlist mode or launch mode?</p>
+    <p style="font-size:14px;color:#d1d5db;line-height:1.6;">Everything depends on this answer. Adding login vs. building a marketplace vs. Fiverr-style redesign are three completely different projects with different timelines, costs, and risks. Answering the wrong one could cost 2–4 weeks for zero business benefit.</p>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:8px;">Take a look — let me know in the terminal: are you ready to start accepting real paying customers <strong>this week</strong>, or is this still pre-launch?</p>

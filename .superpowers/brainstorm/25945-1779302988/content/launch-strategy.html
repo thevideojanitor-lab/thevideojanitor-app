@@ -1,0 +1,90 @@
+<style>
+  .approach { border: 1px solid #2A2A2A; border-radius: 14px; padding: 24px; margin-bottom: 16px; cursor: pointer; transition: all 0.2s; }
+  .approach:hover { border-color: #404040; background: rgba(64,64,64,0.2); }
+  .approach.selected { border-color: #FF5F15; background: rgba(255,95,21,0.07); }
+  .approach-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .approach-title { font-size: 17px; font-weight: 700; color: #F9FAFB; }
+  .badge { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; }
+  .badge-green { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .badge-orange { background: rgba(255,95,21,0.15); color: #FF5F15; }
+  .badge-blue { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .timeline { font-size: 12px; color: #9CA3AF; margin-bottom: 10px; }
+  .point { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; font-size: 13px; color: #d1d5db; line-height: 1.5; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+  .dot-green { background: #4ade80; }
+  .dot-red { background: #f87171; }
+  .dot-orange { background: #FF5F15; }
+  .dot-blue { background: #60a5fa; }
+  .navbar-demo { background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 10px; padding: 10px 18px; display: flex; justify-content: space-between; align-items: center; margin: 14px 0 4px; font-size: 12px; }
+  .nav-right { display: flex; gap: 8px; align-items: center; }
+  .btn-ghost { border: 1px solid #404040; color: #F9FAFB; padding: 5px 12px; border-radius: 7px; font-size: 11px; font-weight: 600; }
+  .btn-primary { background: #FF5F15; color: #121212; padding: 5px 12px; border-radius: 7px; font-size: 11px; font-weight: 700; }
+  .verdict { background: rgba(255,95,21,0.08); border: 1px solid rgba(255,95,21,0.25); border-radius: 12px; padding: 20px; margin-top: 24px; }
+  .fiverr-note { background: rgba(234,179,8,0.07); border: 1px solid rgba(234,179,8,0.25); border-radius: 10px; padding: 16px; margin-top: 14px; font-size: 13px; color: #d1d5db; line-height: 1.6; }
+</style>
+
+<h2>Launch Strategy — My Honest Recommendation</h2>
+<p class="subtitle">Three approaches. One clear winner. Click to select.</p>
+
+<div class="approach option" data-choice="a" onclick="toggleSelect(this)">
+  <div class="approach-header">
+    <div>
+      <div class="approach-title">A — Ship Fast, Learn Fast</div>
+      <div class="timeline">⏱ 2–4 days of work → launch this week</div>
+    </div>
+    <span class="badge badge-green">★ Recommended</span>
+  </div>
+  <div class="point"><div class="dot dot-green"></div><span>Add <strong>Login</strong> + <strong>Sign Up</strong> to the navbar. Wire "Get Started" to <code>/auth/signup</code> instead of Tally.</span></div>
+  <div class="point"><div class="dot dot-green"></div><span>Keep the existing landing page. It's already good — hero, pricing, how-it-works, showcase are all there.</span></div>
+  <div class="point"><div class="dot dot-green"></div><span>Email your waitlist. Send 50–100 people through. See where they drop off with real analytics.</span></div>
+  <div class="point"><div class="dot dot-red"></div><span>No marketplace, no redesign. Don't build what you don't know you need yet.</span></div>
+  <div class="navbar-demo">
+    <span style="color:#FF5F15;font-weight:700;font-size:13px;">TheVideoJanitors</span>
+    <div style="display:flex;gap:14px;color:#9CA3AF;font-size:11px;">
+      <span>Solutions ▾</span><span>How It Works</span><span>Pricing</span><span>Showcase</span>
+    </div>
+    <div class="nav-right">
+      <span class="btn-ghost">Log In</span>
+      <span class="btn-primary">Start Free →</span>
+    </div>
+  </div>
+  <p style="font-size:11px;color:#9CA3AF;margin:0;">↑ What the navbar looks like after this change</p>
+</div>
+
+<div class="approach option" data-choice="b" onclick="toggleSelect(this)">
+  <div class="approach-header">
+    <div>
+      <div class="approach-title">B — Launch + Conversion Optimisation</div>
+      <div class="timeline">⏱ 2–3 weeks → stronger landing page before broad push</div>
+    </div>
+    <span class="badge badge-orange">Better but slower</span>
+  </div>
+  <div class="point"><div class="dot dot-orange"></div><span>Fix navbar (same as A), PLUS redesign the hero section to be more specific and conversion-focused.</span></div>
+  <div class="point"><div class="dot dot-orange"></div><span>Add a real social proof bar (editor photos, client logos, "X videos delivered"), not the current generic section.</span></div>
+  <div class="point"><div class="dot dot-orange"></div><span>Add a comparison section: "TheVideoJanitors vs. Fiverr vs. hiring in-house" — this is the #1 SEO opportunity.</span></div>
+  <div class="point"><div class="dot dot-red"></div><span>Still no marketplace. Still no full redesign. Refine, don't rebuild.</span></div>
+</div>
+
+<div class="approach option" data-choice="c" onclick="toggleSelect(this)">
+  <div class="approach-header">
+    <div>
+      <div class="approach-title">C — Fiverr-Style Marketplace Redesign</div>
+      <div class="timeline">⏱ 6–10 weeks → major project</div>
+    </div>
+    <span class="badge badge-blue">Wrong direction</span>
+  </div>
+  <div class="point"><div class="dot dot-red"></div><span>Fiverr is a <strong>browse-and-hire</strong> marketplace. Your entire value prop is the OPPOSITE — you DON'T browse, you get matched. A Fiverr homepage actively confuses your users.</span></div>
+  <div class="point"><div class="dot dot-red"></div><span>Fiverr works because of 10M+ gigs. You have 5 editors. Showing a browse grid looks sparse and damages trust.</span></div>
+  <div class="point"><div class="dot dot-red"></div><span>You'd spend 6+ weeks building something that contradicts your brand instead of acquiring your first 20 paying customers.</span></div>
+</div>
+
+<div class="fiverr-note">
+  <strong style="color:#facc15;">The Fiverr comparison you should care about:</strong> Not the homepage layout — the <em>SEO strategy</em>. Fiverr ranks #1 for "video editor freelancer", "hire video editor", etc. through a combination of 10M+ user-generated pages + a blog. You can't out-Fiverr Fiverr on their turf. Your lane is: "managed video editing service", "video editing subscription", "short-form video editing for creators". No one owns that. That's your SEO play.
+</div>
+
+<div class="verdict">
+  <p style="font-weight:700;color:#F9FAFB;margin-bottom:8px;">My honest take: do A now, B within the month.</p>
+  <p style="font-size:13px;color:#d1d5db;line-height:1.6;">You have a working product. The only thing stopping you from having real paying customers is a missing Login button and a Tally form where a signup form should be. Fix those two things, launch to your waitlist, and use real user behaviour to decide what to build next. Everything else is pre-revenue distraction.</p>
+</div>
+
+<p class="subtitle" style="margin-top:20px;">Which direction feels right? Click to select, then let me know in the terminal. Also — who is your primary target right now: solo creators, brands, or agencies?</p>

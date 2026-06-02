@@ -51,7 +51,7 @@ export default function SelectRolePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#121212] flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4 relative overflow-hidden">
       <AuthBackground />
       <motion.div
         variants={staggerContainer}
@@ -60,11 +60,11 @@ export default function SelectRolePage() {
         className="relative z-10 w-full max-w-sm space-y-6"
       >
         <motion.div variants={fadeUp} className="text-center">
-          <p className="font-heading text-xl font-bold text-[#F9FAFB]">TheVideoJanitors</p>
-          <p className="text-sm text-[#9CA3AF] mt-2">One more step — how will you use the platform?</p>
+          <p className="font-heading text-xl font-bold text-foreground">TheVideoJanitors</p>
+          <p className="text-sm text-muted-foreground mt-2">One more step — how will you use the platform?</p>
         </motion.div>
 
-        <motion.div variants={fadeUp} className="bg-[#404040] border border-[#2A2A2A] rounded-2xl p-6 space-y-4">
+        <motion.div variants={fadeUp} className="bg-card border border-border rounded-2xl p-6 space-y-4">
           <div className="flex gap-3">
             {([
               { role: "client", icon: Video, label: "I'm a Creator", desc: "Submit videos, get edits back in 48h" },
@@ -76,13 +76,13 @@ export default function SelectRolePage() {
                 onClick={() => setSelectedRole(role)}
                 className={`flex-1 flex flex-col items-center gap-2 py-4 px-3 rounded-xl border text-center transition-all ${
                   selectedRole === role
-                    ? "bg-[#FF5F15]/15 border-[#FF5F15]/40"
-                    : "bg-[#1A1A1A] border-[#2A2A2A] hover:border-[#404040]"
+                    ? "bg-primary/15 border-primary/40"
+                    : "bg-input border-border hover:border-muted-foreground/40"
                 }`}
               >
-                <Icon size={22} className={selectedRole === role ? "text-[#FF5F15]" : "text-[#9CA3AF]"} />
-                <p className={`text-xs font-semibold ${selectedRole === role ? "text-[#FF5F15]" : "text-[#F9FAFB]"}`}>{label}</p>
-                <p className="text-[10px] text-[#9CA3AF] leading-snug">{desc}</p>
+                <Icon size={22} className={selectedRole === role ? "text-primary" : "text-muted-foreground"} />
+                <p className={`text-xs font-semibold ${selectedRole === role ? "text-primary" : "text-foreground"}`}>{label}</p>
+                <p className="text-[10px] text-muted-foreground leading-snug">{desc}</p>
               </button>
             ))}
           </div>
@@ -96,7 +96,7 @@ export default function SelectRolePage() {
             whileTap={{ scale: 0.97 }}
             disabled={!selectedRole || loading}
             onClick={handleConfirm}
-            className="w-full flex items-center justify-center gap-2 bg-[#FF5F15] text-[#121212] font-semibold rounded-xl py-3 text-sm hover:bg-[#E54E08] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold rounded-xl py-3 text-sm hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? <Loader2 size={15} className="animate-spin" /> : null}
             {loading ? "Setting up…" : "Continue"}

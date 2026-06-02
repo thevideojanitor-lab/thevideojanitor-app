@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheVideoJanitors — Light Mode Palette Exploration</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #111110;
+  color: #F9FAFB;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  padding: 40px 24px 80px;
+  min-height: 100vh;
+}
+
+h1 { font-size: 20px; font-weight: 700; color: #F9FAFB; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: #6B6B6B; margin-bottom: 40px; }
+
+.section-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em;
+  color: #FF5F15; font-weight: 700; margin-bottom: 14px;
+}
+
+/* ─── SPLIT PREVIEW ─── */
+.split-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 48px;
+}
+@media (max-width: 700px) { .split-preview { grid-template-columns: 1fr; } }
+
+.mode-panel {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #222;
+}
+.mode-panel-header {
+  padding: 10px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ─── DARK MODE PANEL ─── */
+.dark-panel .mode-panel-header {
+  background: #1A1A1A; color: #9CA3AF; border-bottom: 1px solid #2A2A2A;
+}
+.dark-panel .panel-body { background: #121212; padding: 20px; }
+
+/* ─── LIGHT MODE PANELS ─── */
+.light-warm .mode-panel-header { background: #F0EDE6; color: #8C8880; border-bottom: 1px solid #E2DDD6; }
+.light-warm .panel-body { background: #FAF9F6; padding: 20px; }
+
+.light-stone .mode-panel-header { background: #EBEBEA; color: #8C8880; border-bottom: 1px solid #DDDBD9; }
+.light-stone .panel-body { background: #F7F7F5; padding: 20px; }
+
+.light-parchment .mode-panel-header { background: #F2EDE3; color: #8C8880; border-bottom: 1px solid #E8E1D5; }
+.light-parchment .panel-body { background: #FBF9F4; padding: 20px; }
+
+/* ─── MINI DASHBOARD WIDGET ─── */
+.widget { border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+.widget-title { font-size: 11px; font-weight: 600; margin-bottom: 8px; }
+.widget-stat { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.widget-sub { font-size: 11px; }
+.progress-track { height: 5px; border-radius: 3px; margin-top: 8px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; width: 62%; background: #FF5F15; }
+
+/* dark widget */
+.dark-panel .widget { background: #404040; border: 1px solid #2A2A2A; }
+.dark-panel .widget-title { color: #9CA3AF; }
+.dark-panel .widget-stat { color: #FF5F15; }
+.dark-panel .widget-sub { color: #6B7280; }
+.dark-panel .progress-track { background: #2A2A2A; }
+
+/* mini nav */
+.mini-sidebar { display: flex; flex-direction: column; gap: 2px; margin-bottom: 12px; }
+.nav-item { border-radius: 6px; padding: 7px 10px; font-size: 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 7px; }
+.nav-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.dark-panel .nav-item { color: #9CA3AF; }
+.dark-panel .nav-item:hover, .dark-panel .nav-item.active { background: rgba(255,95,21,0.1); color: #FF5F15; }
+.dark-panel .nav-dot { background: #404040; }
+.dark-panel .nav-item.active .nav-dot { background: #FF5F15; }
+
+/* status pill */
+.status-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.pill {
+  font-size: 10px; font-weight: 600; padding: 3px 8px;
+  border-radius: 4px; border: 1px solid transparent;
+}
+
+/* dark pills */
+.dark-panel .pill-green { background: rgba(34,197,94,0.15); color: #4ade80; border-color: rgba(34,197,94,0.3); }
+.dark-panel .pill-orange { background: rgba(255,95,21,0.15); color: #FF5F15; border-color: rgba(255,95,21,0.3); }
+.dark-panel .pill-blue { background: rgba(59,130,246,0.15); color: #60a5fa; border-color: rgba(59,130,246,0.3); }
+.dark-panel .pill-yellow { background: rgba(234,179,8,0.15); color: #facc15; border-color: rgba(234,179,8,0.3); }
+.dark-panel .pill-red { background: rgba(239,68,68,0.15); color: #f87171; border-color: rgba(239,68,68,0.3); }
+
+/* CTA */
+.cta { display: inline-block; padding: 8px 16px; border-radius: 7px; font-size: 12px; font-weight: 700; }
+.cta-primary { background: #FF5F15; color: #121212; }
+.cta-ghost-dark { border: 1px solid #404040; color: #F9FAFB; background: transparent; }
+
+/* ─── INPUT ─── */
+.mock-input {
+  width: 100%; border-radius: 7px; padding: 8px 12px;
+  font-size: 12px; margin-bottom: 10px;
+  outline: none;
+}
+.dark-panel .mock-input {
+  background: #1A1A1A; border: 1px solid #2A2A2A; color: #F9FAFB;
+}
+
+/* ──────────────────────────────────────── */
+/* WARM variant: #FAF9F6 bg, #F0ECE3 surface */
+/* ──────────────────────────────────────── */
+.light-warm .widget { background: #F0ECE4; border: 1px solid #E2DDD5; }
+.light-warm .widget-title { color: #8C8880; }
+.light-warm .widget-stat { color: #D04D08; } /* slightly deeper orange for contrast */
+.light-warm .widget-sub { color: #9E988F; }
+.light-warm .progress-track { background: #E2DDD5; }
+.light-warm .nav-item { color: #6B665E; }
+.light-warm .nav-item.active { background: rgba(208,77,8,0.08); color: #D04D08; }
+.light-warm .nav-dot { background: #D8D3CB; }
+.light-warm .nav-item.active .nav-dot { background: #D04D08; }
+.light-warm .pill-green { background: rgba(21,128,61,0.09); color: #15803d; border-color: rgba(21,128,61,0.2); }
+.light-warm .pill-orange { background: rgba(208,77,8,0.09); color: #c2440e; border-color: rgba(208,77,8,0.2); }
+.light-warm .pill-blue { background: rgba(29,78,216,0.09); color: #1d4ed8; border-color: rgba(29,78,216,0.2); }
+.light-warm .pill-yellow { background: rgba(161,98,7,0.09); color: #92400e; border-color: rgba(161,98,7,0.2); }
+.light-warm .pill-red { background: rgba(185,28,28,0.09); color: #b91c1c; border-color: rgba(185,28,28,0.2); }
+.light-warm .mock-input { background: #FFFFFF; border: 1px solid #D8D3CA; color: #1C1A17; }
+.light-warm .cta-ghost { border: 1px solid #D8D3CA; color: #3A3832; background: transparent; }
+.light-warm-fg { color: #1C1A17; }
+.light-warm-sub { color: #8C8880; }
+
+/* ──────────────────────────────────────── */
+/* STONE variant: #F7F7F5 bg, #EBEBEA surface (Notion-exact) */
+/* ──────────────────────────────────────── */
+.light-stone .widget { background: #EBEBEA; border: 1px solid #DDDBD9; }
+.light-stone .widget-title { color: #9B9A97; }
+.light-stone .widget-stat { color: #C2440E; }
+.light-stone .widget-sub { color: #9B9A97; }
+.light-stone .progress-track { background: #DDDBD9; }
+.light-stone .nav-item { color: #73726E; }
+.light-stone .nav-item.active { background: rgba(194,68,14,0.08); color: #C2440E; }
+.light-stone .nav-dot { background: #D3D1CE; }
+.light-stone .nav-item.active .nav-dot { background: #C2440E; }
+.light-stone .pill-green { background: rgba(21,128,61,0.10); color: #15803d; border-color: rgba(21,128,61,0.22); }
+.light-stone .pill-orange { background: rgba(194,68,14,0.10); color: #C2440E; border-color: rgba(194,68,14,0.22); }
+.light-stone .pill-blue { background: rgba(29,78,216,0.10); color: #1d4ed8; border-color: rgba(29,78,216,0.22); }
+.light-stone .pill-yellow { background: rgba(161,98,7,0.10); color: #92400e; border-color: rgba(161,98,7,0.22); }
+.light-stone .pill-red { background: rgba(185,28,28,0.10); color: #b91c1c; border-color: rgba(185,28,28,0.22); }
+.light-stone .mock-input { background: #FFFFFF; border: 1px solid #D3D1CE; color: #37352F; }
+.light-stone .cta-ghost { border: 1px solid #D3D1CE; color: #37352F; background: transparent; }
+.light-stone-fg { color: #37352F; }
+.light-stone-sub { color: #9B9A97; }
+
+/* ──────────────────────────────────────── */
+/* PARCHMENT variant: #FBF9F4 bg, #F2EDE2 surface */
+/* ──────────────────────────────────────── */
+.light-parchment .widget { background: #F2EDE2; border: 1px solid #E6DFD1; }
+.light-parchment .widget-title { color: #9A9182; }
+.light-parchment .widget-stat { color: #B83D08; }
+.light-parchment .widget-sub { color: #9A9182; }
+.light-parchment .progress-track { background: #E6DFD1; }
+.light-parchment .nav-item { color: #6B6154; }
+.light-parchment .nav-item.active { background: rgba(184,61,8,0.08); color: #B83D08; }
+.light-parchment .nav-dot { background: #D9D0C2; }
+.light-parchment .nav-item.active .nav-dot { background: #B83D08; }
+.light-parchment .pill-green { background: rgba(21,128,61,0.10); color: #166534; border-color: rgba(21,128,61,0.2); }
+.light-parchment .pill-orange { background: rgba(184,61,8,0.10); color: #B83D08; border-color: rgba(184,61,8,0.2); }
+.light-parchment .pill-blue { background: rgba(29,78,216,0.10); color: #1d4ed8; border-color: rgba(29,78,216,0.2); }
+.light-parchment .pill-yellow { background: rgba(133,77,14,0.10); color: #854d0e; border-color: rgba(133,77,14,0.2); }
+.light-parchment .pill-red { background: rgba(185,28,28,0.10); color: #b91c1c; border-color: rgba(185,28,28,0.2); }
+.light-parchment .mock-input { background: #FFFDF8; border: 1px solid #D9D0C2; color: #2A2219; }
+.light-parchment .cta-ghost { border: 1px solid #D9D0C2; color: #2A2219; background: transparent; }
+.light-parchment-fg { color: #2A2219; }
+.light-parchment-sub { color: #9A9182; }
+
+/* ─── PALETTE SWATCHES ─── */
+.swatch-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.swatch {
+  flex: 1; min-width: 60px; border-radius: 8px; overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.swatch-color { height: 44px; }
+.swatch-info { padding: 6px 8px; }
+.swatch-name { font-size: 10px; font-weight: 600; color: #111; }
+.swatch-hex { font-size: 9px; color: #666; font-family: monospace; }
+
+/* ─── COMPARISON TABLE ─── */
+.compare-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 40px; }
+.compare-table th {
+  text-align: left; padding: 8px 12px;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+  color: #9CA3AF; background: #1A1A1A;
+  border-bottom: 1px solid #2A2A2A;
+}
+.compare-table td { padding: 8px 12px; border-bottom: 1px solid #1E1E1E; vertical-align: middle; }
+.compare-table tr:last-child td { border-bottom: none; }
+.token-name { font-family: monospace; color: #FF5F15; font-size: 11px; }
+.color-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: monospace; font-size: 11px;
+}
+.chip { width: 14px; height: 14px; border-radius: 3px; display: inline-block; border: 1px solid rgba(255,255,255,0.08); }
+.role-desc { color: #9CA3AF; font-size: 11px; }
+
+/* Recommendation badge */
+.rec-badge {
+  display: inline-block;
+  background: rgba(255,95,21,0.15); color: #FF5F15;
+  font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 3px;
+  border: 1px solid rgba(255,95,21,0.3);
+  margin-left: 6px;
+}
+</style>
+</head>
+<body>
+
+<h1>Light Mode — Palette Exploration</h1>
+<p class="page-sub">Three warm-neutral variants + dark mode reference. All use #FF5F15 orange as the primary accent.</p>
+
+<!-- LIVE SIDE-BY-SIDE PREVIEW -->
+<div class="section-label">Side-by-Side Preview</div>
+<div class="split-preview" style="grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px;">
+
+  <!-- DARK MODE (reference) -->
+  <div class="mode-panel dark-panel">
+    <div class="mode-panel-header">
+      <div class="dot" style="background:#FF5F15"></div>
+      Dark (current)
+    </div>
+    <div class="panel-body">
+      <div class="mini-sidebar">
+        <div class="nav-item active"><div class="nav-dot"></div>Dashboard</div>
+        <div class="nav-item"><div class="nav-dot"></div>Requests</div>
+        <div class="nav-item"><div class="nav-dot"></div>Credits</div>
+      </div>
+      <div class="widget">
+        <div class="widget-title">Credits Remaining</div>
+        <div class="widget-stat">680</div>
+        <div class="widget-sub">of 950 this cycle</div>
+        <div class="progress-track"><div class="progress-fill"></div></div>
+      </div>
+      <div class="status-row">
+        <span class="pill pill-green">Approved</span>
+        <span class="pill pill-orange">In Progress</span>
+        <span class="pill pill-blue">Delivered</span>
+        <span class="pill pill-yellow">Revision</span>
+        <span class="pill pill-red">Overdue</span>
+      </div>
+      <input class="mock-input" placeholder="Search requests..." readonly>
+      <div style="display:flex;gap:6px">
+        <span class="cta cta-primary">Submit Edit</span>
+        <span class="cta cta-ghost-dark">View All</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WARM SAND -->
+  <div class="mode-panel light-warm">
+    <div class="mode-panel-header">
+      <div class="dot" style="background:#D04D08"></div>
+      <span style="color:#6B665E">Warm Sand</span>
+    </div>
+    <div class="panel-body">
+      <div class="mini-sidebar">
+        <div class="nav-item active"><div class="nav-dot"></div><span class="light-warm-fg">Dashboard</span></div>
+        <div class="nav-item"><div class="nav-dot"></div><span class="light-warm-sub">Requests</span></div>
+        <div class="nav-item"><div class="nav-dot"></div><span class="light-warm-sub">Credits</span></div>
+      </div>
+      <div class="widget">
+        <div class="widget-title">Credits Remaining</div>
+        <div class="widget-stat">680</div>
+        <div class="widget-sub">of 950 this cycle</div>
+        <div class="progress-track"><div class="progress-fill"></div></div>
+      </div>
+      <div class="status-row">
+        <span class="pill pill-green">Approved</span>
+        <span class="pill pill-orange">In Progress</span>
+        <span class="pill pill-blue">Delivered</span>
+        <span class="pill pill-yellow">Revision</span>
+        <span class="pill pill-red">Overdue</span>
+      </div>
+      <input class="mock-input" placeholder="Search requests..." readonly>
+      <div style="display:flex;gap:6px">
+        <span class="cta cta-primary" style="color:#fff">Submit Edit</span>
+        <span class="cta cta-ghost light-warm" style="border:1px solid #D8D3CA;color:#3A3832;background:transparent">View All</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STONE (Notion-exact) -->
+  <div class="mode-panel light-stone">
+    <div class="mode-panel-header">
+      <div class="dot" style="background:#C2440E"></div>
+      <span style="color:#73726E">Stone <span style="background:rgba(194,68,14,0.12);color:#C2440E;font-size:9px;padding:1px 5px;border-radius:3px;font-weight:700;margin-left:4px">RECOMMENDED</span></span>
+    </div>
+    <div class="panel-body">
+      <div class="mini-sidebar">
+        <div class="nav-item active"><div class="nav-dot"></div><span class="light-stone-fg">Dashboard</span></div>
+        <div class="nav-item"><div class="nav-dot"></div><span class="light-stone-sub">Requests</span></div>
+        <div class="nav-item"><div class="nav-dot"></div><span class="light-stone-sub">Credits</span></div>
+      </div>
+      <div class="widget">
+        <div class="widget-title">Credits Remaining</div>
+        <div class="widget-stat">680</div>
+        <div class="widget-sub">of 950 this cycle</div>
+        <div class="progress-track"><div class="progress-fill"></div></div>
+      </div>
+      <div class="status-row">
+        <span class="pill pill-green">Approved</span>
+        <span class="pill pill-orange">In Progress</span>
+        <span class="pill pill-blue">Delivered</span>
+        <span class="pill pill-yellow">Revision</span>
+        <span class="pill pill-red">Overdue</span>
+      </div>
+      <input class="mock-input" placeholder="Search requests..." readonly>
+      <div style="display:flex;gap:6px">
+        <span class="cta cta-primary" style="color:#fff">Submit Edit</span>
+        <span class="cta cta-ghost light-stone" style="border:1px solid #D3D1CE;color:#37352F;background:transparent">View All</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARCHMENT -->
+  <div class="mode-panel light-parchment">
+    <div class="mode-panel-header">
+      <div class="dot" style="background:#B83D08"></div>
+      <span style="color:#6B6154">Parchment</span>
+    </div>
+    <div class="panel-body">
+      <div class="mini-sidebar">
+        <div class="nav-item active"><div class="nav-dot"></div><span class="light-parchment-fg">Dashboard</span></div>
+        <div class="nav-item"><div class="nav-dot"></div><span class="light-parchment-sub">Requests</span></div>
+        <div class="nav-item"><div class="nav-dot"></div><span class="light-parchment-sub">Credits</span></div>
+      </div>
+      <div class="widget">
+        <div class="widget-title">Credits Remaining</div>
+        <div class="widget-sub">of 950 this cycle</div>
+        <div class="progress-track"><div class="progress-fill"></div></div>
+      </div>
+      <div class="status-row">
+        <span class="pill pill-green">Approved</span>
+        <span class="pill pill-orange">In Progress</span>
+        <span class="pill pill-blue">Delivered</span>
+        <span class="pill pill-yellow">Revision</span>
+        <span class="pill pill-red">Overdue</span>
+      </div>
+      <input class="mock-input" placeholder="Search requests..." readonly>
+      <div style="display:flex;gap:6px">
+        <span class="cta cta-primary" style="color:#fff">Submit Edit</span>
+        <span class="cta cta-ghost light-parchment" style="border:1px solid #D9D0C2;color:#2A2219;background:transparent">View All</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- TOKEN COMPARISON TABLE -->
+<div class="section-label">CSS Token Comparison</div>
+<div style="background:#161616;border:1px solid #2A2A2A;border-radius:12px;overflow:hidden;margin-bottom:48px">
+<table class="compare-table">
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>Role</th>
+      <th>Dark (current)</th>
+      <th>Warm Sand</th>
+      <th>Stone ★</th>
+      <th>Parchment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="token-name">--color-bg</td>
+      <td class="role-desc">Page background</td>
+      <td><span class="color-chip"><span class="chip" style="background:#121212;border-color:#333"></span>#121212</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#FAF9F6"></span>#FAF9F6</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#F7F7F5"></span>#F7F7F5</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#FBF9F4"></span>#FBF9F4</span></td>
+    </tr>
+    <tr>
+      <td class="token-name">--color-surface</td>
+      <td class="role-desc">Cards, panels</td>
+      <td><span class="color-chip"><span class="chip" style="background:#404040;border-color:#555"></span>#404040</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#F0ECE4"></span>#F0ECE4</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#EBEBEA"></span>#EBEBEA</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#F2EDE2"></span>#F2EDE2</span></td>
+    </tr>
+    <tr>
+      <td class="token-name">--color-surface-raised</td>
+      <td class="role-desc">Card hover</td>
+      <td><span class="color-chip"><span class="chip" style="background:#4A4A4A;border-color:#666"></span>#4A4A4A</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#E8E3D9"></span>#E8E3D9</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#E3E2DF"></span>#E3E2DF</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#EAE4D6"></span>#EAE4D6</span></td>
+    </tr>
+    <tr>
+      <td class="token-name">--color-border</td>
+      <td class="role-desc">Dividers, outlines</td>
+      <td><span class="color-chip"><span class="chip" style="background:#2A2A2A;border-color:#444"></span>#2A2A2A</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#E2DDD5"></span>#E2DDD5</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#DDDBD9"></span>#DDDBD9</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#E6DFD1"></span>#E6DFD1</span></td>
+    </tr>
+    <tr>
+      <td class="token-name">--color-input</td>
+      <td class="role-desc">Input backgrounds</td>
+      <td><span class="color-chip"><span class="chip" style="background:#1A1A1A;border-color:#333"></span>#1A1A1A</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#FFFFFF"></span>#FFFFFF</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#FFFFFF"></span>#FFFFFF</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#FFFDF8"></span>#FFFDF8</span></td>
+    </tr>
+    <tr>
+      <td class="token-name">--color-sidebar</td>
+      <td class="role-desc">Sidebar bg</td>
+      <td><span class="color-chip"><span class="chip" style="background:#1A1A1A;border-color:#333"></span>#1A1A1A</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#F3EFE7"></span>#F3EFE7</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#F0EFED"></span>#F0EFED</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#F5F0E7"></span>#F5F0E7</span></td>
+    </tr>
+    <tr>
+      <td class="token-name">--color-fg</td>
+      <td class="role-desc">Primary text</td>
+      <td><span class="color-chip"><span class="chip" style="background:#F9FAFB"></span>#F9FAFB</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#1C1A17"></span>#1C1A17</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#37352F"></span>#37352F</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#2A2219"></span>#2A2219</span></td>
+    </tr>
+    <tr>
+      <td class="token-name">--color-muted</td>
+      <td class="role-desc">Labels, timestamps</td>
+      <td><span class="color-chip"><span class="chip" style="background:#9CA3AF"></span>#9CA3AF</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#8C8880"></span>#8C8880</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#9B9A97"></span>#9B9A97</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#9A9182"></span>#9A9182</span></td>
+    </tr>
+    <tr>
+      <td class="token-name">--color-primary</td>
+      <td class="role-desc">CTA accent</td>
+      <td><span class="color-chip"><span class="chip" style="background:#FF5F15"></span>#FF5F15</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#D04D08"></span>#D04D08 <span style="color:#666;font-size:9px">(on-surface)</span></span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#C2440E"></span>#C2440E <span style="color:#666;font-size:9px">(on-surface)</span></span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#B83D08"></span>#B83D08 <span style="color:#666;font-size:9px">(on-surface)</span></span></td>
+    </tr>
+    <tr>
+      <td class="token-name">--color-primary-btn</td>
+      <td class="role-desc">Button fill (kept vivid)</td>
+      <td><span class="color-chip"><span class="chip" style="background:#FF5F15"></span>#FF5F15</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#FF5F15"></span>#FF5F15</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#FF5F15"></span>#FF5F15</span></td>
+      <td><span class="color-chip"><span class="chip" style="background:#FF5F15"></span>#FF5F15</span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- WHY STONE -->
+<div class="section-label">Recommendation: Stone</div>
+<div style="background:#161616;border:1px solid #2A2A2A;border-radius:12px;padding:20px 24px;margin-bottom:40px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;font-size:12px">
+  <div>
+    <div style="color:#9CA3AF;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">Why Stone wins</div>
+    <div style="color:#F9FAFB;line-height:1.6">Closest to Notion/Figma references. Neutrals have enough warmth to avoid "generic white SaaS" but stay clean and fast. Won't show staining against your orange accent.</div>
+  </div>
+  <div>
+    <div style="color:#9CA3AF;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">Orange strategy in light</div>
+    <div style="color:#F9FAFB;line-height:1.6">Button fills keep #FF5F15 (vivid orange on white = great contrast). Text/icon usage drops to #C2440E (darker, 4.6:1 on #F7F7F5 ✓ AA). Two orange values, zero confusion.</div>
+  </div>
+  <div>
+    <div style="color:#9CA3AF;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">Toggle implementation</div>
+    <div style="color:#F9FAFB;line-height:1.6">One <code style="color:#FF5F15">data-theme="light"</code> attribute on <code style="color:#FF5F15">&lt;html&gt;</code>. All CSS variables override inside that selector. Zero component changes needed. localStorage persists the choice.</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,55 +1,72 @@
 import { motion } from "motion/react"
 
-interface Frame {
-  w: number
-  h: number
+type Tier = "near" | "mid" | "far"
+
+interface Orb {
+  size: number
   x: number
   y: number
   dur: number
+  delay: number
   dx: number
   dy: number
-  rot: number
+  tier: Tier
 }
 
-const FRAMES: Frame[] = [
-  { w: 240, h: 135, x:  5, y:  8, dur: 28, dx:  30, dy:  20, rot:  1.0 },
-  { w:  88, h: 156, x: 72, y:  4, dur: 35, dx: -20, dy:  30, rot: -2.0 },
-  { w: 156, h:  88, x: 50, y: 68, dur: 22, dx:  25, dy: -25, rot:  2.0 },
-  { w: 130, h: 130, x: 12, y: 58, dur: 38, dx:  15, dy:  25, rot: -1.0 },
-  { w: 200, h:  84, x: 28, y: 83, dur: 30, dx: -30, dy: -15, rot:  1.5 },
-  { w:  80, h: 107, x: 82, y: 48, dur: 24, dx: -25, dy:  20, rot: -3.0 },
-  { w: 300, h: 169, x: -4, y: 38, dur: 40, dx:  20, dy: -20, rot:  0.5 },
-  { w:  60, h: 107, x: 44, y: 12, dur: 20, dx:  35, dy:  25, rot:  2.5 },
-  { w: 180, h: 135, x: 62, y: 28, dur: 32, dx: -15, dy:  30, rot: -1.5 },
-  { w: 120, h:  68, x: 18, y: 88, dur: 26, dx:  20, dy: -30, rot:  2.0 },
-  { w:  72, h: 128, x: 90, y: 22, dur: 36, dx: -18, dy:  22, rot:  3.0 },
-  { w: 220, h: 123, x: 38, y: 50, dur: 42, dx:  18, dy: -18, rot: -1.0 },
+const ORBS: Orb[] = [
+  // Near — large, bright, strong glow
+  { size: 30, x:  8, y: 12, dur:  9, delay:   0, dx:  14, dy:  16, tier: "near" },
+  { size: 26, x: 78, y: 68, dur: 11, delay:  -3, dx: -12, dy: -14, tier: "near" },
+  { size: 22, x: 14, y: 55, dur:  8, delay:  -2, dx:  16, dy: -12, tier: "near" },
+  { size: 28, x: 84, y: 20, dur: 13, delay:  -5, dx: -10, dy:  14, tier: "near" },
+  { size: 24, x: 48, y: 84, dur: 10, delay:  -7, dx:  12, dy: -16, tier: "near" },
+
+  // Mid — medium, moderate glow
+  { size: 14, x: 35, y: 18, dur: 15, delay:  -1, dx:  -8, dy:  10, tier: "mid" },
+  { size: 12, x: 68, y: 42, dur: 12, delay:  -6, dx:  10, dy:  -8, tier: "mid" },
+  { size: 16, x: 22, y: 78, dur: 17, delay:  -4, dx:  -6, dy: -10, tier: "mid" },
+  { size: 10, x: 90, y: 55, dur: 13, delay:  -8, dx: -12, dy:   8, tier: "mid" },
+  { size: 14, x: 55, y: 35, dur: 16, delay:  -2, dx:   8, dy:  12, tier: "mid" },
+  { size: 12, x:  5, y: 38, dur: 14, delay:  -9, dx:  10, dy:  -6, tier: "mid" },
+  { size: 16, x: 72, y: 87, dur: 11, delay:  -3, dx:  -8, dy: -10, tier: "mid" },
+  { size: 11, x: 42, y:  6, dur: 19, delay: -12, dx:   6, dy:  10, tier: "mid" },
+
+  // Far — tiny dots, barely there
+  { size:  5, x: 25, y: 25, dur: 20, delay:  -2, dx:   6, dy:  -8, tier: "far" },
+  { size:  4, x: 48, y: 52, dur: 18, delay:  -8, dx:  -6, dy:   6, tier: "far" },
+  { size:  6, x: 88, y: 78, dur: 22, delay:  -3, dx:  -8, dy:  -6, tier: "far" },
+  { size:  5, x: 62, y:  8, dur: 25, delay: -11, dx:   4, dy:   8, tier: "far" },
+  { size:  3, x: 40, y: 72, dur: 19, delay:  -6, dx:   8, dy:  -4, tier: "far" },
+  { size:  4, x: 15, y: 90, dur: 16, delay:  -9, dx:  -4, dy:   6, tier: "far" },
+  { size:  6, x: 92, y: 14, dur: 21, delay: -14, dx:  -6, dy:   6, tier: "far" },
+  { size:  5, x: 30, y: 45, dur: 17, delay:  -4, dx:   6, dy:   8, tier: "far" },
+  { size:  4, x: 58, y: 92, dur: 23, delay:  -7, dx:  -8, dy:  -4, tier: "far" },
+  { size:  3, x: 75, y: 30, dur: 24, delay: -16, dx:   6, dy:  -6, tier: "far" },
 ]
 
 export default function AuthBackground() {
   return (
     <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
-      {FRAMES.map((f, i) => (
+      {ORBS.map((orb, i) => (
         <motion.div
           key={i}
+          className={`bokeh-orb bokeh-${orb.tier}`}
           style={{
             position: "absolute",
-            left: `${f.x}%`,
-            top: `${f.y}%`,
-            width: f.w,
-            height: f.h,
-            borderRadius: 3,
-            border: "1px solid rgba(255,95,21,0.10)",
-            backgroundColor: "rgba(255,95,21,0.04)",
+            left: `${orb.x}%`,
+            top: `${orb.y}%`,
+            width: orb.size,
+            height: orb.size,
+            borderRadius: "50%",
             willChange: "transform",
           }}
           animate={{
-            x: [0, f.dx, f.dx * 0.5, -f.dx * 0.3, 0],
-            y: [0, f.dy * 0.4, f.dy, f.dy * 0.6, 0],
-            rotate: [0, f.rot, f.rot * 0.3, -f.rot * 0.5, 0],
+            x: [0, orb.dx, orb.dx * 0.4, -orb.dx * 0.3, 0],
+            y: [0, orb.dy * 0.5, orb.dy, orb.dy * 0.3, 0],
           }}
           transition={{
-            duration: f.dur,
+            duration: orb.dur,
+            delay: orb.delay,
             repeat: Infinity,
             repeatType: "loop",
             ease: [0.45, 0, 0.55, 1],

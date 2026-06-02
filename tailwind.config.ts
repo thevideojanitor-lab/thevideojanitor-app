@@ -55,6 +55,7 @@ export default {
         "surface-elevated": "hsl(var(--surface-elevated))",
         "text-muted": "hsl(var(--text-muted))",
         "text-secondary": "hsl(var(--text-secondary))",
+        "editor-accent": "hsl(var(--editor-accent))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

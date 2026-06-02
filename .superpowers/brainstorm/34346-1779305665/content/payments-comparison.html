@@ -1,0 +1,112 @@
+<style>
+  .alert { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.35); border-radius: 12px; padding: 18px 20px; margin-bottom: 20px; }
+  .warn { background: rgba(234,179,8,0.08); border: 1px solid rgba(234,179,8,0.3); border-radius: 12px; padding: 16px 18px; margin-bottom: 16px; }
+  .good { background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.3); border-radius: 12px; padding: 16px 18px; margin-bottom: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; }
+  .card { background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 12px; padding: 16px; }
+  .card.winner { border-color: rgba(255,95,21,0.45); background: rgba(255,95,21,0.06); }
+  .card.dead { opacity: 0.55; }
+  .card-name { font-size: 15px; font-weight: 800; color: #F9FAFB; margin-bottom: 4px; }
+  .card-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 8px; border-radius: 10px; margin-bottom: 10px; }
+  .tag-green { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .tag-red { background: rgba(239,68,68,0.15); color: #f87171; }
+  .tag-orange { background: rgba(255,95,21,0.15); color: #FF5F15; }
+  .tag-yellow { background: rgba(234,179,8,0.15); color: #facc15; }
+  .tag-blue { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .card-fee { font-size: 16px; font-weight: 800; color: #FF5F15; margin: 8px 0 4px; }
+  .card-fee-sub { font-size: 11px; color: #9CA3AF; margin-bottom: 10px; }
+  .point { display: flex; gap: 8px; font-size: 12px; color: #d1d5db; margin-bottom: 6px; line-height: 1.5; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .dot-green { background: #4ade80; }
+  .dot-red { background: #f87171; }
+  .dot-yellow { background: #facc15; }
+  .path-step { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid #2A2A2A; }
+  .path-num { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,95,21,0.15); color: #FF5F15; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .path-title { font-size: 13px; font-weight: 700; color: #F9FAFB; margin-bottom: 3px; }
+  .path-desc { font-size: 12px; color: #9CA3AF; line-height: 1.5; }
+  .path-time { font-size: 11px; color: #FF5F15; margin-top: 4px; font-weight: 600; }
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr 1fr; } }
+</style>
+
+<h2>Payment Processor for US Clients — Honest Research</h2>
+<p class="subtitle">What the research actually says for Indian founders selling to US customers</p>
+
+<div class="alert">
+  <p style="font-weight:700;color:#f87171;margin-bottom:8px;">⚠️ Critical finding — read this first</p>
+  <p style="font-size:13px;color:#d1d5db;line-height:1.6;">Dodo Payments, Paddle, and Lemon Squeezy are all <strong>Merchant of Record (MoR)</strong> platforms built primarily for <strong>software/digital product</strong> businesses. Dodo explicitly states: <em>"Service-based businesses such as digital marketing or web design are currently not supported."</em> TheVideoJanitors sells a <strong>video editing service</strong>. You must verify with each MoR whether a credit-based subscription for a managed service is acceptable before spending time integrating.</p>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <div class="card-name">Stripe India</div>
+    <div class="card-tag tag-red">Invite-Only</div>
+    <div class="card-fee">2.9% + $0.30</div>
+    <div class="card-fee-sub">per transaction</div>
+    <div class="point"><div class="dot dot-red"></div><span>Invite-only in India since 2024 — you can't just sign up</span></div>
+    <div class="point"><div class="dot dot-red"></div><span>Requires registered Indian business entity</span></div>
+    <div class="point"><div class="dot dot-green"></div><span>Most trusted by US customers by far</span></div>
+    <div class="point"><div class="dot dot-red"></div><span>Using US Stripe without US entity violates FEMA/RBI rules</span></div>
+  </div>
+
+  <div class="card winner">
+    <div class="card-name">US LLC + Stripe</div>
+    <div class="card-tag tag-orange">★ Best Path</div>
+    <div class="card-fee">2.9% + $0.30</div>
+    <div class="card-fee-sub">lowest fees, most trust</div>
+    <div class="point"><div class="dot dot-green"></div><span>Wyoming/Delaware LLC — $100–200/yr via Doola or Stripe Atlas</span></div>
+    <div class="point"><div class="dot dot-green"></div><span>Full Stripe USA access — no restrictions, best API</span></div>
+    <div class="point"><div class="dot dot-green"></div><span>#1 trusted checkout by US users (Stripe badge = instant trust)</span></div>
+    <div class="point"><div class="dot dot-green"></div><span>Keeps Razorpay for India — clean split</span></div>
+    <div class="point"><div class="dot dot-yellow"></div><span>Takes 1–2 weeks to set up LLC + bank account</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-name">Dodo Payments</div>
+    <div class="card-tag tag-blue">Verify First</div>
+    <div class="card-fee">4% + $0.40</div>
+    <div class="card-fee-sub">per transaction</div>
+    <div class="point"><div class="dot dot-green"></div><span>Built for Indian founders — fast onboarding</span></div>
+    <div class="point"><div class="dot dot-green"></div><span>Handles tax in 150+ jurisdictions automatically</span></div>
+    <div class="point"><div class="dot dot-red"></div><span><strong>May not support service businesses</strong> — must verify</span></div>
+    <div class="point"><div class="dot dot-red"></div><span>Founded 2024 — young platform, mixed reviews</span></div>
+    <div class="point"><div class="dot dot-red"></div><span>Some accounts put on hold without explanation</span></div>
+  </div>
+
+  <div class="card dead">
+    <div class="card-name">Paddle / LemonSqueezy</div>
+    <div class="card-tag tag-yellow">Skip for Now</div>
+    <div class="card-fee">5% + $0.50</div>
+    <div class="card-fee-sub">highest fees</div>
+    <div class="point"><div class="dot dot-red"></div><span>Most expensive option</span></div>
+    <div class="point"><div class="dot dot-red"></div><span>Lemon Squeezy — slow support, mid-transition to Stripe infra</span></div>
+    <div class="point"><div class="dot dot-yellow"></div><span>Paddle better suited for larger SaaS (>$10k MRR)</span></div>
+    <div class="point"><div class="dot dot-red"></div><span>Same service-business restriction risk as Dodo</span></div>
+  </div>
+</div>
+
+<div class="warn">
+  <p style="font-weight:700;color:#facc15;margin-bottom:6px;">What US customers actually trust</p>
+  <p style="font-size:13px;color:#d1d5db;line-height:1.6;">US users are trained to look for the Stripe or PayPal checkout experience. An unfamiliar payment screen — even if technically safe — causes hesitation and checkout abandonment. Stripe-powered checkouts have the highest conversion rate in the US market by a significant margin. This alone is a strong argument for the US LLC route.</p>
+</div>
+
+<div class="good">
+  <p style="font-weight:700;color:#4ade80;margin-bottom:10px;">Recommended path — do this in order</p>
+  <div class="path-step">
+    <div class="path-num">1</div>
+    <div><div class="path-title">Form a US LLC</div><div class="path-desc">Wyoming (cheapest, no state tax) or Delaware (standard). Use Doola ($297 one-time) or Northwest Registered Agent ($39 + state fee). Takes 3–7 days online.</div><div class="path-time">~1 week, ~$200–300 total</div></div>
+  </div>
+  <div class="path-step">
+    <div class="path-num">2</div>
+    <div><div class="path-title">Open a US bank account</div><div class="path-desc">Mercury or Relay — both are free, fully online, specifically built for remote founders/LLCs. Takes 1–3 days after LLC is approved.</div><div class="path-time">~2–3 days, free</div></div>
+  </div>
+  <div class="path-step">
+    <div class="path-num">3</div>
+    <div><div class="path-title">Sign up for Stripe USA</div><div class="path-desc">Use your LLC EIN + Mercury bank details. Full access. No invite needed. Existing Stripe integration code stays exactly the same — just swap the API keys.</div><div class="path-time">~1 day, existing code unchanged</div></div>
+  </div>
+  <div class="path-step" style="border:none">
+    <div class="path-num">4</div>
+    <div><div class="path-title">Keep Razorpay for India</div><div class="path-desc">Your existing dual-gateway logic (region detection → Stripe for non-India, Razorpay for India) already handles this perfectly. Zero code changes needed.</div><div class="path-time">Already built ✓</div></div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px;">The US LLC path costs ~$300 once and permanently solves the payment problem. Dodo is a shortcut that may not even support your business type. Want me to check if the credit-based subscription model qualifies, or does the US LLC path make sense to pursue?</p>

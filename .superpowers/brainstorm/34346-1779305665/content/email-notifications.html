@@ -1,0 +1,153 @@
+<style>
+  .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; margin: 20px 0; }
+  .flow-box { background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 10px; padding: 12px 16px; font-size: 12px; text-align: center; min-width: 110px; }
+  .flow-box strong { display: block; color: #F9FAFB; font-size: 13px; margin-bottom: 3px; }
+  .flow-box span { color: #9CA3AF; font-size: 11px; }
+  .flow-arrow { color: #FF5F15; font-size: 20px; padding: 0 8px; flex-shrink: 0; }
+  .flow-highlight { border-color: rgba(255,95,21,0.4); background: rgba(255,95,21,0.07); }
+  .flow-new { border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.07); }
+
+  .triggers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .trigger { background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 10px; padding: 14px; }
+  .trigger-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .trigger-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .trigger-title { font-size: 13px; font-weight: 700; color: #F9FAFB; }
+  .trigger-to { font-size: 11px; color: #9CA3AF; }
+  .trigger-body { font-size: 12px; color: #d1d5db; line-height: 1.5; background: #121212; border-radius: 6px; padding: 8px 10px; margin-top: 6px; border-left: 2px solid #2A2A2A; }
+  .trigger-body .subject { font-weight: 700; color: #F9FAFB; margin-bottom: 4px; }
+
+  .ic-match { background: rgba(255,95,21,0.12); }
+  .ic-deliver { background: rgba(59,130,246,0.12); }
+  .ic-revision { background: rgba(234,179,8,0.12); }
+  .ic-approve { background: rgba(34,197,94,0.12); }
+  .ic-billing { background: rgba(168,85,247,0.12); }
+  .ic-chat { background: rgba(156,163,175,0.12); }
+
+  .provider-compare { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .provider { background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 10px; padding: 14px; text-align: center; }
+  .provider.recommended { border-color: rgba(255,95,21,0.4); background: rgba(255,95,21,0.07); }
+  .provider-name { font-size: 14px; font-weight: 800; color: #F9FAFB; margin-bottom: 4px; }
+  .provider-free { font-size: 11px; color: #4ade80; margin-bottom: 8px; }
+  .provider-pros { font-size: 11px; color: #9CA3AF; line-height: 1.7; }
+  .rec-badge { display: inline-block; background: rgba(255,95,21,0.15); color: #FF5F15; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; }
+
+  .chat-note { background: rgba(234,179,8,0.07); border: 1px solid rgba(234,179,8,0.25); border-radius: 8px; padding: 10px 12px; margin-top: 8px; font-size: 11px; color: #d1d5db; line-height: 1.5; }
+  .effort-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #2A2A2A; }
+  .effort-num { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,95,21,0.12); color: #FF5F15; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .effort-text { font-size: 13px; color: #d1d5db; flex: 1; }
+  .effort-time { font-size: 11px; color: #9CA3AF; flex-shrink: 0; }
+  @media (max-width: 680px) { .triggers-grid, .provider-compare { grid-template-columns: 1fr; } }
+</style>
+
+<h2>Email Notification System</h2>
+<p class="subtitle">Architecture, the 6 emails that matter, and what to build</p>
+
+<h3>How it flows</h3>
+<div class="flow">
+  <div class="flow-box"><strong>User Action</strong><span>submit, deliver, approve…</span></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-box flow-highlight"><strong>notifications table</strong><span>INSERT (already works)</span></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-box flow-new"><strong>DB Webhook</strong><span>Supabase fires</span></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-box flow-new"><strong>send-email fn</strong><span>new Edge Function</span></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-box flow-new"><strong>Resend API</strong><span>→ inbox</span></div>
+</div>
+<p style="font-size:12px;color:#9CA3AF;margin:-4px 0 20px;">Existing code already inserts into <code>notifications</code> for in-app alerts — the webhook just piggybacks on those. Zero changes to existing functions.</p>
+
+<h3>The 6 emails</h3>
+<div class="triggers-grid">
+  <div class="trigger">
+    <div class="trigger-header">
+      <div class="trigger-icon ic-match">🎯</div>
+      <div><div class="trigger-title">Job Assigned</div><div class="trigger-to">→ Editor</div></div>
+    </div>
+    <div class="trigger-body">
+      <div class="subject">New edit request — deliver by [date]</div>
+      <div style="color:#9CA3AF;font-size:11px;">You've been matched. Log in to view brief. Deadline: 48h from now.</div>
+    </div>
+  </div>
+  <div class="trigger">
+    <div class="trigger-header">
+      <div class="trigger-icon ic-deliver">📦</div>
+      <div><div class="trigger-title">Video Delivered</div><div class="trigger-to">→ Client</div></div>
+    </div>
+    <div class="trigger-body">
+      <div class="subject">Your edit is ready to review ✓</div>
+      <div style="color:#9CA3AF;font-size:11px;">Log in to watch, leave feedback, or approve to release payment.</div>
+    </div>
+  </div>
+  <div class="trigger">
+    <div class="trigger-header">
+      <div class="trigger-icon ic-revision">🔄</div>
+      <div><div class="trigger-title">Revision Requested</div><div class="trigger-to">→ Editor</div></div>
+    </div>
+    <div class="trigger-body">
+      <div class="subject">Revision feedback from your client</div>
+      <div style="color:#9CA3AF;font-size:11px;">Client has left timestamped notes. Log in to view and deliver revision.</div>
+    </div>
+  </div>
+  <div class="trigger">
+    <div class="trigger-header">
+      <div class="trigger-icon ic-approve">✅</div>
+      <div><div class="trigger-title">Job Approved</div><div class="trigger-to">→ Editor</div></div>
+    </div>
+    <div class="trigger-body">
+      <div class="subject">Job approved — payout queued</div>
+      <div style="color:#9CA3AF;font-size:11px;">Client approved the edit. Your payout is queued for this week.</div>
+    </div>
+  </div>
+  <div class="trigger">
+    <div class="trigger-header">
+      <div class="trigger-icon ic-billing">💳</div>
+      <div><div class="trigger-title">Payment Successful</div><div class="trigger-to">→ Client</div></div>
+    </div>
+    <div class="trigger-body">
+      <div class="subject">Credits added to your account</div>
+      <div style="color:#9CA3AF;font-size:11px;">Payment successful. Submit your first edit request now.</div>
+    </div>
+  </div>
+  <div class="trigger">
+    <div class="trigger-header">
+      <div class="trigger-icon ic-chat">💬</div>
+      <div><div class="trigger-title">New Chat Message</div><div class="trigger-to">→ Client or Editor</div></div>
+    </div>
+    <div class="trigger-body">
+      <div class="subject">[Name] sent you a message</div>
+      <div style="color:#9CA3AF;font-size:11px;">"Hey, quick question about the aspect ratio…" — Log in to reply.</div>
+    </div>
+    <div class="chat-note">⚠️ Rate-limit this one — wait 5 min after last message before sending, so rapid-fire chats don't flood inboxes.</div>
+  </div>
+</div>
+
+<h3>Email provider</h3>
+<div class="provider-compare">
+  <div class="provider recommended">
+    <div class="rec-badge">★ Use This</div>
+    <div class="provider-name">Resend</div>
+    <div class="provider-free">3,000/month free</div>
+    <div class="provider-pros">Built for developers<br>5-line API<br>Official Supabase guide<br>Easy domain setup<br>Great deliverability</div>
+  </div>
+  <div class="provider">
+    <div class="provider-name">SendGrid</div>
+    <div class="provider-free">100/day free</div>
+    <div class="provider-pros">Industry standard<br>More complex<br>Overkill for v1</div>
+  </div>
+  <div class="provider">
+    <div class="provider-name">Supabase Auth</div>
+    <div class="provider-free">Already set up</div>
+    <div class="provider-pros">Auth emails only<br>Can't use for<br>custom triggers</div>
+  </div>
+</div>
+
+<h3>Build steps</h3>
+<div class="effort-row"><div class="effort-num">1</div><div class="effort-text">Create Resend account + verify sending domain (notifications@thevideojanitors.com)</div><div class="effort-time">30 min</div></div>
+<div class="effort-row"><div class="effort-num">2</div><div class="effort-text">Add <code>RESEND_API_KEY</code> to Supabase Edge Function secrets</div><div class="effort-time">5 min</div></div>
+<div class="effort-row"><div class="effort-num">3</div><div class="effort-text">Build <code>send-email</code> Edge Function — reads notification type, looks up user email, sends via Resend</div><div class="effort-time">1 day</div></div>
+<div class="effort-row"><div class="effort-num">4</div><div class="effort-text">Configure Supabase Database Webhook on <code>notifications</code> INSERT → call send-email</div><div class="effort-time">15 min</div></div>
+<div class="effort-row"><div class="effort-num">5</div><div class="effort-text">Add chat rate-limiting (5-min debounce before sending chat email)</div><div class="effort-time">2 hrs</div></div>
+<div class="effort-row" style="border:none"><div class="effort-num">6</div><div class="effort-text">Test all 6 triggers end-to-end</div><div class="effort-time">2 hrs</div></div>
+
+<p style="color:#FF5F15;font-weight:700;margin-top:16px;font-size:13px;">Total: ~2–3 days. One new Edge Function. No changes to existing code.</p>
+<p class="subtitle">Happy with this? Say yes and we move to #3 — landing page fixes.</p>
