@@ -16,7 +16,7 @@ function applyTheme(t: Theme) {
 }
 
 const initial: Theme =
-  (typeof localStorage !== "undefined" ? (localStorage.getItem("theme") as Theme) : null) ?? "dark"
+  (typeof localStorage !== "undefined" ? (localStorage.getItem("theme") as Theme) : null) ?? "light"
 
 export const useThemeStore = create<ThemeStore>((set) => ({
   theme: initial,
