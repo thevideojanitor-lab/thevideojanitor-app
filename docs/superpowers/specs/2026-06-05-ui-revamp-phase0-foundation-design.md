@@ -238,7 +238,13 @@ No screen layouts change in Phase 0.
 
 1. Toggling theme flips the entire app between Daylight (light) and Cutting Room (dark)
    palettes with no hardcoded-color regressions on spot-checked screens.
-2. New visitors default to **light** mode; choice persists across reloads.
+2. ~~New visitors default to **light** mode~~ **REVISED:** new visitors default to
+   **dark** (Cutting Room) and light is opt-in via the toggle/saved preference; choice
+   persists across reloads. Rationale: ~36 app screens contain ~1,700 hardcoded dark hex
+   utilities that ignore the token swap and render broken on the light paper background.
+   Shipping light-as-default before those screens are rebuilt (Phases 1–5) would ship a
+   broken default. The default flips back to light as a final step once screens are
+   light-ready. (Foundation tokens/fonts/status all built and intact.)
 3. Headings render in **Satoshi**, body in **General Sans**, both modes; no FOUT on a
    normal load (preconnect in place).
 4. Cards/buttons/inputs show correct radii; light surfaces show soft shadows, dark
