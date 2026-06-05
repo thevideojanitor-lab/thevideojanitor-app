@@ -612,4 +612,22 @@ git commit -m "fix(ui): <regression> found during Phase 0 verification"
 
 **Type/name consistency:** `tone` keys (`approved`, `in_progress`, `delivered`, `in_revision`, `overdue`, `pending`, `abandoned`) match the `--status-<tone>-*` variables defined in both `:root` and `[data-theme="light"]`. `pending_match` and `matched` both map to tone `pending`; `--status-pending-*` exists in both blocks. ✓
 
-**Note on test imports:** Task 5 uses query-suffixed dynamic imports (`./themeStore?test-default`) to force Vite/vitest to re-run module-init default logic per case. If the vitest resolver rejects the query suffix, fall back to `vi.resetModules()` + `await import("./themeStore")` in each case.
+**Note on test imports:** Task 5 uses query-suffixed dynamic imports (`./themeStore?test-default`) to force Vite/vitest to re-run module-init default logic per case. If the vitest resolver rejects the query suffix, fall back to `vi.resetModules()` + `await import("./themeStore")` in each case. *(Implemented with the `vi.resetModules()` fallback.)*
+
+---
+
+## Deferred follow-ups (from final review — not blocking Phase 0)
+
+These were identified during the whole-branch review and intentionally deferred; address in a later phase:
+
+- **Dark-mode strategy mismatch (review I3):** `tailwind.config.ts` sets `darkMode: ["class"]`, but theming is driven by `data-theme` (dark = absence of attribute). Pre-existing `dark:` utilities (e.g. `ui/alert.tsx` `dark:border-destructive`, `ui/chart.tsx` `THEMES.dark = ".dark"`) never activate. Pre-dates Phase 0; fixing it changes the global dark-mode mechanism (set `data-theme="dark"` explicitly + `darkMode: ["selector", '[data-theme="dark"]']`) with app-wide blast radius, so it needs its own task + regression pass. Low impact today (few `dark:` usages).
+- **m1:** dark mode activates by *removing* `data-theme` rather than setting `data-theme="dark"` — coherent today but coupled to the I3 fix.
+- **m3:** `rounded-card`/`card-lg` are hardcoded rem values, not `calc(var(--radius) …)` offsets.
+- **m4:** no test for `applyTheme`'s DOM side effect (setting/removing `data-theme`).
+
+### Resolved in final-review fix commit (844322e)
+- **I1:** `font-sans` now maps to General Sans (was OS system font on ~16 components).
+- **I2:** inline head script applies `data-theme` before first paint (no dark flash for light-default visitors).
+- **C1:** `--radius` added to `[data-theme="light"]` for token symmetry.
+- **m2:** Satoshi now loads weights 500/600/700/900 (covers `font-semibold` headings).
+- Task-1 perf: dropped redundant Fontshare `@import` (kept the `<link>`).
