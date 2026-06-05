@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        heading: ['"DM Sans"', 'sans-serif'],
-        body: ['"Inter"', 'sans-serif'],
+        heading: ['"Satoshi"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        body: ['"General Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

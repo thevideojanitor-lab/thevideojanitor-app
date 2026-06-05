@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@700,900&f[]=general-sans@400,500,600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -53,7 +53,7 @@
     --shadow-card: 0 4px 24px hsl(0 0% 0% / 0.3);
     --editor-accent: 217 91% 60%;
 
-    font-family: 'Inter', sans-serif;
+    font-family: 'General Sans', ui-sans-serif, system-ui, sans-serif;
   }
 
   /* ── Warm Sand light mode — sharpened ── */
@@ -115,16 +115,16 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
   }
 }
 
 @layer utilities {
   .font-heading {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
   }
   .font-body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'General Sans', ui-sans-serif, system-ui, sans-serif;
   }
   .text-gradient {
     @apply bg-clip-text text-transparent;
