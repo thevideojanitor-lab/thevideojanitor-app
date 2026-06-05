@@ -69,52 +69,67 @@
     font-family: 'General Sans', ui-sans-serif, system-ui, sans-serif;
   }
 
-  /* ── Warm Sand light mode — sharpened ── */
+  /* ── Daylight — light mode ── */
   [data-theme="light"] {
-    --background: 42 40% 97%;
-    --foreground: 28 18% 8%;
+    --background: 38 58% 96.3%;
+    --foreground: 45 21% 7.5%;
 
-    --card: 38 30% 90%;
-    --card-foreground: 28 18% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 45 21% 7.5%;
 
-    --popover: 38 30% 90%;
-    --popover-foreground: 28 18% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 45 21% 7.5%;
 
-    --primary: 22 100% 52%;
+    --primary: 19 100% 54.1%;
     --primary-foreground: 0 0% 100%;
+    --primary-hover: 19 93% 45.7%;
 
-    --secondary: 36 24% 85%;
-    --secondary-foreground: 28 18% 8%;
+    --secondary: 39 42% 90.6%;
+    --secondary-foreground: 45 21% 7.5%;
 
-    --muted: 36 26% 85%;
-    --muted-foreground: 30 12% 36%;
+    --muted: 39 42% 90.6%;
+    --muted-foreground: 45 10% 38%;
 
-    --accent: 22 100% 52%;
+    --accent: 19 100% 54.1%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 86% 56%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 33 22% 72%;
+    --border: 38 33% 85.9%;
     --input: 0 0% 100%;
-    --ring: 22 100% 52%;
+    --ring: 19 100% 54.1%;
 
     --sidebar-background: 40 34% 93%;
-    --sidebar-foreground: 28 18% 8%;
-    --sidebar-primary: 22 100% 52%;
+    --sidebar-foreground: 45 21% 7.5%;
+    --sidebar-primary: 19 100% 54.1%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 36 26% 85%;
-    --sidebar-accent-foreground: 28 18% 8%;
-    --sidebar-border: 33 22% 72%;
-    --sidebar-ring: 22 100% 52%;
+    --sidebar-accent: 39 42% 90.6%;
+    --sidebar-accent-foreground: 45 21% 7.5%;
+    --sidebar-border: 38 33% 85.9%;
+    --sidebar-ring: 19 100% 54.1%;
 
-    --surface: 38 30% 90%;
-    --surface-elevated: 36 26% 85%;
-    --text-muted: 30 12% 36%;
-    --text-secondary: 28 14% 26%;
-    --shadow-card: 0 4px 28px hsl(28 18% 8% / 0.12);
+    --surface: 0 0% 100%;
+    --surface-elevated: 39 42% 90.6%;
+    --text-muted: 45 10% 38%;
+    --text-secondary: 45 14% 26%;
+    --gradient-primary: linear-gradient(135deg, hsl(19, 100%, 54.1%), hsl(24, 100%, 60%));
+    --shadow-card: var(--shadow-lift);
 
-    --editor-accent: 221 85% 50%;
+    --editor-accent: 221 83% 53%;
+
+    /* status colors — light, retuned for paper bg */
+    --status-approved-bg: rgba(34,197,94,0.14);    --status-approved-fg: #15803D;  --status-approved-border: rgba(34,197,94,0.35);
+    --status-in_progress-bg: rgba(255,95,21,0.12); --status-in_progress-fg: #E14E08; --status-in_progress-border: rgba(255,95,21,0.35);
+    --status-delivered-bg: rgba(59,130,246,0.12);  --status-delivered-fg: #1D4ED8;  --status-delivered-border: rgba(59,130,246,0.35);
+    --status-in_revision-bg: rgba(234,179,8,0.16); --status-in_revision-fg: #B45309; --status-in_revision-border: rgba(234,179,8,0.4);
+    --status-overdue-bg: rgba(239,68,68,0.12);     --status-overdue-fg: #B91C1C;    --status-overdue-border: rgba(239,68,68,0.35);
+    --status-pending-bg: rgba(107,102,87,0.10);    --status-pending-fg: #6B6657;    --status-pending-border: rgba(107,102,87,0.3);
+    --status-abandoned-bg: rgba(107,102,87,0.06);  --status-abandoned-fg: #6B6657;  --status-abandoned-border: rgba(107,102,87,0.22);
+
+    /* shadows — light = soft + large */
+    --shadow-soft: 0 30px 70px -28px rgba(23,21,15,0.22);
+    --shadow-lift: 0 18px 40px -20px rgba(23,21,15,0.20);
   }
 }
 
