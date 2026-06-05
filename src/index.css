@@ -299,3 +299,11 @@ html {
   box-shadow:
     0 0 7px 2px rgba(255, 95, 21, 0.16);
 }
+
+/* ── Editorial halo glow (marketing) — theme-aware via --primary ── */
+.halo {
+  background: radial-gradient(46rem 32rem at 88% -8%, hsl(var(--primary) / 0.12), transparent 62%);
+}
+[data-theme="light"] .halo {
+  background: radial-gradient(46rem 32rem at 88% -8%, hsl(var(--primary) / 0.12), transparent 62%);
+}
