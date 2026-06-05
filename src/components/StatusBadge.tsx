@@ -1,15 +1,31 @@
 import { motion, AnimatePresence } from "motion/react"
 import type { RequestStatus } from "@/lib/supabase"
 
-const STATUS_CONFIG: Record<string, { label: string; bg: string; text: string; border: string }> = {
-  approved:     { label: "Approved",     bg: "rgba(34,197,94,0.15)",  text: "#4ade80", border: "rgba(34,197,94,0.3)" },
-  in_progress:  { label: "In Progress",  bg: "rgba(255,95,21,0.15)",  text: "#FF5F15", border: "rgba(255,95,21,0.3)" },
-  delivered:    { label: "Review Ready", bg: "rgba(59,130,246,0.15)", text: "#60a5fa", border: "rgba(59,130,246,0.3)" },
-  in_revision:  { label: "In Revision",  bg: "rgba(234,179,8,0.15)",  text: "#facc15", border: "rgba(234,179,8,0.3)" },
-  overdue:      { label: "Overdue",      bg: "rgba(239,68,68,0.15)",  text: "#f87171", border: "rgba(239,68,68,0.3)" },
-  pending_match:{ label: "Finding Editor", bg: "rgba(64,64,64,0.5)", text: "#9CA3AF", border: "#2A2A2A" },
-  matched:      { label: "Matched",      bg: "rgba(64,64,64,0.5)",    text: "#9CA3AF", border: "#2A2A2A" },
-  abandoned:    { label: "Abandoned",    bg: "rgba(64,64,64,0.3)",    text: "#9CA3AF", border: "#2A2A2A" },
+// status -> { label, tone }. `tone` selects the CSS-variable group
+// (--status-<tone>-bg/-fg/-border) defined per-theme in src/index.css.
+export const STATUS_CONFIG: Record<string, { label: string; tone: string }> = {
+  approved:      { label: "Approved",       tone: "approved" },
+  in_progress:   { label: "In Progress",    tone: "in_progress" },
+  delivered:     { label: "Review Ready",   tone: "delivered" },
+  in_revision:   { label: "In Revision",    tone: "in_revision" },
+  overdue:       { label: "Overdue",        tone: "overdue" },
+  pending_match: { label: "Finding Editor", tone: "pending" },
+  matched:       { label: "Matched",        tone: "pending" },
+  abandoned:     { label: "Abandoned",      tone: "abandoned" },
+}
+
+// Resolves a status to its label + theme-aware CSS-variable colors.
+// Unknown statuses fall back to the "Finding Editor" / pending tone.
+export function resolveStatus(status: string) {
+  const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG["pending_match"]
+  const { tone } = cfg
+  return {
+    label: cfg.label,
+    tone,
+    backgroundColor: `var(--status-${tone}-bg)`,
+    color: `var(--status-${tone}-fg)`,
+    borderColor: `var(--status-${tone}-border)`,
+  }
 }
 
 interface Props {
@@ -18,26 +34,26 @@ interface Props {
 }
 
 export default function StatusBadge({ status, pulse }: Props) {
-  const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG["pending_match"]
+  const { label, backgroundColor, color, borderColor } = resolveStatus(status)
 
   return (
     <AnimatePresence mode="wait">
       <motion.span
         key={status}
         role="status"
-        aria-label={`Status: ${cfg.label}`}
+        aria-label={`Status: ${label}`}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.15 }}
         className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${pulse ? "animate-pulse" : ""}`}
-        style={{ backgroundColor: cfg.bg, color: cfg.text, borderColor: cfg.border }}
+        style={{ backgroundColor, color, borderColor }}
       >
         <span
           className="w-1.5 h-1.5 rounded-full shrink-0"
-          style={{ backgroundColor: cfg.text }}
+          style={{ backgroundColor: color }}
         />
-        {cfg.label}
+        {label}
       </motion.span>
     </AnimatePresence>
   )
