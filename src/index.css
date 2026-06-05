@@ -100,6 +100,8 @@
     --input: 0 0% 100%;
     --ring: 19 100% 54.1%;
 
+    --radius: 0.75rem;
+
     --sidebar-background: 40 34% 93%;
     --sidebar-foreground: 45 21% 7.5%;
     --sidebar-primary: 19 100% 54.1%;

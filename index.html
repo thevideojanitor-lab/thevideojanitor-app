@@ -3,8 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Apply theme before first paint to avoid a flash. Default = light
+      // (Daylight); only a saved "dark" preference keeps the dark :root palette.
+      (function () {
+        try {
+          if (localStorage.getItem("theme") !== "dark")
+            document.documentElement.setAttribute("data-theme", "light");
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://api.fontshare.com" />
-    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,900&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,600,700,900&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
     <title>TheVideoJanitors | Fast, Reliable Short-Form Video Editing</title>
     <meta name="description" content="Get polished reels in 48 hours. No freelancer hassle. Subscribe to a plan and receive edits back fast." />
     <meta name="robots" content="index, follow" />
