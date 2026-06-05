@@ -4,15 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
-      // Apply theme before first paint to avoid a flash. Default = light
-      // (Daylight); only a saved "dark" preference keeps the dark :root palette.
+      // Apply theme before first paint to avoid a flash. Default = dark
+      // (Cutting Room) until app screens are rebuilt to be light-ready;
+      // only a saved "light" preference applies the Daylight palette early.
       (function () {
         try {
-          if (localStorage.getItem("theme") !== "dark")
+          if (localStorage.getItem("theme") === "light")
             document.documentElement.setAttribute("data-theme", "light");
-        } catch (e) {
-          document.documentElement.setAttribute("data-theme", "light");
-        }
+        } catch (e) {}
       })();
     </script>
     <link rel="preconnect" href="https://api.fontshare.com" />
