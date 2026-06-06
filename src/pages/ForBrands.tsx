@@ -1,11 +1,13 @@
-import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { ShoppingBag, Repeat, TrendingUp, Play, Star, ArrowRight } from "lucide-react";
+import { ShoppingBag, Repeat, TrendingUp, Play, Star, ArrowUpRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
-import { Link } from "react-router-dom";
 import { TallyModal } from "@/components/TallyModal";
+import Section from "@/components/marketing/Section";
+import Reveal from "@/components/marketing/Reveal";
+import EditorialHeading from "@/components/marketing/EditorialHeading";
+import BentoCard from "@/components/marketing/BentoCard";
 
 const WAITLIST_URL = "https://tally.so/embed/xX0z6G";
 
@@ -16,6 +18,8 @@ const useCases = [
   { icon: TrendingUp, title: "Promotional Campaigns", desc: "Launch-ready video content for sales, announcements, and brand moments." },
   { icon: Star, title: "Testimonials & Reviews", desc: "Polish customer testimonials into compelling social proof videos." },
 ];
+
+const platforms = ["TikTok", "Instagram Reels", "YouTube Shorts", "LinkedIn Video", "Facebook Reels", "X / Twitter"];
 
 const ForBrands = () => {
   return (
@@ -28,134 +32,101 @@ const ForBrands = () => {
         <Navbar />
 
         {/* Hero */}
-        <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-16">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
-          <div className="relative z-10 container mx-auto px-4 text-center max-w-4xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary text-sm font-medium px-4 py-2 rounded-full mb-8"
-            >
-              For SMBs, E-commerce & Service Businesses
-            </motion.div>
+        <section className="halo relative min-h-[85vh] flex items-center overflow-hidden px-4 pt-28 pb-16">
+          <div className="relative z-10 max-w-4xl mx-auto w-full text-center">
+            <Reveal>
+              <span className="inline-flex items-center gap-2 rounded-full bg-surface-elevated border border-border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                For SMBs, e-commerce &amp; service businesses
+              </span>
+            </Reveal>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
-            >
-              Short-form content that{" "}
-              <span className="text-primary">actually converts.</span>
-            </motion.h1>
+            <Reveal delay={0.05}>
+              <EditorialHeading as="h1">
+                Short-form content that <span className="text-primary">actually converts.</span>
+              </EditorialHeading>
+            </Reveal>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
-            >
-              Managed short-form video editing for brands that need consistent, polished content on TikTok, Instagram Reels, and YouTube Shorts. Without the overhead.
-            </motion.p>
+            <Reveal delay={0.1}>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mt-8 leading-relaxed">
+                Managed short-form video editing for brands that need consistent, polished content on
+                TikTok, Instagram Reels, and YouTube Shorts. Without the overhead.
+              </p>
+            </Reveal>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
-              <TallyModal url={WAITLIST_URL} title="Join the Waitlist" subtitle="Get early access for your brand">
-                <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                  View Plans <ArrowRight className="w-5 h-5 ml-1" />
-                </Button>
-              </TallyModal>
-              <TallyModal url={WAITLIST_URL} title="Join the Waitlist" subtitle="Book a demo with our team">
-                <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
-                  Book a Demo
-                </Button>
-              </TallyModal>
-            </motion.div>
+            <Reveal delay={0.15}>
+              <div className="mt-9 flex flex-col sm:flex-row gap-3 justify-center">
+                <TallyModal url={WAITLIST_URL} title="Join the Waitlist" subtitle="Get early access for your brand">
+                  <Button variant="hero" size="lg" className="text-base px-7 py-6 w-full sm:w-auto">
+                    View Plans <ArrowUpRight className="w-5 h-5 ml-1" />
+                  </Button>
+                </TallyModal>
+                <TallyModal url={WAITLIST_URL} title="Join the Waitlist" subtitle="Book a demo with our team">
+                  <Button variant="hero-outline" size="lg" className="text-base px-7 py-6 w-full sm:w-auto">
+                    Book a Demo
+                  </Button>
+                </TallyModal>
+              </div>
+            </Reveal>
           </div>
         </section>
 
         {/* Use Cases */}
-        <section className="py-24 md:py-32">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">Use Cases</p>
-              <h2 className="font-heading text-3xl md:text-4xl font-bold">
-                Every type of brand content. Handled.
-              </h2>
-            </motion.div>
+        <Section tone="sand">
+          <Reveal className="text-center mb-14">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">Use cases</p>
+            <EditorialHeading as="h2">Every type of brand content. Handled.</EditorialHeading>
+          </Reveal>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {useCases.map((uc, i) => (
-                <motion.div
-                  key={uc.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="p-6 rounded-2xl bg-card border border-border hover:border-primary/30 transition-colors"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+            {useCases.map((uc, i) => (
+              <Reveal key={uc.title} delay={i * 0.06}>
+                <BentoCard className="p-6 h-full">
+                  <div className="w-12 h-12 rounded-card bg-primary/10 flex items-center justify-center mb-5">
                     <uc.icon className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-heading text-lg font-semibold mb-2">{uc.title}</h3>
+                  <h3 className="font-heading text-lg font-semibold mb-2 text-foreground">{uc.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{uc.desc}</p>
-                </motion.div>
-              ))}
-            </div>
+                </BentoCard>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </Section>
 
         {/* Platforms */}
-        <section className="py-24 md:py-32 bg-card/30">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">Platforms</p>
-              <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">
-                Optimized for every platform.
-              </h2>
-            </motion.div>
-            <div className="flex flex-wrap justify-center gap-4 max-w-2xl mx-auto">
-              {["TikTok", "Instagram Reels", "YouTube Shorts", "LinkedIn Video", "Facebook Reels", "X / Twitter"].map((platform) => (
-                <div key={platform} className="bg-card border border-border rounded-full px-5 py-2.5 text-sm font-medium">
-                  {platform}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <Section>
+          <Reveal className="text-center mb-12">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">Platforms</p>
+            <EditorialHeading as="h2">Optimized for every platform.</EditorialHeading>
+          </Reveal>
+          <Reveal className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto">
+            {platforms.map((platform) => (
+              <div key={platform} className="bg-card border border-border rounded-full px-5 py-2.5 text-sm font-medium shadow-lift">
+                {platform}
+              </div>
+            ))}
+          </Reveal>
+        </Section>
 
         {/* CTA */}
-        <section className="py-24 md:py-32">
-          <div className="container mx-auto px-4 text-center max-w-3xl mx-auto">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
-                Your brand. Polished content.{" "}
-                <span className="text-primary">48 hours.</span>
-              </h2>
-              <p className="text-lg text-muted-foreground mb-10">
+        <section className="px-4 py-20 md:py-28">
+          <Reveal className="max-w-6xl mx-auto">
+            <BentoCard variant="primary" className="px-6 py-20 text-center rounded-[2.5rem]">
+              <EditorialHeading as="h2" className="text-4xl md:text-6xl">
+                Your brand. Polished content. 48 hours.
+              </EditorialHeading>
+              <p className="text-primary-foreground/85 text-lg max-w-md mx-auto mt-6">
                 Start with a plan that fits your volume. Scale up as your content needs grow.
               </p>
-              <TallyModal url={WAITLIST_URL} title="Join the Waitlist" subtitle="Get early access for your brand">
-                <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                  See Pricing <ArrowRight className="w-5 h-5 ml-1" />
-                </Button>
-              </TallyModal>
-            </motion.div>
-          </div>
+              <div className="mt-9">
+                <TallyModal url={WAITLIST_URL} title="Join the Waitlist" subtitle="Get early access for your brand">
+                  <Button size="lg" className="bg-background text-foreground hover:bg-foreground hover:text-background text-base px-8 py-6">
+                    See Pricing <ArrowUpRight className="w-5 h-5 ml-1" />
+                  </Button>
+                </TallyModal>
+              </div>
+            </BentoCard>
+          </Reveal>
         </section>
 
         <Footer />
