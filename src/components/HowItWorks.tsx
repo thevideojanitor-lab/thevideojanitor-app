@@ -28,7 +28,7 @@ const HowItWorks = () => {
               <h3 className="mt-3 font-heading font-bold text-lg">{title}</h3>
               <p
                 className={`mt-2 text-[13px] ${
-                  ink ? "text-background/70" : "text-muted-foreground"
+                  ink ? "opacity-70" : "text-muted-foreground"
                 }`}
               >
                 {description}

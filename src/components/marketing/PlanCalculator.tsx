@@ -163,7 +163,7 @@ export default function PlanCalculator() {
 
           {plan ? (
             <>
-              <div className="mt-6 border-t border-background/15 pt-6">
+              <div className="mt-6 border-t divider-ink pt-6">
                 <p className="opacity-70">Recommended plan</p>
                 <p className="font-heading text-3xl font-bold">{PLAN_NAMES[plan]}</p>
                 <p className="mt-1 text-2xl font-semibold text-primary">
@@ -204,7 +204,7 @@ export default function PlanCalculator() {
             </>
           ) : (
             <>
-              <div className="mt-6 border-t border-background/15 pt-6">
+              <div className="mt-6 border-t divider-ink pt-6">
                 <p className="font-heading text-2xl font-bold">
                   Full Service + credit recharges
                 </p>

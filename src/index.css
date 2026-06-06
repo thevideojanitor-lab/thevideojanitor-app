@@ -307,3 +307,25 @@ html {
 [data-theme="light"] .halo {
   background: radial-gradient(46rem 32rem at 88% -8%, hsl(var(--primary) / 0.12), transparent 62%);
 }
+
+/* ── Theme-aware "ink" emphasis card (marketing BentoCard variant="ink") ──
+   Default (dark / Cutting Room): an elevated dark panel — NOT an inverted
+   white card. Light (Daylight): a dark card with light text, matching the
+   preview's bg-ink/text-paper. Child muted text uses opacity (inherits the
+   flipping card color); dividers use currentColor via .divider-ink. */
+.bento-ink {
+  background: hsl(var(--surface-elevated));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+}
+[data-theme="light"] .bento-ink {
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+  border-color: transparent;
+}
+.divider-ink {
+  border-color: color-mix(in srgb, currentColor 15%, transparent);
+}
+.chip-ink {
+  background-color: color-mix(in srgb, currentColor 12%, transparent);
+}

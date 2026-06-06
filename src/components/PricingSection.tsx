@@ -202,9 +202,9 @@ const PricingSection = () => {
       <div className="grid md:grid-cols-3 gap-4 max-w-6xl mx-auto mb-12">
         {plans.map((plan, i) => {
           const ink = plan.popular;
-          const mutedText = ink ? "text-background/70" : "text-muted-foreground";
-          const subtleText = ink ? "text-background/60" : "text-muted-foreground";
-          const pill = ink ? "bg-background/10" : "bg-surface-elevated";
+          const mutedText = ink ? "opacity-70" : "text-muted-foreground";
+          const subtleText = ink ? "opacity-60" : "text-muted-foreground";
+          const pill = ink ? "chip-ink" : "bg-surface-elevated";
           return (
             <Reveal key={plan.name} delay={i * 0.06}>
               <BentoCard
@@ -252,13 +252,13 @@ const PricingSection = () => {
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5 text-sm">
                       <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                      <span className={ink ? "text-background/80" : "text-muted-foreground"}>{f}</span>
+                      <span className={ink ? "opacity-80" : "text-muted-foreground"}>{f}</span>
                     </li>
                   ))}
                 </ul>
 
                 {plan.addons.length > 0 && (
-                  <div className={`mt-6 pt-6 border-t ${ink ? "border-background/15" : "border-border"}`}>
+                  <div className={`mt-6 pt-6 border-t ${ink ? "divider-ink" : "border-border"}`}>
                     <p className={`text-xs font-medium mb-2 ${mutedText}`}>Available add-ons:</p>
                     <ul className="space-y-1.5">
                       {plan.addons.map((a) => (
