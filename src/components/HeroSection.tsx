@@ -1,125 +1,119 @@
-import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { Shield, Clock, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
-import heroBg from "@/assets/hero-bg.jpg";
-import { EditorApplicationEmbed } from "@/components/EditorApplicationEmbed";
-import { TallyModal } from "@/components/TallyModal";
-
-
-const WAITLIST_URL = "https://tally.so/embed/xX0z6G";
+import { ArrowUpRight, Play } from "lucide-react";
+import Reveal from "@/components/marketing/Reveal";
+import EditorialHeading from "@/components/marketing/EditorialHeading";
+import BentoCard from "@/components/marketing/BentoCard";
 
 const stats = [
-  { value: "48h", label: "Turnaround" },
-  { value: "100%", label: "Vetted Editors" },
-  { value: "3", label: "Revision Rounds" },
-  { value: "50+", label: "Clients Served" },
-];
-
-const trustSignals = [
-  { icon: Shield, label: "Vetted Editors Only" },
-  { icon: Clock, label: "48h Turnaround" },
-  { icon: RefreshCw, label: "Swap Anytime" },
+  { value: "48h", label: "turnaround" },
+  { value: "3", label: "revisions in" },
+  { value: "100%", label: "vetted editors" },
 ];
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      <div className="absolute inset-0">
-        <img
-          src={heroBg}
-          alt="Video editing workspace"
-          className="w-full h-full object-cover opacity-40 brightness-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background" />
-      </div>
+    <section className="halo relative min-h-[100dvh] flex items-center overflow-hidden px-4 pt-28 pb-16">
+      <div className="max-w-6xl mx-auto w-full grid md:grid-cols-12 gap-12 items-center">
+        {/* Copy */}
+        <div className="md:col-span-7">
+          <Reveal>
+            <span className="inline-flex items-center gap-2 rounded-full bg-surface-elevated border border-border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-7">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+              Built for people who post daily
+            </span>
+          </Reveal>
 
-      <div className="relative z-10 container mx-auto px-4 text-center max-w-5xl">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary text-sm font-medium px-4 py-2 rounded-full mb-8"
-        >
-          <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-          Trusted by 50+ creators and agencies
-        </motion.div>
+          <Reveal delay={0.05}>
+            <EditorialHeading as="h1" className="text-[15vw] sm:text-7xl md:text-[6rem] leading-[0.9]">
+              Edits done.
+              <br />
+              <span className="text-primary">Without</span>
+              <br />
+              the drama.
+            </EditorialHeading>
+          </Reveal>
 
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6"
-        >
-          Video editing made simple.{" "}
-          <span className="text-gradient">
-            Buy credits, submit requests,
-          </span>{" "}
-          get matched with vetted editors.
-        </motion.h1>
+          <Reveal delay={0.1}>
+            <p className="mt-8 max-w-md text-lg leading-relaxed text-muted-foreground">
+              No more ghosting, no more "it's almost ready," no more $50 caption
+              tweaks. Submit footage, get matched to a vetted editor, and get a
+              polished short back in 48 hours — revisions included.
+            </p>
+          </Reveal>
 
-        {/* Subheadline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed"
-        >
-          Upload footage. We'll clean up the rest. Polished short-form videos back in 48 hours. No freelancer roulette. No chasing. No mess.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
-        >
-          <Link to="/pricing">
-            <Button variant="hero" size="lg" className="text-base px-8 py-6 w-full sm:w-auto">
-              View Plans & Credits
-            </Button>
-          </Link>
-          <Link to="/how-it-works">
-            <Button variant="hero-outline" size="lg" className="text-base px-8 py-6 w-full sm:w-auto">
-              See How It Works
-            </Button>
-          </Link>
-        </motion.div>
-
-        {/* Stats Row */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.35 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto mb-12"
-        >
-          {stats.map(({ value, label }) => (
-            <div key={label} className="bg-card/50 border border-border rounded-xl p-4 text-center backdrop-blur-sm">
-              <p className="font-heading text-2xl font-bold text-primary">{value}</p>
-              <p className="text-xs text-muted-foreground mt-1">{label}</p>
+          <Reveal delay={0.15}>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <Link to="/pricing">
+                <Button variant="hero" size="lg" className="text-base px-7 py-6">
+                  Claim your editor <ArrowUpRight className="w-5 h-5 ml-1" />
+                </Button>
+              </Link>
+              <a href="#how">
+                <Button variant="hero-outline" size="lg" className="text-base px-7 py-6">
+                  See how it works
+                </Button>
+              </a>
             </div>
-          ))}
-        </motion.div>
+          </Reveal>
 
-        {/* Trust Signals */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-wrap justify-center gap-6 md:gap-10"
-        >
-          {trustSignals.map(({ icon: Icon, label }) => (
-            <div key={label} className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Icon className="w-4 h-4 text-primary" />
+          <Reveal delay={0.2}>
+            <div className="mt-12 flex items-center gap-7">
+              {stats.map(({ value, label }, i) => (
+                <div key={label} className="flex items-center gap-7">
+                  {i > 0 && <span className="w-px h-9 bg-border" aria-hidden />}
+                  <div>
+                    <p className="font-heading font-bold text-3xl text-foreground">{value}</p>
+                    <p className="text-xs text-muted-foreground">{label}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Floating product card */}
+        <Reveal variant="scaleIn" delay={0.2} className="md:col-span-5">
+          <div className="relative">
+            <BentoCard
+              variant="ink"
+              className="absolute -top-6 -right-3 rotate-3 px-5 py-3 z-10"
+            >
+              <p className="text-[11px] uppercase tracking-wider opacity-60">Status</p>
+              <p className="font-heading font-bold text-primary">Ready to review →</p>
+            </BentoCard>
+
+            <BentoCard className="p-7">
+              <div className="flex items-center justify-between">
+                <p className="font-heading font-bold text-lg text-foreground">Launch reel</p>
+                <span className="text-[11px] rounded-full bg-primary/10 text-primary border border-primary/25 px-2.5 py-0.5 font-semibold">
+                  9:16
+                </span>
               </div>
-              <span className="text-sm font-medium text-text-secondary">{label}</span>
-            </div>
-          ))}
-        </motion.div>
+              <div className="mt-5 aspect-video rounded-card bg-gradient-to-br from-surface-elevated to-background border border-border grid place-items-center">
+                <span className="grid place-items-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lift">
+                  <Play className="w-5 h-5 fill-current" />
+                </span>
+              </div>
+              <div className="mt-5 space-y-3">
+                <div className="flex justify-between text-[13px]">
+                  <span className="text-muted-foreground">Delivered</span>
+                  <span className="font-semibold text-foreground">in 41 hours</span>
+                </div>
+                <div className="flex justify-between text-[13px]">
+                  <span className="text-muted-foreground">Revisions left</span>
+                  <span className="font-semibold text-primary">3 of 3</span>
+                </div>
+              </div>
+              <button className="mt-6 w-full rounded-xl bg-foreground text-background py-3 text-sm font-bold transition-colors hover:bg-primary hover:text-primary-foreground">
+                Approve &amp; post
+              </button>
+            </BentoCard>
+            <p className="text-xs text-muted-foreground/70 text-center mt-3">
+              Representative UI — not a real client job.
+            </p>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
