@@ -85,12 +85,12 @@ export default function Chat({ requestId, onUnreadChange }: Props) {
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
               <div key={i} className={`flex ${i % 2 === 0 ? "justify-end" : ""}`}>
-                <div className="h-9 w-48 bg-[#2A2A2A] rounded-2xl animate-pulse" />
+                <div className="h-9 w-48 bg-border rounded-2xl animate-pulse" />
               </div>
             ))}
           </div>
         ) : messages.length === 0 ? (
-          <p className="text-xs text-[#9CA3AF] text-center py-8">
+          <p className="text-xs text-muted-foreground text-center py-8">
             No messages yet — start the conversation.
           </p>
         ) : (
@@ -108,12 +108,12 @@ export default function Chat({ requestId, onUnreadChange }: Props) {
                   <div
                     className={`max-w-[75%] px-3 py-2 rounded-2xl text-sm leading-relaxed ${
                       isOwn
-                        ? "bg-[#FF5F15] text-[#121212] rounded-br-sm"
-                        : "bg-[#2A2A2A] text-[#F9FAFB] rounded-bl-sm"
+                        ? "bg-primary text-background rounded-br-sm"
+                        : "bg-border text-foreground rounded-bl-sm"
                     }`}
                   >
                     <p>{msg.body}</p>
-                    <p className={`text-[10px] mt-1 ${isOwn ? "text-[#121212]/60" : "text-[#9CA3AF]"}`}>
+                    <p className={`text-[10px] mt-1 ${isOwn ? "text-background/60" : "text-muted-foreground"}`}>
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </p>
                   </div>
@@ -125,19 +125,19 @@ export default function Chat({ requestId, onUnreadChange }: Props) {
         <div ref={bottomRef} />
       </div>
 
-      <form onSubmit={handleSend} className="flex gap-2 px-4 pb-4 pt-2 border-t border-[#2A2A2A]">
+      <form onSubmit={handleSend} className="flex gap-2 px-4 pb-4 pt-2 border-t border-border">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Type a message…"
-          className="flex-1 bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 outline-none transition-colors"
+          className="flex-1 bg-input border border-border rounded-xl px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 outline-none transition-colors"
         />
         <motion.button
           type="submit"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           disabled={!text.trim() || sending}
-          className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#FF5F15] text-[#121212] hover:bg-[#E54E08] disabled:opacity-40 transition-colors shrink-0"
+          className="w-10 h-10 flex items-center justify-center rounded-xl bg-primary text-background hover:bg-primary-hover disabled:opacity-40 transition-colors shrink-0"
         >
           <Send size={15} />
         </motion.button>

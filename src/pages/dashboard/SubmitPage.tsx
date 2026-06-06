@@ -52,8 +52,8 @@ function TypeStep({ onNext, balance, editCosts }: {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-heading text-xl font-bold text-[#F9FAFB] mb-1">What kind of edit do you need?</h2>
-        <p className="text-sm text-[#9CA3AF]">Credits are deducted at submission, not on delivery.</p>
+        <h2 className="font-heading text-xl font-bold text-foreground mb-1">What kind of edit do you need?</h2>
+        <p className="text-sm text-muted-foreground">Credits are deducted at submission, not on delivery.</p>
       </div>
 
       <div className="grid gap-3">
@@ -70,28 +70,28 @@ function TypeStep({ onNext, balance, editCosts }: {
               onClick={() => canAfford && setSelected(key)}
               className={`w-full text-left p-5 rounded-xl border transition-all ${
                 !canAfford
-                  ? "border-red-500/20 bg-[#1A1A1A] opacity-60 cursor-not-allowed"
+                  ? "border-red-500/20 bg-input opacity-60 cursor-not-allowed"
                   : isSelected
-                  ? "border-[#FF5F15] bg-[#FF5F15]/5"
-                  : "border-[#2A2A2A] bg-[#404040] hover:border-[#FF5F15]/30"
+                  ? "border-primary bg-primary/5"
+                  : "border-border bg-card hover:border-primary/30"
               }`}
             >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="font-heading text-base font-semibold text-[#F9FAFB]">{label} Edit</span>
-                  {isSelected && <Check size={14} className="text-[#FF5F15]" />}
+                  <span className="font-heading text-base font-semibold text-foreground">{label} Edit</span>
+                  {isSelected && <Check size={14} className="text-primary" />}
                 </div>
                 <div className="flex items-center gap-2">
                   {!canAfford && <AlertCircle size={14} className="text-red-400" title={`Need ${cost - balance} more credits`} />}
-                  <span className={`font-heading text-lg font-bold ${canAfford ? "text-[#FF5F15]" : "text-red-400"}`}>
+                  <span className={`font-heading text-lg font-bold ${canAfford ? "text-primary" : "text-red-400"}`}>
                     {cost} cr
                   </span>
                 </div>
               </div>
               <ul className="space-y-1">
                 {features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-xs text-[#9CA3AF]">
-                    <span className="w-1 h-1 rounded-full bg-[#404040] shrink-0" />
+                  <li key={f} className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <span className="w-1 h-1 rounded-full bg-card shrink-0" />
                     {f}
                   </li>
                 ))}
@@ -109,7 +109,7 @@ function TypeStep({ onNext, balance, editCosts }: {
         whileTap={{ scale: 0.97 }}
         disabled={!selected}
         onClick={() => selected && onNext(selected, getCost(selected))}
-        className="w-full bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3.5 flex items-center justify-center gap-2 hover:bg-[#E54E08] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-full bg-primary text-background font-semibold rounded-lg py-3.5 flex items-center justify-center gap-2 hover:bg-primary-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
       >
         Continue <ChevronRight size={16} />
       </motion.button>
@@ -139,18 +139,18 @@ function FootageStep({ onNext, onBack }: { onNext: (url: string, type: "drive_li
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-heading text-xl font-bold text-[#F9FAFB] mb-1">Where is your footage?</h2>
-        <p className="text-sm text-[#9CA3AF]">Share a link to your raw footage folder.</p>
+        <h2 className="font-heading text-xl font-bold text-foreground mb-1">Where is your footage?</h2>
+        <p className="text-sm text-muted-foreground">Share a link to your raw footage folder.</p>
       </div>
 
       {/* Tabs */}
-      <div className="flex bg-[#2A2A2A] rounded-lg p-1 gap-1">
+      <div className="flex bg-border rounded-lg p-1 gap-1">
         {(["drive", "dropbox"] as const).map((t) => (
           <button
             key={t}
             onClick={() => { setTab(t); setUrl(""); setValid(null) }}
             className={`flex-1 py-2 rounded-md text-sm font-medium transition-colors capitalize ${
-              tab === t ? "bg-[#404040] text-[#F9FAFB]" : "text-[#9CA3AF] hover:text-[#F9FAFB]"
+              tab === t ? "bg-card text-foreground" : "text-muted-foreground hover:text-foreground"
             }`}
           >
             {t === "drive" ? "Google Drive" : "Dropbox"}
@@ -165,10 +165,10 @@ function FootageStep({ onNext, onBack }: { onNext: (url: string, type: "drive_li
           value={url}
           onChange={(e) => handleChange(e.target.value)}
           placeholder={tab === "drive" ? "https://drive.google.com/drive/folders/..." : "https://www.dropbox.com/sh/..."}
-          className={`w-full bg-[#1A1A1A] border rounded-lg px-4 py-3 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] outline-none transition-colors ${
+          className={`w-full bg-input border rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors ${
             valid === true ? "border-green-500/40 focus:border-green-500"
             : valid === false ? "border-red-500/40 focus:border-red-500"
-            : "border-[#2A2A2A] focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30"
+            : "border-border focus:border-primary focus:ring-1 focus:ring-primary/30"
           }`}
         />
         {valid === false && (
@@ -186,27 +186,27 @@ function FootageStep({ onNext, onBack }: { onNext: (url: string, type: "drive_li
             initial="hidden"
             animate="visible"
             exit="hidden"
-            className="bg-[#1A1A1A] border border-[#FF5F15]/20 rounded-xl p-4"
+            className="bg-input border border-primary/20 rounded-xl p-4"
           >
             <div className="flex items-start gap-3">
               <Check size={16} className="text-[#4ade80] mt-0.5 shrink-0" />
               <div>
-                <p className="text-sm font-medium text-[#F9FAFB]">
+                <p className="text-sm font-medium text-foreground">
                   {tab === "drive" ? "Google Drive folder" : "Dropbox folder"} detected
                 </p>
-                <p className="text-xs text-[#9CA3AF] mt-0.5 break-all">{url.slice(0, 60)}…</p>
+                <p className="text-xs text-muted-foreground mt-0.5 break-all">{url.slice(0, 60)}…</p>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <p className="text-xs text-[#9CA3AF] bg-[#1A1A1A] rounded-lg p-3">
-        Set folder sharing to <span className="text-[#F9FAFB] font-medium">"Anyone with the link can view"</span> before submitting.
+      <p className="text-xs text-muted-foreground bg-input rounded-lg p-3">
+        Set folder sharing to <span className="text-foreground font-medium">"Anyone with the link can view"</span> before submitting.
       </p>
 
       <div className="flex gap-3">
-        <button onClick={onBack} className="flex-1 border border-[#404040] text-[#F9FAFB] rounded-lg py-3 text-sm font-medium hover:bg-[#404040] transition-colors">
+        <button onClick={onBack} className="flex-1 border border-card text-foreground rounded-lg py-3 text-sm font-medium hover:bg-card transition-colors">
           Back
         </button>
         <motion.button
@@ -214,7 +214,7 @@ function FootageStep({ onNext, onBack }: { onNext: (url: string, type: "drive_li
           whileTap={{ scale: 0.97 }}
           disabled={valid !== true}
           onClick={() => valid && onNext(url, tab === "drive" ? "drive_link" : "dropbox_link")}
-          className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 hover:bg-[#E54E08] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex-1 bg-primary text-background font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 hover:bg-primary-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           Continue <ChevronRight size={16} />
         </motion.button>
@@ -274,13 +274,13 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-heading text-xl font-bold text-[#F9FAFB] mb-1">Tell your editor what you need</h2>
-        <p className="text-sm text-[#9CA3AF]">The more specific, the better the first cut.</p>
+        <h2 className="font-heading text-xl font-bold text-foreground mb-1">Tell your editor what you need</h2>
+        <p className="text-sm text-muted-foreground">The more specific, the better the first cut.</p>
       </div>
 
       {/* Q1 Description */}
       <div>
-        <label className="block text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-2">
+        <label className="block text-xs font-sans uppercase tracking-wider text-muted-foreground mb-2">
           In one sentence, what is this video about? *
         </label>
         <input
@@ -288,13 +288,13 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
           value={brief.description}
           onChange={(e) => setBrief((p) => ({ ...p, description: e.target.value }))}
           placeholder="e.g. 60s reel from my morning routine filming session"
-          className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-4 py-3 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 outline-none"
+          className="w-full bg-input border border-border rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 outline-none"
         />
       </div>
 
       {/* Q2 Vibe */}
       <div>
-        <label className="block text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-2">Vibe</label>
+        <label className="block text-xs font-sans uppercase tracking-wider text-muted-foreground mb-2">Vibe</label>
         <div className="flex flex-wrap gap-2">
           {VIBES.map((v) => (
             <motion.button
@@ -303,8 +303,8 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
               onClick={() => toggleVibe(v)}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-all ${
                 brief.vibe.includes(v)
-                  ? "bg-[#FF5F15]/15 text-[#FF5F15] border-[#FF5F15]/30"
-                  : "bg-[#1A1A1A] text-[#9CA3AF] border-[#2A2A2A] hover:border-[#404040]"
+                  ? "bg-primary/15 text-primary border-primary/30"
+                  : "bg-input text-muted-foreground border-border hover:border-card"
               }`}
             >
               {v}
@@ -315,7 +315,7 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
 
       {/* Q3 Captions */}
       <div>
-        <label className="block text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-2">Captions *</label>
+        <label className="block text-xs font-sans uppercase tracking-wider text-muted-foreground mb-2">Captions *</label>
         <div className="flex gap-2">
           {CAPTION_OPTIONS.map(({ value, label }) => (
             <button
@@ -323,8 +323,8 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
               onClick={() => setBrief((p) => ({ ...p, captions: value }))}
               className={`flex-1 py-2.5 rounded-lg text-sm font-medium border transition-all ${
                 brief.captions === value
-                  ? "bg-[#FF5F15]/15 text-[#FF5F15] border-[#FF5F15]/30"
-                  : "bg-[#1A1A1A] text-[#9CA3AF] border-[#2A2A2A] hover:border-[#404040]"
+                  ? "bg-primary/15 text-primary border-primary/30"
+                  : "bg-input text-muted-foreground border-border hover:border-card"
               }`}
             >
               {label}
@@ -335,7 +335,7 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
 
       {/* Q4 Instructions */}
       <div>
-        <label className="block text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-2">
+        <label className="block text-xs font-sans uppercase tracking-wider text-muted-foreground mb-2">
           Any specific instructions? <span className="normal-case">(optional)</span>
         </label>
         <textarea
@@ -344,26 +344,26 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
           onChange={(e) => setBrief((p) => ({ ...p, instructions: e.target.value }))}
           placeholder="Cut the intro, keep the B-roll at 0:30, match the beat drop..."
           rows={3}
-          className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-4 py-3 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 outline-none resize-none"
+          className="w-full bg-input border border-border rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 outline-none resize-none"
         />
-        <p className={`text-xs mt-1 text-right ${charLeft < 30 ? "text-yellow-400" : "text-[#9CA3AF]"}`}>{charLeft} left</p>
+        <p className={`text-xs mt-1 text-right ${charLeft < 30 ? "text-yellow-400" : "text-muted-foreground"}`}>{charLeft} left</p>
       </div>
 
       {/* Q5 Reference link */}
       <div>
-        <label className="block text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-2">Reference Video (optional)</label>
+        <label className="block text-xs font-sans uppercase tracking-wider text-muted-foreground mb-2">Reference Video (optional)</label>
         <input
           type="url"
           value={brief.referenceLink}
           onChange={(e) => setBrief((p) => ({ ...p, referenceLink: e.target.value }))}
           placeholder="https://..."
-          className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-4 py-3 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 outline-none"
+          className="w-full bg-input border border-border rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 outline-none"
         />
       </div>
 
       {/* Q6 Aspect ratios */}
       <div>
-        <label className="block text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-2">
+        <label className="block text-xs font-sans uppercase tracking-wider text-muted-foreground mb-2">
           Aspect Ratios <span className="normal-case text-[10px]">(+{extraRatioCost}cr each extra)</span>
         </label>
         <div className="flex gap-2">
@@ -373,19 +373,19 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
               onClick={() => toggleRatio(value)}
               className={`flex-1 py-2.5 rounded-lg text-xs font-medium border transition-all relative ${
                 brief.aspectRatios.includes(value)
-                  ? "bg-[#FF5F15]/15 text-[#FF5F15] border-[#FF5F15]/30"
-                  : "bg-[#1A1A1A] text-[#9CA3AF] border-[#2A2A2A] hover:border-[#404040]"
+                  ? "bg-primary/15 text-primary border-primary/30"
+                  : "bg-input text-muted-foreground border-border hover:border-card"
               }`}
             >
               {label}
-              {baseExtra && <span className="absolute -top-1.5 right-1 text-[9px] text-[#9CA3AF]">+{extraRatioCost}cr</span>}
+              {baseExtra && <span className="absolute -top-1.5 right-1 text-[9px] text-muted-foreground">+{extraRatioCost}cr</span>}
             </button>
           ))}
         </div>
       </div>
 
       <div className="flex gap-3">
-        <button onClick={onBack} className="flex-1 border border-[#404040] text-[#F9FAFB] rounded-lg py-3 text-sm font-medium hover:bg-[#404040] transition-colors">
+        <button onClick={onBack} className="flex-1 border border-card text-foreground rounded-lg py-3 text-sm font-medium hover:bg-card transition-colors">
           Back
         </button>
         <motion.button
@@ -393,7 +393,7 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
           whileTap={{ scale: 0.97 }}
           disabled={!valid}
           onClick={() => valid && onNext(brief, totalCost)}
-          className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 hover:bg-[#E54E08] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex-1 bg-primary text-background font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 hover:bg-primary-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           Review & Submit <ChevronRight size={16} />
         </motion.button>
@@ -416,11 +416,11 @@ function MatchingStep({ editor, dueAt, requestId, matchFailed }: {
     return (
       <motion.div variants={scaleIn} initial="hidden" animate="visible" className="text-center py-16 space-y-5">
         <div className="w-14 h-14 mx-auto rounded-2xl bg-[rgba(255,95,21,0.12)] border border-[rgba(255,95,21,0.2)] flex items-center justify-center">
-          <Clock size={24} className="text-[#FF5F15]" />
+          <Clock size={24} className="text-primary" />
         </div>
         <div>
-          <p className="font-heading text-base font-semibold text-[#F9FAFB] mb-1">Request received</p>
-          <p className="text-sm text-[#9CA3AF] max-w-xs mx-auto">
+          <p className="font-heading text-base font-semibold text-foreground mb-1">Request received</p>
+          <p className="text-sm text-muted-foreground max-w-xs mx-auto">
             No editors are available right now. We'll match you automatically as soon as one opens up — usually within a few hours.
           </p>
         </div>
@@ -428,7 +428,7 @@ function MatchingStep({ editor, dueAt, requestId, matchFailed }: {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.97 }}
           onClick={() => navigate(requestId ? `/dashboard/requests/${requestId}` : "/dashboard")}
-          className="bg-[#404040] border border-[#2A2A2A] text-[#F9FAFB] font-semibold rounded-lg px-6 py-2.5 text-sm hover:bg-[#4A4A4A] transition-colors"
+          className="bg-card border border-border text-foreground font-semibold rounded-lg px-6 py-2.5 text-sm hover:bg-surface-elevated transition-colors"
         >
           View My Requests
         </motion.button>
@@ -440,8 +440,8 @@ function MatchingStep({ editor, dueAt, requestId, matchFailed }: {
     return (
       <div className="text-center py-16 space-y-4">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-12 border-2 border-[#FF5F15] border-t-transparent rounded-full animate-spin" />
-          <p className="text-[#9CA3AF] text-sm">Finding the best editor for your content…</p>
+          <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          <p className="text-muted-foreground text-sm">Finding the best editor for your content…</p>
         </div>
       </div>
     )
@@ -453,35 +453,35 @@ function MatchingStep({ editor, dueAt, requestId, matchFailed }: {
         <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-[rgba(34,197,94,0.15)] border border-[rgba(34,197,94,0.3)] flex items-center justify-center">
           <Check size={24} className="text-[#4ade80]" />
         </div>
-        <h2 className="font-heading text-xl font-bold text-[#F9FAFB] mb-1">Request submitted!</h2>
-        <p className="text-sm text-[#9CA3AF]">Your editor is confirmed. Expect delivery in 48 hours.</p>
+        <h2 className="font-heading text-xl font-bold text-foreground mb-1">Request submitted!</h2>
+        <p className="text-sm text-muted-foreground">Your editor is confirmed. Expect delivery in 48 hours.</p>
       </div>
 
       {/* Editor card */}
-      <div className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5">
-        <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-3">Your Editor</p>
+      <div className="bg-card border border-border rounded-xl p-5">
+        <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-3">Your Editor</p>
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-full bg-[#FF5F15]/20 border border-[#FF5F15]/30 flex items-center justify-center font-heading font-bold text-[#FF5F15]">
+          <div className="w-10 h-10 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center font-heading font-bold text-primary">
             {editor.displayName.charAt(0).toUpperCase()}
           </div>
           <div>
-            <p className="font-semibold text-[#F9FAFB] text-sm">{editor.displayName}</p>
+            <p className="font-semibold text-foreground text-sm">{editor.displayName}</p>
             <div className="flex items-center gap-1 mt-0.5">
               <Star size={11} className="text-yellow-400 fill-yellow-400" />
-              <span className="text-xs text-[#9CA3AF]">{editor.rating.toFixed(1)} · {editor.completedCount} edits</span>
+              <span className="text-xs text-muted-foreground">{editor.rating.toFixed(1)} · {editor.completedCount} edits</span>
             </div>
           </div>
         </div>
         {editor.specialties.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-3">
             {editor.specialties.slice(0, 4).map((s) => (
-              <span key={s} className="text-xs bg-[#FF5F15]/10 text-[#FF5F15] border border-[#FF5F15]/20 rounded-full px-2 py-0.5">{s}</span>
+              <span key={s} className="text-xs bg-primary/10 text-primary border border-primary/20 rounded-full px-2 py-0.5">{s}</span>
             ))}
           </div>
         )}
         {dueAt && (
-          <p className="text-xs text-[#9CA3AF]">
-            Due by <span className="text-[#F9FAFB] font-medium">{new Date(dueAt).toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}</span>
+          <p className="text-xs text-muted-foreground">
+            Due by <span className="text-foreground font-medium">{new Date(dueAt).toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}</span>
           </p>
         )}
       </div>
@@ -490,7 +490,7 @@ function MatchingStep({ editor, dueAt, requestId, matchFailed }: {
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.97 }}
         onClick={() => navigate(requestId ? `/dashboard/requests/${requestId}` : "/dashboard")}
-        className="w-full bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3.5 text-sm flex items-center justify-center gap-2 hover:bg-[#E54E08] transition-colors"
+        className="w-full bg-primary text-background font-semibold rounded-lg py-3.5 text-sm flex items-center justify-center gap-2 hover:bg-primary-hover transition-colors"
       >
         Track Your Request →
       </motion.button>
@@ -505,14 +505,14 @@ function CostBar({ cost, balance, onSubmit, loading }: {
 }) {
   const canAfford = balance >= cost
   return (
-    <div className="fixed bottom-0 left-0 right-0 md:left-64 bg-[#1A1A1A] border-t border-[#2A2A2A] px-4 py-3 z-20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+    <div className="fixed bottom-0 left-0 right-0 md:left-64 bg-input border-t border-border px-4 py-3 z-20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
       <div className="max-w-lg mx-auto flex items-center gap-3">
         <div className="flex-1 flex items-center gap-3 text-sm">
-          <span className="text-[#9CA3AF]">Cost</span>
-          <span className="font-heading font-bold text-[#FF5F15]">{cost} cr</span>
-          <span className="text-[#2A2A2A]">|</span>
-          <span className="text-[#9CA3AF]">Balance</span>
-          <span className={`font-semibold ${canAfford ? "text-[#F9FAFB]" : "text-red-400"}`}>{balance} cr</span>
+          <span className="text-muted-foreground">Cost</span>
+          <span className="font-heading font-bold text-primary">{cost} cr</span>
+          <span className="text-border">|</span>
+          <span className="text-muted-foreground">Balance</span>
+          <span className={`font-semibold ${canAfford ? "text-foreground" : "text-red-400"}`}>{balance} cr</span>
           {canAfford
             ? <span className="text-[10px] text-[#4ade80] font-semibold flex items-center gap-1"><Check size={11} /> Good to go</span>
             : <span className="text-[10px] text-red-400 font-semibold flex items-center gap-1"><AlertCircle size={11} /> Not enough</span>
@@ -525,8 +525,8 @@ function CostBar({ cost, balance, onSubmit, loading }: {
           disabled={!canAfford || loading}
           className={`shrink-0 px-5 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition-all ${
             canAfford
-              ? "bg-[#FF5F15] text-[#121212] hover:bg-[#E54E08]"
-              : "bg-[#2A2A2A] text-[#9CA3AF] cursor-not-allowed"
+              ? "bg-primary text-background hover:bg-primary-hover"
+              : "bg-border text-muted-foreground cursor-not-allowed"
           }`}
         >
           {loading ? <Loader2 size={14} className="animate-spin" /> : null}
@@ -664,14 +664,14 @@ export default function SubmitPage() {
   if (!config) {
     return (
       <div className="pb-20 space-y-6">
-        <div className="h-1 bg-[#2A2A2A] rounded-full" />
+        <div className="h-1 bg-border rounded-full" />
         <div className="space-y-2">
-          <div className="h-7 w-2/3 bg-[#404040] rounded-lg animate-pulse" />
-          <div className="h-4 w-1/2 bg-[#404040] rounded animate-pulse" />
+          <div className="h-7 w-2/3 bg-card rounded-lg animate-pulse" />
+          <div className="h-4 w-1/2 bg-card rounded animate-pulse" />
         </div>
         <div className="grid gap-3">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-36 bg-[#404040] rounded-xl animate-pulse" />
+            <div key={i} className="h-36 bg-card rounded-xl animate-pulse" />
           ))}
         </div>
       </div>
@@ -682,18 +682,18 @@ export default function SubmitPage() {
   if (!creditsLoading && total === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-5 text-center">
-        <div className="w-16 h-16 rounded-2xl bg-[#FF5F15]/10 border border-[#FF5F15]/20 flex items-center justify-center">
-          <AlertCircle size={28} className="text-[#FF5F15]" />
+        <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+          <AlertCircle size={28} className="text-primary" />
         </div>
         <div>
-          <h2 className="font-heading text-xl font-bold text-[#F9FAFB] mb-2">No active subscription</h2>
-          <p className="text-sm text-[#9CA3AF] max-w-xs">You need an active plan to submit editing requests. Subscribe to get your monthly credits.</p>
+          <h2 className="font-heading text-xl font-bold text-foreground mb-2">No active subscription</h2>
+          <p className="text-sm text-muted-foreground max-w-xs">You need an active plan to submit editing requests. Subscribe to get your monthly credits.</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.97 }}
           onClick={() => navigate("/dashboard/subscription")}
-          className="bg-[#FF5F15] text-[#121212] font-semibold rounded-lg px-6 py-3 text-sm hover:bg-[#E54E08] transition-colors"
+          className="bg-primary text-background font-semibold rounded-lg px-6 py-3 text-sm hover:bg-primary-hover transition-colors"
         >
           View Plans
         </motion.button>
@@ -710,16 +710,16 @@ export default function SubmitPage() {
       {step !== "matching" && (
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF]">
+            <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground">
               Step {currentStepIndex + 1} of {STEP_ORDER.length - 1}
             </p>
-            <button onClick={() => navigate("/dashboard")} className="text-xs text-[#9CA3AF] hover:text-[#F9FAFB]">
+            <button onClick={() => navigate("/dashboard")} className="text-xs text-muted-foreground hover:text-foreground">
               Cancel
             </button>
           </div>
-          <div className="h-1 bg-[#2A2A2A] rounded-full overflow-hidden">
+          <div className="h-1 bg-border rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-[#FF5F15] rounded-full"
+              className="h-full bg-primary rounded-full"
               animate={{ width: `${((currentStepIndex) / 3) * 100}%` }}
               transition={{ type: "spring", stiffness: 120, damping: 20 }}
             />
@@ -730,9 +730,9 @@ export default function SubmitPage() {
       {/* Matching progress bar */}
       {step === "matching" && matchedEditor === null && (
         <div className="mb-6">
-          <div className="h-1 bg-[#2A2A2A] rounded-full overflow-hidden">
+          <div className="h-1 bg-border rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-[#FF5F15] rounded-full"
+              className="h-full bg-primary rounded-full"
               animate={{ width: `${matchProgress}%` }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             />

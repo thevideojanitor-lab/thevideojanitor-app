@@ -129,10 +129,10 @@ export default function EditorProfile() {
   if (loading) {
     return (
       <div className="max-w-2xl mx-auto space-y-6">
-        <div className="h-7 w-40 bg-[#404040] rounded-lg animate-pulse" />
-        <div className="h-20 bg-[#404040] rounded-xl animate-pulse" />
-        <div className="h-44 bg-[#404040] rounded-xl animate-pulse" />
-        <div className="h-44 bg-[#404040] rounded-xl animate-pulse" />
+        <div className="h-7 w-40 bg-card rounded-lg animate-pulse" />
+        <div className="h-20 bg-card rounded-xl animate-pulse" />
+        <div className="h-44 bg-card rounded-xl animate-pulse" />
+        <div className="h-44 bg-card rounded-xl animate-pulse" />
       </div>
     )
   }
@@ -145,8 +145,8 @@ export default function EditorProfile() {
       className="max-w-2xl mx-auto space-y-6 pb-10"
     >
       <motion.div variants={fadeUp}>
-        <h1 className="font-heading text-2xl font-bold text-[#F9FAFB]">Your Profile</h1>
-        <p className="text-sm text-[#9CA3AF] mt-1">
+        <h1 className="font-heading text-2xl font-bold text-foreground">Your Profile</h1>
+        <p className="text-sm text-muted-foreground mt-1">
           This is what clients see, and what the matching algorithm uses to assign you work.
         </p>
       </motion.div>
@@ -154,22 +154,22 @@ export default function EditorProfile() {
       {/* Read-only performance stats */}
       {stats && (
         <motion.div variants={fadeUp} className="grid grid-cols-3 gap-3">
-          <div className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-4">
-            <p className="text-[10px] uppercase tracking-wider text-[#9CA3AF] mb-1">Rating</p>
-            <p className="font-heading text-2xl font-bold text-[#FF5F15] flex items-center gap-1">
-              <Star size={15} className="fill-[#FF5F15]" />
+          <div className="bg-card border border-border rounded-xl p-4">
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Rating</p>
+            <p className="font-heading text-2xl font-bold text-primary flex items-center gap-1">
+              <Star size={15} className="fill-primary" />
               {stats.rating.toFixed(1)}
             </p>
           </div>
-          <div className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-4">
-            <p className="text-[10px] uppercase tracking-wider text-[#9CA3AF] mb-1">Completed</p>
-            <p className="font-heading text-2xl font-bold text-[#F9FAFB]">{stats.completed}</p>
+          <div className="bg-card border border-border rounded-xl p-4">
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Completed</p>
+            <p className="font-heading text-2xl font-bold text-foreground">{stats.completed}</p>
           </div>
-          <div className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-4">
-            <p className="text-[10px] uppercase tracking-wider text-[#9CA3AF] mb-1">In Queue</p>
-            <p className="font-heading text-2xl font-bold text-[#F9FAFB]">
+          <div className="bg-card border border-border rounded-xl p-4">
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">In Queue</p>
+            <p className="font-heading text-2xl font-bold text-foreground">
               {stats.queue}
-              <span className="text-sm text-[#9CA3AF] font-normal">/{capacity}</span>
+              <span className="text-sm text-muted-foreground font-normal">/{capacity}</span>
             </p>
           </div>
         </motion.div>
@@ -178,7 +178,7 @@ export default function EditorProfile() {
       {/* Editable fields */}
       <motion.div variants={fadeUp} className="space-y-5">
         <div className="space-y-1.5">
-          <label htmlFor="ep-name" className="text-xs uppercase tracking-wider text-[#9CA3AF] font-sans">
+          <label htmlFor="ep-name" className="text-xs uppercase tracking-wider text-muted-foreground font-sans">
             Display Name
           </label>
           <input
@@ -186,19 +186,19 @@ export default function EditorProfile() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Alex Rivera"
-            className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-4 py-3 text-[#F9FAFB] text-sm placeholder:text-[#9CA3AF] focus:border-[#FF5F15] focus:ring-2 focus:ring-[#FF5F15]/30 outline-none transition"
+            className="w-full bg-input border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 outline-none transition"
           />
         </div>
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label htmlFor="ep-bio" className="text-xs uppercase tracking-wider text-[#9CA3AF] font-sans">
+            <label htmlFor="ep-bio" className="text-xs uppercase tracking-wider text-muted-foreground font-sans">
               Bio
             </label>
             <span
               className={`text-xs ${
                 bioLen === 0
-                  ? "text-[#9CA3AF]"
+                  ? "text-muted-foreground"
                   : bioLen < 50
                   ? "text-yellow-400"
                   : bioLen > 300
@@ -215,13 +215,13 @@ export default function EditorProfile() {
             onChange={(e) => setBio(e.target.value)}
             rows={4}
             placeholder="Describe your editing style, experience, and what you specialise in…"
-            className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-4 py-3 text-[#F9FAFB] text-sm placeholder:text-[#9CA3AF] focus:border-[#FF5F15] focus:ring-2 focus:ring-[#FF5F15]/30 outline-none transition resize-none"
+            className="w-full bg-input border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 outline-none transition resize-none"
           />
-          <p className="text-xs text-[#9CA3AF]">Minimum 50 characters</p>
+          <p className="text-xs text-muted-foreground">Minimum 50 characters</p>
         </div>
 
         <div className="space-y-2">
-          <p className="text-xs uppercase tracking-wider text-[#9CA3AF] font-sans">Content Niches</p>
+          <p className="text-xs uppercase tracking-wider text-muted-foreground font-sans">Content Niches</p>
           <div className="flex flex-wrap gap-2">
             {NICHES.map(({ key, label }) => {
               const active = specialties.includes(key)
@@ -233,8 +233,8 @@ export default function EditorProfile() {
                   aria-pressed={active}
                   className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
                     active
-                      ? "bg-[#FF5F15]/10 border-[#FF5F15]/50 text-[#FF5F15]"
-                      : "bg-[#1A1A1A] border-[#2A2A2A] text-[#9CA3AF] hover:border-[#404040] hover:text-[#F9FAFB]"
+                      ? "bg-primary/10 border-primary/50 text-primary"
+                      : "bg-input border-border text-muted-foreground hover:border-card hover:text-foreground"
                   }`}
                 >
                   {label}
@@ -246,7 +246,7 @@ export default function EditorProfile() {
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <p className="text-xs uppercase tracking-wider text-[#9CA3AF] font-sans">Avg Turnaround</p>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground font-sans">Avg Turnaround</p>
             <div className="flex gap-2">
               {[24, 48].map((h) => (
                 <button
@@ -256,8 +256,8 @@ export default function EditorProfile() {
                   aria-pressed={turnaround === h}
                   className={`flex-1 py-2.5 rounded-lg text-sm font-medium border transition-all ${
                     turnaround === h
-                      ? "bg-[#FF5F15]/10 border-[#FF5F15]/50 text-[#FF5F15]"
-                      : "bg-[#1A1A1A] border-[#2A2A2A] text-[#9CA3AF] hover:border-[#404040]"
+                      ? "bg-primary/10 border-primary/50 text-primary"
+                      : "bg-input border-border text-muted-foreground hover:border-card"
                   }`}
                 >
                   {h}h
@@ -266,7 +266,7 @@ export default function EditorProfile() {
             </div>
           </div>
           <div className="space-y-2">
-            <label htmlFor="ep-capacity" className="text-xs uppercase tracking-wider text-[#9CA3AF] font-sans">
+            <label htmlFor="ep-capacity" className="text-xs uppercase tracking-wider text-muted-foreground font-sans">
               Max Queue
             </label>
             <input
@@ -276,14 +276,14 @@ export default function EditorProfile() {
               max={20}
               value={capacity}
               onChange={(e) => setCapacity(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))}
-              className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-4 py-2.5 text-[#F9FAFB] text-sm focus:border-[#FF5F15] focus:ring-2 focus:ring-[#FF5F15]/30 outline-none transition font-mono"
+              className="w-full bg-input border border-border rounded-lg px-4 py-2.5 text-foreground text-sm focus:border-primary focus:ring-2 focus:ring-primary/30 outline-none transition font-mono"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <p className="text-xs uppercase tracking-wider text-[#9CA3AF] font-sans">
-            Portfolio Links <span className="normal-case text-[#9CA3AF]/70">(up to 3)</span>
+          <p className="text-xs uppercase tracking-wider text-muted-foreground font-sans">
+            Portfolio Links <span className="normal-case text-muted-foreground/70">(up to 3)</span>
           </p>
           <div className="space-y-2">
             {links.map((link, i) => (
@@ -293,14 +293,14 @@ export default function EditorProfile() {
                   onChange={(e) => updateLink(i, e.target.value)}
                   placeholder="https://vimeo.com/yourwork"
                   aria-label={`Portfolio link ${i + 1}`}
-                  className="flex-1 bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-4 py-2.5 text-[#F9FAFB] text-sm placeholder:text-[#9CA3AF] focus:border-[#FF5F15] focus:ring-2 focus:ring-[#FF5F15]/30 outline-none transition"
+                  className="flex-1 bg-input border border-border rounded-lg px-4 py-2.5 text-foreground text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 outline-none transition"
                 />
                 {links.length > 1 && (
                   <button
                     type="button"
                     onClick={() => removeLink(i)}
                     aria-label={`Remove portfolio link ${i + 1}`}
-                    className="p-2.5 text-[#9CA3AF] hover:text-red-400 transition-colors"
+                    className="p-2.5 text-muted-foreground hover:text-red-400 transition-colors"
                   >
                     <X size={16} />
                   </button>
@@ -311,7 +311,7 @@ export default function EditorProfile() {
               <button
                 type="button"
                 onClick={addLink}
-                className="flex items-center gap-1.5 text-xs text-[#FF5F15] hover:text-[#E54E08] transition-colors"
+                className="flex items-center gap-1.5 text-xs text-primary hover:text-primary-hover transition-colors"
               >
                 <Plus size={14} /> Add another link
               </button>
@@ -323,19 +323,19 @@ export default function EditorProfile() {
           type="button"
           onClick={() => setAcceptsRepeat((v) => !v)}
           aria-pressed={acceptsRepeat}
-          className="w-full flex items-center justify-between gap-3 bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-4 py-3 text-left"
+          className="w-full flex items-center justify-between gap-3 bg-input border border-border rounded-lg px-4 py-3 text-left"
         >
           <span>
-            <span className="block text-sm font-medium text-[#F9FAFB]">Accept repeat clients</span>
-            <span className="block text-xs text-[#9CA3AF]">Let clients you've worked with request you again.</span>
+            <span className="block text-sm font-medium text-foreground">Accept repeat clients</span>
+            <span className="block text-xs text-muted-foreground">Let clients you've worked with request you again.</span>
           </span>
           <span
             className={`relative w-10 h-6 rounded-full transition-colors shrink-0 ${
-              acceptsRepeat ? "bg-[#FF5F15]" : "bg-[#404040]"
+              acceptsRepeat ? "bg-primary" : "bg-card"
             }`}
           >
             <span
-              className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-[#F9FAFB] transition-transform ${
+              className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-foreground transition-transform ${
                 acceptsRepeat ? "translate-x-4" : "translate-x-0"
               }`}
             />
@@ -359,7 +359,7 @@ export default function EditorProfile() {
         whileTap={{ scale: 0.97 }}
         onClick={handleSave}
         disabled={!valid || saving}
-        className="w-full flex items-center justify-center gap-2 bg-[#FF5F15] text-[#121212] font-semibold rounded-xl py-3.5 text-sm hover:bg-[#E54E08] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        className="w-full flex items-center justify-center gap-2 bg-primary text-background font-semibold rounded-xl py-3.5 text-sm hover:bg-primary-hover disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         {saving ? <Loader2 size={15} className="animate-spin" /> : <Check size={15} />}
         {saving ? "Saving…" : "Save Profile"}

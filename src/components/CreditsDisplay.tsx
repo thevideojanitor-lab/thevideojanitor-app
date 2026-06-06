@@ -22,8 +22,8 @@ export default function CreditsDisplay({ compact = false }: Props) {
 
   if (loading && balance === 0) {
     return (
-      <div className="flex items-center gap-2 bg-[#FF5F15]/10 border border-[#FF5F15]/20 rounded-lg px-3 py-1.5">
-        <div className="w-16 h-1.5 bg-[#2A2A2A] rounded-full animate-pulse" />
+      <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-lg px-3 py-1.5">
+        <div className="w-16 h-1.5 bg-border rounded-full animate-pulse" />
       </div>
     )
   }
@@ -32,16 +32,16 @@ export default function CreditsDisplay({ compact = false }: Props) {
     return (
       <Link
         to="/dashboard/subscription"
-        className="flex items-center gap-2 bg-[#FF5F15]/10 border border-[#FF5F15]/20 rounded-lg px-3 py-1.5 hover:bg-[#FF5F15]/15 transition-colors"
+        className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-lg px-3 py-1.5 hover:bg-primary/15 transition-colors"
       >
-        <span className="text-xs text-[#9CA3AF] font-sans uppercase tracking-wider">Credits</span>
-        <span className="font-heading text-sm font-bold text-[#FF5F15]">
+        <span className="text-xs text-muted-foreground font-sans uppercase tracking-wider">Credits</span>
+        <span className="font-heading text-sm font-bold text-primary">
           {balance.toLocaleString()}
         </span>
         {isLow && (
           <Link
             to="/dashboard/subscription"
-            className="text-[10px] font-semibold text-[#FF5F15] bg-[#FF5F15]/20 rounded px-1.5 py-0.5 ml-1"
+            className="text-[10px] font-semibold text-primary bg-primary/20 rounded px-1.5 py-0.5 ml-1"
           >
             Recharge
           </Link>
@@ -53,13 +53,13 @@ export default function CreditsDisplay({ compact = false }: Props) {
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF]">Credits</span>
-        <span className="font-heading text-sm font-bold text-[#FF5F15]">
-          {balance.toLocaleString()} <span className="text-[#9CA3AF] font-normal">/ {total.toLocaleString()}</span>
+        <span className="text-xs font-sans uppercase tracking-wider text-muted-foreground">Credits</span>
+        <span className="font-heading text-sm font-bold text-primary">
+          {balance.toLocaleString()} <span className="text-muted-foreground font-normal">/ {total.toLocaleString()}</span>
         </span>
       </div>
 
-      <div className="h-2 bg-[#2A2A2A] rounded-full overflow-hidden">
+      <div className="h-2 bg-border rounded-full overflow-hidden">
         <motion.div
           className={`h-full rounded-full ${isCritical ? "animate-pulse" : ""}`}
           style={{ backgroundColor: "#FF5F15" }}
@@ -71,12 +71,12 @@ export default function CreditsDisplay({ compact = false }: Props) {
 
       {isLow && (
         <div className="flex items-center justify-between">
-          <p className="text-xs text-[#9CA3AF]">
+          <p className="text-xs text-muted-foreground">
             {isCritical ? "Almost out of credits" : "Credits running low"}
           </p>
           <Link
             to="/dashboard/subscription"
-            className="text-xs font-semibold text-[#FF5F15] hover:underline"
+            className="text-xs font-semibold text-primary hover:underline"
           >
             Recharge →
           </Link>

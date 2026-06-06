@@ -15,7 +15,7 @@ function SvgCheckmark({ show }: { show: boolean }) {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.5 }}
-          className="fixed inset-0 flex items-center justify-center bg-[#121212]/80 z-50 pointer-events-none"
+          className="fixed inset-0 flex items-center justify-center bg-background/80 z-50 pointer-events-none"
         >
           <svg width="120" height="120" viewBox="0 0 120 120">
             <circle cx="60" cy="60" r="56" fill="rgba(34,197,94,0.15)" stroke="rgba(34,197,94,0.3)" strokeWidth="2" />
@@ -116,31 +116,31 @@ export default function BrandKitStep() {
 
       <div className="space-y-8">
         <div>
-          <h1 className="font-heading text-2xl font-bold text-[#F9FAFB] mb-1">Tell us about your brand</h1>
-          <p className="text-sm text-[#9CA3AF]">Your editor uses this to match your visual identity.</p>
+          <h1 className="font-heading text-2xl font-bold text-foreground mb-1">Tell us about your brand</h1>
+          <p className="text-sm text-muted-foreground">Your editor uses this to match your visual identity.</p>
         </div>
 
         {/* Logo upload */}
         <div>
-          <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-3">Brand Logo (optional)</p>
+          <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-3">Brand Logo (optional)</p>
           <div
             onClick={() => fileRef.current?.click()}
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f) }}
-            className="border-2 border-dashed border-[#404040] rounded-xl p-6 text-center cursor-pointer hover:border-[#FF5F15]/50 transition-colors"
+            className="border-2 border-dashed border-card rounded-xl p-6 text-center cursor-pointer hover:border-primary/50 transition-colors"
           >
             {logoPreview ? (
               <div className="relative inline-block">
                 <img src={logoPreview} alt="Logo preview" className="h-16 object-contain mx-auto rounded" />
                 <button
                   onClick={(e) => { e.stopPropagation(); setLogoFile(null); setLogoPreview(null) }}
-                  className="absolute -top-2 -right-2 bg-[#404040] rounded-full p-0.5"
+                  className="absolute -top-2 -right-2 bg-card rounded-full p-0.5"
                 >
-                  <X size={12} className="text-[#9CA3AF]" />
+                  <X size={12} className="text-muted-foreground" />
                 </button>
               </div>
             ) : (
-              <div className="flex flex-col items-center gap-2 text-[#9CA3AF]">
+              <div className="flex flex-col items-center gap-2 text-muted-foreground">
                 <Upload size={24} />
                 <p className="text-sm">Drop logo here or click to upload</p>
                 <p className="text-xs">PNG, SVG, JPG · max 2MB</p>
@@ -152,14 +152,14 @@ export default function BrandKitStep() {
 
         {/* Color picker */}
         <div>
-          <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-3">Brand Colors (pick up to 5)</p>
+          <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-3">Brand Colors (pick up to 5)</p>
           <div className="flex flex-wrap gap-3">
             {SWATCHES.map((hex) => (
               <motion.button
                 key={hex}
                 whileTap={{ scale: 0.85 }}
                 onClick={() => toggleColor(hex)}
-                className={`w-9 h-9 rounded-full border-2 transition-all ${selectedColors.includes(hex) ? "border-[#F9FAFB] scale-110" : "border-transparent"}`}
+                className={`w-9 h-9 rounded-full border-2 transition-all ${selectedColors.includes(hex) ? "border-foreground scale-110" : "border-transparent"}`}
                 style={{ backgroundColor: hex }}
               />
             ))}
@@ -167,7 +167,7 @@ export default function BrandKitStep() {
           {selectedColors.length > 0 && (
             <div className="flex gap-2 mt-3">
               {selectedColors.map((c) => (
-                <span key={c} className="text-xs font-mono text-[#9CA3AF]">{c}</span>
+                <span key={c} className="text-xs font-mono text-muted-foreground">{c}</span>
               ))}
             </div>
           )}
@@ -175,14 +175,14 @@ export default function BrandKitStep() {
 
         {/* Reference video */}
         <div>
-          <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-3">Reference Video (optional)</p>
-          <p className="text-xs text-[#9CA3AF] mb-2">Paste a YouTube, TikTok, or Instagram link of a style you love.</p>
+          <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-3">Reference Video (optional)</p>
+          <p className="text-xs text-muted-foreground mb-2">Paste a YouTube, TikTok, or Instagram link of a style you love.</p>
           <input
             type="url"
             value={referenceVideo}
             onChange={(e) => setReferenceVideo(e.target.value)}
             placeholder="https://youtube.com/watch?v=..."
-            className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-4 py-3 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 outline-none"
+            className="w-full bg-input border border-border rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 outline-none"
           />
         </div>
 
@@ -198,7 +198,7 @@ export default function BrandKitStep() {
           whileTap={{ scale: 0.97 }}
           onClick={handleSave}
           disabled={saving}
-          className="w-full bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3.5 flex items-center justify-center gap-2 hover:bg-[#E54E08] transition-colors disabled:opacity-60"
+          className="w-full bg-primary text-background font-semibold rounded-lg py-3.5 flex items-center justify-center gap-2 hover:bg-primary-hover transition-colors disabled:opacity-60"
         >
           {saving ? <Loader2 size={16} className="animate-spin" /> : null}
           {saving ? "Saving…" : "Continue"}

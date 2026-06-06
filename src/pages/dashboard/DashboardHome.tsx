@@ -32,19 +32,19 @@ const ACTIVE_STATUSES = ["pending_match", "matched", "in_progress", "in_revision
 
 function CardSkeleton() {
   return (
-    <div className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 space-y-3">
+    <div className="bg-card border border-border rounded-xl p-5 space-y-3">
       <div className="flex items-center gap-2">
-        <div className="h-5 w-24 bg-[#2A2A2A] rounded-full animate-pulse" />
-        <div className="h-5 w-16 bg-[#2A2A2A] rounded-full animate-pulse" />
+        <div className="h-5 w-24 bg-border rounded-full animate-pulse" />
+        <div className="h-5 w-16 bg-border rounded-full animate-pulse" />
       </div>
       <div className="flex items-center gap-2">
-        <div className="w-7 h-7 rounded-full bg-[#2A2A2A] animate-pulse" />
-        <div className="h-4 w-32 bg-[#2A2A2A] rounded animate-pulse" />
+        <div className="w-7 h-7 rounded-full bg-border animate-pulse" />
+        <div className="h-4 w-32 bg-border rounded animate-pulse" />
       </div>
-      <div className="h-4 w-28 bg-[#2A2A2A] rounded animate-pulse" />
+      <div className="h-4 w-28 bg-border rounded animate-pulse" />
       <div className="flex gap-2">
-        <div className="flex-1 h-9 bg-[#2A2A2A] rounded-lg animate-pulse" />
-        <div className="flex-1 h-9 bg-[#2A2A2A] rounded-lg animate-pulse" />
+        <div className="flex-1 h-9 bg-border rounded-lg animate-pulse" />
+        <div className="flex-1 h-9 bg-border rounded-lg animate-pulse" />
       </div>
     </div>
   )
@@ -66,19 +66,19 @@ function RequestCard({ req, onSwap }: { req: Request; onSwap: (r: Request) => vo
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.25 }}
       whileHover={{ y: -2 }}
-      className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 hover:border-[#FF5F15]/20 transition-colors"
+      className="bg-card border border-border rounded-xl p-5 hover:border-primary/20 transition-colors"
     >
       {/* Status + countdown */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-center gap-2 flex-wrap">
           <StatusBadge status={req.status} pulse={isDelivered} />
-          <span className="text-xs font-medium text-[#9CA3AF] capitalize">{req.edit_type} edit</span>
-          <span className="text-xs text-[#9CA3AF]">·</span>
-          <span className="text-xs font-semibold text-[#FF5F15]">{req.credits_cost} cr</span>
+          <span className="text-xs font-medium text-muted-foreground capitalize">{req.edit_type} edit</span>
+          <span className="text-xs text-muted-foreground">·</span>
+          <span className="text-xs font-semibold text-primary">{req.credits_cost} cr</span>
         </div>
         {req.due_at && !isPending && (
           <div className="shrink-0 flex items-center gap-1.5">
-            <span className="text-[10px] text-[#9CA3AF]">Due</span>
+            <span className="text-[10px] text-muted-foreground">Due</span>
             <CountdownTimer dueAt={req.due_at} />
           </div>
         )}
@@ -88,14 +88,14 @@ function RequestCard({ req, onSwap }: { req: Request; onSwap: (r: Request) => vo
       <div className="flex items-center justify-between gap-2 mb-4">
         <div className="flex items-center gap-2">
           <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 ${
-            req.editor_id ? "bg-[#FF5F15]/20 border border-[#FF5F15]/30 text-[#FF5F15]" : "bg-[#2A2A2A] text-[#9CA3AF]"
+            req.editor_id ? "bg-primary/20 border border-primary/30 text-primary" : "bg-border text-muted-foreground"
           }`}>
             {req.editor_id ? editorInitial : "?"}
           </div>
-          <p className="text-sm text-[#9CA3AF]">
+          <p className="text-sm text-muted-foreground">
             {isPending ? (
               <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 bg-[#9CA3AF] rounded-full animate-pulse" />
+                <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-pulse" />
                 Finding your editor…
               </span>
             ) : "Editor assigned"}
@@ -104,7 +104,7 @@ function RequestCard({ req, onSwap }: { req: Request; onSwap: (r: Request) => vo
         {canSwap && (
           <button
             onClick={() => onSwap(req)}
-            className="flex items-center gap-1 text-[10px] text-[#9CA3AF] hover:text-[#FF5F15] transition-colors shrink-0"
+            className="flex items-center gap-1 text-[10px] text-muted-foreground hover:text-primary transition-colors shrink-0"
           >
             <ArrowLeftRight size={11} />
             Swap
@@ -119,21 +119,21 @@ function RequestCard({ req, onSwap }: { req: Request; onSwap: (r: Request) => vo
         </div>
       )}
 
-      <p className="text-xs text-[#9CA3AF] mb-4" title={new Date(req.submitted_at).toLocaleString()}>
+      <p className="text-xs text-muted-foreground mb-4" title={new Date(req.submitted_at).toLocaleString()}>
         Submitted {getRelativeTime(req.submitted_at)}
       </p>
 
       <div className="flex gap-2">
         <Link
           to={`/dashboard/requests/${req.id}`}
-          className="flex-1 flex items-center justify-center gap-1.5 border border-[#404040] text-[#F9FAFB] text-xs font-medium rounded-lg py-2 hover:bg-[#4A4A4A] transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 border border-card text-foreground text-xs font-medium rounded-lg py-2 hover:bg-surface-elevated transition-colors"
         >
           <Eye size={13} />
           {isDelivered ? "Review Edit" : "View Details"}
         </Link>
         <Link
           to={`/dashboard/requests/${req.id}`}
-          className="flex-1 flex items-center justify-center gap-1.5 border border-[#404040] text-[#F9FAFB] text-xs font-medium rounded-lg py-2 hover:bg-[#4A4A4A] transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 border border-card text-foreground text-xs font-medium rounded-lg py-2 hover:bg-surface-elevated transition-colors"
         >
           <MessageSquare size={13} />
           Chat
@@ -148,18 +148,18 @@ function RequestCard({ req, onSwap }: { req: Request; onSwap: (r: Request) => vo
 function EmptyState() {
   return (
     <motion.div variants={fadeUp} className="text-center py-16 px-6">
-      <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-[#FF5F15]/10 border border-[#FF5F15]/20 flex items-center justify-center">
-        <Inbox size={28} className="text-[#FF5F15]" />
+      <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+        <Inbox size={28} className="text-primary" />
       </div>
-      <h3 className="font-heading text-lg font-semibold text-[#F9FAFB] mb-2">Ready for your first edit?</h3>
-      <p className="text-sm text-[#9CA3AF] max-w-xs mx-auto mb-6">
+      <h3 className="font-heading text-lg font-semibold text-foreground mb-2">Ready for your first edit?</h3>
+      <p className="text-sm text-muted-foreground max-w-xs mx-auto mb-6">
         Submit your footage and brief. We'll match you with a vetted editor in minutes.
       </p>
       <Link to="/dashboard/submit">
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.97 }}
-          className="bg-[#FF5F15] text-[#121212] font-semibold rounded-lg px-6 py-3 text-sm hover:bg-[#E54E08] transition-colors"
+          className="bg-primary text-background font-semibold rounded-lg px-6 py-3 text-sm hover:bg-primary-hover transition-colors"
         >
           Submit Your First Edit
         </motion.button>
@@ -256,14 +256,14 @@ export default function DashboardHome() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="flex items-center justify-between gap-3 bg-[#404040] border border-[#2A2A2A] rounded-xl px-4 py-3"
+            className="flex items-center justify-between gap-3 bg-card border border-border rounded-xl px-4 py-3"
           >
-            <p className="text-sm text-[#9CA3AF]">
-              Your plan ends on <span className="text-[#F9FAFB] font-semibold">{new Date(sub.renews_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>. Existing requests will complete normally.
+            <p className="text-sm text-muted-foreground">
+              Your plan ends on <span className="text-foreground font-semibold">{new Date(sub.renews_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>. Existing requests will complete normally.
             </p>
             <Link
               to="/dashboard/subscription"
-              className="text-xs font-semibold text-[#FF5F15] hover:underline shrink-0"
+              className="text-xs font-semibold text-primary hover:underline shrink-0"
             >
               Resubscribe
             </Link>
@@ -278,12 +278,12 @@ export default function DashboardHome() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="flex items-center justify-between gap-3 bg-[#FF5F15]/10 border border-[#FF5F15]/30 rounded-xl px-4 py-3"
+            className="flex items-center justify-between gap-3 bg-primary/10 border border-primary/30 rounded-xl px-4 py-3"
           >
-            <p className="text-sm font-semibold text-[#FF5F15]">You're out of credits. Add more to submit a new request.</p>
+            <p className="text-sm font-semibold text-primary">You're out of credits. Add more to submit a new request.</p>
             <Link
               to="/dashboard/subscription"
-              className="text-xs font-bold text-[#FF5F15] hover:underline shrink-0"
+              className="text-xs font-bold text-primary hover:underline shrink-0"
             >
               Recharge Now
             </Link>
@@ -318,31 +318,31 @@ export default function DashboardHome() {
       {/* ── Top grid ── */}
       <div className="grid md:grid-cols-2 gap-5">
         {/* Credits + stats */}
-        <motion.div variants={fadeUp} className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 space-y-5">
+        <motion.div variants={fadeUp} className="bg-card border border-border rounded-xl p-5 space-y-5">
           <div>
-            <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-3">Credits</p>
+            <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-3">Credits</p>
             <CreditsDisplay />
           </div>
-          <div className="flex gap-4 pt-3 border-t border-[#2A2A2A]">
+          <div className="flex gap-4 pt-3 border-t border-border">
             <div>
-              <p className="text-xs text-[#9CA3AF] mb-1">Active Requests</p>
-              <p className="font-heading text-xl font-bold text-[#FF5F15]">
-                {activeCount}<span className="text-[#9CA3AF] text-sm font-normal"> / {maxActive}</span>
+              <p className="text-xs text-muted-foreground mb-1">Active Requests</p>
+              <p className="font-heading text-xl font-bold text-primary">
+                {activeCount}<span className="text-muted-foreground text-sm font-normal"> / {maxActive}</span>
               </p>
             </div>
-            <div className="w-px bg-[#2A2A2A]" />
+            <div className="w-px bg-border" />
             <div>
-              <p className="text-xs text-[#9CA3AF] mb-1">Balance</p>
-              <p className="font-heading text-xl font-bold text-[#FF5F15]">
-                {balance.toLocaleString()}<span className="text-xs text-[#9CA3AF] font-normal ml-1">cr</span>
+              <p className="text-xs text-muted-foreground mb-1">Balance</p>
+              <p className="font-heading text-xl font-bold text-primary">
+                {balance.toLocaleString()}<span className="text-xs text-muted-foreground font-normal ml-1">cr</span>
               </p>
             </div>
           </div>
         </motion.div>
 
         {/* Quick Actions */}
-        <motion.div variants={fadeUp} className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 space-y-3">
-          <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF]">Quick Actions</p>
+        <motion.div variants={fadeUp} className="bg-card border border-border rounded-xl p-5 space-y-3">
+          <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground">Quick Actions</p>
           <Link to={isBlocked ? "/dashboard/subscription" : "/dashboard/submit"}>
             <motion.button
               whileHover={{ scale: 1.02 }}
@@ -354,7 +354,7 @@ export default function DashboardHome() {
                 : activeCount >= maxActive ? "Max active requests reached"
                 : undefined
               }
-              className="w-full bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 hover:bg-[#E54E08] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-full bg-primary text-background font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 hover:bg-primary-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <PlusCircle size={16} />
               Submit New Request
@@ -364,10 +364,10 @@ export default function DashboardHome() {
             <p className="text-xs text-red-400 text-center">Payment failed — update your payment method.</p>
           )}
           {!isPastDue && activeCount >= maxActive && (
-            <p className="text-xs text-[#9CA3AF] text-center">Max active requests reached — approve one first.</p>
+            <p className="text-xs text-muted-foreground text-center">Max active requests reached — approve one first.</p>
           )}
           {!isPastDue && balance === 0 && activeCount < maxActive && (
-            <p className="text-xs text-[#FF5F15] text-center">
+            <p className="text-xs text-primary text-center">
               Out of credits — <Link to="/dashboard/subscription" className="underline">recharge</Link>
             </p>
           )}
@@ -383,7 +383,7 @@ export default function DashboardHome() {
               { to: "/dashboard/help",     icon: HelpCircle,  label: "Get Help" },
             ].map(({ to, icon: Icon, label }) => (
               <Link key={to} to={to}>
-                <button className="w-full border border-[#2A2A2A] text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-[#4A4A4A] rounded-lg py-2 text-xs font-medium flex flex-col items-center gap-1 transition-colors">
+                <button className="w-full border border-border text-muted-foreground hover:text-foreground hover:bg-surface-elevated rounded-lg py-2 text-xs font-medium flex flex-col items-center gap-1 transition-colors">
                   <Icon size={15} />
                   {label}
                 </button>
@@ -398,7 +398,7 @@ export default function DashboardHome() {
         {delivered.length > 0 && (
           <motion.div variants={fadeUp} initial="hidden" animate="visible">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-sm font-semibold text-[#F9FAFB]">Action Needed</span>
+              <span className="text-sm font-semibold text-foreground">Action Needed</span>
               <span className="text-xs bg-[rgba(59,130,246,0.15)] text-[#60a5fa] border border-[rgba(59,130,246,0.3)] rounded-full px-2 py-0.5 animate-pulse">
                 {delivered.length} edit{delivered.length > 1 ? "s" : ""} ready
               </span>
@@ -417,9 +417,9 @@ export default function DashboardHome() {
       {/* ── Active requests ── */}
       <motion.div variants={fadeUp}>
         <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-semibold text-[#F9FAFB]">Active Requests</span>
+          <span className="text-sm font-semibold text-foreground">Active Requests</span>
           {inProgress.length > 0 && (
-            <span className="text-xs text-[#9CA3AF]">{inProgress.length} in progress</span>
+            <span className="text-xs text-muted-foreground">{inProgress.length} in progress</span>
           )}
         </div>
 
@@ -444,11 +444,11 @@ export default function DashboardHome() {
       {/* ── Past approved ── */}
       {recentApproved.length > 0 && (
         <motion.details variants={fadeUp} className="group">
-          <summary className="flex items-center justify-between cursor-pointer list-none py-3 border-t border-[#2A2A2A]">
-            <span className="text-sm font-semibold text-[#9CA3AF] group-open:text-[#F9FAFB] transition-colors">
+          <summary className="flex items-center justify-between cursor-pointer list-none py-3 border-t border-border">
+            <span className="text-sm font-semibold text-muted-foreground group-open:text-foreground transition-colors">
               Past Approved Edits
             </span>
-            <span className="text-xs text-[#9CA3AF]">{recentApproved.length} edits ›</span>
+            <span className="text-xs text-muted-foreground">{recentApproved.length} edits ›</span>
           </summary>
           <div className="grid md:grid-cols-2 gap-4 pt-3">
             {recentApproved.map((r) => (
@@ -456,13 +456,13 @@ export default function DashboardHome() {
                 key={r.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl p-4 flex items-center justify-between gap-3"
+                className="bg-input border border-border rounded-xl p-4 flex items-center justify-between gap-3"
               >
                 <div className="flex items-center gap-2">
                   <StatusBadge status={r.status} />
-                  <span className="text-xs text-[#9CA3AF] capitalize">{r.edit_type}</span>
+                  <span className="text-xs text-muted-foreground capitalize">{r.edit_type}</span>
                 </div>
-                <Link to={`/dashboard/requests/${r.id}`} className="text-xs text-[#FF5F15] hover:underline shrink-0">
+                <Link to={`/dashboard/requests/${r.id}`} className="text-xs text-primary hover:underline shrink-0">
                   View
                 </Link>
               </motion.div>

@@ -83,11 +83,11 @@ function StatCard({
     <motion.div
       variants={fadeUp}
       whileHover={{ y: -2 }}
-      className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 hover:border-[#FF5F15]/20 transition-colors"
+      className="bg-card border border-border rounded-xl p-5 hover:border-primary/20 transition-colors"
     >
-      <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-3">{label}</p>
-      <p className="font-heading text-3xl font-bold text-[#FF5F15]">{value}</p>
-      {sub && <p className="text-xs text-[#9CA3AF] mt-2">{sub}</p>}
+      <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-3">{label}</p>
+      <p className="font-heading text-3xl font-bold text-primary">{value}</p>
+      {sub && <p className="text-xs text-muted-foreground mt-2">{sub}</p>}
       {alert && (
         <div className="flex items-center gap-1.5 mt-3 text-[10px] font-semibold text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-2.5 py-1.5">
           <AlertTriangle size={10} />
@@ -95,7 +95,7 @@ function StatCard({
         </div>
       )}
       {link && (
-        <div className="flex items-center gap-1 text-xs text-[#FF5F15] mt-3 hover:underline">
+        <div className="flex items-center gap-1 text-xs text-primary mt-3 hover:underline">
           <span>View</span>
           <ArrowRight size={11} />
         </div>
@@ -180,8 +180,8 @@ export default function AdminHome() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-6">
       <motion.div variants={fadeUp}>
-        <h2 className="font-heading text-xl font-bold text-[#F9FAFB]">Platform Overview</h2>
-        <p className="text-xs text-[#9CA3AF] mt-0.5">Live stats — refreshes on data changes</p>
+        <h2 className="font-heading text-xl font-bold text-foreground">Platform Overview</h2>
+        <p className="text-xs text-muted-foreground mt-0.5">Live stats — refreshes on data changes</p>
       </motion.div>
 
       {/* ── Overdue alert banner ── */}
@@ -191,17 +191,17 @@ export default function AdminHome() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="bg-[#FF5F15]/10 border border-[#FF5F15]/30 rounded-xl px-4 py-3 flex items-center justify-between gap-3"
+            className="bg-primary/10 border border-primary/30 rounded-xl px-4 py-3 flex items-center justify-between gap-3"
           >
             <div className="flex items-center gap-2.5">
-              <AlertTriangle size={16} className="text-[#FF5F15] shrink-0" />
-              <p className="text-sm font-semibold text-[#FF5F15]">
+              <AlertTriangle size={16} className="text-primary shrink-0" />
+              <p className="text-sm font-semibold text-primary">
                 {stats.overdueRequests} request{stats.overdueRequests > 1 ? "s" : ""} are overdue
               </p>
             </div>
             <Link
               to="/admin/requests"
-              className="flex items-center gap-1 text-xs font-semibold text-[#FF5F15] hover:underline shrink-0"
+              className="flex items-center gap-1 text-xs font-semibold text-primary hover:underline shrink-0"
             >
               View Overdue <ArrowRight size={12} />
             </Link>
@@ -213,9 +213,9 @@ export default function AdminHome() {
       {loading ? (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[1,2,3,4].map((i) => (
-            <div key={i} className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 animate-pulse space-y-3">
-              <div className="h-3 w-20 bg-[#2A2A2A] rounded" />
-              <div className="h-8 w-24 bg-[#2A2A2A] rounded" />
+            <div key={i} className="bg-card border border-border rounded-xl p-5 animate-pulse space-y-3">
+              <div className="h-3 w-20 bg-border rounded" />
+              <div className="h-8 w-24 bg-border rounded" />
             </div>
           ))}
         </div>
@@ -248,37 +248,37 @@ export default function AdminHome() {
       )}
 
       {/* ── Payout due this week ── */}
-      <motion.div variants={fadeUp} className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5">
+      <motion.div variants={fadeUp} className="bg-card border border-border rounded-xl p-5">
         <div className="flex items-center justify-between mb-4">
-          <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF]">Payout Due This Week</p>
-          <Link to="/admin/payouts" className="flex items-center gap-1 text-xs text-[#FF5F15] hover:underline">
+          <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground">Payout Due This Week</p>
+          <Link to="/admin/payouts" className="flex items-center gap-1 text-xs text-primary hover:underline">
             Manage <ArrowRight size={11} />
           </Link>
         </div>
         <div className="flex gap-6">
           <div>
-            <p className="text-xs text-[#9CA3AF] mb-1">USD</p>
-            <p className="font-heading text-2xl font-bold text-[#FF5F15]">{formatUsd(stats?.payoutUsd ?? 0)}</p>
+            <p className="text-xs text-muted-foreground mb-1">USD</p>
+            <p className="font-heading text-2xl font-bold text-primary">{formatUsd(stats?.payoutUsd ?? 0)}</p>
           </div>
-          <div className="w-px bg-[#2A2A2A]" />
+          <div className="w-px bg-border" />
           <div>
-            <p className="text-xs text-[#9CA3AF] mb-1">INR</p>
-            <p className="font-heading text-2xl font-bold text-[#FF5F15]">{formatInr(stats?.payoutInr ?? 0)}</p>
+            <p className="text-xs text-muted-foreground mb-1">INR</p>
+            <p className="font-heading text-2xl font-bold text-primary">{formatInr(stats?.payoutInr ?? 0)}</p>
           </div>
         </div>
       </motion.div>
 
       {/* ── Recent activity ── */}
-      <motion.div variants={fadeUp} className="bg-[#404040] border border-[#2A2A2A] rounded-xl overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A]">
-          <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF]">Recent Activity</p>
-          <span className="flex items-center gap-1 text-[10px] text-[#9CA3AF]">
-            <Zap size={10} className="text-[#FF5F15]" /> Live
+      <motion.div variants={fadeUp} className="bg-card border border-border rounded-xl overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+          <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground">Recent Activity</p>
+          <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
+            <Zap size={10} className="text-primary" /> Live
           </span>
         </div>
-        <div className="divide-y divide-[#2A2A2A]">
+        <div className="divide-y divide-border">
           {activity.length === 0 ? (
-            <p className="text-xs text-[#9CA3AF] text-center py-8">No admin actions yet.</p>
+            <p className="text-xs text-muted-foreground text-center py-8">No admin actions yet.</p>
           ) : (
             <AnimatePresence initial={false}>
               {activity.map((a) => (
@@ -289,18 +289,18 @@ export default function AdminHome() {
                   exit={{ opacity: 0 }}
                   className="flex items-start gap-3 px-5 py-3"
                 >
-                  <div className="w-6 h-6 rounded-full bg-[#FF5F15]/10 border border-[#FF5F15]/20 flex items-center justify-center shrink-0 mt-0.5">
-                    <TrendingUp size={10} className="text-[#FF5F15]" />
+                  <div className="w-6 h-6 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <TrendingUp size={10} className="text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-[#F9FAFB]">
+                    <p className="text-xs font-medium text-foreground">
                       {ACTION_LABELS[a.action_type] ?? a.action_type}
                     </p>
                     {a.notes && (
-                      <p className="text-[10px] text-[#9CA3AF] mt-0.5 truncate">{a.notes}</p>
+                      <p className="text-[10px] text-muted-foreground mt-0.5 truncate">{a.notes}</p>
                     )}
                   </div>
-                  <div className="flex items-center gap-1 text-[10px] text-[#9CA3AF] shrink-0">
+                  <div className="flex items-center gap-1 text-[10px] text-muted-foreground shrink-0">
                     <Clock size={9} />
                     {getRelativeTime(a.created_at)}
                   </div>

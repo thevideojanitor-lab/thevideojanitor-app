@@ -82,16 +82,16 @@ export default function EditorBankSetup() {
     return (
       <div className="max-w-md mx-auto pt-4 space-y-6">
         <div className="space-y-2">
-          <div className="h-7 w-48 bg-[#404040] rounded-lg animate-pulse" />
-          <div className="h-4 w-full bg-[#404040] rounded animate-pulse" />
+          <div className="h-7 w-48 bg-card rounded-lg animate-pulse" />
+          <div className="h-4 w-full bg-card rounded animate-pulse" />
         </div>
-        <div className="h-11 bg-[#404040] rounded-xl animate-pulse" />
+        <div className="h-11 bg-card rounded-xl animate-pulse" />
         <div className="space-y-3">
           {[0, 1, 2].map((s) => (
-            <div key={s} className="h-16 bg-[#404040] rounded-lg animate-pulse" />
+            <div key={s} className="h-16 bg-card rounded-lg animate-pulse" />
           ))}
         </div>
-        <div className="h-12 bg-[#404040] rounded-xl animate-pulse" />
+        <div className="h-12 bg-card rounded-xl animate-pulse" />
       </div>
     )
   }
@@ -99,8 +99,8 @@ export default function EditorBankSetup() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="max-w-md mx-auto pt-4 space-y-6">
       <motion.div variants={fadeUp}>
-        <h2 className="font-heading text-2xl font-bold text-[#F9FAFB] mb-1">INR Payout Setup</h2>
-        <p className="text-sm text-[#9CA3AF]">Add your Indian bank account or UPI ID to receive weekly INR payouts.</p>
+        <h2 className="font-heading text-2xl font-bold text-foreground mb-1">INR Payout Setup</h2>
+        <p className="text-sm text-muted-foreground">Add your Indian bank account or UPI ID to receive weekly INR payouts.</p>
       </motion.div>
 
       {/* Verified badge */}
@@ -112,13 +112,13 @@ export default function EditorBankSetup() {
       )}
 
       {/* Mode toggle */}
-      <motion.div variants={fadeUp} className="flex bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl p-1 gap-1">
+      <motion.div variants={fadeUp} className="flex bg-input border border-border rounded-xl p-1 gap-1">
         {([["bank", Building2, "Bank Account"], ["upi", Smartphone, "UPI ID"]] as const).map(([m, Icon, label]) => (
           <button
             key={m}
             onClick={() => setMode(m as Mode)}
             className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-semibold transition-colors ${
-              mode === m ? "bg-[#FF5F15] text-[#121212]" : "text-[#9CA3AF] hover:text-[#F9FAFB]"
+              mode === m ? "bg-primary text-background" : "text-muted-foreground hover:text-foreground"
             }`}
           >
             <Icon size={13} />
@@ -130,31 +130,31 @@ export default function EditorBankSetup() {
       {mode === "bank" ? (
         <motion.div variants={fadeUp} className="space-y-3">
           <div className="space-y-1.5">
-            <label className="text-xs text-[#9CA3AF]">Account Holder Name</label>
+            <label className="text-xs text-muted-foreground">Account Holder Name</label>
             <input
               value={accountName}
               onChange={(e) => setAccountName(e.target.value)}
               placeholder="As per bank records"
-              className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 transition-colors"
+              className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors"
             />
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs text-[#9CA3AF]">Account Number</label>
+            <label className="text-xs text-muted-foreground">Account Number</label>
             <input
               value={accountNumber}
               onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ""))}
               placeholder="Enter account number"
-              className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 transition-colors font-mono"
+              className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors font-mono"
             />
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs text-[#9CA3AF]">Confirm Account Number</label>
+            <label className="text-xs text-muted-foreground">Confirm Account Number</label>
             <input
               value={confirmAccount}
               onChange={(e) => setConfirmAccount(e.target.value.replace(/\D/g, ""))}
               placeholder="Re-enter account number"
-              className={`w-full bg-[#1A1A1A] border rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 transition-colors font-mono ${
-                confirmAccount && confirmAccount !== accountNumber ? "border-red-500/60" : "border-[#2A2A2A]"
+              className={`w-full bg-input border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors font-mono ${
+                confirmAccount && confirmAccount !== accountNumber ? "border-red-500/60" : "border-border"
               }`}
             />
             {confirmAccount && confirmAccount !== accountNumber && (
@@ -162,26 +162,26 @@ export default function EditorBankSetup() {
             )}
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs text-[#9CA3AF]">IFSC Code</label>
+            <label className="text-xs text-muted-foreground">IFSC Code</label>
             <input
               value={ifsc}
               onChange={(e) => setIfsc(e.target.value.toUpperCase().slice(0, 11))}
               placeholder="e.g. HDFC0001234"
               maxLength={11}
-              className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 transition-colors font-mono uppercase"
+              className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors font-mono uppercase"
             />
           </div>
         </motion.div>
       ) : (
         <motion.div variants={fadeUp} className="space-y-1.5">
-          <label className="text-xs text-[#9CA3AF]">UPI ID</label>
+          <label className="text-xs text-muted-foreground">UPI ID</label>
           <input
             value={upiId}
             onChange={(e) => setUpiId(e.target.value)}
             placeholder="yourname@paytm / yourname@upi"
-            className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 transition-colors"
+            className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors"
           />
-          <p className="text-[10px] text-[#9CA3AF]">Supports any UPI handle — PhonePe, GPay, Paytm, etc.</p>
+          <p className="text-[10px] text-muted-foreground">Supports any UPI handle — PhonePe, GPay, Paytm, etc.</p>
         </motion.div>
       )}
 
@@ -191,7 +191,7 @@ export default function EditorBankSetup() {
         whileTap={{ scale: 0.97 }}
         onClick={handleSave}
         disabled={!canSave || saving}
-        className="w-full flex items-center justify-center gap-2 bg-[#FF5F15] text-[#121212] font-semibold rounded-xl py-3.5 text-sm hover:bg-[#E54E08] disabled:opacity-40 transition-colors"
+        className="w-full flex items-center justify-center gap-2 bg-primary text-background font-semibold rounded-xl py-3.5 text-sm hover:bg-primary-hover disabled:opacity-40 transition-colors"
       >
         {saving ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle size={15} />}
         {saving ? "Saving…" : verified ? "Update Details" : "Save Details"}

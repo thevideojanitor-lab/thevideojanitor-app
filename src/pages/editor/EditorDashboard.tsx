@@ -91,20 +91,20 @@ function RevisionNotes({ requestId }: { requestId: string }) {
       })
   }, [requestId])
 
-  if (loading) return <div className="h-6 w-full bg-[#2A2A2A] rounded animate-pulse" />
+  if (loading) return <div className="h-6 w-full bg-border rounded animate-pulse" />
 
   if (comments.length === 0) {
-    return <p className="text-xs text-[#9CA3AF] italic">No revision notes from client yet.</p>
+    return <p className="text-xs text-muted-foreground italic">No revision notes from client yet.</p>
   }
 
   return (
     <div className="space-y-1.5">
       {comments.map((c) => (
-        <div key={c.id} className="flex items-start gap-2 bg-[#1A1A1A] rounded-lg px-2.5 py-2">
-          <span className="text-[10px] font-mono font-bold text-[#3B82F6] shrink-0 mt-0.5">
+        <div key={c.id} className="flex items-start gap-2 bg-input rounded-lg px-2.5 py-2">
+          <span className="text-[10px] font-mono font-bold text-editor-accent shrink-0 mt-0.5">
             [{Math.floor(c.timestamp_seconds / 60)}:{String(Math.floor(c.timestamp_seconds % 60)).padStart(2, "0")}]
           </span>
-          <p className="text-xs text-[#F9FAFB] leading-relaxed">{c.comment}</p>
+          <p className="text-xs text-foreground leading-relaxed">{c.comment}</p>
         </div>
       ))}
     </div>
@@ -137,8 +137,8 @@ function QueueCard({
       animate="visible"
       exit={{ opacity: 0, y: -8 }}
       whileHover={{ y: -2 }}
-      className={`bg-[#404040] border rounded-xl p-5 transition-colors ${
-        isRevision ? "border-yellow-500/30 hover:border-yellow-500/50" : "border-[#2A2A2A] hover:border-[#3B82F6]/20"
+      className={`bg-card border rounded-xl p-5 transition-colors ${
+        isRevision ? "border-yellow-500/30 hover:border-yellow-500/50" : "border-border hover:border-editor-accent/20"
       }`}
     >
       {/* Header row */}
@@ -150,24 +150,24 @@ function QueueCard({
               Revision {req.revision_round} of 3
             </span>
           )}
-          <span className="text-xs font-medium capitalize text-[#9CA3AF]">{req.edit_type}</span>
-          <span className="text-xs font-bold text-[#3B82F6]">{req.credits_cost} cr</span>
+          <span className="text-xs font-medium capitalize text-muted-foreground">{req.edit_type}</span>
+          <span className="text-xs font-bold text-editor-accent">{req.credits_cost} cr</span>
         </div>
-        <span className="text-xs font-mono text-[#9CA3AF] shrink-0">
+        <span className="text-xs font-mono text-muted-foreground shrink-0">
           {maskClientHandle(req.client_id)}
         </span>
       </div>
 
       {/* Brief preview */}
       {preview ? (
-        <p className="text-sm text-[#F9FAFB]/80 leading-relaxed mb-2 line-clamp-2">{preview}</p>
+        <p className="text-sm text-foreground/80 leading-relaxed mb-2 line-clamp-2">{preview}</p>
       ) : (
-        <p className="text-sm text-[#9CA3AF] italic mb-2">No description provided</p>
+        <p className="text-sm text-muted-foreground italic mb-2">No description provided</p>
       )}
 
       <button
         onClick={() => onViewBrief(req)}
-        className="flex items-center gap-1.5 text-xs text-[#3B82F6] hover:underline mb-4"
+        className="flex items-center gap-1.5 text-xs text-editor-accent hover:underline mb-4"
       >
         <FileText size={12} />
         View Full Brief
@@ -204,13 +204,13 @@ function QueueCard({
       {/* Due countdown */}
       {req.due_at && (
         <div className="flex items-center gap-1.5 mb-3">
-          <Clock size={12} className="text-[#9CA3AF]" />
-          <span className="text-[10px] uppercase tracking-wider text-[#9CA3AF]">Due</span>
+          <Clock size={12} className="text-muted-foreground" />
+          <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Due</span>
           <CountdownTimer dueAt={req.due_at} />
         </div>
       )}
 
-      <p className="text-[10px] text-[#9CA3AF] mb-4">
+      <p className="text-[10px] text-muted-foreground mb-4">
         Assigned {getRelativeTime(req.submitted_at)}
       </p>
 
@@ -218,7 +218,7 @@ function QueueCard({
       <div className="flex gap-2">
         <button
           onClick={() => onChat(req)}
-          className="flex items-center justify-center gap-1.5 border border-[#2A2A2A] text-[#9CA3AF] text-xs font-medium rounded-lg py-2.5 px-3 hover:bg-[#4A4A4A] hover:text-[#F9FAFB] transition-colors shrink-0"
+          className="flex items-center justify-center gap-1.5 border border-border text-muted-foreground text-xs font-medium rounded-lg py-2.5 px-3 hover:bg-surface-elevated hover:text-foreground transition-colors shrink-0"
         >
           <MessageSquare size={13} />
           Message
@@ -228,7 +228,7 @@ function QueueCard({
             href={req.footage_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-1.5 border border-[#2A2A2A] text-[#9CA3AF] text-xs font-medium rounded-lg py-2.5 hover:bg-[#4A4A4A] hover:text-[#F9FAFB] transition-colors"
+            className="flex-1 flex items-center justify-center gap-1.5 border border-border text-muted-foreground text-xs font-medium rounded-lg py-2.5 hover:bg-surface-elevated hover:text-foreground transition-colors"
           >
             <Download size={13} />
             Footage
@@ -239,7 +239,7 @@ function QueueCard({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => onUpload(req)}
-            className="flex-1 flex items-center justify-center gap-1.5 bg-[#3B82F6] text-[#F9FAFB] text-xs font-semibold rounded-lg py-2.5 hover:bg-[#2563EB] transition-colors"
+            className="flex-1 flex items-center justify-center gap-1.5 bg-editor-accent text-foreground text-xs font-semibold rounded-lg py-2.5 hover:bg-[#2563EB] transition-colors"
           >
             <Upload size={13} />
             {req.status === "in_revision" ? "Upload Revision" : "Upload Edit"}
@@ -256,19 +256,19 @@ function CompletedCard({ req }: { req: Request }) {
   return (
     <motion.div
       variants={fadeUp}
-      className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl p-4 flex items-center justify-between gap-3"
+      className="bg-input border border-border rounded-xl p-4 flex items-center justify-between gap-3"
     >
       <div className="flex items-center gap-3">
         <StatusBadge status={req.status} />
         <div>
-          <p className="text-xs font-medium text-[#F9FAFB] capitalize">{req.edit_type} edit</p>
-          <p className="text-[10px] text-[#9CA3AF] mt-0.5">{maskClientHandle(req.client_id)}</p>
+          <p className="text-xs font-medium text-foreground capitalize">{req.edit_type} edit</p>
+          <p className="text-[10px] text-muted-foreground mt-0.5">{maskClientHandle(req.client_id)}</p>
         </div>
       </div>
       <div className="text-right shrink-0">
-        <p className="text-xs font-bold text-[#3B82F6]">{req.credits_cost} cr</p>
+        <p className="text-xs font-bold text-editor-accent">{req.credits_cost} cr</p>
         {req.approved_at && (
-          <p className="text-[10px] text-[#9CA3AF] mt-0.5">{getRelativeTime(req.approved_at)}</p>
+          <p className="text-[10px] text-muted-foreground mt-0.5">{getRelativeTime(req.approved_at)}</p>
         )}
       </div>
     </motion.div>
@@ -283,12 +283,12 @@ function QueueSkeleton() {
       {[1, 2].map((i) => (
         <div
           key={i}
-          className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 space-y-3 animate-pulse"
+          className="bg-card border border-border rounded-xl p-5 space-y-3 animate-pulse"
         >
-          <div className="h-5 w-32 bg-[#2A2A2A] rounded-full" />
-          <div className="h-4 w-full bg-[#2A2A2A] rounded" />
-          <div className="h-4 w-2/3 bg-[#2A2A2A] rounded" />
-          <div className="h-9 bg-[#2A2A2A] rounded-lg" />
+          <div className="h-5 w-32 bg-border rounded-full" />
+          <div className="h-4 w-full bg-border rounded" />
+          <div className="h-4 w-2/3 bg-border rounded" />
+          <div className="h-9 bg-border rounded-lg" />
         </div>
       ))}
     </div>
@@ -325,11 +325,11 @@ function EmptyTab({ tab }: { tab: Tab }) {
       animate={{ opacity: 1, y: 0 }}
       className="text-center py-16 px-6"
     >
-      <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-[#3B82F6]/10 border border-[#3B82F6]/20 flex items-center justify-center">
-        <Icon size={24} className="text-[#3B82F6]" />
+      <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-editor-accent/10 border border-editor-accent/20 flex items-center justify-center">
+        <Icon size={24} className="text-editor-accent" />
       </div>
-      <p className="font-heading text-base font-semibold text-[#F9FAFB] mb-1">{title}</p>
-      <p className="text-sm text-[#9CA3AF] max-w-xs mx-auto">{sub}</p>
+      <p className="font-heading text-base font-semibold text-foreground mb-1">{title}</p>
+      <p className="text-sm text-muted-foreground max-w-xs mx-auto">{sub}</p>
     </motion.div>
   )
 }
@@ -405,27 +405,27 @@ export default function EditorDashboard() {
         {/* ── Earnings header card ── */}
         <motion.div
           variants={fadeUp}
-          className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5"
+          className="bg-card border border-border rounded-xl p-5"
         >
-          <div className="grid grid-cols-2 gap-4 divide-x divide-[#2A2A2A]">
+          <div className="grid grid-cols-2 gap-4 divide-x divide-border">
             <div>
-              <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-1">
+              <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-1">
                 This Week
               </p>
-              <p className="font-heading text-3xl font-bold text-[#3B82F6]">
+              <p className="font-heading text-3xl font-bold text-editor-accent">
                 {formatAmount(animatedEarnings, displayCurrency)}
               </p>
-              <p className="text-xs text-[#9CA3AF] mt-1">Weekly earnings</p>
+              <p className="text-xs text-muted-foreground mt-1">Weekly earnings</p>
             </div>
             <div className="pl-4">
-              <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-1">
+              <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-1">
                 Pending Payout
               </p>
-              <p className="font-heading text-2xl font-bold text-[#F9FAFB]">
+              <p className="font-heading text-2xl font-bold text-foreground">
                 {formatAmount(animatedPending, displayCurrency)}
               </p>
               {nextPayoutDate && (
-                <p className="text-xs text-[#9CA3AF] mt-1">Pays out {nextPayoutDate}</p>
+                <p className="text-xs text-muted-foreground mt-1">Pays out {nextPayoutDate}</p>
               )}
             </div>
           </div>
@@ -434,15 +434,15 @@ export default function EditorDashboard() {
         {/* ── Queue tabs ── */}
         <motion.div variants={fadeUp}>
           {/* Tab bar */}
-          <div className="flex gap-1 bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl p-1 mb-5">
+          <div className="flex gap-1 bg-input border border-border rounded-xl p-1 mb-5">
             {TABS.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-semibold rounded-lg transition-all ${
                   tab === t.id
-                    ? "bg-[#3B82F6] text-[#F9FAFB] shadow-sm"
-                    : "text-[#9CA3AF] hover:text-[#F9FAFB]"
+                    ? "bg-editor-accent text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {t.label}
@@ -450,8 +450,8 @@ export default function EditorDashboard() {
                   <span
                     className={`text-[10px] rounded-full px-1.5 py-0.5 font-bold ${
                       tab === t.id
-                        ? "bg-[#121212]/25 text-[#F9FAFB]"
-                        : "bg-[#404040] text-[#9CA3AF]"
+                        ? "bg-background/25 text-foreground"
+                        : "bg-card text-muted-foreground"
                     }`}
                   >
                     {t.count}
@@ -528,7 +528,7 @@ export default function EditorDashboard() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-[#121212]/80 backdrop-blur-sm z-50 flex items-end md:items-center justify-center p-4"
+            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-end md:items-center justify-center p-4"
             onClick={() => setChatRequest(null)}
           >
             <motion.div
@@ -536,16 +536,16 @@ export default function EditorDashboard() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="w-full max-w-md bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl overflow-hidden"
+              className="w-full max-w-md bg-input border border-border rounded-2xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between px-4 py-3 border-b border-[#2A2A2A]">
-                <p className="text-sm font-semibold text-[#F9FAFB]">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+                <p className="text-sm font-semibold text-foreground">
                   Message — {maskClientHandle(chatRequest.client_id)}
                 </p>
                 <button
                   onClick={() => setChatRequest(null)}
-                  className="text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <X size={16} />
                 </button>

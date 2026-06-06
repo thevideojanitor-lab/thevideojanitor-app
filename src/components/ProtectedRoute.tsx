@@ -14,8 +14,8 @@ export default function ProtectedRoute({ children, requireRole, requireAdmin, re
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-[#FF5F15] border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
@@ -54,8 +54,8 @@ export function PublicOnlyRoute({ children }: { children: ReactNode }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-[#FF5F15] border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }

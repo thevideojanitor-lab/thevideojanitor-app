@@ -53,14 +53,14 @@ function RowMenu({ client, onAction }: { client: ClientRow; onAction: (a: string
 
   return (
     <div className="relative" ref={ref}>
-      <button onClick={() => setOpen((o) => !o)} className="w-7 h-7 rounded-lg bg-[#2A2A2A] hover:bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors">
+      <button onClick={() => setOpen((o) => !o)} className="w-7 h-7 rounded-lg bg-border hover:bg-card flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
         <MoreHorizontal size={14} />
       </button>
       <AnimatePresence>
         {open && (
-          <motion.div initial={{ opacity: 0, scale: 0.95, y: 4 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 4 }} transition={{ duration: 0.12 }} className="absolute right-0 top-8 w-40 bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl shadow-xl z-30 overflow-hidden py-1">
+          <motion.div initial={{ opacity: 0, scale: 0.95, y: 4 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 4 }} transition={{ duration: 0.12 }} className="absolute right-0 top-8 w-40 bg-input border border-border rounded-xl shadow-xl z-30 overflow-hidden py-1">
             {["view","credits","plan","suspend","impersonate"].map((a) => (
-              <button key={a} onClick={() => { onAction(a, client); setOpen(false) }} className="w-full text-left px-4 py-2 text-xs text-[#F9FAFB] hover:bg-[#404040] transition-colors capitalize">
+              <button key={a} onClick={() => { onAction(a, client); setOpen(false) }} className="w-full text-left px-4 py-2 text-xs text-foreground hover:bg-card transition-colors capitalize">
                 {a === "credits" ? "Adjust Credits" : a === "plan" ? "Change Plan" : a === "impersonate" ? "Impersonate" : a.charAt(0).toUpperCase() + a.slice(1)}
               </button>
             ))}
@@ -137,15 +137,15 @@ export default function AdminClients() {
   )
 
   const columns = useMemo<ColumnDef<ClientRow>[]>(() => [
-    { id: "email", header: "Email", accessorKey: "email", cell: (i) => <span className="text-xs text-[#F9FAFB]">{i.getValue() as string}</span> },
-    { id: "plan", header: "Plan", accessorKey: "plan", cell: (i) => <span className="text-xs text-[#9CA3AF] capitalize">{PLAN_LABELS[i.getValue() as string] ?? "—"}</span> },
-    { id: "region", header: "Region", accessorKey: "region", cell: (i) => <span className="text-xs text-[#9CA3AF]">{i.getValue() as string}</span> },
-    { id: "credits_remaining", header: "Credits", accessorKey: "credits_remaining", cell: (i) => <span className="text-xs font-bold text-[#FF5F15]">{(i.getValue() as number).toLocaleString()}</span> },
-    { id: "active_requests", header: "Active", accessorKey: "active_requests", cell: (i) => <span className="text-xs text-[#9CA3AF]">{i.getValue() as number}</span> },
-    { id: "created_at", header: "Since", accessorKey: "created_at", cell: (i) => <span className="text-xs text-[#9CA3AF]">{new Date(i.getValue() as string).toLocaleDateString()}</span> },
+    { id: "email", header: "Email", accessorKey: "email", cell: (i) => <span className="text-xs text-foreground">{i.getValue() as string}</span> },
+    { id: "plan", header: "Plan", accessorKey: "plan", cell: (i) => <span className="text-xs text-muted-foreground capitalize">{PLAN_LABELS[i.getValue() as string] ?? "—"}</span> },
+    { id: "region", header: "Region", accessorKey: "region", cell: (i) => <span className="text-xs text-muted-foreground">{i.getValue() as string}</span> },
+    { id: "credits_remaining", header: "Credits", accessorKey: "credits_remaining", cell: (i) => <span className="text-xs font-bold text-primary">{(i.getValue() as number).toLocaleString()}</span> },
+    { id: "active_requests", header: "Active", accessorKey: "active_requests", cell: (i) => <span className="text-xs text-muted-foreground">{i.getValue() as number}</span> },
+    { id: "created_at", header: "Since", accessorKey: "created_at", cell: (i) => <span className="text-xs text-muted-foreground">{new Date(i.getValue() as string).toLocaleDateString()}</span> },
     { id: "sub_status", header: "Status", accessorKey: "sub_status", cell: (i) => {
       const v = i.getValue() as string | null
-      return <span className={`text-xs font-medium ${v === "active" ? "text-[#4ade80]" : v === "cancelled" ? "text-red-400" : "text-[#9CA3AF]"}`}>{v ?? "—"}</span>
+      return <span className={`text-xs font-medium ${v === "active" ? "text-[#4ade80]" : v === "cancelled" ? "text-red-400" : "text-muted-foreground"}`}>{v ?? "—"}</span>
     }},
     { id: "actions", header: "", enableSorting: false, cell: (i) => <RowMenu client={i.row.original} onAction={handleAction} /> },
   ], [])
@@ -219,17 +219,17 @@ export default function AdminClients() {
     <div className="space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-heading text-xl font-bold text-[#F9FAFB]">Clients</h2>
-          <p className="text-xs text-[#9CA3AF] mt-0.5">{filtered.length} total</p>
+          <h2 className="font-heading text-xl font-bold text-foreground">Clients</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">{filtered.length} total</p>
         </div>
-        <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search email…" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2 text-xs text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] outline-none w-48" />
+        <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search email…" className="bg-input border border-border rounded-lg px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary outline-none w-48" />
       </div>
 
-      <motion.div variants={fadeUp} initial="hidden" animate="visible" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl overflow-hidden">
+      <motion.div variants={fadeUp} initial="hidden" animate="visible" className="bg-input border border-border rounded-xl overflow-hidden">
         {loading ? (
           <div className="p-4 space-y-2.5">
             {[0, 1, 2, 3, 4, 5].map((s) => (
-              <div key={s} className="h-9 bg-[#404040]/40 rounded-lg animate-pulse" />
+              <div key={s} className="h-9 bg-card/40 rounded-lg animate-pulse" />
             ))}
           </div>
         ) : (
@@ -238,9 +238,9 @@ export default function AdminClients() {
               <table className="w-full text-left">
                 <thead>
                   {table.getHeaderGroups().map((hg) => (
-                    <tr key={hg.id} className="border-b border-[#2A2A2A]">
+                    <tr key={hg.id} className="border-b border-border">
                       {hg.headers.map((h) => (
-                        <th key={h.id} onClick={h.column.getToggleSortingHandler()} className="px-4 py-3 text-[10px] font-semibold uppercase tracking-wider text-[#9CA3AF] cursor-pointer select-none whitespace-nowrap">
+                        <th key={h.id} onClick={h.column.getToggleSortingHandler()} className="px-4 py-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground cursor-pointer select-none whitespace-nowrap">
                           <span className="flex items-center gap-1">{flexRender(h.column.columnDef.header, h.getContext())}{h.column.getIsSorted() === "asc" && <ChevronUp size={10} />}{h.column.getIsSorted() === "desc" && <ChevronDown size={10} />}</span>
                         </th>
                       ))}
@@ -249,7 +249,7 @@ export default function AdminClients() {
                 </thead>
                 <tbody>
                   {table.getRowModel().rows.map((row) => (
-                    <tr key={row.id} className="border-b border-[#2A2A2A] hover:bg-[#404040]/30 transition-colors">
+                    <tr key={row.id} className="border-b border-border hover:bg-card/30 transition-colors">
                       {row.getVisibleCells().map((cell) => (
                         <td key={cell.id} className="px-4 py-3">{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                       ))}
@@ -258,13 +258,13 @@ export default function AdminClients() {
                 </tbody>
               </table>
             </div>
-            <div className="flex items-center justify-between px-4 py-3 border-t border-[#2A2A2A]">
-              <span className="text-[10px] text-[#9CA3AF]">Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}</span>
+            <div className="flex items-center justify-between px-4 py-3 border-t border-border">
+              <span className="text-[10px] text-muted-foreground">Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}</span>
               <div className="flex items-center gap-1">
-                <button onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()} className="p-1.5 text-[#9CA3AF] disabled:opacity-30 hover:text-[#F9FAFB]"><ChevronsLeft size={14} /></button>
-                <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="p-1.5 text-[#9CA3AF] disabled:opacity-30 hover:text-[#F9FAFB]"><ChevronLeft size={14} /></button>
-                <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="p-1.5 text-[#9CA3AF] disabled:opacity-30 hover:text-[#F9FAFB]"><ChevronRight size={14} /></button>
-                <button onClick={() => table.setPageIndex(table.getPageCount()-1)} disabled={!table.getCanNextPage()} className="p-1.5 text-[#9CA3AF] disabled:opacity-30 hover:text-[#F9FAFB]"><ChevronsRight size={14} /></button>
+                <button onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()} className="p-1.5 text-muted-foreground disabled:opacity-30 hover:text-foreground"><ChevronsLeft size={14} /></button>
+                <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="p-1.5 text-muted-foreground disabled:opacity-30 hover:text-foreground"><ChevronLeft size={14} /></button>
+                <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="p-1.5 text-muted-foreground disabled:opacity-30 hover:text-foreground"><ChevronRight size={14} /></button>
+                <button onClick={() => table.setPageIndex(table.getPageCount()-1)} disabled={!table.getCanNextPage()} className="p-1.5 text-muted-foreground disabled:opacity-30 hover:text-foreground"><ChevronsRight size={14} /></button>
               </div>
             </div>
           </>
@@ -275,11 +275,11 @@ export default function AdminClients() {
       <AnimatePresence>
         {activeAction?.key === "view" && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-[#121212]/60 z-40" onClick={close} />
-            <motion.div variants={slideInFromRight} initial="hidden" animate="visible" exit="exit" className="fixed top-0 right-0 bottom-0 w-full max-w-lg bg-[#1A1A1A] border-l border-[#2A2A2A] z-50 flex flex-col overflow-y-auto">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A] sticky top-0 bg-[#1A1A1A]">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">{activeAction.client.email}</h2>
-                <button onClick={close} className="w-8 h-8 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB]"><X size={15} /></button>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-background/60 z-40" onClick={close} />
+            <motion.div variants={slideInFromRight} initial="hidden" animate="visible" exit="exit" className="fixed top-0 right-0 bottom-0 w-full max-w-lg bg-input border-l border-border z-50 flex flex-col overflow-y-auto">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border sticky top-0 bg-input">
+                <h2 className="font-heading text-base font-semibold text-foreground">{activeAction.client.email}</h2>
+                <button onClick={close} className="w-8 h-8 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground"><X size={15} /></button>
               </div>
               <div className="p-5 space-y-4">
                 {profile && (
@@ -295,14 +295,14 @@ export default function AdminClients() {
                         ["Region", activeAction.client.region],
                         ["Active Reqs", String(activeAction.client.active_requests)],
                       ].map(([k, v]) => (
-                        <div key={k} className="bg-[#404040] rounded-lg p-3">
-                          <p className="text-[10px] uppercase tracking-wider text-[#9CA3AF] mb-1">{k}</p>
-                          <p className="text-[#F9FAFB] font-medium break-words">{v}</p>
+                        <div key={k} className="bg-card rounded-lg p-3">
+                          <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">{k}</p>
+                          <p className="text-foreground font-medium break-words">{v}</p>
                         </div>
                       ))}
                     </div>
                     {profile.brand_kit_url && (
-                      <a href={profile.brand_kit_url} target="_blank" rel="noopener noreferrer" className="text-xs text-[#FF5F15] hover:underline">View Brand Kit</a>
+                      <a href={profile.brand_kit_url} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline">View Brand Kit</a>
                     )}
                   </>
                 )}
@@ -315,18 +315,18 @@ export default function AdminClients() {
       {/* ── Adjust Credits Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "credits" && (
-          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
-            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
+          <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
+            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-input border border-border rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Adjust Credits</h2>
-                <button onClick={close} className="w-7 h-7 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB]"><X size={14} /></button>
+                <h2 className="font-heading text-base font-semibold text-foreground">Adjust Credits</h2>
+                <button onClick={close} className="w-7 h-7 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground"><X size={14} /></button>
               </div>
-              <p className="text-xs text-[#9CA3AF]">Current: <span className="text-[#FF5F15] font-bold">{activeAction.client.credits_remaining} cr</span></p>
-              <input type="number" value={creditDelta} onChange={(e) => setCreditDelta(e.target.value)} placeholder="+100 or -50 credits…" className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] outline-none" />
-              <input value={creditReason} onChange={(e) => setCreditReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] outline-none" />
+              <p className="text-xs text-muted-foreground">Current: <span className="text-primary font-bold">{activeAction.client.credits_remaining} cr</span></p>
+              <input type="number" value={creditDelta} onChange={(e) => setCreditDelta(e.target.value)} placeholder="+100 or -50 credits…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
+              <input value={creditReason} onChange={(e) => setCreditReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
               <div className="flex gap-2">
-                <button onClick={close} className="flex-1 border border-[#404040] text-[#9CA3AF] text-sm rounded-lg py-2.5 hover:text-[#F9FAFB] transition-colors">Cancel</button>
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleCredits} disabled={!creditDelta || !creditReason.trim() || working} className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold text-sm rounded-lg py-2.5 hover:bg-[#E54E08] disabled:opacity-40 transition-colors">
+                <button onClick={close} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleCredits} disabled={!creditDelta || !creditReason.trim() || working} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {working ? "Saving…" : "Apply"}
                 </motion.button>
               </div>
@@ -338,25 +338,25 @@ export default function AdminClients() {
       {/* ── Change Plan Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "plan" && (
-          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
-            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
+          <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
+            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-input border border-border rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Change Plan</h2>
-                <button onClick={close} className="w-7 h-7 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB]"><X size={14} /></button>
+                <h2 className="font-heading text-base font-semibold text-foreground">Change Plan</h2>
+                <button onClick={close} className="w-7 h-7 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground"><X size={14} /></button>
               </div>
               <div className="space-y-2">
                 {PLAN_OPTIONS.map((p) => (
-                  <label key={p} onClick={() => setNewPlan(p)} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${newPlan === p ? "border-[#FF5F15]/40 bg-[#FF5F15]/8" : "border-[#2A2A2A] hover:bg-[#404040]"}`}>
-                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${newPlan === p ? "border-[#FF5F15]" : "border-[#404040]"}`}>
-                      {newPlan === p && <div className="w-2 h-2 rounded-full bg-[#FF5F15]" />}
+                  <label key={p} onClick={() => setNewPlan(p)} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${newPlan === p ? "border-primary/40 bg-primary/8" : "border-border hover:bg-card"}`}>
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${newPlan === p ? "border-primary" : "border-card"}`}>
+                      {newPlan === p && <div className="w-2 h-2 rounded-full bg-primary" />}
                     </div>
-                    <span className="text-sm text-[#F9FAFB]">{PLAN_LABELS[p]}</span>
+                    <span className="text-sm text-foreground">{PLAN_LABELS[p]}</span>
                   </label>
                 ))}
               </div>
               <div className="flex gap-2">
-                <button onClick={close} className="flex-1 border border-[#404040] text-[#9CA3AF] text-sm rounded-lg py-2.5 hover:text-[#F9FAFB] transition-colors">Cancel</button>
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleChangePlan} disabled={working} className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold text-sm rounded-lg py-2.5 hover:bg-[#E54E08] disabled:opacity-40 transition-colors">
+                <button onClick={close} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleChangePlan} disabled={working} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {working ? "Saving…" : "Change Plan"}
                 </motion.button>
               </div>
@@ -368,17 +368,17 @@ export default function AdminClients() {
       {/* ── Suspend Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "suspend" && (
-          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
-            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
+          <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
+            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-input border border-border rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Suspend Client</h2>
-                <button onClick={close} className="w-7 h-7 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB]"><X size={14} /></button>
+                <h2 className="font-heading text-base font-semibold text-foreground">Suspend Client</h2>
+                <button onClick={close} className="w-7 h-7 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground"><X size={14} /></button>
               </div>
               <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2.5">This will cancel the subscription and block new submissions.</p>
-              <input value={suspendReason} onChange={(e) => setSuspendReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] outline-none" />
+              <input value={suspendReason} onChange={(e) => setSuspendReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
               <div className="flex gap-2">
-                <button onClick={close} className="flex-1 border border-[#404040] text-[#9CA3AF] text-sm rounded-lg py-2.5 hover:text-[#F9FAFB] transition-colors">Cancel</button>
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleSuspend} disabled={!suspendReason.trim() || working} className="flex-1 bg-red-500 text-[#F9FAFB] font-semibold text-sm rounded-lg py-2.5 hover:bg-red-600 disabled:opacity-40 transition-colors">
+                <button onClick={close} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleSuspend} disabled={!suspendReason.trim() || working} className="flex-1 bg-red-500 text-foreground font-semibold text-sm rounded-lg py-2.5 hover:bg-red-600 disabled:opacity-40 transition-colors">
                   {working ? "Suspending…" : "Suspend"}
                 </motion.button>
               </div>
@@ -390,13 +390,13 @@ export default function AdminClients() {
       {/* ── Impersonate Confirm ── */}
       <AnimatePresence>
         {activeAction?.key === "impersonate" && (
-          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
-            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
-              <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Impersonate Client</h2>
-              <p className="text-xs text-[#9CA3AF]">You will see the client dashboard as <span className="text-[#F9FAFB] font-semibold">{activeAction.client.email}</span>. An orange banner will show at all times.</p>
+          <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
+            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-input border border-border rounded-2xl w-full max-w-sm p-5 space-y-4">
+              <h2 className="font-heading text-base font-semibold text-foreground">Impersonate Client</h2>
+              <p className="text-xs text-muted-foreground">You will see the client dashboard as <span className="text-foreground font-semibold">{activeAction.client.email}</span>. An orange banner will show at all times.</p>
               <div className="flex gap-2">
-                <button onClick={close} className="flex-1 border border-[#404040] text-[#9CA3AF] text-sm rounded-lg py-2.5 hover:text-[#F9FAFB] transition-colors">Cancel</button>
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleImpersonate} className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold text-sm rounded-lg py-2.5 hover:bg-[#E54E08] transition-colors">
+                <button onClick={close} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleImpersonate} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover transition-colors">
                   Start Impersonation
                 </motion.button>
               </div>

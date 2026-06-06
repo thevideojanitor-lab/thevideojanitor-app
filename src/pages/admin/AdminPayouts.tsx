@@ -154,24 +154,24 @@ export default function AdminPayouts() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="font-heading text-xl font-bold text-[#F9FAFB]">Payouts</h2>
-          <p className="text-xs text-[#9CA3AF] mt-0.5">{week.label}</p>
+          <h2 className="font-heading text-xl font-bold text-foreground">Payouts</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">{week.label}</p>
         </div>
 
         <div className="flex items-center gap-2">
           {/* Week selector */}
-          <div className="flex items-center gap-1 bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg p-1">
-            <button onClick={() => setWeekOffset((o) => o - 1)} className="p-1.5 text-[#9CA3AF] hover:text-[#F9FAFB] rounded-md hover:bg-[#404040] transition-colors"><ChevronLeft size={14} /></button>
-            <span className="text-xs text-[#9CA3AF] px-2 min-w-[80px] text-center">
+          <div className="flex items-center gap-1 bg-input border border-border rounded-lg p-1">
+            <button onClick={() => setWeekOffset((o) => o - 1)} className="p-1.5 text-muted-foreground hover:text-foreground rounded-md hover:bg-card transition-colors"><ChevronLeft size={14} /></button>
+            <span className="text-xs text-muted-foreground px-2 min-w-[80px] text-center">
               {weekOffset === 0 ? "This week" : weekOffset === -1 ? "Last week" : weekOffset === 1 ? "Next week" : `${weekOffset > 0 ? "+" : ""}${weekOffset}w`}
             </span>
-            <button onClick={() => setWeekOffset((o) => o + 1)} className="p-1.5 text-[#9CA3AF] hover:text-[#F9FAFB] rounded-md hover:bg-[#404040] transition-colors"><ChevronRight size={14} /></button>
+            <button onClick={() => setWeekOffset((o) => o + 1)} className="p-1.5 text-muted-foreground hover:text-foreground rounded-md hover:bg-card transition-colors"><ChevronRight size={14} /></button>
           </div>
 
           {/* Currency filter */}
-          <div className="flex bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg p-1 gap-1">
+          <div className="flex bg-input border border-border rounded-lg p-1 gap-1">
             {(["all","USD","INR"] as const).map((c) => (
-              <button key={c} onClick={() => setCurrencyFilter(c)} className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${currencyFilter === c ? "bg-[#FF5F15] text-[#121212]" : "text-[#9CA3AF] hover:text-[#F9FAFB]"}`}>{c}</button>
+              <button key={c} onClick={() => setCurrencyFilter(c)} className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${currencyFilter === c ? "bg-primary text-background" : "text-muted-foreground hover:text-foreground"}`}>{c}</button>
             ))}
           </div>
         </div>
@@ -181,12 +181,12 @@ export default function AdminPayouts() {
       {pending.length > 0 && (
         <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex gap-2">
           {totalUsd > 0 && (
-            <button onClick={() => setBulkCurrency("USD")} className="flex items-center gap-2 px-4 py-2 bg-[#FF5F15] text-[#121212] text-xs font-semibold rounded-lg hover:bg-[#E54E08] transition-colors">
+            <button onClick={() => setBulkCurrency("USD")} className="flex items-center gap-2 px-4 py-2 bg-primary text-background text-xs font-semibold rounded-lg hover:bg-primary-hover transition-colors">
               Pay All USD ({fmtAmount(totalUsd, "USD")})
             </button>
           )}
           {totalInr > 0 && (
-            <button onClick={() => setBulkCurrency("INR")} className="flex items-center gap-2 px-4 py-2 bg-[#FF5F15] text-[#121212] text-xs font-semibold rounded-lg hover:bg-[#E54E08] transition-colors">
+            <button onClick={() => setBulkCurrency("INR")} className="flex items-center gap-2 px-4 py-2 bg-primary text-background text-xs font-semibold rounded-lg hover:bg-primary-hover transition-colors">
               Pay All INR ({fmtAmount(totalInr, "INR")})
             </button>
           )}
@@ -194,41 +194,41 @@ export default function AdminPayouts() {
       )}
 
       {/* Table */}
-      <motion.div variants={fadeUp} initial="hidden" animate="visible" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl overflow-hidden">
+      <motion.div variants={fadeUp} initial="hidden" animate="visible" className="bg-input border border-border rounded-xl overflow-hidden">
         {loading ? (
           <div className="p-4 space-y-2.5">
             {[0, 1, 2, 3, 4, 5].map((s) => (
-              <div key={s} className="h-9 bg-[#404040]/40 rounded-lg animate-pulse" />
+              <div key={s} className="h-9 bg-card/40 rounded-lg animate-pulse" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="p-8 text-center text-xs text-[#9CA3AF]">No payouts for this week.</div>
+          <div className="p-8 text-center text-xs text-muted-foreground">No payouts for this week.</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-[#2A2A2A]">
+                <tr className="border-b border-border">
                   {["Editor","Amount","Currency","Method","Status","Action"].map((h) => (
-                    <th key={h} className="px-4 py-3 text-[10px] font-semibold uppercase tracking-wider text-[#9CA3AF] whitespace-nowrap">{h}</th>
+                    <th key={h} className="px-4 py-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((row) => (
-                  <tr key={row.id} className="border-b border-[#2A2A2A] hover:bg-[#404040]/30 transition-colors">
+                  <tr key={row.id} className="border-b border-border hover:bg-card/30 transition-colors">
                     <td className="px-4 py-3">
-                      <p className="text-xs text-[#F9FAFB]">{row.editor_name ?? "—"}</p>
-                      <p className="text-[10px] text-[#9CA3AF]">{row.editor_email}</p>
+                      <p className="text-xs text-foreground">{row.editor_name ?? "—"}</p>
+                      <p className="text-[10px] text-muted-foreground">{row.editor_email}</p>
                     </td>
-                    <td className="px-4 py-3 text-xs font-bold text-[#FF5F15]">{fmtAmount(row.amount, row.currency)}</td>
-                    <td className="px-4 py-3 text-xs text-[#9CA3AF]">{row.currency}</td>
-                    <td className="px-4 py-3 text-xs text-[#9CA3AF]">{row.payout_method ?? "—"}</td>
+                    <td className="px-4 py-3 text-xs font-bold text-primary">{fmtAmount(row.amount, row.currency)}</td>
+                    <td className="px-4 py-3 text-xs text-muted-foreground">{row.currency}</td>
+                    <td className="px-4 py-3 text-xs text-muted-foreground">{row.payout_method ?? "—"}</td>
                     <td className="px-4 py-3">
-                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${row.status === "paid" ? "text-[#4ade80] bg-[rgba(34,197,94,0.1)] border-[rgba(34,197,94,0.3)]" : row.status === "failed" ? "text-red-400 bg-red-500/10 border-red-500/20" : "text-[#9CA3AF] bg-[#404040]/50 border-[#2A2A2A]"}`}>{row.status}</span>
+                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${row.status === "paid" ? "text-[#4ade80] bg-[rgba(34,197,94,0.1)] border-[rgba(34,197,94,0.3)]" : row.status === "failed" ? "text-red-400 bg-red-500/10 border-red-500/20" : "text-muted-foreground bg-card/50 border-border"}`}>{row.status}</span>
                     </td>
                     <td className="px-4 py-3">
                       {row.status === "pending" && (
-                        <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={() => setConfirmRow(row)} className="px-3 py-1.5 bg-[#FF5F15] text-[#121212] text-xs font-semibold rounded-lg hover:bg-[#E54E08] transition-colors">
+                        <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={() => setConfirmRow(row)} className="px-3 py-1.5 bg-primary text-background text-xs font-semibold rounded-lg hover:bg-primary-hover transition-colors">
                           Pay Now
                         </motion.button>
                       )}
@@ -241,10 +241,10 @@ export default function AdminPayouts() {
         )}
 
         {/* Footer totals */}
-        <div className="px-4 py-3 border-t border-[#2A2A2A] flex items-center gap-6">
-          <p className="text-xs text-[#9CA3AF]">
-            Total pending: <span className="text-[#FF5F15] font-bold">{fmtAmount(totalUsd, "USD")}</span>
-            {totalInr > 0 && <span className="ml-2 text-[#FF5F15] font-bold">{fmtAmount(totalInr, "INR")}</span>}
+        <div className="px-4 py-3 border-t border-border flex items-center gap-6">
+          <p className="text-xs text-muted-foreground">
+            Total pending: <span className="text-primary font-bold">{fmtAmount(totalUsd, "USD")}</span>
+            {totalInr > 0 && <span className="ml-2 text-primary font-bold">{fmtAmount(totalInr, "INR")}</span>}
           </p>
         </div>
       </motion.div>
@@ -252,20 +252,20 @@ export default function AdminPayouts() {
       {/* ── Pay Now Confirm ── */}
       <AnimatePresence>
         {confirmRow && (
-          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
-            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
+          <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
+            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-input border border-border rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Confirm Payout</h2>
-                <button onClick={() => setConfirmRow(null)} className="w-7 h-7 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB]"><X size={14} /></button>
+                <h2 className="font-heading text-base font-semibold text-foreground">Confirm Payout</h2>
+                <button onClick={() => setConfirmRow(null)} className="w-7 h-7 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground"><X size={14} /></button>
               </div>
-              <p className="text-sm text-[#F9FAFB]">
+              <p className="text-sm text-foreground">
                 Pay <span className="font-bold">{confirmRow.editor_name ?? confirmRow.editor_email}</span>{" "}
-                <span className="text-[#FF5F15] font-bold">{fmtAmount(confirmRow.amount, confirmRow.currency)}</span>{" "}
-                via <span className="text-[#9CA3AF]">{confirmRow.payout_method ?? "manual"}</span>?
+                <span className="text-primary font-bold">{fmtAmount(confirmRow.amount, confirmRow.currency)}</span>{" "}
+                via <span className="text-muted-foreground">{confirmRow.payout_method ?? "manual"}</span>?
               </p>
               <div className="flex gap-2">
-                <button onClick={() => setConfirmRow(null)} className="flex-1 border border-[#404040] text-[#9CA3AF] text-sm rounded-lg py-2.5 hover:text-[#F9FAFB] transition-colors">Cancel</button>
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={() => payOne(confirmRow)} disabled={paying} className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold text-sm rounded-lg py-2.5 hover:bg-[#E54E08] disabled:opacity-40 transition-colors">
+                <button onClick={() => setConfirmRow(null)} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={() => payOne(confirmRow)} disabled={paying} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {paying ? "Sending…" : "Confirm"}
                 </motion.button>
               </div>
@@ -277,22 +277,22 @@ export default function AdminPayouts() {
       {/* ── Bulk Pay Confirm ── */}
       <AnimatePresence>
         {bulkCurrency && (
-          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
-            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
+          <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
+            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-input border border-border rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Bulk {bulkCurrency} Payout</h2>
-                <button onClick={() => setBulkCurrency(null)} className="w-7 h-7 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB]"><X size={14} /></button>
+                <h2 className="font-heading text-base font-semibold text-foreground">Bulk {bulkCurrency} Payout</h2>
+                <button onClick={() => setBulkCurrency(null)} className="w-7 h-7 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground"><X size={14} /></button>
               </div>
-              <p className="text-sm text-[#F9FAFB]">
+              <p className="text-sm text-foreground">
                 Send{" "}
-                <span className="text-[#FF5F15] font-bold">
+                <span className="text-primary font-bold">
                   {fmtAmount(bulkCurrency === "USD" ? totalUsd : totalInr, bulkCurrency)}
                 </span>{" "}
                 to {pending.filter((r) => r.currency === bulkCurrency).length} editors?
               </p>
               <div className="flex gap-2">
-                <button onClick={() => setBulkCurrency(null)} className="flex-1 border border-[#404040] text-[#9CA3AF] text-sm rounded-lg py-2.5 hover:text-[#F9FAFB] transition-colors">Cancel</button>
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={() => payBulk(bulkCurrency)} disabled={bulkWorking} className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold text-sm rounded-lg py-2.5 hover:bg-[#E54E08] disabled:opacity-40 transition-colors">
+                <button onClick={() => setBulkCurrency(null)} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={() => payBulk(bulkCurrency)} disabled={bulkWorking} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {bulkWorking ? "Processing…" : "Pay All"}
                 </motion.button>
               </div>

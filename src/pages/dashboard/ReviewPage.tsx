@@ -65,7 +65,7 @@ function StarRating({ value, onChange }: { value: number; onChange: (v: number) 
           <Star
             size={28}
             className={`transition-colors ${
-              star <= (hover || value) ? "fill-[#FF5F15] text-[#FF5F15]" : "text-[#404040]"
+              star <= (hover || value) ? "fill-primary text-primary" : "text-card"
             }`}
           />
         </button>
@@ -418,10 +418,10 @@ export default function ReviewPage() {
   if (loading) {
     return (
       <div className="max-w-3xl mx-auto space-y-4 pb-8">
-        <div className="h-6 w-24 bg-[#404040] rounded animate-pulse" />
-        <div className="aspect-video bg-[#404040] rounded-xl animate-pulse" />
-        <div className="h-24 bg-[#404040] rounded-xl animate-pulse" />
-        <div className="h-40 bg-[#404040] rounded-xl animate-pulse" />
+        <div className="h-6 w-24 bg-card rounded animate-pulse" />
+        <div className="aspect-video bg-card rounded-xl animate-pulse" />
+        <div className="h-24 bg-card rounded-xl animate-pulse" />
+        <div className="h-40 bg-card rounded-xl animate-pulse" />
       </div>
     )
   }
@@ -430,9 +430,9 @@ export default function ReviewPage() {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-4">
         <AlertCircle size={40} className="text-red-400" />
-        <p className="text-sm font-semibold text-[#F9FAFB]">Something went wrong</p>
-        <p className="text-xs text-[#9CA3AF]">{error}</p>
-        <button onClick={() => navigate(-1)} className="text-sm text-[#FF5F15] hover:underline">Go back</button>
+        <p className="text-sm font-semibold text-foreground">Something went wrong</p>
+        <p className="text-xs text-muted-foreground">{error}</p>
+        <button onClick={() => navigate(-1)} className="text-sm text-primary hover:underline">Go back</button>
       </div>
     )
   }
@@ -453,7 +453,7 @@ export default function ReviewPage() {
         {/* Back */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-1.5 text-sm text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft size={16} />
           Back
@@ -467,21 +467,21 @@ export default function ReviewPage() {
             animate="visible"
             className="space-y-5"
           >
-            <motion.div variants={fadeUp} className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5">
-              <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-4">Your Approved Edit</p>
+            <motion.div variants={fadeUp} className="bg-card border border-border rounded-xl p-5">
+              <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-4">Your Approved Edit</p>
               <div className="grid grid-cols-3 gap-2">
                 <a
                   href={deliverable?.mux_playback_id ? `https://stream.mux.com/${deliverable.mux_playback_id}/capped-1080p.mp4` : "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-col items-center gap-2 border border-[#2A2A2A] rounded-xl py-4 text-xs font-medium text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-[#4A4A4A] transition-colors"
+                  className="flex flex-col items-center gap-2 border border-border rounded-xl py-4 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-surface-elevated transition-colors"
                 >
                   <Download size={18} />
                   Download MP4
                 </a>
                 <button
                   disabled
-                  className="flex flex-col items-center gap-2 border border-[#2A2A2A] rounded-xl py-4 text-xs font-medium text-[#9CA3AF] opacity-40 cursor-not-allowed"
+                  className="flex flex-col items-center gap-2 border border-border rounded-xl py-4 text-xs font-medium text-muted-foreground opacity-40 cursor-not-allowed"
                   title="Captions coming soon"
                 >
                   <MessageSquare size={18} />
@@ -489,7 +489,7 @@ export default function ReviewPage() {
                 </button>
                 <button
                   onClick={handleCopyLink}
-                  className="flex flex-col items-center gap-2 border border-[#2A2A2A] rounded-xl py-4 text-xs font-medium text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-[#4A4A4A] transition-colors"
+                  className="flex flex-col items-center gap-2 border border-border rounded-xl py-4 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-surface-elevated transition-colors"
                 >
                   <Copy size={18} />
                   Copy Link
@@ -498,9 +498,9 @@ export default function ReviewPage() {
             </motion.div>
 
             {!ratingSubmitted ? (
-              <motion.div variants={fadeUp} className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5">
-                <p className="font-heading text-base font-semibold text-[#F9FAFB] mb-1">How was your editor?</p>
-                <p className="text-xs text-[#9CA3AF] mb-4">Your rating helps us surface the best editors.</p>
+              <motion.div variants={fadeUp} className="bg-card border border-border rounded-xl p-5">
+                <p className="font-heading text-base font-semibold text-foreground mb-1">How was your editor?</p>
+                <p className="text-xs text-muted-foreground mb-4">Your rating helps us surface the best editors.</p>
                 <StarRating value={rating} onChange={setRating} />
                 <AnimatePresence>
                   {rating > 0 && (
@@ -511,7 +511,7 @@ export default function ReviewPage() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.97 }}
                       onClick={handleSubmitRating}
-                      className="mt-4 bg-[#FF5F15] text-[#121212] font-semibold rounded-lg px-5 py-2.5 text-sm hover:bg-[#E54E08] transition-colors"
+                      className="mt-4 bg-primary text-background font-semibold rounded-lg px-5 py-2.5 text-sm hover:bg-primary-hover transition-colors"
                     >
                       Submit Rating
                     </motion.button>
@@ -529,8 +529,8 @@ export default function ReviewPage() {
             )}
 
             {/* StatusTimeline in done state */}
-            <motion.div variants={fadeUp} className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5">
-              <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-4">Timeline</p>
+            <motion.div variants={fadeUp} className="bg-card border border-border rounded-xl p-5">
+              <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-4">Timeline</p>
               <StatusTimeline
                 currentStatus={request.status}
                 submittedAt={request.submitted_at}
@@ -543,20 +543,20 @@ export default function ReviewPage() {
         ) : (
           <>
             {/* ── Page tab bar ── */}
-            <div className="flex gap-1 bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl p-1">
+            <div className="flex gap-1 bg-input border border-border rounded-xl p-1">
               {(["review", "chat"] as PageTab[]).map((t) => (
                 <button
                   key={t}
                   onClick={() => { setTab(t); if (t === "chat") setChatUnread(0) }}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold rounded-lg transition-all capitalize ${
                     tab === t
-                      ? "bg-[#FF5F15] text-[#121212] shadow-sm"
-                      : "text-[#9CA3AF] hover:text-[#F9FAFB]"
+                      ? "bg-primary text-background shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {t === "chat" ? "Chat" : "Review"}
                   {t === "chat" && chatUnread > 0 && (
-                    <span className="bg-[#121212]/20 text-[#121212] text-[10px] font-bold rounded-full px-1.5 py-0.5">
+                    <span className="bg-background/20 text-background text-[10px] font-bold rounded-full px-1.5 py-0.5">
                       {chatUnread}
                     </span>
                   )}
@@ -572,7 +572,7 @@ export default function ReviewPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.2 }}
-                  className="bg-[#404040] border border-[#2A2A2A] rounded-xl overflow-hidden"
+                  className="bg-card border border-border rounded-xl overflow-hidden"
                 >
                   <Chat requestId={request.id} onUnreadChange={setChatUnread} />
                 </motion.div>
@@ -588,7 +588,7 @@ export default function ReviewPage() {
                   {/* Version selector (only when multiple deliverables exist) */}
                   {allDeliverables.length > 1 && (
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-[#9CA3AF] font-sans uppercase tracking-wider">Version</span>
+                      <span className="text-xs text-muted-foreground font-sans uppercase tracking-wider">Version</span>
                       <div className="flex gap-1">
                         {allDeliverables.map((d, idx) => (
                           <button
@@ -596,8 +596,8 @@ export default function ReviewPage() {
                             onClick={() => setSelectedVersion(idx)}
                             className={`px-3 py-1 text-xs font-semibold rounded-lg transition-colors ${
                               selectedVersion === idx
-                                ? "bg-[#FF5F15] text-[#121212]"
-                                : "bg-[#2A2A2A] text-[#9CA3AF] hover:text-[#F9FAFB]"
+                                ? "bg-primary text-background"
+                                : "bg-border text-muted-foreground hover:text-foreground"
                             }`}
                           >
                             V{d.version_number}
@@ -609,7 +609,7 @@ export default function ReviewPage() {
 
                   {/* ── Mux player ── */}
                   {deliverable?.mux_playback_id ? (
-                    <div ref={playerWrapRef} className="rounded-xl overflow-hidden bg-[#121212] aspect-video">
+                    <div ref={playerWrapRef} className="rounded-xl overflow-hidden bg-background aspect-video">
                       <MuxPlayer
                         playbackId={deliverable.mux_playback_id}
                         streamType="on-demand"
@@ -618,19 +618,19 @@ export default function ReviewPage() {
                       />
                     </div>
                   ) : (
-                    <div className="rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] aspect-video flex items-center justify-center">
+                    <div className="rounded-xl bg-input border border-border aspect-video flex items-center justify-center">
                       <div className="text-center px-6">
-                        <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-[#2A2A2A] flex items-center justify-center">
-                          <Clock size={20} className="text-[#9CA3AF]" />
+                        <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-border flex items-center justify-center">
+                          <Clock size={20} className="text-muted-foreground" />
                         </div>
-                        <p className="text-sm font-medium text-[#F9FAFB]">
+                        <p className="text-sm font-medium text-foreground">
                           {["matched", "in_progress"].includes(request.status)
                             ? "Edit in progress…"
                             : "Awaiting delivery"}
                         </p>
                         {request.due_at && (
                           <div className="flex items-center justify-center gap-2 mt-2">
-                            <span className="text-xs text-[#9CA3AF]">Due</span>
+                            <span className="text-xs text-muted-foreground">Due</span>
                             <CountdownTimer dueAt={request.due_at} />
                           </div>
                         )}
@@ -639,35 +639,35 @@ export default function ReviewPage() {
                   )}
 
                   {/* ── Edit metadata + timeline ── */}
-                  <div className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 space-y-4">
+                  <div className="bg-card border border-border rounded-xl p-5 space-y-4">
                     <div className="flex items-center justify-between gap-3 flex-wrap">
                       <div className="flex items-center gap-2 flex-wrap">
                         <StatusBadge status={request.status} pulse={isDelivered} />
-                        <span className="text-xs text-[#9CA3AF] capitalize">{request.edit_type} edit</span>
-                        <span className="text-xs font-semibold text-[#FF5F15]">{request.credits_cost} cr</span>
+                        <span className="text-xs text-muted-foreground capitalize">{request.edit_type} edit</span>
+                        <span className="text-xs font-semibold text-primary">{request.credits_cost} cr</span>
                       </div>
                       {revisionPill && (
                         <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${
                           request.status === "in_revision"
                             ? "bg-yellow-500/15 text-yellow-400 border-yellow-500/30"
-                            : "bg-[rgba(64,64,64,0.5)] text-[#9CA3AF] border-[#2A2A2A]"
+                            : "bg-[rgba(64,64,64,0.5)] text-muted-foreground border-border"
                         }`}>
                           {revisionPill}
                         </span>
                       )}
                     </div>
                     <div className="flex items-center gap-4 flex-wrap">
-                      <p className="text-xs text-[#9CA3AF]">
+                      <p className="text-xs text-muted-foreground">
                         Submitted {getRelativeTime(request.submitted_at)}
                       </p>
                       {request.due_at && !isDelivered && (
                         <div className="flex items-center gap-1.5">
-                          <span className="text-xs text-[#9CA3AF]">Due</span>
+                          <span className="text-xs text-muted-foreground">Due</span>
                           <CountdownTimer dueAt={request.due_at} />
                         </div>
                       )}
                     </div>
-                    <div className="pt-3 border-t border-[#2A2A2A]">
+                    <div className="pt-3 border-t border-border">
                       <StatusTimeline
                         currentStatus={request.status}
                         submittedAt={request.submitted_at}
@@ -680,14 +680,14 @@ export default function ReviewPage() {
 
                   {/* ── Timestamped comments (only when deliverable exists) ── */}
                   {deliverable && (
-                    <div className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 space-y-4">
+                    <div className="bg-card border border-border rounded-xl p-5 space-y-4">
                       <div className="flex items-center justify-between">
-                        <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF]">
+                        <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground">
                           Revision Notes
                         </p>
                         <button
                           onClick={handleCaptureTime}
-                          className="flex items-center gap-1.5 text-xs text-[#3B82F6] hover:underline"
+                          className="flex items-center gap-1.5 text-xs text-editor-accent hover:underline"
                         >
                           <Plus size={12} />
                           Note at {formatTime(getCurrentTime())}
@@ -700,21 +700,21 @@ export default function ReviewPage() {
                           value={newComment}
                           onChange={(e) => setNewComment(e.target.value)}
                           placeholder="[0:00] Add a note…"
-                          className="flex-1 bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 outline-none transition-colors"
+                          className="flex-1 bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 outline-none transition-colors"
                         />
                         <motion.button
                           type="submit"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.97 }}
                           disabled={!newComment.trim() || addingComment}
-                          className="px-4 py-2.5 bg-[#2A2A2A] text-[#F9FAFB] text-xs font-medium rounded-lg hover:bg-[#404040] disabled:opacity-40 transition-colors"
+                          className="px-4 py-2.5 bg-border text-foreground text-xs font-medium rounded-lg hover:bg-card disabled:opacity-40 transition-colors"
                         >
                           Add
                         </motion.button>
                       </form>
 
                       {comments.length === 0 ? (
-                        <p className="text-xs text-[#9CA3AF] text-center py-3">
+                        <p className="text-xs text-muted-foreground text-center py-3">
                           No notes yet — click a moment in the player then "Note at X:XX".
                         </p>
                       ) : (
@@ -726,16 +726,16 @@ export default function ReviewPage() {
                                 initial={{ opacity: 0, y: 6 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -4 }}
-                                className="flex items-start gap-3 bg-[#1A1A1A] rounded-lg px-3 py-2.5"
+                                className="flex items-start gap-3 bg-input rounded-lg px-3 py-2.5"
                               >
-                                <span className="text-xs font-mono font-bold text-[#3B82F6] shrink-0 mt-0.5">
+                                <span className="text-xs font-mono font-bold text-editor-accent shrink-0 mt-0.5">
                                   [{formatTime(c.timestamp_seconds)}]
                                 </span>
-                                <p className="flex-1 text-sm text-[#F9FAFB] leading-relaxed">{c.comment}</p>
+                                <p className="flex-1 text-sm text-foreground leading-relaxed">{c.comment}</p>
                                 {c.created_by === user?.id && request.status !== "in_revision" && (
                                   <button
                                     onClick={() => handleDeleteComment(c.id)}
-                                    className="shrink-0 text-[#9CA3AF] hover:text-red-400 transition-colors mt-0.5"
+                                    className="shrink-0 text-muted-foreground hover:text-red-400 transition-colors mt-0.5"
                                   >
                                     <Trash2 size={13} />
                                   </button>
@@ -777,7 +777,7 @@ export default function ReviewPage() {
                         whileTap={{ scale: 0.97 }}
                         onClick={handleApprove}
                         disabled={approveState !== "idle"}
-                        className="w-full flex items-center justify-center gap-2 bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3.5 text-sm hover:bg-[#E54E08] transition-colors disabled:opacity-60"
+                        className="w-full flex items-center justify-center gap-2 bg-primary text-background font-semibold rounded-lg py-3.5 text-sm hover:bg-primary-hover transition-colors disabled:opacity-60"
                       >
                         <Check size={16} />
                         Approve Edit
@@ -787,14 +787,14 @@ export default function ReviewPage() {
                           onClick={() => canRevise && setRevisionOpen(true)}
                           disabled={!canRevise}
                           title={!canRevise ? "Max revisions reached" : undefined}
-                          className="flex items-center justify-center gap-1.5 border border-[#2A2A2A] text-yellow-400 font-medium rounded-lg py-2.5 text-xs hover:bg-yellow-500/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                          className="flex items-center justify-center gap-1.5 border border-border text-yellow-400 font-medium rounded-lg py-2.5 text-xs hover:bg-yellow-500/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                           <RotateCcw size={13} />
                           Request a revision
                         </button>
                         <button
                           onClick={() => setSwapOpen(true)}
-                          className="flex items-center justify-center gap-1.5 border border-[#2A2A2A] text-[#9CA3AF] font-medium rounded-lg py-2.5 text-xs hover:bg-[#404040] hover:text-[#F9FAFB] transition-colors"
+                          className="flex items-center justify-center gap-1.5 border border-border text-muted-foreground font-medium rounded-lg py-2.5 text-xs hover:bg-card hover:text-foreground transition-colors"
                         >
                           <ArrowLeftRight size={13} />
                           Swap editor
@@ -817,7 +817,7 @@ export default function ReviewPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-[#121212]/95 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-background/95 flex items-center justify-center z-50"
           >
             <div className="text-center">
               <svg width="120" height="120" viewBox="0 0 120 120">
@@ -839,7 +839,7 @@ export default function ReviewPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
-                className="font-heading text-2xl font-bold text-[#F9FAFB] mt-6"
+                className="font-heading text-2xl font-bold text-foreground mt-6"
               >
                 Edit Approved!
               </motion.p>
@@ -847,7 +847,7 @@ export default function ReviewPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.9 }}
-                className="text-sm text-[#9CA3AF] mt-2"
+                className="text-sm text-muted-foreground mt-2"
               >
                 Your editor has been notified.
               </motion.p>
@@ -864,7 +864,7 @@ export default function ReviewPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-[#121212]/60 z-40"
+              className="fixed inset-0 bg-background/60 z-40"
               onClick={() => setRevisionOpen(false)}
             />
             <motion.div
@@ -872,35 +872,35 @@ export default function ReviewPage() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#1A1A1A] border-l border-[#2A2A2A] z-50 flex flex-col"
+              className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-input border-l border-border z-50 flex flex-col"
             >
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A] shrink-0">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border shrink-0">
                 <div>
-                  <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Request Revision</h2>
-                  <p className="text-xs text-[#9CA3AF] mt-0.5">Round {request.revision_round + 1} of 3</p>
+                  <h2 className="font-heading text-base font-semibold text-foreground">Request Revision</h2>
+                  <p className="text-xs text-muted-foreground mt-0.5">Round {request.revision_round + 1} of 3</p>
                 </div>
                 <button
                   onClick={() => setRevisionOpen(false)}
-                  className="w-8 h-8 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+                  className="w-8 h-8 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <X size={15} />
                 </button>
               </div>
 
               <div className="flex-1 overflow-y-auto px-5 py-4">
-                <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-3">Notes to send</p>
+                <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-3">Notes to send</p>
                 {comments.length === 0 ? (
-                  <p className="text-sm text-[#9CA3AF] text-center py-6">
+                  <p className="text-sm text-muted-foreground text-center py-6">
                     No timestamped notes yet. Add them in the player above first.
                   </p>
                 ) : (
                   <div className="space-y-2">
                     {comments.map((c) => (
-                      <div key={c.id} className="flex items-start gap-3 bg-[#404040] rounded-lg px-3 py-2.5">
-                        <span className="text-xs font-mono font-bold text-[#3B82F6] shrink-0 mt-0.5">
+                      <div key={c.id} className="flex items-start gap-3 bg-card rounded-lg px-3 py-2.5">
+                        <span className="text-xs font-mono font-bold text-editor-accent shrink-0 mt-0.5">
                           [{formatTime(c.timestamp_seconds)}]
                         </span>
-                        <p className="text-sm text-[#F9FAFB] leading-relaxed">{c.comment}</p>
+                        <p className="text-sm text-foreground leading-relaxed">{c.comment}</p>
                       </div>
                     ))}
                   </div>
@@ -921,7 +921,7 @@ export default function ReviewPage() {
                 )}
               </div>
 
-              <div className="px-5 py-4 border-t border-[#2A2A2A] shrink-0">
+              <div className="px-5 py-4 border-t border-border shrink-0">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
@@ -941,19 +941,19 @@ export default function ReviewPage() {
       {/* ── Swap editor modal ── */}
       <AnimatePresence>
         {swapOpen && (
-          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
             <motion.div
               variants={scaleIn}
               initial="hidden"
               animate="visible"
               exit="hidden"
-              className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm"
+              className="bg-input border border-border rounded-2xl w-full max-w-sm"
             >
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A]">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Why swap editors?</h2>
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+                <h2 className="font-heading text-base font-semibold text-foreground">Why swap editors?</h2>
                 <button
                   onClick={() => setSwapOpen(false)}
-                  className="w-7 h-7 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+                  className="w-7 h-7 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <X size={14} />
                 </button>
@@ -966,16 +966,16 @@ export default function ReviewPage() {
                     onClick={() => setSwapReason(reason)}
                     className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
                       swapReason === reason
-                        ? "border-[#FF5F15]/40 bg-[#FF5F15]/8"
-                        : "border-[#2A2A2A] hover:bg-[#404040]"
+                        ? "border-primary/40 bg-primary/8"
+                        : "border-border hover:bg-card"
                     }`}
                   >
                     <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                      swapReason === reason ? "border-[#FF5F15]" : "border-[#404040]"
+                      swapReason === reason ? "border-primary" : "border-card"
                     }`}>
-                      {swapReason === reason && <div className="w-2 h-2 rounded-full bg-[#FF5F15]" />}
+                      {swapReason === reason && <div className="w-2 h-2 rounded-full bg-primary" />}
                     </div>
-                    <span className="text-sm text-[#F9FAFB]">{reason}</span>
+                    <span className="text-sm text-foreground">{reason}</span>
                   </label>
                 ))}
 
@@ -984,14 +984,14 @@ export default function ReviewPage() {
                     value={swapOtherText}
                     onChange={(e) => setSwapOtherText(e.target.value)}
                     placeholder="Tell us more…"
-                    className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] outline-none mt-1"
+                    className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none mt-1"
                   />
                 )}
 
                 <div className="flex gap-2 pt-3">
                   <button
                     onClick={() => setSwapOpen(false)}
-                    className="flex-1 border border-[#404040] text-[#9CA3AF] text-sm font-medium rounded-lg py-2.5 hover:text-[#F9FAFB] transition-colors"
+                    className="flex-1 border border-card text-muted-foreground text-sm font-medium rounded-lg py-2.5 hover:text-foreground transition-colors"
                   >
                     Cancel
                   </button>
@@ -1000,7 +1000,7 @@ export default function ReviewPage() {
                     whileTap={{ scale: 0.97 }}
                     onClick={handleSwap}
                     disabled={!swapReason || (swapReason === "Other" && !swapOtherText.trim()) || swapping}
-                    className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold text-sm rounded-lg py-2.5 hover:bg-[#E54E08] transition-colors disabled:opacity-40"
+                    className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover transition-colors disabled:opacity-40"
                   >
                     {swapping ? "Reassigning…" : "Confirm Swap"}
                   </motion.button>

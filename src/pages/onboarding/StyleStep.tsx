@@ -49,13 +49,13 @@ export default function StyleStep() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-heading text-2xl font-bold text-[#F9FAFB] mb-1">What kind of content do you make?</h1>
-        <p className="text-sm text-[#9CA3AF]">We use this to match you with the most relevant editor.</p>
+        <h1 className="font-heading text-2xl font-bold text-foreground mb-1">What kind of content do you make?</h1>
+        <p className="text-sm text-muted-foreground">We use this to match you with the most relevant editor.</p>
       </div>
 
       {/* Niche grid */}
       <div>
-        <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-3">Content Type (select all that apply)</p>
+        <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-3">Content Type (select all that apply)</p>
         <div className="grid grid-cols-2 gap-2.5">
           {NICHES.map((niche) => {
             const active = selected.includes(niche)
@@ -66,8 +66,8 @@ export default function StyleStep() {
                 onClick={() => toggle(niche)}
                 className={`px-4 py-3 rounded-xl text-sm font-medium text-left border transition-all ${
                   active
-                    ? "bg-[#FF5F15]/15 text-[#FF5F15] border-[#FF5F15]/40"
-                    : "bg-[#1A1A1A] text-[#9CA3AF] border-[#2A2A2A] hover:border-[#404040] hover:text-[#F9FAFB]"
+                    ? "bg-primary/15 text-primary border-primary/40"
+                    : "bg-input text-muted-foreground border-border hover:border-card hover:text-foreground"
                 }`}
               >
                 {niche}
@@ -79,7 +79,7 @@ export default function StyleStep() {
 
       {/* Posting frequency */}
       <div>
-        <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF] mb-3">How often do you post?</p>
+        <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-3">How often do you post?</p>
         <div className="grid grid-cols-2 gap-2.5">
           {FREQUENCIES.map(({ value, label }) => (
             <motion.button
@@ -88,8 +88,8 @@ export default function StyleStep() {
               onClick={() => setFrequency(value)}
               className={`px-4 py-3 rounded-xl text-sm font-medium border transition-all ${
                 frequency === value
-                  ? "bg-[#FF5F15]/15 text-[#FF5F15] border-[#FF5F15]/40"
-                  : "bg-[#1A1A1A] text-[#9CA3AF] border-[#2A2A2A] hover:border-[#404040] hover:text-[#F9FAFB]"
+                  ? "bg-primary/15 text-primary border-primary/40"
+                  : "bg-input text-muted-foreground border-border hover:border-card hover:text-foreground"
               }`}
             >
               {label}
@@ -101,7 +101,7 @@ export default function StyleStep() {
       <div className="flex gap-3">
         <button
           onClick={() => navigate("/onboarding/brand-kit")}
-          className="flex items-center gap-1.5 px-4 py-3.5 border border-[#404040] text-[#F9FAFB] rounded-lg text-sm font-medium hover:bg-[#404040] transition-colors"
+          className="flex items-center gap-1.5 px-4 py-3.5 border border-card text-foreground rounded-lg text-sm font-medium hover:bg-card transition-colors"
         >
           <ArrowLeft size={16} /> Back
         </button>
@@ -110,7 +110,7 @@ export default function StyleStep() {
           whileTap={{ scale: 0.97 }}
           onClick={handleSave}
           disabled={saving || !frequency}
-          className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3.5 flex items-center justify-center gap-2 hover:bg-[#E54E08] transition-colors disabled:opacity-60"
+          className="flex-1 bg-primary text-background font-semibold rounded-lg py-3.5 flex items-center justify-center gap-2 hover:bg-primary-hover transition-colors disabled:opacity-60"
         >
           {saving ? <Loader2 size={16} className="animate-spin" /> : null}
           {saving ? "Saving…" : "Continue"}

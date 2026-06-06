@@ -44,14 +44,14 @@ export default function CountdownTimer({ dueAt, className = "" }: Props) {
 
   const colorClass =
     h > 12
-      ? "text-[#FF5F15]"
+      ? "text-primary"
       : h >= 4
       ? "text-yellow-400"
       : "text-red-400 animate-pulse"
 
   const bgClass =
     h > 12
-      ? "bg-[#FF5F15]/5 border-[#FF5F15]/20"
+      ? "bg-primary/5 border-primary/20"
       : h >= 4
       ? "bg-yellow-400/5 border-yellow-400/20"
       : "bg-red-500/10 border-red-500/30 shadow-[0_0_8px_rgba(248,113,113,0.2)]"

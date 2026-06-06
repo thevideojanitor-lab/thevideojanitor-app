@@ -16,15 +16,15 @@ export default function EditorOnboardingLayout() {
   const pct = (currentStep / STEPS.length) * 100
 
   return (
-    <div className="min-h-screen bg-[#121212] flex flex-col">
-      <header className="px-6 py-5 flex items-center justify-between border-b border-[#2A2A2A]">
-        <span className="font-heading text-base font-bold text-[#F9FAFB]">TheVideoJanitors</span>
-        <span className="text-xs text-[#9CA3AF]">Step {currentStep} of {STEPS.length}</span>
+    <div className="min-h-screen bg-background flex flex-col">
+      <header className="px-6 py-5 flex items-center justify-between border-b border-border">
+        <span className="font-heading text-base font-bold text-foreground">TheVideoJanitors</span>
+        <span className="text-xs text-muted-foreground">Step {currentStep} of {STEPS.length}</span>
       </header>
 
-      <div className="h-0.5 bg-[#2A2A2A]">
+      <div className="h-0.5 bg-border">
         <motion.div
-          className="h-full bg-[#FF5F15]"
+          className="h-full bg-primary"
           animate={{ width: `${pct}%` }}
           transition={{ type: "spring", stiffness: 120, damping: 20 }}
         />
@@ -36,9 +36,9 @@ export default function EditorOnboardingLayout() {
             key={s.path}
             onClick={() => s.step < currentStep && navigate(s.path)}
             className={`flex-1 text-center text-xs font-medium transition-colors ${
-              s.step === currentStep ? "text-[#FF5F15]"
-              : s.step < currentStep ? "text-[#9CA3AF] cursor-pointer hover:text-[#F9FAFB]"
-              : "text-[#404040] cursor-default"
+              s.step === currentStep ? "text-primary"
+              : s.step < currentStep ? "text-muted-foreground cursor-pointer hover:text-foreground"
+              : "text-card cursor-default"
             }`}
           >
             {s.label}

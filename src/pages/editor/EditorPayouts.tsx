@@ -29,7 +29,7 @@ const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 
 function Skeleton({ className = "" }: { className?: string }) {
-  return <div className={`bg-[#404040] rounded-lg animate-pulse ${className}`} />
+  return <div className={`bg-card rounded-lg animate-pulse ${className}`} />
 }
 
 // ── Custom tooltip ────────────────────────────────────────────────────────────
@@ -39,9 +39,9 @@ function ChartTooltip({ active, payload, label, currency }: {
 }) {
   if (!active || !payload?.length) return null
   return (
-    <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2">
-      <p className="text-[10px] text-[#9CA3AF] mb-0.5">{label}</p>
-      <p className="text-sm font-bold text-[#FF5F15]">{fmtAmount((payload[0].value ?? 0) * 100, currency)}</p>
+    <div className="bg-input border border-border rounded-lg px-3 py-2">
+      <p className="text-[10px] text-muted-foreground mb-0.5">{label}</p>
+      <p className="text-sm font-bold text-primary">{fmtAmount((payload[0].value ?? 0) * 100, currency)}</p>
     </div>
   )
 }
@@ -108,34 +108,34 @@ export default function EditorPayouts() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-6 pb-24 md:pb-6">
       <motion.div variants={fadeUp}>
-        <h2 className="font-heading text-xl font-bold text-[#F9FAFB]">Earnings & Payouts</h2>
-        <p className="text-xs text-[#9CA3AF] mt-0.5">Payouts sent {isINR ? "via NEFT/UPI" : "via Stripe"} weekly on Monday</p>
+        <h2 className="font-heading text-xl font-bold text-foreground">Earnings & Payouts</h2>
+        <p className="text-xs text-muted-foreground mt-0.5">Payouts sent {isINR ? "via NEFT/UPI" : "via Stripe"} weekly on Monday</p>
       </motion.div>
 
       {/* Payment method card */}
       <motion.div variants={fadeUp} className={`flex items-center justify-between gap-4 p-4 rounded-xl border ${
-        isSetup ? "bg-[rgba(34,197,94,0.08)] border-[rgba(34,197,94,0.25)]" : "bg-[#404040] border-[#2A2A2A]"
+        isSetup ? "bg-[rgba(34,197,94,0.08)] border-[rgba(34,197,94,0.25)]" : "bg-card border-border"
       }`}>
         <div className="flex items-center gap-3">
           <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-            isSetup ? "bg-[rgba(34,197,94,0.15)]" : "bg-[#FF5F15]/10"
+            isSetup ? "bg-[rgba(34,197,94,0.15)]" : "bg-primary/10"
           }`}>
             {isSetup
               ? <CheckCircle size={18} className="text-[#4ade80]" />
-              : <Wallet size={18} className="text-[#FF5F15]" />
+              : <Wallet size={18} className="text-primary" />
             }
           </div>
           <div>
-            <p className="text-sm font-semibold text-[#F9FAFB]">
+            <p className="text-sm font-semibold text-foreground">
               {isSetup ? (isINR ? "Bank account connected" : "Stripe account connected") : "No payout method"}
             </p>
-            <p className="text-[10px] text-[#9CA3AF]">
+            <p className="text-[10px] text-muted-foreground">
               {isSetup ? `Receives ${isINR ? "INR" : "USD"} payouts every Monday` : "Set up to start receiving payouts"}
             </p>
           </div>
         </div>
         <Link to={connectPath}>
-          <button className="flex items-center gap-1.5 text-xs font-semibold text-[#FF5F15] hover:underline shrink-0">
+          <button className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline shrink-0">
             {isSetup ? "Change" : "Setup"} <ExternalLink size={11} />
           </button>
         </Link>
@@ -145,7 +145,7 @@ export default function EditorPayouts() {
       {loading ? (
         <div className="grid grid-cols-3 gap-4">
           {[1,2,3].map((i) => (
-            <div key={i} className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 space-y-2">
+            <div key={i} className="bg-card border border-border rounded-xl p-5 space-y-2">
               <Skeleton className="h-3 w-20" />
               <Skeleton className="h-8 w-24" />
             </div>
@@ -162,22 +162,22 @@ export default function EditorPayouts() {
               key={label}
               variants={fadeUp}
               whileHover={{ y: -2 }}
-              className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5"
+              className="bg-card border border-border rounded-xl p-5"
             >
-              <p className="text-[10px] font-sans uppercase tracking-wider text-[#9CA3AF] mb-2">{label}</p>
-              <p className="font-heading text-2xl font-bold text-[#FF5F15]">{value}</p>
-              <p className="text-[10px] text-[#9CA3AF] mt-1">{sub}</p>
+              <p className="text-[10px] font-sans uppercase tracking-wider text-muted-foreground mb-2">{label}</p>
+              <p className="font-heading text-2xl font-bold text-primary">{value}</p>
+              <p className="text-[10px] text-muted-foreground mt-1">{sub}</p>
             </motion.div>
           ))}
         </div>
       )}
 
       {/* Earnings chart */}
-      <motion.div variants={fadeUp} className="bg-[#404040] border border-[#2A2A2A] rounded-xl overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A]">
+      <motion.div variants={fadeUp} className="bg-card border border-border rounded-xl overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border">
           <div className="flex items-center gap-2">
-            <TrendingUp size={14} className="text-[#FF5F15]" />
-            <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF]">12-Month Earnings</p>
+            <TrendingUp size={14} className="text-primary" />
+            <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground">12-Month Earnings</p>
           </div>
         </div>
         <div className="p-4 h-52">
@@ -205,9 +205,9 @@ export default function EditorPayouts() {
       </motion.div>
 
       {/* Payout history table */}
-      <motion.div variants={fadeUp} className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#2A2A2A]">
-          <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF]">Payout History</p>
+      <motion.div variants={fadeUp} className="bg-input border border-border rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-border">
+          <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground">Payout History</p>
         </div>
         {loading ? (
           <div className="p-5 space-y-3">
@@ -221,34 +221,34 @@ export default function EditorPayouts() {
           </div>
         ) : payouts.length === 0 ? (
           <div className="px-5 py-12 text-center">
-            <ArrowRight size={24} className="text-[#9CA3AF] mx-auto mb-3 rotate-45 opacity-40" />
-            <p className="text-sm font-semibold text-[#F9FAFB]">No payouts yet</p>
-            <p className="text-xs text-[#9CA3AF] mt-1">Approved jobs will appear here after processing.</p>
+            <ArrowRight size={24} className="text-muted-foreground mx-auto mb-3 rotate-45 opacity-40" />
+            <p className="text-sm font-semibold text-foreground">No payouts yet</p>
+            <p className="text-xs text-muted-foreground mt-1">Approved jobs will appear here after processing.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-[#2A2A2A]">
+                <tr className="border-b border-border">
                   {["Date", "Amount", "Currency", "Method", "Status"].map((h) => (
-                    <th key={h} className="px-5 py-3 text-[10px] font-semibold uppercase tracking-wider text-[#9CA3AF]">{h}</th>
+                    <th key={h} className="px-5 py-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {payouts.map((p) => (
-                  <tr key={p.id} className="border-b border-[#2A2A2A] hover:bg-[#404040]/30 transition-colors">
-                    <td className="px-5 py-3 text-xs text-[#9CA3AF]">{new Date(p.created_at).toLocaleDateString()}</td>
-                    <td className="px-5 py-3 text-xs font-bold text-[#FF5F15]">{fmtAmount(p.amount, p.currency as "USD" | "INR")}</td>
-                    <td className="px-5 py-3 text-xs text-[#9CA3AF]">{p.currency}</td>
-                    <td className="px-5 py-3 text-xs text-[#9CA3AF]">{p.payout_method ?? "—"}</td>
+                  <tr key={p.id} className="border-b border-border hover:bg-card/30 transition-colors">
+                    <td className="px-5 py-3 text-xs text-muted-foreground">{new Date(p.created_at).toLocaleDateString()}</td>
+                    <td className="px-5 py-3 text-xs font-bold text-primary">{fmtAmount(p.amount, p.currency as "USD" | "INR")}</td>
+                    <td className="px-5 py-3 text-xs text-muted-foreground">{p.currency}</td>
+                    <td className="px-5 py-3 text-xs text-muted-foreground">{p.payout_method ?? "—"}</td>
                     <td className="px-5 py-3">
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
                         p.status === "paid"
                           ? "text-[#4ade80] bg-[rgba(34,197,94,0.1)] border-[rgba(34,197,94,0.3)]"
                           : p.status === "failed"
                           ? "text-red-400 bg-red-500/10 border-red-500/20"
-                          : "text-[#9CA3AF] bg-[#404040]/50 border-[#2A2A2A]"
+                          : "text-muted-foreground bg-card/50 border-border"
                       }`}>
                         {p.status}
                       </span>

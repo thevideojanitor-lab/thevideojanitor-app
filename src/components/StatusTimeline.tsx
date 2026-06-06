@@ -74,21 +74,21 @@ export default function StatusTimeline({ currentStatus, submittedAt, deliveredAt
                   </svg>
                 ) : isCurrent ? (
                   <span className="relative flex w-3 h-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5F15] opacity-40" />
-                    <span className="relative inline-flex rounded-full w-3 h-3 bg-[#FF5F15]" />
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-40" />
+                    <span className="relative inline-flex rounded-full w-3 h-3 bg-primary" />
                   </span>
                 ) : (
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#2A2A2A] border border-[#404040]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-border border border-card" />
                 )}
               </div>
               {i < STEPS.length - 1 && (
-                <div className={`w-px flex-1 min-h-[24px] mt-1 ${isPast && !isCurrent ? "bg-[rgba(34,197,94,0.3)]" : "bg-[#2A2A2A]"}`} />
+                <div className={`w-px flex-1 min-h-[24px] mt-1 ${isPast && !isCurrent ? "bg-[rgba(34,197,94,0.3)]" : "bg-border"}`} />
               )}
             </div>
 
             <div className="pb-5 min-w-0">
               <p className={`text-xs font-medium leading-5 ${
-                isCurrent ? "text-[#FF5F15]" : isPast && !isCurrent ? "text-[#4ade80]" : "text-[#9CA3AF]"
+                isCurrent ? "text-primary" : isPast && !isCurrent ? "text-[#4ade80]" : "text-muted-foreground"
               }`}>
                 {step.label}
                 {step.status === "delivered" && isRevision && revisionRound && (
@@ -101,7 +101,7 @@ export default function StatusTimeline({ currentStatus, submittedAt, deliveredAt
                 )}
               </p>
               {timestamp && (
-                <p className="text-[10px] text-[#9CA3AF] mt-0.5" title={timestamp}>
+                <p className="text-[10px] text-muted-foreground mt-0.5" title={timestamp}>
                   {timestamp}
                 </p>
               )}

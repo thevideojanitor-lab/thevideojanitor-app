@@ -87,15 +87,15 @@ export default function EditorPayoutsConnect() {
     return (
       <div className="max-w-md mx-auto pt-8 space-y-6">
         <div className="space-y-2">
-          <div className="h-7 w-56 bg-[#404040] rounded-lg animate-pulse" />
-          <div className="h-4 w-full bg-[#404040] rounded animate-pulse" />
+          <div className="h-7 w-56 bg-card rounded-lg animate-pulse" />
+          <div className="h-4 w-full bg-card rounded animate-pulse" />
         </div>
         <div className="space-y-3">
           {[0, 1, 2].map((s) => (
-            <div key={s} className="h-16 bg-[#404040] rounded-xl animate-pulse" />
+            <div key={s} className="h-16 bg-card rounded-xl animate-pulse" />
           ))}
         </div>
-        <div className="h-12 bg-[#404040] rounded-xl animate-pulse" />
+        <div className="h-12 bg-card rounded-xl animate-pulse" />
       </div>
     )
   }
@@ -112,15 +112,15 @@ export default function EditorPayoutsConnect() {
           <CheckCircle size={32} className="text-[#4ade80]" />
         </motion.div>
         <motion.div variants={fadeUp}>
-          <h2 className="font-heading text-2xl font-bold text-[#F9FAFB] mb-2">Bank account connected</h2>
-          <p className="text-sm text-[#9CA3AF]">Payouts will be sent to your connected Stripe account every week after jobs are approved.</p>
+          <h2 className="font-heading text-2xl font-bold text-foreground mb-2">Bank account connected</h2>
+          <p className="text-sm text-muted-foreground">Payouts will be sent to your connected Stripe account every week after jobs are approved.</p>
         </motion.div>
         <motion.button
           variants={fadeUp}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.97 }}
           onClick={() => navigate("/editor/payouts")}
-          className="bg-[#FF5F15] text-[#121212] font-semibold rounded-lg px-6 py-3 text-sm hover:bg-[#E54E08] transition-colors"
+          className="bg-primary text-background font-semibold rounded-lg px-6 py-3 text-sm hover:bg-primary-hover transition-colors"
         >
           View Earnings
         </motion.button>
@@ -136,8 +136,8 @@ export default function EditorPayoutsConnect() {
       className="max-w-md mx-auto pt-8 space-y-6"
     >
       <motion.div variants={fadeUp}>
-        <h2 className="font-heading text-2xl font-bold text-[#F9FAFB] mb-2">Connect your bank account</h2>
-        <p className="text-sm text-[#9CA3AF]">Link your bank via Stripe Connect to receive weekly USD payouts directly.</p>
+        <h2 className="font-heading text-2xl font-bold text-foreground mb-2">Connect your bank account</h2>
+        <p className="text-sm text-muted-foreground">Link your bank via Stripe Connect to receive weekly USD payouts directly.</p>
       </motion.div>
 
       <motion.div variants={fadeUp} className="space-y-3">
@@ -146,13 +146,13 @@ export default function EditorPayoutsConnect() {
           { icon: CheckCircle, title: "Weekly payouts", desc: "Earnings from approved jobs are transferred every Monday." },
           { icon: ExternalLink, title: "Fast setup", desc: "Takes 2 minutes. You'll be redirected to Stripe and back." },
         ].map(({ icon: Icon, title, desc }) => (
-          <div key={title} className="flex items-start gap-3 bg-[#404040] border border-[#2A2A2A] rounded-xl p-4">
-            <div className="w-8 h-8 rounded-lg bg-[#FF5F15]/10 border border-[#FF5F15]/20 flex items-center justify-center shrink-0">
-              <Icon size={15} className="text-[#FF5F15]" />
+          <div key={title} className="flex items-start gap-3 bg-card border border-border rounded-xl p-4">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+              <Icon size={15} className="text-primary" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-[#F9FAFB]">{title}</p>
-              <p className="text-xs text-[#9CA3AF] mt-0.5">{desc}</p>
+              <p className="text-sm font-semibold text-foreground">{title}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{desc}</p>
             </div>
           </div>
         ))}
@@ -164,13 +164,13 @@ export default function EditorPayoutsConnect() {
         whileTap={{ scale: 0.97 }}
         onClick={handleConnect}
         disabled={connecting}
-        className="w-full flex items-center justify-center gap-2 bg-[#FF5F15] text-[#121212] font-semibold rounded-xl py-3.5 text-sm hover:bg-[#E54E08] disabled:opacity-50 transition-colors"
+        className="w-full flex items-center justify-center gap-2 bg-primary text-background font-semibold rounded-xl py-3.5 text-sm hover:bg-primary-hover disabled:opacity-50 transition-colors"
       >
         {connecting ? <Loader2 size={16} className="animate-spin" /> : <ExternalLink size={16} />}
         {connecting ? "Redirecting to Stripe…" : "Connect with Stripe"}
       </motion.button>
 
-      <motion.p variants={fadeUp} className="text-[10px] text-[#9CA3AF] text-center">
+      <motion.p variants={fadeUp} className="text-[10px] text-muted-foreground text-center">
         By connecting, you agree to Stripe's Connected Account Agreement. Stripe processes all payouts.
       </motion.p>
     </motion.div>

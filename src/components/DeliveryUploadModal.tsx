@@ -171,11 +171,11 @@ export default function DeliveryUploadModal({ request, onClose, onDelivered }: P
           initial="hidden"
           animate="visible"
           exit="hidden"
-          className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-md"
+          className="bg-input border border-border rounded-2xl w-full max-w-md"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A]">
-            <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+            <h2 className="font-heading text-base font-semibold text-foreground">
               {step === "upload" && "Upload Finished Edit"}
               {step === "processing" && "Processing Video"}
               {step === "done" && "Delivered!"}
@@ -183,7 +183,7 @@ export default function DeliveryUploadModal({ request, onClose, onDelivered }: P
             {step !== "processing" && (
               <button
                 onClick={step === "done" ? onDelivered : onClose}
-                className="w-7 h-7 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+                className="w-7 h-7 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
               >
                 <X size={14} />
               </button>
@@ -202,28 +202,28 @@ export default function DeliveryUploadModal({ request, onClose, onDelivered }: P
                   onDrop={onDrop}
                   className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors cursor-pointer ${
                     dragging
-                      ? "border-[#3B82F6]/60 bg-[#3B82F6]/5"
+                      ? "border-editor-accent/60 bg-editor-accent/5"
                       : file
-                      ? "border-[#3B82F6]/40 bg-[#3B82F6]/5"
-                      : "border-[#404040] hover:border-[#3B82F6]/40"
+                      ? "border-editor-accent/40 bg-editor-accent/5"
+                      : "border-card hover:border-editor-accent/40"
                   }`}
                 >
                   {file ? (
                     <div className="space-y-1">
-                      <div className="w-10 h-10 mx-auto rounded-xl bg-[#3B82F6]/15 border border-[#3B82F6]/30 flex items-center justify-center">
-                        <CheckCircle2 size={20} className="text-[#3B82F6]" />
+                      <div className="w-10 h-10 mx-auto rounded-xl bg-editor-accent/15 border border-editor-accent/30 flex items-center justify-center">
+                        <CheckCircle2 size={20} className="text-editor-accent" />
                       </div>
-                      <p className="text-sm font-medium text-[#F9FAFB] mt-2">{file.name}</p>
-                      <p className="text-xs text-[#9CA3AF]">{formatBytes(file.size)}</p>
+                      <p className="text-sm font-medium text-foreground mt-2">{file.name}</p>
+                      <p className="text-xs text-muted-foreground">{formatBytes(file.size)}</p>
                       <button
                         onClick={(e) => { e.stopPropagation(); setFile(null) }}
-                        className="text-xs text-[#9CA3AF] hover:text-[#F9FAFB] underline mt-1"
+                        className="text-xs text-muted-foreground hover:text-foreground underline mt-1"
                       >
                         Remove
                       </button>
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center gap-2 text-[#9CA3AF]">
+                    <div className="flex flex-col items-center gap-2 text-muted-foreground">
                       <Upload size={24} />
                       <p className="text-sm font-medium">Drop MP4 here or click to browse</p>
                       <p className="text-xs">MP4 only · max 500 MB</p>
@@ -241,13 +241,13 @@ export default function DeliveryUploadModal({ request, onClose, onDelivered }: P
                 {/* Upload progress */}
                 {uploading && (
                   <div className="space-y-2">
-                    <div className="flex justify-between text-xs text-[#9CA3AF]">
+                    <div className="flex justify-between text-xs text-muted-foreground">
                       <span>Uploading…</span>
                       <span>{uploadProgress}% · {file && formatETA(file.size, uploadProgress)}</span>
                     </div>
-                    <div className="h-1.5 bg-[#2A2A2A] rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-border rounded-full overflow-hidden">
                       <motion.div
-                        className="h-full bg-[#3B82F6] rounded-full"
+                        className="h-full bg-editor-accent rounded-full"
                         animate={{ width: `${uploadProgress}%` }}
                         transition={{ type: "spring", stiffness: 80, damping: 20 }}
                       />
@@ -267,7 +267,7 @@ export default function DeliveryUploadModal({ request, onClose, onDelivered }: P
                   whileTap={{ scale: 0.97 }}
                   onClick={handleUpload}
                   disabled={!file || uploading}
-                  className="w-full bg-[#3B82F6] text-white font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 hover:bg-[#2563EB] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="w-full bg-editor-accent text-white font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 hover:bg-[#2563EB] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {uploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
                   {uploading ? "Uploading…" : "Upload & Deliver"}
@@ -278,19 +278,19 @@ export default function DeliveryUploadModal({ request, onClose, onDelivered }: P
             {/* ── Step 2: Mux processing ── */}
             {step === "processing" && (
               <div className="py-6 text-center space-y-4">
-                <div className="w-16 h-16 mx-auto rounded-2xl bg-[#3B82F6]/10 border border-[#3B82F6]/20 flex items-center justify-center">
-                  <Loader2 size={28} className="text-[#3B82F6] animate-spin" />
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-editor-accent/10 border border-editor-accent/20 flex items-center justify-center">
+                  <Loader2 size={28} className="text-editor-accent animate-spin" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-[#F9FAFB] mb-1">Processing video…</p>
-                  <p className="text-xs text-[#9CA3AF]">Transcoding for all devices. This usually takes 1–3 minutes.</p>
+                  <p className="text-sm font-semibold text-foreground mb-1">Processing video…</p>
+                  <p className="text-xs text-muted-foreground">Transcoding for all devices. This usually takes 1–3 minutes.</p>
                 </div>
                 {/* Skeleton pulse rows */}
                 <div className="space-y-2 text-left">
                   {[80, 60, 70].map((w, i) => (
                     <div
                       key={i}
-                      className="h-3 bg-[#2A2A2A] rounded-full animate-pulse"
+                      className="h-3 bg-border rounded-full animate-pulse"
                       style={{ width: `${w}%` }}
                     />
                   ))}
@@ -316,14 +316,14 @@ export default function DeliveryUploadModal({ request, onClose, onDelivered }: P
                   />
                 </svg>
                 <div>
-                  <p className="text-sm font-semibold text-[#F9FAFB] mb-1">Delivered!</p>
-                  <p className="text-xs text-[#9CA3AF]">The client has been notified and can now review your edit.</p>
+                  <p className="text-sm font-semibold text-foreground mb-1">Delivered!</p>
+                  <p className="text-xs text-muted-foreground">The client has been notified and can now review your edit.</p>
                 </div>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={onDelivered}
-                  className="w-full bg-[#3B82F6] text-white font-semibold rounded-lg py-3 text-sm hover:bg-[#2563EB] transition-colors"
+                  className="w-full bg-editor-accent text-white font-semibold rounded-lg py-3 text-sm hover:bg-[#2563EB] transition-colors"
                 >
                   Back to Queue
                 </motion.button>

@@ -67,10 +67,10 @@ function ScoreBar({ label, value, max, color }: { label: string; value: number; 
   return (
     <div className="space-y-1">
       <div className="flex items-center justify-between text-[10px]">
-        <span className="text-[#9CA3AF]">{label}</span>
+        <span className="text-muted-foreground">{label}</span>
         <span className="font-semibold" style={{ color }}>{value}/{max}</span>
       </div>
-      <div className="h-1 bg-[#2A2A2A] rounded-full overflow-hidden">
+      <div className="h-1 bg-border rounded-full overflow-hidden">
         <div
           className="h-full rounded-full transition-all duration-500"
           style={{ width: `${pct}%`, backgroundColor: color }}
@@ -99,12 +99,12 @@ function EditorScoreCard({
   return (
     <motion.div
       variants={fadeUp}
-      className={`bg-[#2A2A2A] rounded-xl p-4 border transition-colors ${
+      className={`bg-border rounded-xl p-4 border transition-colors ${
         assigned
           ? "border-green-500/40 bg-green-500/5"
           : rank === 1
-          ? "border-[#FF5F15]/30"
-          : "border-[#404040]"
+          ? "border-primary/30"
+          : "border-card"
       }`}
     >
       {/* Header */}
@@ -113,21 +113,21 @@ function EditorScoreCard({
           <div
             className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
               rank === 1
-                ? "bg-[#FF5F15]/20 text-[#FF5F15] border border-[#FF5F15]/30"
-                : "bg-[#404040] text-[#9CA3AF]"
+                ? "bg-primary/20 text-primary border border-primary/30"
+                : "bg-card text-muted-foreground"
             }`}
           >
             {rank}
           </div>
           <div>
-            <p className="text-sm font-semibold text-[#F9FAFB]">{editor.display_name || "Unnamed Editor"}</p>
-            <p className="text-[10px] text-[#9CA3AF]">{editor.email ?? "—"}</p>
+            <p className="text-sm font-semibold text-foreground">{editor.display_name || "Unnamed Editor"}</p>
+            <p className="text-[10px] text-muted-foreground">{editor.email ?? "—"}</p>
           </div>
         </div>
-        <div className="flex items-center gap-1.5 text-xs text-[#9CA3AF] shrink-0">
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground shrink-0">
           <Star size={11} className="text-yellow-400 fill-yellow-400" />
           <span>{editor.rating.toFixed(1)}</span>
-          <span className="text-[#404040]">·</span>
+          <span className="text-card">·</span>
           <span>{editor.completed_count} jobs</span>
         </div>
       </div>
@@ -143,12 +143,12 @@ function EditorScoreCard({
       {/* Total + queue + assign */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-[10px] text-[#9CA3AF] uppercase tracking-wider">Total</p>
-          <p className="font-heading text-2xl font-bold text-[#FF5F15]">{s.total}<span className="text-sm text-[#9CA3AF] font-normal">/100</span></p>
+          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Total</p>
+          <p className="font-heading text-2xl font-bold text-primary">{s.total}<span className="text-sm text-muted-foreground font-normal">/100</span></p>
         </div>
         <div className="text-center">
-          <p className="text-[10px] text-[#9CA3AF]">Queue</p>
-          <p className="text-sm font-semibold text-[#F9FAFB]">{editor.current_queue_count}/{editor.max_queue_capacity}</p>
+          <p className="text-[10px] text-muted-foreground">Queue</p>
+          <p className="text-sm font-semibold text-foreground">{editor.current_queue_count}/{editor.max_queue_capacity}</p>
         </div>
         {assigned ? (
           <div className="flex items-center gap-1.5 text-xs font-semibold text-green-400">
@@ -161,7 +161,7 @@ function EditorScoreCard({
             whileTap={{ scale: 0.97 }}
             onClick={onAssign}
             disabled={assigning}
-            className="px-4 py-2 bg-[#FF5F15] text-[#121212] text-xs font-semibold rounded-lg hover:bg-[#E54E08] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-4 py-2 bg-primary text-background text-xs font-semibold rounded-lg hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {assigning ? "Assigning…" : "Assign"}
           </motion.button>
@@ -231,26 +231,26 @@ function RequestPanel({
   return (
     <motion.div
       variants={fadeUp}
-      className={`bg-[#404040] border rounded-xl overflow-hidden transition-colors ${
-        isAssigned ? "border-green-500/30" : "border-[#2A2A2A]"
+      className={`bg-card border rounded-xl overflow-hidden transition-colors ${
+        isAssigned ? "border-green-500/30" : "border-border"
       }`}
     >
       {/* Request header */}
       <button
         onClick={() => setExpanded((v) => !v)}
-        className="w-full flex items-center justify-between px-5 py-4 hover:bg-[#4A4A4A] transition-colors text-left"
+        className="w-full flex items-center justify-between px-5 py-4 hover:bg-surface-elevated transition-colors text-left"
       >
         <div className="flex items-center gap-3">
           {isAssigned ? (
             <CheckCircle size={16} className="text-green-400 shrink-0" />
           ) : (
-            <AlertTriangle size={16} className="text-[#FF5F15] shrink-0" />
+            <AlertTriangle size={16} className="text-primary shrink-0" />
           )}
           <div>
-            <p className="text-sm font-semibold text-[#F9FAFB]">
+            <p className="text-sm font-semibold text-foreground">
               {brief.title ?? req.edit_type} — {req.client_email ?? req.client_id.slice(0, 8)}
             </p>
-            <p className="text-[10px] text-[#9CA3AF] mt-0.5">
+            <p className="text-[10px] text-muted-foreground mt-0.5">
               {req.edit_type} · {req.credits_cost}cr · submitted {new Date(req.submitted_at).toLocaleDateString()}
             </p>
           </div>
@@ -259,17 +259,17 @@ function RequestPanel({
           {niches.length > 0 && (
             <div className="hidden sm:flex gap-1">
               {niches.slice(0, 2).map((n) => (
-                <span key={n} className="text-[10px] bg-[#FF5F15]/10 text-[#FF5F15] border border-[#FF5F15]/20 px-2 py-0.5 rounded-full">
+                <span key={n} className="text-[10px] bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full">
                   {n}
                 </span>
               ))}
             </div>
           )}
-          <span className="text-[10px] text-[#9CA3AF] flex items-center gap-1">
+          <span className="text-[10px] text-muted-foreground flex items-center gap-1">
             <Users size={10} />
             {scored.length} editors
           </span>
-          {expanded ? <ChevronUp size={16} className="text-[#9CA3AF]" /> : <ChevronDown size={16} className="text-[#9CA3AF]" />}
+          {expanded ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
         </div>
       </button>
 
@@ -283,19 +283,19 @@ function RequestPanel({
             transition={{ duration: 0.25 }}
             className="overflow-hidden"
           >
-            <div className="px-5 pb-5 border-t border-[#2A2A2A]">
+            <div className="px-5 pb-5 border-t border-border">
               {editorsLoading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-4">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="bg-[#2A2A2A] rounded-xl p-4 animate-pulse space-y-3">
-                      <div className="h-4 w-32 bg-[#404040] rounded" />
-                      <div className="h-2 w-full bg-[#404040] rounded" />
-                      <div className="h-2 w-3/4 bg-[#404040] rounded" />
+                    <div key={i} className="bg-border rounded-xl p-4 animate-pulse space-y-3">
+                      <div className="h-4 w-32 bg-card rounded" />
+                      <div className="h-2 w-full bg-card rounded" />
+                      <div className="h-2 w-3/4 bg-card rounded" />
                     </div>
                   ))}
                 </div>
               ) : scored.length === 0 ? (
-                <p className="text-xs text-[#9CA3AF] text-center py-6">No editors available right now.</p>
+                <p className="text-xs text-muted-foreground text-center py-6">No editors available right now.</p>
               ) : (
                 <motion.div
                   variants={staggerContainer}
@@ -403,26 +403,26 @@ export default function AdminMatching() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-6">
       <motion.div variants={fadeUp}>
-        <h2 className="font-heading text-xl font-bold text-[#F9FAFB]">Manual Matching</h2>
-        <p className="text-xs text-[#9CA3AF] mt-0.5">
+        <h2 className="font-heading text-xl font-bold text-foreground">Manual Matching</h2>
+        <p className="text-xs text-muted-foreground mt-0.5">
           Assign editors to unmatched requests — scores calculated from CLAUDE.md algorithm
         </p>
       </motion.div>
 
       {/* Summary bar */}
-      <motion.div variants={fadeUp} className="bg-[#404040] border border-[#2A2A2A] rounded-xl px-5 py-4 flex items-center gap-6">
+      <motion.div variants={fadeUp} className="bg-card border border-border rounded-xl px-5 py-4 flex items-center gap-6">
         <div>
-          <p className="text-[10px] text-[#9CA3AF] uppercase tracking-wider">Pending Match</p>
-          <p className="font-heading text-3xl font-bold text-[#FF5F15]">{loading ? "—" : pending.length}</p>
+          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Pending Match</p>
+          <p className="font-heading text-3xl font-bold text-primary">{loading ? "—" : pending.length}</p>
         </div>
-        <div className="w-px h-10 bg-[#2A2A2A]" />
+        <div className="w-px h-10 bg-border" />
         <div>
-          <p className="text-[10px] text-[#9CA3AF] uppercase tracking-wider">Available Editors</p>
-          <p className="font-heading text-3xl font-bold text-[#F9FAFB]">{editorsLoading ? "—" : editors.length}</p>
+          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Available Editors</p>
+          <p className="font-heading text-3xl font-bold text-foreground">{editorsLoading ? "—" : editors.length}</p>
         </div>
         <div className="ml-auto">
-          <span className="flex items-center gap-1.5 text-[10px] text-[#9CA3AF]">
-            <Zap size={10} className="text-[#FF5F15]" /> Expand each card to see ranked editors
+          <span className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+            <Zap size={10} className="text-primary" /> Expand each card to see ranked editors
           </span>
         </div>
       </motion.div>
@@ -431,20 +431,20 @@ export default function AdminMatching() {
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 animate-pulse">
-              <div className="h-4 w-48 bg-[#2A2A2A] rounded mb-2" />
-              <div className="h-3 w-32 bg-[#2A2A2A] rounded" />
+            <div key={i} className="bg-card border border-border rounded-xl p-5 animate-pulse">
+              <div className="h-4 w-48 bg-border rounded mb-2" />
+              <div className="h-3 w-32 bg-border rounded" />
             </div>
           ))}
         </div>
       ) : pending.length === 0 ? (
         <motion.div
           variants={scaleIn}
-          className="bg-[#404040] border border-[#2A2A2A] rounded-xl px-5 py-12 text-center"
+          className="bg-card border border-border rounded-xl px-5 py-12 text-center"
         >
           <CheckCircle size={36} className="text-green-400 mx-auto mb-3" />
-          <p className="text-sm font-semibold text-[#F9FAFB]">Queue is clear!</p>
-          <p className="text-xs text-[#9CA3AF] mt-1">All requests have been matched.</p>
+          <p className="text-sm font-semibold text-foreground">Queue is clear!</p>
+          <p className="text-xs text-muted-foreground mt-1">All requests have been matched.</p>
         </motion.div>
       ) : (
         <div className="space-y-3">

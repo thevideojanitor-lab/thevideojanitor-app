@@ -90,7 +90,7 @@ export default function NotificationBell() {
         onClick={handleToggle}
         animate={ring ? { rotate: [0, -18, 18, -12, 12, 0] } : { rotate: 0 }}
         transition={{ duration: 0.6, ease: "easeInOut" }}
-        className="relative text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+        className="relative text-muted-foreground hover:text-foreground transition-colors"
         aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : "Notifications"}
       >
         <Bell size={20} />
@@ -103,7 +103,7 @@ export default function NotificationBell() {
               exit={{ scale: 0 }}
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
               aria-hidden="true"
-              className="absolute -top-1 -right-1 min-w-[16px] h-4 bg-[#FF5F15] text-[#121212] text-[9px] font-bold rounded-full flex items-center justify-center px-1"
+              className="absolute -top-1 -right-1 min-w-[16px] h-4 bg-primary text-background text-[9px] font-bold rounded-full flex items-center justify-center px-1"
             >
               {unreadCount > 9 ? "9+" : unreadCount}
             </motion.span>
@@ -118,29 +118,29 @@ export default function NotificationBell() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute right-0 top-8 w-80 bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl shadow-2xl z-50 overflow-hidden"
+            className="absolute right-0 top-8 w-80 bg-input border border-border rounded-xl shadow-2xl z-50 overflow-hidden"
           >
-            <div className="px-4 py-3 border-b border-[#2A2A2A]">
-              <p className="text-xs font-semibold text-[#F9FAFB]">Notifications</p>
+            <div className="px-4 py-3 border-b border-border">
+              <p className="text-xs font-semibold text-foreground">Notifications</p>
             </div>
             <div className="max-h-80 overflow-y-auto">
               {notifications.length === 0 ? (
-                <p className="text-xs text-[#9CA3AF] text-center py-8">All caught up!</p>
+                <p className="text-xs text-muted-foreground text-center py-8">All caught up!</p>
               ) : (
                 notifications.map((n) => (
                   <div
                     key={n.id}
-                    className={`px-4 py-3 border-b border-[#2A2A2A] last:border-0 ${
-                      !n.read ? "bg-[#FF5F15]/5" : ""
+                    className={`px-4 py-3 border-b border-border last:border-0 ${
+                      !n.read ? "bg-primary/5" : ""
                     }`}
                   >
                     <div className="flex items-start gap-2">
                       {!n.read && (
-                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#FF5F15] shrink-0" />
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                       )}
                       <div className={!n.read ? "" : "pl-3.5"}>
-                        <p className="text-xs text-[#F9FAFB] leading-relaxed">{n.message}</p>
-                        <p className="text-[10px] text-[#9CA3AF] mt-1">{getRelativeTime(n.created_at)}</p>
+                        <p className="text-xs text-foreground leading-relaxed">{n.message}</p>
+                        <p className="text-[10px] text-muted-foreground mt-1">{getRelativeTime(n.created_at)}</p>
                       </div>
                     </div>
                   </div>

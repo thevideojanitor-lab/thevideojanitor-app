@@ -57,7 +57,7 @@ function RowMenu({ req, onAction }: { req: Request; onAction: (action: string, r
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-7 h-7 rounded-lg bg-[#2A2A2A] hover:bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+        className="w-7 h-7 rounded-lg bg-border hover:bg-card flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
       >
         <MoreHorizontal size={14} />
       </button>
@@ -68,13 +68,13 @@ function RowMenu({ req, onAction }: { req: Request; onAction: (action: string, r
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 4 }}
             transition={{ duration: 0.12 }}
-            className="absolute right-0 top-8 w-44 bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl shadow-xl z-30 overflow-hidden py-1"
+            className="absolute right-0 top-8 w-44 bg-input border border-border rounded-xl shadow-xl z-30 overflow-hidden py-1"
           >
             {actions.map((a) => (
               <button
                 key={a.key}
                 onClick={() => { onAction(a.key, req); setOpen(false) }}
-                className="w-full text-left px-4 py-2 text-xs text-[#F9FAFB] hover:bg-[#404040] transition-colors"
+                className="w-full text-left px-4 py-2 text-xs text-foreground hover:bg-card transition-colors"
               >
                 {a.label}
               </button>
@@ -144,19 +144,19 @@ export default function AdminRequests() {
   }, [rows, statusFilter, overdueOnly, search])
 
   const columns = useMemo<ColumnDef<Request>[]>(() => [
-    { id: "id", header: "ID", accessorFn: (r) => shortId(r.id), cell: (i) => <span className="font-mono text-[#9CA3AF] text-[10px]">{i.getValue() as string}</span> },
+    { id: "id", header: "ID", accessorFn: (r) => shortId(r.id), cell: (i) => <span className="font-mono text-muted-foreground text-[10px]">{i.getValue() as string}</span> },
     { id: "status", header: "Status", accessorKey: "status", cell: (i) => <StatusBadge status={i.getValue() as string} /> },
     { id: "edit_type", header: "Type", accessorKey: "edit_type", cell: (i) => <span className="capitalize text-xs">{i.getValue() as string}</span> },
-    { id: "credits_cost", header: "Credits", accessorKey: "credits_cost", cell: (i) => <span className="text-xs font-bold text-[#FF5F15]">{i.getValue() as number}</span> },
-    { id: "submitted_at", header: "Submitted", accessorKey: "submitted_at", cell: (i) => <span className="text-xs text-[#9CA3AF]">{fmtDate(i.getValue() as string)}</span> },
+    { id: "credits_cost", header: "Credits", accessorKey: "credits_cost", cell: (i) => <span className="text-xs font-bold text-primary">{i.getValue() as number}</span> },
+    { id: "submitted_at", header: "Submitted", accessorKey: "submitted_at", cell: (i) => <span className="text-xs text-muted-foreground">{fmtDate(i.getValue() as string)}</span> },
     {
       id: "due_at", header: "Due", accessorKey: "due_at",
       cell: (i) => {
         const v = i.getValue() as string | null
-        if (!v) return <span className="text-xs text-[#9CA3AF]">—</span>
+        if (!v) return <span className="text-xs text-muted-foreground">—</span>
         const overdue = new Date(v) < now && !["approved","abandoned"].includes(i.row.original.status)
         return (
-          <span className={`text-xs ${overdue ? "text-red-400 font-semibold" : "text-[#9CA3AF]"}`}>
+          <span className={`text-xs ${overdue ? "text-red-400 font-semibold" : "text-muted-foreground"}`}>
             {overdue && <AlertTriangle size={10} className="inline mr-1" />}
             {fmtDate(v)}
           </span>
@@ -278,8 +278,8 @@ export default function AdminRequests() {
     <div className="space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-heading text-xl font-bold text-[#F9FAFB]">Requests</h2>
-          <p className="text-xs text-[#9CA3AF] mt-0.5">{filtered.length} total</p>
+          <h2 className="font-heading text-xl font-bold text-foreground">Requests</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">{filtered.length} total</p>
         </div>
       </div>
 
@@ -288,18 +288,18 @@ export default function AdminRequests() {
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2 text-xs text-[#F9FAFB] focus:border-[#FF5F15] outline-none"
+          className="bg-input border border-border rounded-lg px-3 py-2 text-xs text-foreground focus:border-primary outline-none"
         >
           {STATUS_OPTIONS.map((s) => (
             <option key={s} value={s}>{s === "all" ? "All statuses" : s.replace("_"," ")}</option>
           ))}
         </select>
-        <label className="flex items-center gap-2 text-xs text-[#9CA3AF] cursor-pointer">
+        <label className="flex items-center gap-2 text-xs text-muted-foreground cursor-pointer">
           <input
             type="checkbox"
             checked={overdueOnly}
             onChange={(e) => setOverdueOnly(e.target.checked)}
-            className="accent-[#FF5F15]"
+            className="accent-primary"
           />
           Overdue only
         </label>
@@ -307,16 +307,16 @@ export default function AdminRequests() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search ID or type…"
-          className="ml-auto bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2 text-xs text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] outline-none w-48"
+          className="ml-auto bg-input border border-border rounded-lg px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary outline-none w-48"
         />
       </motion.div>
 
       {/* Table */}
-      <motion.div variants={fadeUp} initial="hidden" animate="visible" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl overflow-hidden">
+      <motion.div variants={fadeUp} initial="hidden" animate="visible" className="bg-input border border-border rounded-xl overflow-hidden">
         {loading ? (
           <div className="p-4 space-y-2.5">
             {[0, 1, 2, 3, 4, 5].map((s) => (
-              <div key={s} className="h-9 bg-[#404040]/40 rounded-lg animate-pulse" />
+              <div key={s} className="h-9 bg-card/40 rounded-lg animate-pulse" />
             ))}
           </div>
         ) : (
@@ -325,12 +325,12 @@ export default function AdminRequests() {
               <table className="w-full text-left">
                 <thead>
                   {table.getHeaderGroups().map((hg) => (
-                    <tr key={hg.id} className="border-b border-[#2A2A2A]">
+                    <tr key={hg.id} className="border-b border-border">
                       {hg.headers.map((h) => (
                         <th
                           key={h.id}
                           onClick={h.column.getToggleSortingHandler()}
-                          className="px-4 py-3 text-[10px] font-semibold uppercase tracking-wider text-[#9CA3AF] cursor-pointer select-none whitespace-nowrap"
+                          className="px-4 py-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground cursor-pointer select-none whitespace-nowrap"
                         >
                           <span className="flex items-center gap-1">
                             {flexRender(h.column.columnDef.header, h.getContext())}
@@ -344,7 +344,7 @@ export default function AdminRequests() {
                 </thead>
                 <tbody>
                   {table.getRowModel().rows.map((row) => (
-                    <tr key={row.id} className="border-b border-[#2A2A2A] hover:bg-[#404040]/30 transition-colors">
+                    <tr key={row.id} className="border-b border-border hover:bg-card/30 transition-colors">
                       {row.getVisibleCells().map((cell) => (
                         <td key={cell.id} className="px-4 py-3">
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -356,15 +356,15 @@ export default function AdminRequests() {
               </table>
             </div>
             {/* Pagination */}
-            <div className="flex items-center justify-between px-4 py-3 border-t border-[#2A2A2A]">
-              <span className="text-[10px] text-[#9CA3AF]">
+            <div className="flex items-center justify-between px-4 py-3 border-t border-border">
+              <span className="text-[10px] text-muted-foreground">
                 Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
               </span>
               <div className="flex items-center gap-1">
-                <button onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()} className="p-1.5 rounded text-[#9CA3AF] disabled:opacity-30 hover:text-[#F9FAFB]"><ChevronsLeft size={14} /></button>
-                <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="p-1.5 rounded text-[#9CA3AF] disabled:opacity-30 hover:text-[#F9FAFB]"><ChevronLeft size={14} /></button>
-                <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="p-1.5 rounded text-[#9CA3AF] disabled:opacity-30 hover:text-[#F9FAFB]"><ChevronRight size={14} /></button>
-                <button onClick={() => table.setPageIndex(table.getPageCount()-1)} disabled={!table.getCanNextPage()} className="p-1.5 rounded text-[#9CA3AF] disabled:opacity-30 hover:text-[#F9FAFB]"><ChevronsRight size={14} /></button>
+                <button onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()} className="p-1.5 rounded text-muted-foreground disabled:opacity-30 hover:text-foreground"><ChevronsLeft size={14} /></button>
+                <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className="p-1.5 rounded text-muted-foreground disabled:opacity-30 hover:text-foreground"><ChevronLeft size={14} /></button>
+                <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="p-1.5 rounded text-muted-foreground disabled:opacity-30 hover:text-foreground"><ChevronRight size={14} /></button>
+                <button onClick={() => table.setPageIndex(table.getPageCount()-1)} disabled={!table.getCanNextPage()} className="p-1.5 rounded text-muted-foreground disabled:opacity-30 hover:text-foreground"><ChevronsRight size={14} /></button>
               </div>
             </div>
           </>
@@ -375,11 +375,11 @@ export default function AdminRequests() {
       <AnimatePresence>
         {drawerReq && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-[#121212]/60 z-40" onClick={() => setDrawerReq(null)} />
-            <motion.div variants={slideInFromRight} initial="hidden" animate="visible" exit="exit" className="fixed top-0 right-0 bottom-0 w-full max-w-lg bg-[#1A1A1A] border-l border-[#2A2A2A] z-50 flex flex-col overflow-y-auto">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A] sticky top-0 bg-[#1A1A1A]">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Request Details</h2>
-                <button onClick={() => setDrawerReq(null)} className="w-8 h-8 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB]"><X size={15} /></button>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-background/60 z-40" onClick={() => setDrawerReq(null)} />
+            <motion.div variants={slideInFromRight} initial="hidden" animate="visible" exit="exit" className="fixed top-0 right-0 bottom-0 w-full max-w-lg bg-input border-l border-border z-50 flex flex-col overflow-y-auto">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border sticky top-0 bg-input">
+                <h2 className="font-heading text-base font-semibold text-foreground">Request Details</h2>
+                <button onClick={() => setDrawerReq(null)} className="w-8 h-8 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground"><X size={15} /></button>
               </div>
               <div className="p-5 space-y-4">
                 <div className="grid grid-cols-2 gap-3 text-xs">
@@ -395,14 +395,14 @@ export default function AdminRequests() {
                     ["Revision Round", String(drawerReq.revision_round)],
                     ["Aspect Ratios", drawerReq.aspect_ratios.join(", ")],
                   ].map(([k, v]) => (
-                    <div key={k} className="bg-[#404040] rounded-lg p-3">
-                      <p className="text-[10px] uppercase tracking-wider text-[#9CA3AF] mb-1">{k}</p>
-                      <p className="text-[#F9FAFB] font-medium break-all">{v}</p>
+                    <div key={k} className="bg-card rounded-lg p-3">
+                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">{k}</p>
+                      <p className="text-foreground font-medium break-all">{v}</p>
                     </div>
                   ))}
                 </div>
-                <div className="bg-[#404040] rounded-xl p-4">
-                  <p className="text-[10px] uppercase tracking-wider text-[#9CA3AF] mb-3">Brief</p>
+                <div className="bg-card rounded-xl p-4">
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-3">Brief</p>
                   {drawerReq.brief && Object.keys(drawerReq.brief).length > 0 ? (
                     <div className="space-y-3">
                       {Object.entries(drawerReq.brief as Record<string, unknown>).map(([k, v]) => {
@@ -410,10 +410,10 @@ export default function AdminRequests() {
                         if (!value.trim()) return null
                         return (
                           <div key={k}>
-                            <p className="text-[10px] uppercase tracking-wider text-[#9CA3AF] mb-0.5 capitalize">
+                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-0.5 capitalize">
                               {k.replace(/_/g, " ")}
                             </p>
-                            <p className="text-xs text-[#F9FAFB] leading-relaxed whitespace-pre-wrap break-words">
+                            <p className="text-xs text-foreground leading-relaxed whitespace-pre-wrap break-words">
                               {value}
                             </p>
                           </div>
@@ -421,11 +421,11 @@ export default function AdminRequests() {
                       })}
                     </div>
                   ) : (
-                    <p className="text-xs text-[#9CA3AF]">No brief details provided.</p>
+                    <p className="text-xs text-muted-foreground">No brief details provided.</p>
                   )}
                 </div>
                 {drawerReq.footage_url && (
-                  <a href={drawerReq.footage_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-xs text-[#FF5F15] hover:underline">
+                  <a href={drawerReq.footage_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-xs text-primary hover:underline">
                     <Eye size={13} /> View Footage Link
                   </a>
                 )}
@@ -438,11 +438,11 @@ export default function AdminRequests() {
       {/* ── Reassign Editor Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "reassign" && (
-          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
-            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-lg max-h-[80vh] flex flex-col">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A]">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Reassign Editor</h2>
-                <button onClick={closeActive} className="w-7 h-7 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB]"><X size={14} /></button>
+          <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
+            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-input border border-border rounded-2xl w-full max-w-lg max-h-[80vh] flex flex-col">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+                <h2 className="font-heading text-base font-semibold text-foreground">Reassign Editor</h2>
+                <button onClick={closeActive} className="w-7 h-7 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground"><X size={14} /></button>
               </div>
               <div className="flex-1 overflow-y-auto p-4 space-y-2">
                 {editors.map((e) => {
@@ -451,21 +451,21 @@ export default function AdminRequests() {
                   const rating = e.rating >= 4.8 ? 10 : e.rating >= 4.5 ? 5 : 0
                   const total = avail + rating + 15
                   return (
-                    <div key={e.user_id} className="flex items-center gap-3 bg-[#404040] rounded-xl p-3">
+                    <div key={e.user_id} className="flex items-center gap-3 bg-card rounded-xl p-3">
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-[#F9FAFB] truncate">{e.display_name ?? "Editor"}</p>
-                        <p className="text-[10px] text-[#9CA3AF] mt-0.5">
+                        <p className="text-sm font-medium text-foreground truncate">{e.display_name ?? "Editor"}</p>
+                        <p className="text-[10px] text-muted-foreground mt-0.5">
                           Avail: {avail}/20 · Rating: {rating}/10 · Style: 15/30 ·
-                          <span className="text-[#FF5F15] font-bold ml-1">Total: {total}/100</span>
+                          <span className="text-primary font-bold ml-1">Total: {total}/100</span>
                         </p>
-                        <p className="text-[10px] text-[#9CA3AF]">Queue: {e.current_queue_count}/{e.max_queue_capacity} · <Star size={9} className="inline-block -mt-0.5 fill-yellow-400 text-yellow-400" /> {e.rating.toFixed(2)}</p>
+                        <p className="text-[10px] text-muted-foreground">Queue: {e.current_queue_count}/{e.max_queue_capacity} · <Star size={9} className="inline-block -mt-0.5 fill-yellow-400 text-yellow-400" /> {e.rating.toFixed(2)}</p>
                       </div>
                       <motion.button
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.96 }}
                         onClick={() => handleReassign(e.user_id)}
                         disabled={!!reassigning}
-                        className="px-3 py-1.5 bg-[#FF5F15] text-[#121212] text-xs font-semibold rounded-lg hover:bg-[#E54E08] disabled:opacity-40 transition-colors"
+                        className="px-3 py-1.5 bg-primary text-background text-xs font-semibold rounded-lg hover:bg-primary-hover disabled:opacity-40 transition-colors"
                       >
                         {reassigning === e.user_id ? "Assigning…" : "Assign"}
                       </motion.button>
@@ -481,17 +481,17 @@ export default function AdminRequests() {
       {/* ── Extend Deadline Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "extend" && (
-          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
-            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
+          <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
+            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-input border border-border rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Extend Deadline</h2>
-                <button onClick={closeActive} className="w-7 h-7 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB]"><X size={14} /></button>
+                <h2 className="font-heading text-base font-semibold text-foreground">Extend Deadline</h2>
+                <button onClick={closeActive} className="w-7 h-7 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground"><X size={14} /></button>
               </div>
-              <input type="datetime-local" value={extendDate} onChange={(e) => setExtendDate(e.target.value)} className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] focus:border-[#FF5F15] outline-none" />
-              <input value={extendReason} onChange={(e) => setExtendReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] outline-none" />
+              <input type="datetime-local" value={extendDate} onChange={(e) => setExtendDate(e.target.value)} className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground focus:border-primary outline-none" />
+              <input value={extendReason} onChange={(e) => setExtendReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
               <div className="flex gap-2">
-                <button onClick={closeActive} className="flex-1 border border-[#404040] text-[#9CA3AF] text-sm rounded-lg py-2.5 hover:text-[#F9FAFB] transition-colors">Cancel</button>
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleExtend} disabled={!extendDate || !extendReason.trim() || working} className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold text-sm rounded-lg py-2.5 hover:bg-[#E54E08] disabled:opacity-40 transition-colors">
+                <button onClick={closeActive} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleExtend} disabled={!extendDate || !extendReason.trim() || working} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {working ? "Saving…" : "Save"}
                 </motion.button>
               </div>
@@ -503,19 +503,19 @@ export default function AdminRequests() {
       {/* ── Force Approve Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "approve" && (
-          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
-            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
+          <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
+            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-input border border-border rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Force Approve</h2>
-                <button onClick={closeActive} className="w-7 h-7 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB]"><X size={14} /></button>
+                <h2 className="font-heading text-base font-semibold text-foreground">Force Approve</h2>
+                <button onClick={closeActive} className="w-7 h-7 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground"><X size={14} /></button>
               </div>
               <p className="text-xs text-yellow-400 bg-yellow-500/10 border border-yellow-500/20 rounded-lg px-3 py-2.5">
                 This will approve the request without client action and trigger an editor payout.
               </p>
-              <input value={actionReason} onChange={(e) => setActionReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] outline-none" />
+              <input value={actionReason} onChange={(e) => setActionReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
               <div className="flex gap-2">
-                <button onClick={closeActive} className="flex-1 border border-[#404040] text-[#9CA3AF] text-sm rounded-lg py-2.5 hover:text-[#F9FAFB] transition-colors">Cancel</button>
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleForceApprove} disabled={!actionReason.trim() || working} className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold text-sm rounded-lg py-2.5 hover:bg-[#E54E08] disabled:opacity-40 transition-colors">
+                <button onClick={closeActive} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleForceApprove} disabled={!actionReason.trim() || working} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {working ? "Approving…" : "Force Approve"}
                 </motion.button>
               </div>
@@ -527,17 +527,17 @@ export default function AdminRequests() {
       {/* ── Refund Credits Modal ── */}
       <AnimatePresence>
         {activeAction?.key === "refund" && (
-          <div className="fixed inset-0 bg-[#121212]/70 flex items-center justify-center z-50 p-4">
-            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4">
+          <div className="fixed inset-0 bg-background/70 flex items-center justify-center z-50 p-4">
+            <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden" className="bg-input border border-border rounded-2xl w-full max-w-sm p-5 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Refund Credits</h2>
-                <button onClick={closeActive} className="w-7 h-7 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB]"><X size={14} /></button>
+                <h2 className="font-heading text-base font-semibold text-foreground">Refund Credits</h2>
+                <button onClick={closeActive} className="w-7 h-7 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground"><X size={14} /></button>
               </div>
-              <input type="number" min="1" value={refundAmount} onChange={(e) => setRefundAmount(e.target.value)} placeholder="Amount (credits)…" className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] outline-none" />
-              <input value={actionReason} onChange={(e) => setActionReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:border-[#FF5F15] outline-none" />
+              <input type="number" min="1" value={refundAmount} onChange={(e) => setRefundAmount(e.target.value)} placeholder="Amount (credits)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
+              <input value={actionReason} onChange={(e) => setActionReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
               <div className="flex gap-2">
-                <button onClick={closeActive} className="flex-1 border border-[#404040] text-[#9CA3AF] text-sm rounded-lg py-2.5 hover:text-[#F9FAFB] transition-colors">Cancel</button>
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleRefund} disabled={!refundAmount || !actionReason.trim() || working} className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold text-sm rounded-lg py-2.5 hover:bg-[#E54E08] disabled:opacity-40 transition-colors">
+                <button onClick={closeActive} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleRefund} disabled={!refundAmount || !actionReason.trim() || working} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {working ? "Refunding…" : "Refund"}
                 </motion.button>
               </div>
@@ -550,20 +550,20 @@ export default function AdminRequests() {
       <AnimatePresence>
         {activeAction?.key === "chat" && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-[#121212]/60 z-40" onClick={closeActive} />
-            <motion.div variants={slideInFromRight} initial="hidden" animate="visible" exit="exit" className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#1A1A1A] border-l border-[#2A2A2A] z-50 flex flex-col">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A]">
-                <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Chat — Read Only</h2>
-                <button onClick={closeActive} className="w-8 h-8 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB]"><X size={15} /></button>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-background/60 z-40" onClick={closeActive} />
+            <motion.div variants={slideInFromRight} initial="hidden" animate="visible" exit="exit" className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-input border-l border-border z-50 flex flex-col">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+                <h2 className="font-heading text-base font-semibold text-foreground">Chat — Read Only</h2>
+                <button onClick={closeActive} className="w-8 h-8 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground"><X size={15} /></button>
               </div>
               <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2">
                 {chatMessages.length === 0 ? (
-                  <p className="text-xs text-[#9CA3AF] text-center py-8">No messages yet.</p>
+                  <p className="text-xs text-muted-foreground text-center py-8">No messages yet.</p>
                 ) : (
                   chatMessages.map((m) => (
-                    <div key={m.id} className="bg-[#404040] rounded-xl px-3 py-2.5">
-                      <p className="text-[10px] text-[#9CA3AF] mb-1">{m.sender_id?.slice(0,8) ?? "system"} · {fmtDateTime(m.created_at)}</p>
-                      <p className="text-sm text-[#F9FAFB]">{m.body}</p>
+                    <div key={m.id} className="bg-card rounded-xl px-3 py-2.5">
+                      <p className="text-[10px] text-muted-foreground mb-1">{m.sender_id?.slice(0,8) ?? "system"} · {fmtDateTime(m.created_at)}</p>
+                      <p className="text-sm text-foreground">{m.body}</p>
                     </div>
                   ))
                 )}

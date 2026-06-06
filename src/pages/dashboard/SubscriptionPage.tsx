@@ -91,7 +91,7 @@ function StripePaymentForm({ clientSecret, plan, onSuccess, onClose }: {
         <button
           type="button"
           onClick={onClose}
-          className="flex-1 border border-[#404040] text-[#F9FAFB] rounded-lg py-3 text-sm font-medium hover:bg-[#404040] transition-colors"
+          className="flex-1 border border-card text-foreground rounded-lg py-3 text-sm font-medium hover:bg-card transition-colors"
         >
           Cancel
         </button>
@@ -100,13 +100,13 @@ function StripePaymentForm({ clientSecret, plan, onSuccess, onClose }: {
           disabled={processing || !stripe}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.97 }}
-          className="flex-1 bg-[#FF5F15] text-[#121212] font-semibold rounded-lg py-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="flex-1 bg-primary text-background font-semibold rounded-lg py-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {processing ? <Loader2 size={16} className="animate-spin" /> : null}
           {processing ? "Processing…" : "Confirm Subscription"}
         </motion.button>
       </div>
-      <p className="text-center text-[10px] text-[#9CA3AF]">Secured by Stripe · Cancel anytime</p>
+      <p className="text-center text-[10px] text-muted-foreground">Secured by Stripe · Cancel anytime</p>
     </form>
   )
 }
@@ -139,23 +139,23 @@ function StripeModal({ plan, billingCycle, onSuccess, onClose }: {
       initial="hidden"
       animate="visible"
       exit="hidden"
-      className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl p-6 w-full max-w-md mx-auto"
+      className="bg-input border border-border rounded-2xl p-6 w-full max-w-md mx-auto"
     >
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h3 className="font-heading text-lg font-semibold text-[#F9FAFB]">
+          <h3 className="font-heading text-lg font-semibold text-foreground">
             {PLAN_META[plan].label}
           </h3>
-          <p className="text-xs text-[#9CA3AF] capitalize">{billingCycle} billing</p>
+          <p className="text-xs text-muted-foreground capitalize">{billingCycle} billing</p>
         </div>
-        <button onClick={onClose} className="text-[#9CA3AF] hover:text-[#F9FAFB]">
+        <button onClick={onClose} className="text-muted-foreground hover:text-foreground">
           <X size={20} />
         </button>
       </div>
 
       {loading && (
         <div className="flex items-center justify-center py-10">
-          <Loader2 size={24} className="animate-spin text-[#FF5F15]" />
+          <Loader2 size={24} className="animate-spin text-primary" />
         </div>
       )}
 
@@ -205,11 +205,11 @@ function CancelModal({ gateway, subId, onConfirm, onClose }: {
 
   return (
     <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden"
-      className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl p-6 w-full max-w-sm mx-auto">
-      <h3 className="font-heading text-lg font-semibold text-[#F9FAFB] mb-2">Cancel subscription?</h3>
-      <p className="text-sm text-[#9CA3AF] mb-6">Your access continues until the end of the current billing period. Credits already deducted will not be refunded.</p>
+      className="bg-input border border-border rounded-2xl p-6 w-full max-w-sm mx-auto">
+      <h3 className="font-heading text-lg font-semibold text-foreground mb-2">Cancel subscription?</h3>
+      <p className="text-sm text-muted-foreground mb-6">Your access continues until the end of the current billing period. Credits already deducted will not be refunded.</p>
       <div className="flex gap-3">
-        <button onClick={onClose} className="flex-1 border border-[#404040] text-[#F9FAFB] rounded-lg py-2.5 text-sm font-medium hover:bg-[#404040] transition-colors">Keep Plan</button>
+        <button onClick={onClose} className="flex-1 border border-card text-foreground rounded-lg py-2.5 text-sm font-medium hover:bg-card transition-colors">Keep Plan</button>
         <button onClick={handleCancel} disabled={loading} className="flex-1 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg py-2.5 text-sm font-medium hover:bg-red-500/20 transition-colors flex items-center justify-center gap-2">
           {loading ? <Loader2 size={14} className="animate-spin" /> : null}
           {loading ? "Cancelling…" : "Yes, Cancel"}
@@ -338,11 +338,11 @@ export default function SubscriptionPage() {
             <AlertCircle size={18} className="text-red-400 shrink-0" />
             <div className="flex-1">
               <p className="text-sm font-medium text-red-400">Payment failed — new request submissions are blocked.</p>
-              <p className="text-xs text-[#9CA3AF] mt-0.5">Update your payment method to restore access.</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Update your payment method to restore access.</p>
             </div>
             {subscription?.gateway === "stripe" ? (
               <a href="https://billing.stripe.com" target="_blank" rel="noreferrer"
-                className="flex items-center gap-1.5 text-xs font-semibold text-[#FF5F15] border border-[#FF5F15]/30 rounded-lg px-3 py-1.5 hover:bg-[#FF5F15]/10 transition-colors">
+                className="flex items-center gap-1.5 text-xs font-semibold text-primary border border-primary/30 rounded-lg px-3 py-1.5 hover:bg-primary/10 transition-colors">
                 Update Card <ExternalLink size={12} />
               </a>
             ) : null}
@@ -363,7 +363,7 @@ export default function SubscriptionPage() {
               <Check size={18} className="text-[#4ade80] shrink-0" />
               <p className="text-sm font-medium text-[#4ade80]">Subscription activated! Your credits are ready.</p>
             </div>
-            <button onClick={() => setShowSuccess(false)} className="text-[#9CA3AF] hover:text-[#F9FAFB]">
+            <button onClick={() => setShowSuccess(false)} className="text-muted-foreground hover:text-foreground">
               <X size={16} />
             </button>
           </motion.div>
@@ -372,11 +372,11 @@ export default function SubscriptionPage() {
 
       {/* Credits summary card */}
       {subscription && (
-        <div className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 mb-8">
+        <div className="bg-card border border-border rounded-xl p-5 mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF]">Current Plan</p>
-              <h2 className="font-heading text-xl font-semibold text-[#F9FAFB] mt-0.5">
+              <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground">Current Plan</p>
+              <h2 className="font-heading text-xl font-semibold text-foreground mt-0.5">
                 {PLAN_META[subscription.plan as PlanKey]?.label ?? subscription.plan}
               </h2>
             </div>
@@ -384,7 +384,7 @@ export default function SubscriptionPage() {
               <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${
                 subscription.status === "active" ? "bg-[rgba(34,197,94,0.15)] text-[#4ade80] border border-[rgba(34,197,94,0.3)]"
                 : subscription.status === "past_due" ? "bg-[rgba(239,68,68,0.15)] text-[#f87171] border border-[rgba(239,68,68,0.3)]"
-                : "bg-[rgba(64,64,64,0.5)] text-[#9CA3AF] border border-[#2A2A2A]"
+                : "bg-[rgba(64,64,64,0.5)] text-muted-foreground border border-border"
               }`}>
                 {subscription.status === "past_due" ? "Past Due" : subscription.status}
               </span>
@@ -392,7 +392,7 @@ export default function SubscriptionPage() {
           </div>
           <CreditsDisplay />
           {subscription.renews_at && subscription.status === "active" && (
-            <p className="text-xs text-[#9CA3AF] mt-3">
+            <p className="text-xs text-muted-foreground mt-3">
               Renews {new Date(subscription.renews_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
             </p>
           )}
@@ -401,28 +401,28 @@ export default function SubscriptionPage() {
 
       {/* Page heading */}
       <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-2 mb-8">
-        <motion.p variants={fadeUp} className="text-xs font-sans uppercase tracking-widest text-[#FF5F15]">
+        <motion.p variants={fadeUp} className="text-xs font-sans uppercase tracking-widest text-primary">
           {subscription ? "Change Plan" : "Choose Your Plan"}
         </motion.p>
-        <motion.h1 variants={fadeUp} className="font-heading text-2xl md:text-3xl font-bold text-[#F9FAFB]">
+        <motion.h1 variants={fadeUp} className="font-heading text-2xl md:text-3xl font-bold text-foreground">
           {subscription ? "Upgrade, downgrade, or buy more credits." : "Clean edits. Fast delivery. Pick your pace."}
         </motion.h1>
       </motion.div>
 
       {/* Billing toggle */}
       <div className="flex items-center gap-3 mb-8">
-        <div className="inline-flex bg-[#2A2A2A] rounded-full p-1 gap-1">
+        <div className="inline-flex bg-border rounded-full p-1 gap-1">
           {(["monthly", "annual"] as BillingCycle[]).map((cycle) => (
             <button
               key={cycle}
               onClick={() => setBilling(cycle)}
               className={`relative px-5 py-2 rounded-full text-sm font-medium transition-all capitalize ${
-                billing === cycle ? "bg-[#FF5F15] text-[#121212]" : "text-[#9CA3AF] hover:text-[#F9FAFB]"
+                billing === cycle ? "bg-primary text-background" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {cycle}
               {cycle === "annual" && (
-                <span className="absolute -top-2 -right-2 bg-green-500 text-[#121212] text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+                <span className="absolute -top-2 -right-2 bg-green-500 text-background text-[9px] font-bold px-1.5 py-0.5 rounded-full">
                   20% OFF
                 </span>
               )}
@@ -430,7 +430,7 @@ export default function SubscriptionPage() {
           ))}
         </div>
         {billing === "annual" && (
-          <p className="text-xs text-[#9CA3AF]">Billed once yearly</p>
+          <p className="text-xs text-muted-foreground">Billed once yearly</p>
         )}
       </div>
 
@@ -448,29 +448,29 @@ export default function SubscriptionPage() {
               whileHover={{ y: -2 }}
               className={`relative p-6 rounded-2xl border flex flex-col transition-colors ${
                 isCurrent
-                  ? "bg-[#FF5F15]/5 border-[#FF5F15]/40"
+                  ? "bg-primary/5 border-primary/40"
                   : meta.popular
-                    ? "bg-[#404040] border-[#FF5F15]/20"
-                    : "bg-[#404040] border-[#2A2A2A] hover:border-[#FF5F15]/20"
+                    ? "bg-card border-primary/20"
+                    : "bg-card border-border hover:border-primary/20"
               }`}
             >
               {/* Badges */}
               <div className="flex items-center gap-2 absolute -top-3 left-4">
                 {isCurrent && (
-                  <span className="bg-[#FF5F15] text-[#121212] text-xs font-bold px-3 py-1 rounded-full">
+                  <span className="bg-primary text-background text-xs font-bold px-3 py-1 rounded-full">
                     Current Plan
                   </span>
                 )}
                 {meta.popular && !isCurrent && (
-                  <span className="bg-[#404040] border border-[#FF5F15]/30 text-[#FF5F15] text-xs font-bold px-3 py-1 rounded-full">
+                  <span className="bg-card border border-primary/30 text-primary text-xs font-bold px-3 py-1 rounded-full">
                     Most Popular
                   </span>
                 )}
               </div>
 
               <div className="mb-5 mt-2">
-                <h3 className="font-heading text-lg font-semibold text-[#F9FAFB] mb-0.5">{meta.label}</h3>
-                <p className="text-xs text-[#9CA3AF]">{meta.tagline}</p>
+                <h3 className="font-heading text-lg font-semibold text-foreground mb-0.5">{meta.label}</h3>
+                <p className="text-xs text-muted-foreground">{meta.tagline}</p>
 
                 <div className="flex items-baseline gap-1 mt-4">
                   <AnimatePresence mode="wait">
@@ -480,12 +480,12 @@ export default function SubscriptionPage() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 8 }}
                       transition={{ duration: 0.15 }}
-                      className="font-heading text-3xl font-bold text-[#FF5F15]"
+                      className="font-heading text-3xl font-bold text-primary"
                     >
                       {pricingLoading ? "—" : displayPrice(key)}
                     </motion.span>
                   </AnimatePresence>
-                  <span className="text-[#9CA3AF] text-sm">/mo</span>
+                  <span className="text-muted-foreground text-sm">/mo</span>
                   {billing === "annual" && !pricingLoading && (
                     <span className="text-xs text-green-400 font-medium ml-1">Save 20%</span>
                   )}
@@ -499,8 +499,8 @@ export default function SubscriptionPage() {
                 disabled={!canSubscribe(key) || !!loadingRzPlan}
                 className={`w-full py-2.5 rounded-lg text-sm font-semibold mb-5 flex items-center justify-center gap-2 transition-colors ${
                   isCurrent
-                    ? "bg-[#2A2A2A] text-[#9CA3AF] cursor-default"
-                    : "bg-[#FF5F15] text-[#121212] hover:bg-[#E54E08]"
+                    ? "bg-border text-muted-foreground cursor-default"
+                    : "bg-primary text-background hover:bg-primary-hover"
                 }`}
               >
                 {loadingRzPlan === key ? <Loader2 size={14} className="animate-spin" /> : null}
@@ -510,26 +510,26 @@ export default function SubscriptionPage() {
               <ul className="space-y-2 flex-1">
                 {meta.features.map((f) => (
                   <li key={f} className="flex items-start gap-2 text-sm">
-                    <Check size={14} className="text-[#FF5F15] mt-0.5 shrink-0" />
-                    <span className="text-[#F9FAFB]/80">{f}</span>
+                    <Check size={14} className="text-primary mt-0.5 shrink-0" />
+                    <span className="text-foreground/80">{f}</span>
                   </li>
                 ))}
               </ul>
 
               {/* Cancel option for current active plan */}
               {isCurrent && subscription?.status === "active" && subscription.gateway === "stripe" && (
-                <div className="mt-5 pt-4 border-t border-[#2A2A2A]">
+                <div className="mt-5 pt-4 border-t border-border">
                   <a href="https://billing.stripe.com" target="_blank" rel="noreferrer"
-                    className="flex items-center gap-1.5 text-xs text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors">
+                    className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
                     Manage billing <ExternalLink size={11} />
                   </a>
                 </div>
               )}
               {isCurrent && subscription?.status === "active" && subscription.gateway === "razorpay" && (
-                <div className="mt-5 pt-4 border-t border-[#2A2A2A]">
+                <div className="mt-5 pt-4 border-t border-border">
                   <button
                     onClick={() => setShowModal("cancel")}
-                    className="text-xs text-[#9CA3AF] hover:text-red-400 transition-colors"
+                    className="text-xs text-muted-foreground hover:text-red-400 transition-colors"
                   >
                     Cancel subscription
                   </button>
@@ -543,9 +543,9 @@ export default function SubscriptionPage() {
       {/* Credit packs */}
       <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-10">
         <div className="flex items-center gap-3 mb-4">
-          <Coins size={20} className="text-[#FF5F15]" />
-          <h2 className="font-heading text-lg font-semibold text-[#F9FAFB]">Buy More Credits</h2>
-          <p className="text-sm text-[#9CA3AF]">Top up anytime. No plan upgrade needed.</p>
+          <Coins size={20} className="text-primary" />
+          <h2 className="font-heading text-lg font-semibold text-foreground">Buy More Credits</h2>
+          <p className="text-sm text-muted-foreground">Top up anytime. No plan upgrade needed.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -558,24 +558,24 @@ export default function SubscriptionPage() {
                 : `$${pack.amount / 100}`
               : "—"
             return (
-            <div key={key} className="relative bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 hover:border-[#FF5F15]/30 transition-colors">
+            <div key={key} className="relative bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-colors">
               {tag && (
-                <span className="absolute -top-2.5 right-3 bg-green-500 text-[#121212] text-[9px] font-bold px-2 py-0.5 rounded-full">
+                <span className="absolute -top-2.5 right-3 bg-green-500 text-background text-[9px] font-bold px-2 py-0.5 rounded-full">
                   {tag}
                 </span>
               )}
               <div className="mb-4">
-                <p className="font-heading text-2xl font-bold text-[#FF5F15]">
+                <p className="font-heading text-2xl font-bold text-primary">
                   {priceLabel}
                 </p>
-                <p className="text-sm text-[#9CA3AF]">{pack ? `${credits} credits` : "—"}</p>
+                <p className="text-sm text-muted-foreground">{pack ? `${credits} credits` : "—"}</p>
               </div>
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => !subscription ? null : handleBuyCreditPack(key, credits)}
                 disabled={!subscription || !pack || loadingPack === key}
-                className="w-full border border-[#FF5F15]/40 text-[#FF5F15] font-semibold rounded-lg py-2 text-sm hover:bg-[#FF5F15]/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full border border-primary/40 text-primary font-semibold rounded-lg py-2 text-sm hover:bg-primary/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loadingPack === key ? <Loader2 size={14} className="animate-spin" /> : null}
                 {loadingPack === key ? "Processing…" : !subscription ? "Subscribe first" : "Buy Pack"}
@@ -584,13 +584,13 @@ export default function SubscriptionPage() {
             )
           })}
         </div>
-        <p className="text-xs text-[#9CA3AF] mt-3">Credits expire at subscription renewal (no rollover).</p>
+        <p className="text-xs text-muted-foreground mt-3">Credits expire at subscription renewal (no rollover).</p>
       </motion.div>
 
       {/* Payment modal overlay */}
       <AnimatePresence>
         {(showModal === "stripe" && selectedPlan) && (
-          <div className="fixed inset-0 bg-[#121212]/70 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-background/70 z-50 flex items-center justify-center p-4">
             <StripeModal
               plan={selectedPlan}
               billingCycle={billing}
@@ -600,7 +600,7 @@ export default function SubscriptionPage() {
           </div>
         )}
         {showModal === "cancel" && subscription && (
-          <div className="fixed inset-0 bg-[#121212]/70 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-background/70 z-50 flex items-center justify-center p-4">
             <CancelModal
               gateway={subscription.gateway}
               subId={subscription.gateway_subscription_id ?? ""}

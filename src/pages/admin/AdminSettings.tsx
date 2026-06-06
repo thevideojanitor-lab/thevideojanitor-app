@@ -64,9 +64,9 @@ function fmtRupees(paise: number) { return `₹${(paise / 100).toFixed(2)}` }
 
 function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <motion.div variants={fadeUp} className="bg-[#404040] border border-[#2A2A2A] rounded-xl overflow-hidden">
-      <div className="px-5 py-3.5 border-b border-[#2A2A2A]">
-        <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF]">{title}</p>
+    <motion.div variants={fadeUp} className="bg-card border border-border rounded-xl overflow-hidden">
+      <div className="px-5 py-3.5 border-b border-border">
+        <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground">{title}</p>
       </div>
       <div className="p-5 space-y-4">{children}</div>
     </motion.div>
@@ -88,15 +88,15 @@ function NumField({
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="text-xs text-[#9CA3AF] font-sans">{label}</label>
+      <label className="text-xs text-muted-foreground font-sans">{label}</label>
       <input
         type="number"
         value={value}
         min={min ?? 0}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-3 py-2 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30"
+        className="w-full bg-input border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
       />
-      {hint && <p className="text-[10px] text-[#9CA3AF]">{hint}</p>}
+      {hint && <p className="text-[10px] text-muted-foreground">{hint}</p>}
     </div>
   )
 }
@@ -117,10 +117,10 @@ function PlanRow({
   const fmt = currency === "USD" ? fmtDollars : fmtRupees
   const unit = currency === "USD" ? "cents" : "paise"
   return (
-    <div className="bg-[#2A2A2A] rounded-xl p-4 space-y-3">
+    <div className="bg-border rounded-xl p-4 space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-sm font-semibold text-[#F9FAFB]">{label}</p>
-        <span className="text-xs text-[#FF5F15] font-semibold">{fmt(config.amount)}/mo</span>
+        <p className="text-sm font-semibold text-foreground">{label}</p>
+        <span className="text-xs text-primary font-semibold">{fmt(config.amount)}/mo</span>
       </div>
       <div className="grid grid-cols-2 gap-3">
         <NumField
@@ -157,10 +157,10 @@ function PackRow({
   const fmt = currency === "USD" ? fmtDollars : fmtRupees
   const unit = currency === "USD" ? "cents" : "paise"
   return (
-    <div className="bg-[#2A2A2A] rounded-xl p-4 space-y-3">
+    <div className="bg-border rounded-xl p-4 space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-sm font-semibold text-[#F9FAFB]">{label}</p>
-        <span className="text-xs text-[#FF5F15] font-semibold">{fmt(config.amount)}</span>
+        <p className="text-sm font-semibold text-foreground">{label}</p>
+        <span className="text-xs text-primary font-semibold">{fmt(config.amount)}</span>
       </div>
       <div className="grid grid-cols-2 gap-3">
         <NumField
@@ -272,9 +272,9 @@ export default function AdminSettings() {
     return (
       <div className="space-y-4">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 animate-pulse space-y-3">
-            <div className="h-3 w-24 bg-[#2A2A2A] rounded" />
-            <div className="h-20 bg-[#2A2A2A] rounded-xl" />
+          <div key={i} className="bg-card border border-border rounded-xl p-5 animate-pulse space-y-3">
+            <div className="h-3 w-24 bg-border rounded" />
+            <div className="h-20 bg-border rounded-xl" />
           </div>
         ))}
       </div>
@@ -286,15 +286,15 @@ export default function AdminSettings() {
       {/* Header */}
       <motion.div variants={fadeUp} className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="font-heading text-xl font-bold text-[#F9FAFB]">Platform Settings</h2>
-          <p className="text-xs text-[#9CA3AF] mt-0.5">All values sourced from platform_config — never hardcoded</p>
+          <h2 className="font-heading text-xl font-bold text-foreground">Platform Settings</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">All values sourced from platform_config — never hardcoded</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           onClick={handleSave}
           disabled={saving || saved}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#FF5F15] text-[#121212] text-sm font-semibold rounded-lg hover:bg-[#E54E08] disabled:opacity-70 disabled:cursor-not-allowed transition-colors shrink-0"
+          className="flex items-center gap-2 px-5 py-2.5 bg-primary text-background text-sm font-semibold rounded-lg hover:bg-primary-hover disabled:opacity-70 disabled:cursor-not-allowed transition-colors shrink-0"
         >
           {saved ? <Check size={15} /> : saving ? <RefreshCw size={15} className="animate-spin" /> : <Save size={15} />}
           {saved ? "Saved!" : saving ? "Saving…" : "Save Changes"}
@@ -433,7 +433,7 @@ export default function AdminSettings() {
       </SectionCard>
 
       {/* Save reminder */}
-      <motion.div variants={fadeUp} className="text-[10px] text-[#9CA3AF] text-center">
+      <motion.div variants={fadeUp} className="text-[10px] text-muted-foreground text-center">
         Changes are saved to platform_config and the pricing cache is invalidated immediately.
         Clients will see new prices on next page load.
       </motion.div>

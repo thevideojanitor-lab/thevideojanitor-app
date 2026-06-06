@@ -54,10 +54,10 @@ const FAQ_SECTIONS: { title: string; items: FaqItem[] }[] = [
       {
         q: "What makes a good brief?",
         a: (
-          <div className="space-y-3 text-xs text-[#9CA3AF] leading-relaxed">
-            <p>A great brief answers: <strong className="text-[#F9FAFB]">What's the hook? What's the vibe? What does done look like?</strong></p>
-            <div className="bg-[#2A2A2A] rounded-lg p-3 space-y-1 font-mono text-[10px]">
-              <p className="text-[#FF5F15] font-semibold">Example Brief Template</p>
+          <div className="space-y-3 text-xs text-muted-foreground leading-relaxed">
+            <p>A great brief answers: <strong className="text-foreground">What's the hook? What's the vibe? What does done look like?</strong></p>
+            <div className="bg-border rounded-lg p-3 space-y-1 font-mono text-[10px]">
+              <p className="text-primary font-semibold">Example Brief Template</p>
               <p>Title: "Morning routine — get-ready-with-me"</p>
               <p>Vibe: High energy, trending audio, lots of cuts</p>
               <p>Hook: Start with the final look, jump back to morning chaos</p>
@@ -116,14 +116,14 @@ const FAQ_SECTIONS: { title: string; items: FaqItem[] }[] = [
 function AccordionItem({ q, a }: FaqItem) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="border-b border-[#2A2A2A] last:border-0">
+    <div className="border-b border-border last:border-0">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left hover:bg-[#4A4A4A]/40 transition-colors"
+        className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left hover:bg-surface-elevated/40 transition-colors"
       >
-        <span className="text-sm font-medium text-[#F9FAFB]">{q}</span>
+        <span className="text-sm font-medium text-foreground">{q}</span>
         <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }} className="shrink-0">
-          <ChevronDown size={15} className="text-[#9CA3AF]" />
+          <ChevronDown size={15} className="text-muted-foreground" />
         </motion.div>
       </button>
       <AnimatePresence initial={false}>
@@ -135,7 +135,7 @@ function AccordionItem({ q, a }: FaqItem) {
             transition={{ duration: 0.22, ease: "easeOut" }}
             className="overflow-hidden"
           >
-            <div className="px-5 pb-4 text-sm text-[#9CA3AF] leading-relaxed">{a}</div>
+            <div className="px-5 pb-4 text-sm text-muted-foreground leading-relaxed">{a}</div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -149,8 +149,8 @@ export default function HelpPage() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="max-w-2xl mx-auto space-y-6 pb-24 md:pb-6">
       <motion.div variants={fadeUp}>
-        <h2 className="font-heading text-xl font-bold text-[#F9FAFB]">Help Centre</h2>
-        <p className="text-xs text-[#9CA3AF] mt-0.5">Quick answers to the most common questions</p>
+        <h2 className="font-heading text-xl font-bold text-foreground">Help Centre</h2>
+        <p className="text-xs text-muted-foreground mt-0.5">Quick answers to the most common questions</p>
       </motion.div>
 
       {/* FAQ Sections */}
@@ -158,10 +158,10 @@ export default function HelpPage() {
         <motion.div
           key={section.title}
           variants={fadeUp}
-          className="bg-[#404040] border border-[#2A2A2A] rounded-xl overflow-hidden"
+          className="bg-card border border-border rounded-xl overflow-hidden"
         >
-          <div className="px-5 py-3.5 border-b border-[#2A2A2A]">
-            <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF]">{section.title}</p>
+          <div className="px-5 py-3.5 border-b border-border">
+            <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground">{section.title}</p>
           </div>
           {section.items.map((item) => (
             <AccordionItem key={item.q} {...item} />
@@ -172,32 +172,32 @@ export default function HelpPage() {
       {/* Contact card */}
       <motion.div
         variants={fadeUp}
-        className="bg-[#404040] border border-[#2A2A2A] rounded-xl p-5 space-y-4"
+        className="bg-card border border-border rounded-xl p-5 space-y-4"
       >
-        <p className="text-xs font-sans uppercase tracking-wider text-[#9CA3AF]">Still need help?</p>
+        <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground">Still need help?</p>
         <div className="grid sm:grid-cols-2 gap-3">
           <a
             href="mailto:support@thevideojanitor.com"
-            className="flex items-center gap-3 bg-[#2A2A2A] hover:bg-[#3A3A3A] border border-[#404040] rounded-xl p-4 transition-colors group"
+            className="flex items-center gap-3 bg-border hover:bg-border border border-card rounded-xl p-4 transition-colors group"
           >
-            <div className="w-9 h-9 rounded-lg bg-[#FF5F15]/10 border border-[#FF5F15]/20 flex items-center justify-center shrink-0">
-              <Mail size={16} className="text-[#FF5F15]" />
+            <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+              <Mail size={16} className="text-primary" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-[#F9FAFB] group-hover:text-[#FF5F15] transition-colors">Email Support</p>
-              <p className="text-[10px] text-[#9CA3AF]">support@thevideojanitor.com</p>
+              <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">Email Support</p>
+              <p className="text-[10px] text-muted-foreground">support@thevideojanitor.com</p>
             </div>
           </a>
           <a
             href="mailto:support@thevideojanitor.com?subject=Chat%20Request"
-            className="flex items-center gap-3 bg-[#2A2A2A] hover:bg-[#3A3A3A] border border-[#404040] rounded-xl p-4 transition-colors group"
+            className="flex items-center gap-3 bg-border hover:bg-border border border-card rounded-xl p-4 transition-colors group"
           >
-            <div className="w-9 h-9 rounded-lg bg-[#FF5F15]/10 border border-[#FF5F15]/20 flex items-center justify-center shrink-0">
-              <MessageSquare size={16} className="text-[#FF5F15]" />
+            <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+              <MessageSquare size={16} className="text-primary" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-[#F9FAFB] group-hover:text-[#FF5F15] transition-colors">Live Chat</p>
-              <p className="text-[10px] text-[#9CA3AF]">Typical reply in &lt; 2 hours</p>
+              <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">Live Chat</p>
+              <p className="text-[10px] text-muted-foreground">Typical reply in &lt; 2 hours</p>
             </div>
           </a>
         </div>

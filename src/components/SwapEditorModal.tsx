@@ -111,43 +111,43 @@ export default function SwapEditorModal({ request, onClose, onSwapped }: Props) 
           initial="hidden"
           animate="visible"
           exit="hidden"
-          className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl w-full max-w-sm p-5 space-y-4"
+          className="bg-input border border-border rounded-2xl w-full max-w-sm p-5 space-y-4"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ArrowLeftRight size={16} className="text-[#FF5F15]" />
-              <h2 className="font-heading text-base font-semibold text-[#F9FAFB]">Swap Editor</h2>
+              <ArrowLeftRight size={16} className="text-primary" />
+              <h2 className="font-heading text-base font-semibold text-foreground">Swap Editor</h2>
             </div>
             <button
               onClick={onClose}
-              className="w-7 h-7 rounded-lg bg-[#404040] flex items-center justify-center text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+              className="w-7 h-7 rounded-lg bg-card flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
             >
               <X size={14} />
             </button>
           </div>
 
-          <p className="text-xs text-[#9CA3AF]">
+          <p className="text-xs text-muted-foreground">
             We'll immediately find a different editor. No credits charged — your new editor gets a fresh 24-hour deadline.
           </p>
 
           <div className="space-y-2">
-            <p className="text-xs font-medium text-[#9CA3AF] uppercase tracking-wider">Why are you swapping?</p>
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Why are you swapping?</p>
             {SWAP_REASONS.map(({ key, label }) => (
               <label
                 key={key}
                 onClick={() => setReason(key)}
                 className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-colors ${
                   reason === key
-                    ? "border-[#FF5F15]/40 bg-[#FF5F15]/8"
-                    : "border-[#2A2A2A] hover:bg-[#404040]"
+                    ? "border-primary/40 bg-primary/8"
+                    : "border-border hover:bg-card"
                 }`}
               >
                 <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                  reason === key ? "border-[#FF5F15]" : "border-[#404040]"
+                  reason === key ? "border-primary" : "border-card"
                 }`}>
-                  {reason === key && <div className="w-2 h-2 rounded-full bg-[#FF5F15]" />}
+                  {reason === key && <div className="w-2 h-2 rounded-full bg-primary" />}
                 </div>
-                <span className="text-sm text-[#F9FAFB]">{label}</span>
+                <span className="text-sm text-foreground">{label}</span>
               </label>
             ))}
           </div>
@@ -163,7 +163,7 @@ export default function SwapEditorModal({ request, onClose, onSwapped }: Props) 
                 onChange={(e) => setOtherText(e.target.value)}
                 placeholder="Please describe the issue…"
                 rows={3}
-                className="w-full bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl px-3 py-2.5 text-sm text-[#F9FAFB] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#FF5F15] focus:ring-1 focus:ring-[#FF5F15]/30 resize-none transition-colors"
+                className="w-full bg-input border border-border rounded-xl px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 resize-none transition-colors"
               />
             )}
           </AnimatePresence>
@@ -171,7 +171,7 @@ export default function SwapEditorModal({ request, onClose, onSwapped }: Props) 
           <div className="flex gap-2">
             <button
               onClick={onClose}
-              className="flex-1 border border-[#404040] text-[#9CA3AF] text-sm rounded-xl py-2.5 hover:text-[#F9FAFB] transition-colors"
+              className="flex-1 border border-card text-muted-foreground text-sm rounded-xl py-2.5 hover:text-foreground transition-colors"
             >
               Cancel
             </button>
@@ -180,7 +180,7 @@ export default function SwapEditorModal({ request, onClose, onSwapped }: Props) 
               whileTap={{ scale: 0.97 }}
               onClick={handleSwap}
               disabled={!canConfirm || working}
-              className="flex-1 flex items-center justify-center gap-2 bg-[#FF5F15] text-[#121212] font-semibold text-sm rounded-xl py-2.5 hover:bg-[#E54E08] disabled:opacity-40 transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 bg-primary text-background font-semibold text-sm rounded-xl py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors"
             >
               {working ? <Loader2 size={14} className="animate-spin" /> : <ArrowLeftRight size={14} />}
               {working ? "Swapping…" : "Swap Editor"}
