@@ -3,6 +3,10 @@ import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Check, Coins, Info } from "lucide-react";
 import { Link } from "react-router-dom";
+import Section from "@/components/marketing/Section";
+import Reveal from "@/components/marketing/Reveal";
+import EditorialHeading from "@/components/marketing/EditorialHeading";
+import BentoCard from "@/components/marketing/BentoCard";
 
 const plans = [
   {
@@ -79,7 +83,7 @@ const plans = [
       "Account manager",
       "Rush turnaround priority",
     ],
-    addons: ["+ Team seats","+ Custom integrations"],
+    addons: ["+ Team seats", "+ Custom integrations"],
     popular: false,
     cta: "Start with Full Service",
   },
@@ -120,166 +124,158 @@ const PricingSection = () => {
   };
 
   return (
-    <section id="pricing" className="py-24 md:py-32">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
+    <Section id="pricing">
+      <Reveal className="text-center mb-12">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">Pricing</p>
+        <EditorialHeading as="h2">Simple plans. No surprises.</EditorialHeading>
+        <p className="text-muted-foreground max-w-xl mx-auto mt-5 mb-8">
+          Buy credits. Submit requests. Get polished edits back in 48 hours. Scale up or down anytime.
+        </p>
+
+        {/* Credit explainer button */}
+        <button
+          onClick={() => setShowCredits(!showCredits)}
+          className="inline-flex items-center gap-2 text-sm text-primary border border-primary/30 rounded-full px-4 py-2 hover:bg-primary/10 transition-colors mb-8"
         >
-          <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">Pricing</p>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">Simple plans. No surprises.</h2>
-          <p className="text-muted-foreground max-w-xl mx-auto mb-8">
-            Buy credits. Submit requests. Get polished edits back in 48 hours. Scale up or down anytime.
-          </p>
+          <Coins className="w-4 h-4" />
+          What is a credit?
+          <Info className="w-3.5 h-3.5" />
+        </button>
 
-          {/* Credit explainer button */}
-          <button
-            onClick={() => setShowCredits(!showCredits)}
-            className="inline-flex items-center gap-2 text-sm text-primary border border-primary/30 rounded-full px-4 py-2 hover:bg-primary/10 transition-colors mb-8"
+        {/* Credit Explainer */}
+        {showCredits && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-3xl mx-auto mb-10 bg-card border border-primary/20 rounded-card p-6 text-left shadow-lift"
           >
-            <Coins className="w-4 h-4" />
-            What is a credit?
-            <Info className="w-3.5 h-3.5" />
-          </button>
-
-          {/* Credit Explainer */}
-          {showCredits && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="max-w-3xl mx-auto mb-10 bg-card border border-primary/20 rounded-2xl p-6 text-left"
-            >
-              <h3 className="font-heading font-semibold mb-1">Credits = Your editing currency</h3>
-              <p className="text-sm text-muted-foreground mb-5">
-                1 credit ≠ 1 video. Credits reflect complexity. Here's how it works:
-              </p>
-              <div className="grid md:grid-cols-3 gap-4 mb-6">
-                {creditExplainer.map((item) => (
-                  <div key={item.type} className="bg-muted/50 rounded-xl p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-semibold text-sm">{item.type}</span>
-                      <span className="text-primary font-bold text-sm">{item.credits} credits</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground">{item.includes}</p>
+            <h3 className="font-heading font-semibold mb-1">Credits = Your editing currency</h3>
+            <p className="text-sm text-muted-foreground mb-5">
+              1 credit ≠ 1 video. Credits reflect complexity. Here's how it works:
+            </p>
+            <div className="grid md:grid-cols-3 gap-4 mb-6">
+              {creditExplainer.map((item) => (
+                <div key={item.type} className="bg-surface-elevated rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-semibold text-sm">{item.type}</span>
+                    <span className="text-primary font-bold text-sm">{item.credits} credits</span>
                   </div>
+                  <p className="text-xs text-muted-foreground">{item.includes}</p>
+                </div>
+              ))}
+            </div>
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-3">Add-ons (extra credits)</p>
+              <div className="flex flex-wrap gap-2">
+                {addons.map((addon) => (
+                  <span key={addon.name} className="text-xs bg-card border border-border rounded-full px-3 py-1.5">
+                    {addon.name}: <span className="text-primary font-medium">{addon.credits}</span>
+                  </span>
                 ))}
               </div>
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-3">Add-ons (extra credits)</p>
-                <div className="flex flex-wrap gap-2">
-                  {addons.map((addon) => (
-                    <span key={addon.name} className="text-xs bg-card border border-border rounded-full px-3 py-1.5">
-                      {addon.name}: <span className="text-primary font-medium">{addon.credits}</span>
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
+            </div>
+          </motion.div>
+        )}
 
-          {/* Billing Toggle */}
-          <div className="inline-flex bg-muted rounded-full p-1 gap-1">
-            {(["monthly", "quarterly", "annual"] as BillingCycle[]).map((cycle) => (
-              <button
-                key={cycle}
-                onClick={() => setBilling(cycle)}
-                className={`relative px-5 py-2 rounded-full text-sm font-medium transition-all capitalize ${
-                  billing === cycle ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {cycle}
-                {cycle !== "monthly" && (
-                  <span className="absolute -top-2 -right-2 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">
-                    SAVE
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Plan Cards */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
-          {plans.map((plan, i) => (
-            <motion.div
-              key={plan.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`relative p-8 rounded-2xl border flex flex-col transition-colors ${
-                plan.popular
-                  ? "bg-card border-primary card-shadow"
-                  : "bg-card border-border hover:border-primary/30"
+        {/* Billing Toggle */}
+        <div className="inline-flex bg-surface-elevated rounded-full p-1 gap-1">
+          {(["monthly", "quarterly", "annual"] as BillingCycle[]).map((cycle) => (
+            <button
+              key={cycle}
+              onClick={() => setBilling(cycle)}
+              className={`relative px-5 py-2 rounded-full text-sm font-medium transition-all capitalize ${
+                billing === cycle ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              {plan.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-4 py-1 rounded-full">
-                  Most Popular
-                </div>
+              {cycle}
+              {cycle !== "monthly" && (
+                <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+                  SAVE
+                </span>
               )}
-
-              <div className="mb-6">
-                <h3 className="font-heading text-xl font-semibold mb-1">{plan.name}</h3>
-                <p className="text-xs text-muted-foreground mb-4">{plan.tagline}</p>
-
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="font-heading text-4xl font-bold">${getPrice(plan)}</span>
-                  <span className="text-muted-foreground text-sm">/mo</span>
-                  {billing !== "monthly" && (
-                    <span className="text-xs text-green-500 font-medium ml-1">Save {getSavings(plan)}%</span>
-                  )}
-                </div>
-
-                <div className="flex flex-wrap gap-2 text-xs text-muted-foreground mb-1">
-                  <span className="bg-primary/10 text-primary font-semibold px-2.5 py-1 rounded-full">
-                    {plan.credits} credits/mo
-                  </span>
-                  <span className="bg-muted px-2.5 py-1 rounded-full">
-                    {plan.activeRequests} active request{plan.activeRequests > 1 ? "s" : ""}
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">Best for: {plan.bestFor}</p>
-              </div>
-
-              <Link to="/contact" className="mb-6">
-                <Button variant={plan.popular ? "hero" : "hero-outline"} className="w-full">
-                  {plan.cta}
-                </Button>
-              </Link>
-
-              <ul className="space-y-2.5 flex-1">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-sm">
-                    <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                    <span className="text-text-secondary">{f}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {plan.addons.length > 0 && (
-                <div className="mt-6 pt-6 border-t border-border">
-                  <p className="text-xs font-medium text-muted-foreground mb-2">Available add-ons:</p>
-                  <ul className="space-y-1.5">
-                    {plan.addons.map((a) => (
-                      <li key={a} className="text-xs text-muted-foreground">{a}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </motion.div>
+            </button>
           ))}
         </div>
+      </Reveal>
 
-        {/* Credit Recharge Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="max-w-3xl mx-auto bg-card border border-border rounded-2xl p-6 text-center"
-        >
+      {/* Plan Cards */}
+      <div className="grid md:grid-cols-3 gap-4 max-w-6xl mx-auto mb-12">
+        {plans.map((plan, i) => {
+          const ink = plan.popular;
+          const mutedText = ink ? "text-background/70" : "text-muted-foreground";
+          const subtleText = ink ? "text-background/60" : "text-muted-foreground";
+          const pill = ink ? "bg-background/10" : "bg-surface-elevated";
+          return (
+            <Reveal key={plan.name} delay={i * 0.06}>
+              <BentoCard
+                variant={ink ? "ink" : "default"}
+                className="relative p-8 flex flex-col h-full"
+              >
+                {ink && (
+                  <div className="absolute -top-3 left-8 bg-primary text-primary-foreground text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                    Most popular
+                  </div>
+                )}
+
+                <div className="mb-6">
+                  <h3 className="font-heading text-xl font-semibold mb-1">{plan.name}</h3>
+                  <p className={`text-xs mb-4 ${subtleText}`}>{plan.tagline}</p>
+
+                  <div className="flex items-baseline gap-1 mb-2">
+                    <span className={`font-heading text-5xl font-bold ${ink ? "text-primary" : "text-foreground"}`}>
+                      ${getPrice(plan)}
+                    </span>
+                    <span className={`text-sm ${mutedText}`}>/mo</span>
+                    {billing !== "monthly" && (
+                      <span className="text-xs text-primary font-medium ml-1">Save {getSavings(plan)}%</span>
+                    )}
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 text-xs mb-1">
+                    <span className="bg-primary/10 text-primary font-semibold px-2.5 py-1 rounded-full">
+                      {plan.credits} credits/mo
+                    </span>
+                    <span className={`px-2.5 py-1 rounded-full ${pill} ${mutedText}`}>
+                      {plan.activeRequests} active request{plan.activeRequests > 1 ? "s" : ""}
+                    </span>
+                  </div>
+                  <p className={`text-xs mt-2 ${mutedText}`}>Best for: {plan.bestFor}</p>
+                </div>
+
+                <Link to="/contact" className="mb-6">
+                  <Button variant={plan.popular ? "hero" : "hero-outline"} className="w-full">
+                    {plan.cta}
+                  </Button>
+                </Link>
+
+                <ul className="space-y-2.5 flex-1">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5 text-sm">
+                      <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                      <span className={ink ? "text-background/80" : "text-muted-foreground"}>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {plan.addons.length > 0 && (
+                  <div className={`mt-6 pt-6 border-t ${ink ? "border-background/15" : "border-border"}`}>
+                    <p className={`text-xs font-medium mb-2 ${mutedText}`}>Available add-ons:</p>
+                    <ul className="space-y-1.5">
+                      {plan.addons.map((a) => (
+                        <li key={a} className={`text-xs ${mutedText}`}>{a}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </BentoCard>
+            </Reveal>
+          );
+        })}
+      </div>
+
+      {/* Credit Recharge Banner */}
+      <Reveal className="max-w-3xl mx-auto">
+        <BentoCard className="p-6 text-center">
           <Coins className="w-8 h-8 text-primary mx-auto mb-3" />
           <h3 className="font-heading font-semibold mb-2">Need more credits mid-month?</h3>
           <p className="text-sm text-muted-foreground mb-4">
@@ -291,16 +287,16 @@ const PricingSection = () => {
               { credits: "250 credits", price: "$70" },
               { credits: "500 credits", price: "$130" },
             ].map(({ credits, price }) => (
-              <div key={credits} className="bg-muted rounded-xl px-4 py-2 text-sm">
+              <div key={credits} className="bg-surface-elevated rounded-xl px-4 py-2 text-sm">
                 <span className="font-semibold text-primary">{credits}</span>
                 <span className="text-muted-foreground ml-2">→ {price}</span>
               </div>
             ))}
           </div>
           <p className="text-xs text-muted-foreground mt-3">Credits roll over while your subscription remains active</p>
-        </motion.div>
-      </div>
-    </section>
+        </BentoCard>
+      </Reveal>
+    </Section>
   );
 };
 
