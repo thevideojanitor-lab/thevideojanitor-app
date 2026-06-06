@@ -1,44 +1,36 @@
-﻿// src/pages/ShowcasePage.tsx
+// src/pages/ShowcasePage.tsx
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ShowcaseSection from "@/components/ShowcaseSection";
 import SEO from "@/components/SEO";
-import { motion } from "motion/react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowUpRight, Play, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Section from "@/components/marketing/Section";
+import Reveal from "@/components/marketing/Reveal";
+import EditorialHeading from "@/components/marketing/EditorialHeading";
+import BentoCard from "@/components/marketing/BentoCard";
 
 const categories = [
-  {
-    label: "Talking Head",
-    desc: "Podcast clips, interview cuts, direct-to-camera content",
-    count: "Most requested",
-  },
-  {
-    label: "Product Demo",
-    desc: "E-commerce, app demos, feature walkthroughs",
-    count: "High converting",
-  },
-  {
-    label: "Podcast Clips",
-    desc: "Long-form to short-form repurposing",
-    count: "Best for growth",
-  },
-  {
-    label: "UGC Ads",
-    desc: "User-generated content polished into ad-ready assets",
-    count: "Performance focus",
-  },
-  {
-    label: "Brand Content",
-    desc: "Promotional, announcements, campaign videos",
-    count: "Agency favourite",
-  },
-  {
-    label: "Motion Graphics",
-    desc: "Animated text, transitions, branded elements",
-    count: "Premium tier",
-  },
+  { label: "Talking Head", desc: "Podcast clips, interview cuts, direct-to-camera content", count: "Most requested" },
+  { label: "Product Demo", desc: "E-commerce, app demos, feature walkthroughs", count: "High converting" },
+  { label: "Podcast Clips", desc: "Long-form to short-form repurposing", count: "Best for growth" },
+  { label: "UGC Ads", desc: "User-generated content polished into ad-ready assets", count: "Performance focus" },
+  { label: "Brand Content", desc: "Promotional, announcements, campaign videos", count: "Agency favourite" },
+  { label: "Motion Graphics", desc: "Animated text, transitions, branded elements", count: "Premium tier" },
+];
+
+const included = [
+  "Jump cuts and pacing optimization",
+  "Hook emphasis and structure",
+  "Captions / subtitles (standard)",
+  "Color correction and grading",
+  "Music and sound polish",
+  "B-roll insertion",
+  "Platform-specific formatting",
+  "Trending effects (on request)",
+  "Basic transitions",
+  "Export in correct aspect ratio",
 ];
 
 const platforms = [
@@ -63,214 +55,130 @@ const ShowcasePage = () => {
         <Navbar />
 
         {/* Hero */}
-        <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
-          <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-sm font-medium uppercase tracking-widest text-primary mb-4"
-            >
-              Showcase
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
-            >
-              Raw footage in.{" "}
-              <span className="text-primary">Polished reels out.</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
-            >
-              See the difference our editors make. Toggle between before and after
-              to see exactly what we deliver — across every content type.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
-              <Link to="/pricing">
-                <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                  Get Started <ArrowRight className="w-5 h-5 ml-1" />
-                </Button>
-              </Link>
-              <Link to="/how-it-works">
-                <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
-                  How It Works
-                </Button>
-              </Link>
-            </motion.div>
+        <section className="halo relative px-4 pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden">
+          <div className="relative z-10 max-w-4xl mx-auto w-full text-center">
+            <Reveal>
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">Showcase</p>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <EditorialHeading as="h1">
+                Raw footage in. <span className="text-primary">Polished reels out.</span>
+              </EditorialHeading>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mt-8">
+                See the difference our editors make. Toggle between before and after to see exactly what we deliver — across every content type.
+              </p>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <div className="mt-9 flex flex-col sm:flex-row gap-3 justify-center">
+                <Link to="/pricing">
+                  <Button variant="hero" size="lg" className="text-base px-7 py-6 w-full sm:w-auto">
+                    Get Started <ArrowUpRight className="w-5 h-5 ml-1" />
+                  </Button>
+                </Link>
+                <Link to="/how-it-works">
+                  <Button variant="hero-outline" size="lg" className="text-base px-7 py-6 w-full sm:w-auto">
+                    How It Works
+                  </Button>
+                </Link>
+              </div>
+            </Reveal>
           </div>
         </section>
 
-        {/* Showcase Section (reuse existing component) */}
+        {/* Before/After (reuse existing editorial component) */}
         <ShowcaseSection />
 
         {/* Content Categories */}
-        <section className="py-24 md:py-32">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">
-                Content Types
-              </p>
-              <h2 className="font-heading text-3xl md:text-4xl font-bold">
-                Every format. Every niche.
-              </h2>
-            </motion.div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {categories.map((cat, i) => (
-                <motion.div
-                  key={cat.label}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="p-6 rounded-2xl bg-card border border-border hover:border-primary/30 transition-colors"
-                >
+        <Section>
+          <Reveal className="text-center mb-14">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">Content types</p>
+            <EditorialHeading as="h2">Every format. Every niche.</EditorialHeading>
+          </Reveal>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+            {categories.map((cat, i) => (
+              <Reveal key={cat.label} delay={i * 0.06}>
+                <BentoCard className="p-6 h-full">
                   <div className="flex items-start justify-between mb-3">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-card bg-primary/10 flex items-center justify-center">
                       <Play className="w-5 h-5 text-primary" />
                     </div>
                     <span className="text-[11px] bg-primary/10 text-primary font-medium px-2.5 py-1 rounded-full">
                       {cat.count}
                     </span>
                   </div>
-                  <h3 className="font-heading font-semibold mb-2">{cat.label}</h3>
+                  <h3 className="font-heading font-semibold mb-2 text-foreground">{cat.label}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{cat.desc}</p>
-                </motion.div>
-              ))}
-            </div>
+                </BentoCard>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </Section>
 
-        {/* What's Included in Every Edit */}
-        <section className="py-24 md:py-32 bg-card/30">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">
-                What's Included
-              </p>
-              <h2 className="font-heading text-3xl md:text-4xl font-bold">
-                Standard in every edit.
-              </h2>
-            </motion.div>
-
-            <div className="max-w-3xl mx-auto grid sm:grid-cols-2 gap-3">
-              {[
-                "Jump cuts and pacing optimization",
-                "Hook emphasis and structure",
-                "Captions / subtitles (standard)",
-                "Color correction and grading",
-                "Music and sound polish",
-                "B-roll insertion",
-                "Platform-specific formatting",
-                "Trending effects (on request)",
-                "Basic transitions",
-                "Export in correct aspect ratio",
-              ].map((item, i) => (
-                <motion.div
-                  key={item}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
-                  className="flex items-center gap-3 p-4 bg-card border border-border rounded-xl"
-                >
+        {/* What's Included */}
+        <Section tone="sand">
+          <Reveal className="text-center mb-14">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">What's included</p>
+            <EditorialHeading as="h2">Standard in every edit.</EditorialHeading>
+          </Reveal>
+          <div className="max-w-3xl mx-auto grid sm:grid-cols-2 gap-3">
+            {included.map((item, i) => (
+              <Reveal key={item} delay={i * 0.04}>
+                <BentoCard className="flex items-center gap-3 p-4">
                   <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <span className="text-primary text-xs font-bold">✓</span>
+                    <Check className="w-3.5 h-3.5 text-primary" />
                   </div>
-                  <span className="text-sm font-medium">{item}</span>
-                </motion.div>
-              ))}
-            </div>
+                  <span className="text-sm font-medium text-foreground">{item}</span>
+                </BentoCard>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </Section>
 
         {/* Platform Specs */}
-        <section className="py-24 md:py-32">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">
-                Platform Optimization
-              </p>
-              <h2 className="font-heading text-3xl md:text-4xl font-bold">
-                Formatted for every platform.
-              </h2>
-            </motion.div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-              {platforms.map((p, i) => (
-                <motion.div
-                  key={p.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="p-5 rounded-xl bg-card border border-border flex items-center justify-between"
-                >
+        <Section>
+          <Reveal className="text-center mb-14">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">Platform optimization</p>
+            <EditorialHeading as="h2">Formatted for every platform.</EditorialHeading>
+          </Reveal>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            {platforms.map((p, i) => (
+              <Reveal key={p.name} delay={i * 0.06}>
+                <BentoCard className="p-5 flex items-center justify-between h-full">
                   <div>
-                    <p className="font-heading font-semibold text-sm">{p.name}</p>
+                    <p className="font-heading font-semibold text-sm text-foreground">{p.name}</p>
                     <p className="text-xs text-muted-foreground mt-1">Best: {p.best}</p>
                   </div>
-                  <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">
-                    {p.ratio}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
+                  <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">{p.ratio}</span>
+                </BentoCard>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </Section>
 
         {/* CTA */}
-        <section className="py-24 md:py-32 bg-card/30">
-          <div className="container mx-auto px-4 text-center max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
-                Ready for content that{" "}
-                <span className="text-primary">actually looks this good?</span>
-              </h2>
-              <p className="text-lg text-muted-foreground mb-10">
+        <section className="px-4 py-20 md:py-28">
+          <Reveal className="max-w-6xl mx-auto">
+            <BentoCard variant="primary" className="px-6 py-20 text-center rounded-[2.5rem]">
+              <EditorialHeading as="h2" className="text-4xl md:text-6xl">
+                Ready for content that actually looks this good?
+              </EditorialHeading>
+              <p className="text-primary-foreground/85 text-lg max-w-md mx-auto mt-6">
                 Subscribe to a plan. Submit your footage. Get polished content back in 48 hours.
               </p>
-              <Link to="/pricing">
-                <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                  View Plans <ArrowRight className="w-5 h-5 ml-1" />
-                </Button>
-              </Link>
-              <p className="text-xs text-muted-foreground mt-4">
+              <div className="mt-9">
+                <Link to="/pricing">
+                  <Button size="lg" className="bg-background text-foreground hover:bg-foreground hover:text-background text-base px-8 py-6">
+                    View Plans <ArrowUpRight className="w-5 h-5 ml-1" />
+                  </Button>
+                </Link>
+              </div>
+              <p className="text-xs text-primary-foreground/70 mt-8">
                 No contracts · Cancel anytime · Credits roll over while subscribed
               </p>
-            </motion.div>
-          </div>
+            </BentoCard>
+          </Reveal>
         </section>
 
         <Footer />
