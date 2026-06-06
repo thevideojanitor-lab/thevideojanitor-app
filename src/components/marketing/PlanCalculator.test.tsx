@@ -47,4 +47,12 @@ describe("PlanCalculator", () => {
     renderCalc()
     expect(screen.getByText(/pricing unavailable/i)).toBeTruthy()
   })
+
+  it("does not crash when config is present but unseeded/malformed", () => {
+    // pricingStore.fetch sets a config object even when platform_config has no
+    // rows -> { plans: undefined, editCosts: undefined }. Must fall back, not throw.
+    usePricingStore.setState({ config: {} as never, loading: false })
+    renderCalc()
+    expect(screen.getByText(/pricing unavailable/i)).toBeTruthy()
+  })
 })

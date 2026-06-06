@@ -78,7 +78,9 @@ export default function PlanCalculator() {
       )
     }
 
-    if (!config) {
+    // `fetch` can set a config object whose fields are undefined when the
+    // platform_config table has no matching rows — treat that as unavailable.
+    if (!config || !config.editCosts || !config.plans) {
       return (
         <BentoCard className="p-6 md:p-8">
           <p className="font-heading text-xl font-semibold text-foreground">
