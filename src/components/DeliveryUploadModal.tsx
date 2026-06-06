@@ -267,7 +267,7 @@ export default function DeliveryUploadModal({ request, onClose, onDelivered }: P
                   whileTap={{ scale: 0.97 }}
                   onClick={handleUpload}
                   disabled={!file || uploading}
-                  className="w-full bg-editor-accent text-white font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 hover:bg-[#2563EB] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="w-full bg-editor-accent text-white font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 hover:bg-editor-accent/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {uploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
                   {uploading ? "Uploading…" : "Upload & Deliver"}
@@ -323,7 +323,7 @@ export default function DeliveryUploadModal({ request, onClose, onDelivered }: P
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={onDelivered}
-                  className="w-full bg-editor-accent text-white font-semibold rounded-lg py-3 text-sm hover:bg-[#2563EB] transition-colors"
+                  className="w-full bg-editor-accent text-white font-semibold rounded-lg py-3 text-sm hover:bg-editor-accent/90 transition-colors"
                 >
                   Back to Queue
                 </motion.button>

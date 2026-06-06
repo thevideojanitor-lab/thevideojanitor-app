@@ -121,7 +121,7 @@ export default function EditorPayouts() {
             isSetup ? "bg-[rgba(34,197,94,0.15)]" : "bg-primary/10"
           }`}>
             {isSetup
-              ? <CheckCircle size={18} className="text-[#4ade80]" />
+              ? <CheckCircle size={18} className="text-success" />
               : <Wallet size={18} className="text-primary" />
             }
           </div>
@@ -245,7 +245,7 @@ export default function EditorPayouts() {
                     <td className="px-5 py-3">
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
                         p.status === "paid"
-                          ? "text-[#4ade80] bg-[rgba(34,197,94,0.1)] border-[rgba(34,197,94,0.3)]"
+                          ? "text-success bg-[rgba(34,197,94,0.1)] border-[rgba(34,197,94,0.3)]"
                           : p.status === "failed"
                           ? "text-red-400 bg-red-500/10 border-red-500/20"
                           : "text-muted-foreground bg-card/50 border-border"

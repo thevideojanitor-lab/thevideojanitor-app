@@ -109,7 +109,7 @@ export default function EditorPayoutsConnect() {
         className="max-w-md mx-auto pt-12 space-y-6 text-center"
       >
         <motion.div variants={fadeUp} className="w-16 h-16 mx-auto rounded-2xl bg-[rgba(34,197,94,0.15)] border border-[rgba(34,197,94,0.3)] flex items-center justify-center">
-          <CheckCircle size={32} className="text-[#4ade80]" />
+          <CheckCircle size={32} className="text-success" />
         </motion.div>
         <motion.div variants={fadeUp}>
           <h2 className="font-heading text-2xl font-bold text-foreground mb-2">Bank account connected</h2>

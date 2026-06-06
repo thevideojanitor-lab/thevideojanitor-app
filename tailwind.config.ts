@@ -58,6 +58,11 @@ export default {
         "text-muted": "hsl(var(--text-muted))",
         "text-secondary": "hsl(var(--text-secondary))",
         "editor-accent": "hsl(var(--editor-accent))",
+        // Semantic status text colors — theme-aware via per-theme status fg vars.
+        success: "var(--status-approved-fg)",
+        info: "var(--status-delivered-fg)",
+        warning: "var(--status-in_revision-fg)",
+        danger: "var(--status-overdue-fg)",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

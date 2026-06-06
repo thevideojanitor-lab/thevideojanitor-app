@@ -224,7 +224,7 @@ export default function AdminPayouts() {
                     <td className="px-4 py-3 text-xs text-muted-foreground">{row.currency}</td>
                     <td className="px-4 py-3 text-xs text-muted-foreground">{row.payout_method ?? "—"}</td>
                     <td className="px-4 py-3">
-                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${row.status === "paid" ? "text-[#4ade80] bg-[rgba(34,197,94,0.1)] border-[rgba(34,197,94,0.3)]" : row.status === "failed" ? "text-red-400 bg-red-500/10 border-red-500/20" : "text-muted-foreground bg-card/50 border-border"}`}>{row.status}</span>
+                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${row.status === "paid" ? "text-success bg-[rgba(34,197,94,0.1)] border-[rgba(34,197,94,0.3)]" : row.status === "failed" ? "text-red-400 bg-red-500/10 border-red-500/20" : "text-muted-foreground bg-card/50 border-border"}`}>{row.status}</span>
                     </td>
                     <td className="px-4 py-3">
                       {row.status === "pending" && (

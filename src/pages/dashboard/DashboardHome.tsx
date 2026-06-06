@@ -114,7 +114,7 @@ function RequestCard({ req, onSwap }: { req: Request; onSwap: (r: Request) => vo
 
       {/* Delivered CTA */}
       {isDelivered && (
-        <div className="bg-[rgba(59,130,246,0.10)] border border-[rgba(59,130,246,0.2)] rounded-lg px-3 py-2 mb-3 text-xs font-medium text-[#60a5fa]">
+        <div className="bg-[rgba(59,130,246,0.10)] border border-[rgba(59,130,246,0.2)] rounded-lg px-3 py-2 mb-3 text-xs font-medium text-info">
           Your edit is ready! Review and approve below.
         </div>
       )}
@@ -399,7 +399,7 @@ export default function DashboardHome() {
           <motion.div variants={fadeUp} initial="hidden" animate="visible">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-sm font-semibold text-foreground">Action Needed</span>
-              <span className="text-xs bg-[rgba(59,130,246,0.15)] text-[#60a5fa] border border-[rgba(59,130,246,0.3)] rounded-full px-2 py-0.5 animate-pulse">
+              <span className="text-xs bg-[rgba(59,130,246,0.15)] text-info border border-[rgba(59,130,246,0.3)] rounded-full px-2 py-0.5 animate-pulse">
                 {delivered.length} edit{delivered.length > 1 ? "s" : ""} ready
               </span>
             </div>

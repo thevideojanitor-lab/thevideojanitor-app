@@ -524,7 +524,7 @@ export default function ReviewPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-[rgba(34,197,94,0.08)] border border-[rgba(34,197,94,0.2)] rounded-xl p-4 text-center"
               >
-                <p className="text-sm font-medium text-[#4ade80]">Rating submitted — thanks!</p>
+                <p className="text-sm font-medium text-success">Rating submitted — thanks!</p>
               </motion.div>
             )}
 
@@ -758,7 +758,7 @@ export default function ReviewPage() {
 
                   {/* ── Swap success banner ── */}
                   {swapSuccess && (
-                    <div className="text-xs text-[#4ade80] bg-[rgba(34,197,94,0.08)] border border-[rgba(34,197,94,0.2)] rounded-lg px-3 py-2.5">
+                    <div className="text-xs text-success bg-[rgba(34,197,94,0.08)] border border-[rgba(34,197,94,0.2)] rounded-lg px-3 py-2.5">
                       {swapSuccess}
                     </div>
                   )}

@@ -145,7 +145,7 @@ export default function AdminClients() {
     { id: "created_at", header: "Since", accessorKey: "created_at", cell: (i) => <span className="text-xs text-muted-foreground">{new Date(i.getValue() as string).toLocaleDateString()}</span> },
     { id: "sub_status", header: "Status", accessorKey: "sub_status", cell: (i) => {
       const v = i.getValue() as string | null
-      return <span className={`text-xs font-medium ${v === "active" ? "text-[#4ade80]" : v === "cancelled" ? "text-red-400" : "text-muted-foreground"}`}>{v ?? "—"}</span>
+      return <span className={`text-xs font-medium ${v === "active" ? "text-success" : v === "cancelled" ? "text-red-400" : "text-muted-foreground"}`}>{v ?? "—"}</span>
     }},
     { id: "actions", header: "", enableSorting: false, cell: (i) => <RowMenu client={i.row.original} onAction={handleAction} /> },
   ], [])

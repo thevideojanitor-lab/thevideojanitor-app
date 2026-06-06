@@ -16,6 +16,12 @@ const MAP = {
   "4A4A4A": "surface-elevated",
   "3A3A3A": "border",
   "3B82F6": "editor-accent",
+  // semantic status text colors (theme-aware tokens)
+  "4ade80": "success",
+  "60a5fa": "info",
+  facc15: "warning",
+  f87171: "danger",
+  "2563EB": "editor-accent/90",
 };
 
 const PREFIX =

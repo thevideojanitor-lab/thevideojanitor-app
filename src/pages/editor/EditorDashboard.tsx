@@ -239,7 +239,7 @@ function QueueCard({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => onUpload(req)}
-            className="flex-1 flex items-center justify-center gap-1.5 bg-editor-accent text-foreground text-xs font-semibold rounded-lg py-2.5 hover:bg-[#2563EB] transition-colors"
+            className="flex-1 flex items-center justify-center gap-1.5 bg-editor-accent text-foreground text-xs font-semibold rounded-lg py-2.5 hover:bg-editor-accent/90 transition-colors"
           >
             <Upload size={13} />
             {req.status === "in_revision" ? "Upload Revision" : "Upload Edit"}

@@ -88,16 +88,16 @@ export default function StatusTimeline({ currentStatus, submittedAt, deliveredAt
 
             <div className="pb-5 min-w-0">
               <p className={`text-xs font-medium leading-5 ${
-                isCurrent ? "text-primary" : isPast && !isCurrent ? "text-[#4ade80]" : "text-muted-foreground"
+                isCurrent ? "text-primary" : isPast && !isCurrent ? "text-success" : "text-muted-foreground"
               }`}>
                 {step.label}
                 {step.status === "delivered" && isRevision && revisionRound && (
-                  <span className="ml-2 text-[#facc15] text-[10px]">
+                  <span className="ml-2 text-warning text-[10px]">
                     · Revision {revisionRound} of 3
                   </span>
                 )}
                 {step.status === "delivered" && isRevision && !revisionRound && (
-                  <span className="ml-2 text-[#facc15] text-[10px]">· Revision requested</span>
+                  <span className="ml-2 text-warning text-[10px]">· Revision requested</span>
                 )}
               </p>
               {timestamp && (

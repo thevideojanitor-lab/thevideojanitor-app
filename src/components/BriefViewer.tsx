@@ -13,7 +13,7 @@ const VIBE_COLORS: Record<string, string> = {
   calm: "bg-editor-accent/15 text-editor-accent border-editor-accent/30",
   funny: "bg-yellow-500/15 text-yellow-400 border-yellow-500/30",
   professional: "bg-muted-foreground/15 text-muted-foreground border-border",
-  emotional: "bg-[rgba(59,130,246,0.15)] text-[#60a5fa] border-[rgba(59,130,246,0.3)]",
+  emotional: "bg-[rgba(59,130,246,0.15)] text-info border-[rgba(59,130,246,0.3)]",
   inspirational: "bg-green-500/15 text-green-400 border-green-500/30",
 }
 
@@ -163,7 +163,7 @@ export default function BriefViewer({ request, onClose }: Props) {
                   href={request.footage_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 bg-editor-accent text-foreground text-sm font-semibold rounded-lg py-2.5 hover:bg-[#2563EB] transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 bg-editor-accent text-foreground text-sm font-semibold rounded-lg py-2.5 hover:bg-editor-accent/90 transition-colors"
                 >
                   <Download size={15} />
                   Download Footage

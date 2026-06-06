@@ -203,7 +203,7 @@ export default function EditorProfile() {
                   ? "text-yellow-400"
                   : bioLen > 300
                   ? "text-red-400"
-                  : "text-[#4ade80]"
+                  : "text-success"
               }`}
             >
               {bioLen} / 300

@@ -360,8 +360,8 @@ export default function SubscriptionPage() {
             className="mb-6 flex items-center justify-between gap-3 bg-[rgba(34,197,94,0.10)] border border-[rgba(34,197,94,0.3)] rounded-xl p-4"
           >
             <div className="flex items-center gap-3">
-              <Check size={18} className="text-[#4ade80] shrink-0" />
-              <p className="text-sm font-medium text-[#4ade80]">Subscription activated! Your credits are ready.</p>
+              <Check size={18} className="text-success shrink-0" />
+              <p className="text-sm font-medium text-success">Subscription activated! Your credits are ready.</p>
             </div>
             <button onClick={() => setShowSuccess(false)} className="text-muted-foreground hover:text-foreground">
               <X size={16} />
@@ -382,8 +382,8 @@ export default function SubscriptionPage() {
             </div>
             <div className="flex items-center gap-2">
               <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${
-                subscription.status === "active" ? "bg-[rgba(34,197,94,0.15)] text-[#4ade80] border border-[rgba(34,197,94,0.3)]"
-                : subscription.status === "past_due" ? "bg-[rgba(239,68,68,0.15)] text-[#f87171] border border-[rgba(239,68,68,0.3)]"
+                subscription.status === "active" ? "bg-[rgba(34,197,94,0.15)] text-success border border-[rgba(34,197,94,0.3)]"
+                : subscription.status === "past_due" ? "bg-[rgba(239,68,68,0.15)] text-danger border border-[rgba(239,68,68,0.3)]"
                 : "bg-[rgba(64,64,64,0.5)] text-muted-foreground border border-border"
               }`}>
                 {subscription.status === "past_due" ? "Past Due" : subscription.status}

@@ -106,8 +106,8 @@ export default function EditorBankSetup() {
       {/* Verified badge */}
       {verified && (
         <motion.div variants={fadeUp} className="flex items-center gap-2.5 bg-[rgba(34,197,94,0.15)] border border-[rgba(34,197,94,0.3)] rounded-xl px-4 py-3">
-          <CheckCircle size={16} className="text-[#4ade80] shrink-0" />
-          <p className="text-sm font-semibold text-[#4ade80]">Bank details verified</p>
+          <CheckCircle size={16} className="text-success shrink-0" />
+          <p className="text-sm font-semibold text-success">Bank details verified</p>
         </motion.div>
       )}
 

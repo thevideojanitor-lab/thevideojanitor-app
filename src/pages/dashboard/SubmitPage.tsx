@@ -189,7 +189,7 @@ function FootageStep({ onNext, onBack }: { onNext: (url: string, type: "drive_li
             className="bg-input border border-primary/20 rounded-xl p-4"
           >
             <div className="flex items-start gap-3">
-              <Check size={16} className="text-[#4ade80] mt-0.5 shrink-0" />
+              <Check size={16} className="text-success mt-0.5 shrink-0" />
               <div>
                 <p className="text-sm font-medium text-foreground">
                   {tab === "drive" ? "Google Drive folder" : "Dropbox folder"} detected
@@ -451,7 +451,7 @@ function MatchingStep({ editor, dueAt, requestId, matchFailed }: {
     <motion.div variants={scaleIn} initial="hidden" animate="visible" className="space-y-6">
       <div className="text-center">
         <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-[rgba(34,197,94,0.15)] border border-[rgba(34,197,94,0.3)] flex items-center justify-center">
-          <Check size={24} className="text-[#4ade80]" />
+          <Check size={24} className="text-success" />
         </div>
         <h2 className="font-heading text-xl font-bold text-foreground mb-1">Request submitted!</h2>
         <p className="text-sm text-muted-foreground">Your editor is confirmed. Expect delivery in 48 hours.</p>
@@ -514,7 +514,7 @@ function CostBar({ cost, balance, onSubmit, loading }: {
           <span className="text-muted-foreground">Balance</span>
           <span className={`font-semibold ${canAfford ? "text-foreground" : "text-red-400"}`}>{balance} cr</span>
           {canAfford
-            ? <span className="text-[10px] text-[#4ade80] font-semibold flex items-center gap-1"><Check size={11} /> Good to go</span>
+            ? <span className="text-[10px] text-success font-semibold flex items-center gap-1"><Check size={11} /> Good to go</span>
             : <span className="text-[10px] text-red-400 font-semibold flex items-center gap-1"><AlertCircle size={11} /> Not enough</span>
           }
         </div>
