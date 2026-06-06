@@ -94,7 +94,7 @@ const EditorTrustSection = () => {
         <div className="flex flex-wrap items-center justify-center gap-6 mb-6">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Users className="w-4 h-4 text-primary" />
-            <span>100+ editors in network</span>
+            <span>Hand-vetted editor network</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Clock className="w-4 h-4 text-primary" />
@@ -102,7 +102,7 @@ const EditorTrustSection = () => {
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Star className="w-4 h-4 text-primary" />
-            <span>4.8/5 average rating</span>
+            <span>Quality-monitored ratings</span>
           </div>
         </div>
         <Link to="/editors" className="text-sm text-primary hover:underline font-medium">

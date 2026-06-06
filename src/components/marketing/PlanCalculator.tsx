@@ -186,10 +186,10 @@ export default function PlanCalculator() {
               })()}
 
               <p className="mt-2 text-xs opacity-60">
-                Based on {symbol}
-                {assumptions.perEdit}/edit + {symbol}
-                {assumptions.perRevision}/revision, ~{assumptions.hoursPerVideo} hrs/video.
-                Representative estimate.
+                Estimated against typical freelancer rates (~{symbol}
+                {assumptions.perEdit}/edit, {symbol}
+                {assumptions.perRevision}/revision, ~{assumptions.hoursPerVideo} hrs/video).
+                Illustrative — actual savings vary.
               </p>
 
               <div className="mt-auto pt-6">
