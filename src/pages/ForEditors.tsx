@@ -158,9 +158,9 @@ const ForEditors = () => {
             </motion.p>
             <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6">
               Consistent short-form editing work.{" "}
-              <span className="text-gradient">Fair pay. No bidding wars.</span>
+              <span className="text-primary">Fair pay. No bidding wars.</span>
             </motion.h1>
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed">
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
               Join a vetted network of editors. Get assigned jobs based on your skills and availability. Earn credits, cash out reliably. Level up to earn more.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
@@ -184,7 +184,7 @@ const ForEditors = () => {
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                     <Icon className="w-5 h-5 text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-text-secondary">{label}</span>
+                  <span className="text-sm font-medium text-muted-foreground">{label}</span>
                 </div>
               ))}
             </motion.div>
@@ -254,7 +254,7 @@ const ForEditors = () => {
                     {tier.requirements.map((r) => (
                       <li key={r} className="flex items-start gap-2 text-sm">
                         <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                        <span className="text-text-secondary">{r}</span>
+                        <span className="text-muted-foreground">{r}</span>
                       </li>
                     ))}
                   </ul>
@@ -263,7 +263,7 @@ const ForEditors = () => {
                     {tier.benefits.map((b) => (
                       <li key={b} className="flex items-start gap-2 text-sm">
                         <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                        <span className="text-text-secondary">{b}</span>
+                        <span className="text-muted-foreground">{b}</span>
                       </li>
                     ))}
                   </ul>
@@ -304,7 +304,7 @@ const ForEditors = () => {
               {testimonials.map((t, i) => (
                 <motion.div key={t.name} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="p-8 rounded-2xl bg-card border border-border">
                   <Quote className="w-8 h-8 text-primary/30 mb-4" />
-                  <p className="text-sm text-text-secondary leading-relaxed mb-6">"{t.quote}"</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">"{t.quote}"</p>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-sm font-semibold text-primary">{t.avatar}</div>
                     <div>
@@ -342,9 +342,9 @@ const ForEditors = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center max-w-3xl mx-auto">
               <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
                 Ready to turn your skills into{" "}
-                <span className="text-gradient">steady income?</span>
+                <span className="text-primary">steady income?</span>
               </h2>
-              <p className="text-lg text-text-secondary mb-10 max-w-xl mx-auto">
+              <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
                 Join 100+ editors earning reliable income doing what they love. No bidding. No chasing clients. Just great work and fair pay.
               </p>
               <TallyModal url={EDITOR_FORM_URL} title="Editor Application" subtitle="Apply to join our vetted editor network">

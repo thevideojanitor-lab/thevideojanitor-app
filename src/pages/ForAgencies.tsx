@@ -154,10 +154,10 @@ const ForAgencies = () => {
             </motion.p>
             <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6">
               Agency Overflow?{" "}
-              <span className="text-gradient">We handle the editing.</span>
+              <span className="text-primary">We handle the editing.</span>
               <br />You handle the strategy.
             </motion.h1>
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed">
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
               Subscribe to a plan. Get matched with a vetted editor. Receive polished reels in 48 hours. Scale without hiring.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
@@ -178,7 +178,7 @@ const ForAgencies = () => {
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                     <Icon className="w-5 h-5 text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-text-secondary">{label}</span>
+                  <span className="text-sm font-medium text-muted-foreground">{label}</span>
                 </div>
               ))}
             </motion.div>
@@ -260,7 +260,7 @@ const ForAgencies = () => {
                     {plan.features.map((f) => (
                       <li key={f} className="flex items-start gap-2.5 text-sm">
                         <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                        <span className="text-text-secondary">{f}</span>
+                        <span className="text-muted-foreground">{f}</span>
                       </li>
                     ))}
                   </ul>
@@ -291,7 +291,7 @@ const ForAgencies = () => {
               {testimonials.map((t, i) => (
                 <motion.div key={t.name} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="p-8 rounded-2xl bg-card border border-border">
                   <Quote className="w-8 h-8 text-primary/30 mb-4" />
-                  <p className="text-sm text-text-secondary leading-relaxed mb-6">"{t.quote}"</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">"{t.quote}"</p>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-sm font-semibold text-primary">{t.avatar}</div>
                     <div>
@@ -311,9 +311,9 @@ const ForAgencies = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center max-w-3xl mx-auto">
               <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
                 Scale your agency{" "}
-                <span className="text-gradient">without the editing overhead.</span>
+                <span className="text-primary">without the editing overhead.</span>
               </h2>
-              <p className="text-lg text-text-secondary mb-10 max-w-xl mx-auto">Stop managing freelancers. Start delivering consistent, polished content to every client.</p>
+              <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">Stop managing freelancers. Start delivering consistent, polished content to every client.</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <TallyModal url={WAITLIST_URL} title="Join the Waitlist" subtitle="Reserve your agency plan">
                   <Button variant="hero" size="lg" className="text-base px-8 py-6">

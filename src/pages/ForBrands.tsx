@@ -46,14 +46,14 @@ const ForBrands = () => {
               className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
             >
               Short-form content that{" "}
-              <span className="text-gradient">actually converts.</span>
+              <span className="text-primary">actually converts.</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed"
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
             >
               Managed short-form video editing for brands that need consistent, polished content on TikTok, Instagram Reels, and YouTube Shorts. Without the overhead.
             </motion.p>
@@ -144,9 +144,9 @@ const ForBrands = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
                 Your brand. Polished content.{" "}
-                <span className="text-gradient">48 hours.</span>
+                <span className="text-primary">48 hours.</span>
               </h2>
-              <p className="text-lg text-text-secondary mb-10">
+              <p className="text-lg text-muted-foreground mb-10">
                 Start with a plan that fits your volume. Scale up as your content needs grow.
               </p>
               <TallyModal url={WAITLIST_URL} title="Join the Waitlist" subtitle="Get early access for your brand">

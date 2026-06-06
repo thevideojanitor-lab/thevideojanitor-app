@@ -90,7 +90,7 @@ const ForCreators = () => {
               className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6"
             >
               Stop editing at 2 AM.{" "}
-              <span className="text-gradient">Start posting more.</span>
+              <span className="text-primary">Start posting more.</span>
             </motion.h1>
 
             {/* Subtext */}
@@ -205,7 +205,7 @@ const ForCreators = () => {
           <div className="container mx-auto px-4 text-center max-w-3xl">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">
               Ready to post more{" "}
-              <span className="text-gradient">without the grind?</span>
+              <span className="text-primary">without the grind?</span>
             </h2>
 
             <p className="text-lg text-muted-foreground mb-10">
