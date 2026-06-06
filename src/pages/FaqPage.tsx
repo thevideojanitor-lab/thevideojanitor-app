@@ -16,6 +16,9 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import Reveal from "@/components/marketing/Reveal";
+import EditorialHeading from "@/components/marketing/EditorialHeading";
+import BentoCard from "@/components/marketing/BentoCard";
 
 const categories = [
   {
@@ -232,50 +235,31 @@ const FaqPage = () => {
         <Navbar />
 
         {/* Hero */}
-        <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
-          <div className="container mx-auto px-4 relative z-10 text-center max-w-3xl">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-sm font-medium uppercase tracking-widest text-primary mb-4"
-            >
-              FAQ
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
-            >
-              Questions?{" "}
-              <span className="text-primary">We've got answers.</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-muted-foreground mb-8"
-            >
-              Everything you need to know about credits, revisions, turnaround, billing, and more.
-            </motion.p>
-
-            {/* Search */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="relative max-w-md mx-auto"
-            >
+        <section className="halo relative px-4 pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden">
+          <div className="relative z-10 max-w-3xl mx-auto w-full text-center">
+            <Reveal>
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">FAQ</p>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <EditorialHeading as="h1">
+                Questions? <span className="text-primary">We've got answers.</span>
+              </EditorialHeading>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="text-muted-foreground mt-6 mb-8">
+                Everything you need to know about credits, revisions, turnaround, billing, and more.
+              </p>
+            </Reveal>
+            <Reveal delay={0.15} className="relative max-w-md mx-auto">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 type="text"
                 placeholder="Search questions..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 bg-card border border-border rounded-xl text-sm focus:outline-none focus:border-primary/50 transition-colors"
+                className="w-full pl-11 pr-4 py-3 bg-card border border-border rounded-xl text-sm shadow-lift focus:outline-none focus:border-primary/50 transition-colors"
               />
-            </motion.div>
+            </Reveal>
           </div>
         </section>
 
@@ -389,26 +373,22 @@ const FaqPage = () => {
         )}
 
         {/* Still have questions */}
-        <section className="py-24 md:py-32 bg-card/30">
-          <div className="container mx-auto px-4 text-center max-w-2xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">
-                Still have questions?
-              </h2>
-              <p className="text-muted-foreground mb-8">
+        <section className="px-4 py-20 md:py-28">
+          <Reveal className="max-w-6xl mx-auto">
+            <BentoCard variant="primary" className="px-6 py-20 text-center rounded-[2.5rem]">
+              <EditorialHeading as="h2" className="text-4xl md:text-6xl">Still have questions?</EditorialHeading>
+              <p className="text-primary-foreground/85 text-lg max-w-md mx-auto mt-6">
                 Can't find what you're looking for? Our team responds within 24 hours.
               </p>
-              <Link to="/contact">
-                <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                  Contact Support <ArrowRight className="w-5 h-5 ml-1" />
-                </Button>
-              </Link>
-            </motion.div>
-          </div>
+              <div className="mt-9">
+                <Link to="/contact">
+                  <Button size="lg" className="bg-background text-foreground hover:bg-foreground hover:text-background text-base px-8 py-6">
+                    Contact Support <ArrowRight className="w-5 h-5 ml-1" />
+                  </Button>
+                </Link>
+              </div>
+            </BentoCard>
+          </Reveal>
         </section>
 
         <Footer />
