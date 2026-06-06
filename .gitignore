@@ -36,3 +36,7 @@ supabase/functions/.env
 
 # Local Netlify folder
 .netlify
+
+# Local artifacts
+*.stackdump
+*.zip

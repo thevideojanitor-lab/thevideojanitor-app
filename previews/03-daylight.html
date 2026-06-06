@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TheVideoJanitors — Daylight (Direction 03)</title>
+<link rel="preconnect" href="https://api.fontshare.com" />
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          paper: "#FBF7F0", card: "#FFFFFF", sand: "#F1EADD",
+          ink: "#17150F", inkMut: "#6B6657", line: "#E7DECF", orange: "#FF5F15", orangeDk: "#E14E08",
+        },
+        fontFamily: { grot: ["Satoshi", "sans-serif"], sans: ["General Sans", "sans-serif"] },
+        boxShadow: { soft: "0 30px 70px -28px rgba(23,21,15,0.22)", lift: "0 18px 40px -20px rgba(23,21,15,0.20)" },
+      },
+    },
+  };
+</script>
+<style>
+  body { background: #FBF7F0; }
+  .ease-lux { transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1); }
+  .reveal { opacity: 0; transform: translateY(2rem); transition: all 0.9s cubic-bezier(0.32,0.72,0,1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .halo { background: radial-gradient(46rem 32rem at 88% -8%, rgba(255,95,21,0.12), transparent 62%); }
+  ::selection { background: rgba(255,95,21,0.22); color: #17150F; }
+  .stroke { -webkit-text-stroke: 1.5px #17150F; color: transparent; }
+</style>
+</head>
+<body class="font-sans text-ink antialiased overflow-x-hidden">
+
+<!-- NAV -->
+<header class="fixed top-0 inset-x-0 z-50 flex justify-center px-4">
+  <nav class="mt-5 w-full max-w-6xl rounded-2xl border border-line bg-card/80 backdrop-blur-xl shadow-lift px-3 py-2.5 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2.5 pl-2">
+      <span class="grid place-items-center w-7 h-7 rounded-lg bg-orange text-card font-grot font-black text-sm">V</span>
+      <span class="font-grot font-bold tracking-tight text-[15px]">TheVideoJanitors</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-[13px] font-medium text-inkMut">
+      <a href="#problem" class="hover:text-ink ease-lux transition-colors">The problem</a>
+      <a href="#how" class="hover:text-ink ease-lux transition-colors">How it works</a>
+      <a href="#pricing" class="hover:text-ink ease-lux transition-colors">Pricing</a>
+    </div>
+    <a href="#pricing" class="group flex items-center gap-1.5 rounded-xl bg-ink text-paper pl-5 pr-1.5 py-1.5 text-[13px] font-semibold ease-lux transition-all hover:bg-orange active:scale-[0.98]">
+      Get started
+      <span class="grid place-items-center w-7 h-7 rounded-lg bg-white/15 ease-lux transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </span>
+    </a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="halo relative min-h-[100dvh] flex items-center px-4 pt-28 pb-16">
+  <div class="max-w-6xl mx-auto w-full grid md:grid-cols-12 gap-12 items-center">
+    <div class="md:col-span-7">
+      <div class="reveal in inline-flex items-center gap-2 rounded-full bg-sand border border-line px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-inkMut mb-7">
+        <span class="w-1.5 h-1.5 rounded-full bg-orange"></span> Built for people who post daily
+      </div>
+      <h1 class="reveal in font-grot font-black leading-[0.9] tracking-tight text-[15vw] sm:text-7xl md:text-[6rem]">
+        Edits done.<br><span class="text-orange">Without</span><br>the drama.
+      </h1>
+      <p class="reveal in mt-8 max-w-md text-[18px] leading-relaxed text-inkMut">
+        No more ghosting, no more "it's almost ready," no more $50 caption tweaks.
+        Submit footage, get matched to a vetted editor, and get a polished short
+        back in 48 hours — revisions included.
+      </p>
+      <div class="reveal in mt-9 flex flex-wrap items-center gap-3">
+        <a href="#pricing" class="group inline-flex items-center gap-2 rounded-2xl bg-orange text-card pl-7 pr-2 py-2.5 text-[15px] font-bold ease-lux transition-all hover:bg-orangeDk active:scale-[0.98] shadow-lift">
+          Claim your editor
+          <span class="grid place-items-center w-9 h-9 rounded-xl bg-white/20 ease-lux transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </span>
+        </a>
+        <a href="#how" class="rounded-2xl border border-line bg-card px-7 py-3.5 text-[15px] font-semibold ease-lux transition-colors hover:bg-sand">See how it works</a>
+      </div>
+      <div class="reveal in mt-12 flex items-center gap-7">
+        <div><p class="font-grot font-black text-3xl">48h</p><p class="text-[12px] text-inkMut">turnaround</p></div>
+        <div class="w-px h-9 bg-line"></div>
+        <div><p class="font-grot font-black text-3xl">3</p><p class="text-[12px] text-inkMut">revisions in</p></div>
+        <div class="w-px h-9 bg-line"></div>
+        <div><p class="font-grot font-black text-3xl">100%</p><p class="text-[12px] text-inkMut">vetted editors</p></div>
+      </div>
+    </div>
+
+    <!-- floating product card -->
+    <div class="md:col-span-5 reveal in">
+      <div class="relative">
+        <div class="absolute -top-6 -right-3 rotate-3 rounded-2xl bg-ink text-paper px-5 py-3 shadow-soft z-10">
+          <p class="text-[11px] uppercase tracking-wider text-paper/60">Status</p>
+          <p class="font-grot font-bold text-orange">Ready to review →</p>
+        </div>
+        <div class="rounded-[2rem] bg-card border border-line shadow-soft p-7">
+          <div class="flex items-center justify-between">
+            <p class="font-grot font-bold text-lg">Launch reel</p>
+            <span class="text-[11px] rounded-full bg-orange/12 text-orangeDk border border-orange/25 px-2.5 py-0.5 font-semibold">9:16</span>
+          </div>
+          <div class="mt-5 aspect-video rounded-2xl bg-gradient-to-br from-sand to-paper border border-line grid place-items-center">
+            <span class="grid place-items-center w-14 h-14 rounded-full bg-orange text-card shadow-lift">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+          </div>
+          <div class="mt-5 space-y-3">
+            <div class="flex justify-between text-[13px]"><span class="text-inkMut">Delivered</span><span class="font-semibold">in 41 hours</span></div>
+            <div class="flex justify-between text-[13px]"><span class="text-inkMut">Revisions left</span><span class="font-semibold text-orangeDk">3 of 3</span></div>
+          </div>
+          <button class="mt-6 w-full rounded-xl bg-ink text-paper py-3 text-[14px] font-bold ease-lux transition-colors hover:bg-orange">Approve & post</button>
+        </div>
+        <p class="text-[12px] text-inkMut/70 text-center mt-3">Representative UI — not a real client job.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN POINTS — light bento -->
+<section id="problem" class="px-4 py-24 md:py-32">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal max-w-2xl mb-14">
+      <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-orangeDk mb-4">The old way is exhausting</p>
+      <h2 class="font-grot font-black text-4xl md:text-6xl leading-[0.98] tracking-tight">Everything you hate about hiring editors.</h2>
+      <p class="mt-5 text-inkMut text-[16px]">Pulled from what creators and agencies actually complain about. We built the fix into the product.</p>
+    </div>
+
+    <div class="grid md:grid-cols-6 gap-4">
+      <!-- big orange feature card -->
+      <div class="reveal md:col-span-3 md:row-span-2 rounded-[2rem] bg-orange text-card p-8 shadow-soft flex flex-col justify-between min-h-[19rem]">
+        <div>
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-card/70">The big one</p>
+          <h3 class="mt-3 font-grot font-black text-3xl leading-tight">You're spending ~3 workdays a month managing editors.</h3>
+          <p class="mt-3 text-card/85 text-[15px] leading-relaxed">Briefing, file transfers, reviews, and chasing eat 1.5–3 hours per video. At 8 videos a month, that's three full workdays you never get back.</p>
+        </div>
+        <div class="mt-6 rounded-2xl bg-card/15 backdrop-blur px-5 py-4">
+          <p class="text-[13px] font-semibold">Our fix → A 90-second brief is all you touch. We run the rest. You approve and post.</p>
+        </div>
+      </div>
+
+      <div class="reveal md:col-span-3 rounded-[2rem] bg-card border border-line p-7 shadow-lift">
+        <p class="text-[11px] font-bold uppercase tracking-wider text-inkMut">Ghosting</p>
+        <h3 class="mt-2 font-grot font-bold text-xl">They vanish after payment.</h3>
+        <p class="mt-2 text-inkMut text-[14px]">No reply, no file, money gone.</p>
+        <p class="mt-4 pt-4 border-t border-line text-[13px] font-medium text-orangeDk">Vetted roster + one-click editor swap.</p>
+      </div>
+
+      <div class="reveal md:col-span-3 rounded-[2rem] bg-sand border border-line p-7" style="transition-delay:60ms">
+        <p class="text-[11px] font-bold uppercase tracking-wider text-inkMut">The 48-hour lie</p>
+        <h3 class="mt-2 font-grot font-bold text-xl">"Soon" becomes next week.</h3>
+        <p class="mt-2 text-inkMut text-[14px]">Vague deadlines wreck your cadence.</p>
+        <p class="mt-4 pt-4 border-t border-line text-[13px] font-medium text-orangeDk">Real 48h clock. Late auto-reassigns.</p>
+      </div>
+
+      <div class="reveal md:col-span-2 rounded-[2rem] bg-card border border-line p-7 shadow-lift">
+        <p class="text-[11px] font-bold uppercase tracking-wider text-inkMut">Style roulette</p>
+        <h3 class="mt-2 font-grot font-bold text-lg">Great once, random after.</h3>
+        <p class="mt-3 pt-3 border-t border-line text-[13px] font-medium text-orangeDk">Dedicated editor + brand kit.</p>
+      </div>
+
+      <div class="reveal md:col-span-4 rounded-[2rem] bg-card border border-line p-7 shadow-lift flex items-center gap-6" style="transition-delay:60ms">
+        <div class="shrink-0 grid place-items-center w-16 h-16 rounded-2xl bg-orange/10 font-grot font-black text-orangeDk text-2xl">$50</div>
+        <div>
+          <h3 class="font-grot font-bold text-lg">A caption tweak shouldn't cost $50.</h3>
+          <p class="mt-1 text-inkMut text-[14px]">1–2 revisions, then you pay per change. We include three full rounds in flat credits.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="px-4 py-24 md:py-32 bg-sand/60 border-y border-line">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal text-center max-w-2xl mx-auto mb-14">
+      <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-orangeDk mb-4">The new way</p>
+      <h2 class="font-grot font-black text-4xl md:text-6xl leading-[0.98] tracking-tight">Four steps. Then it just shows up.</h2>
+    </div>
+    <div class="grid md:grid-cols-4 gap-4">
+      <div class="reveal rounded-[1.75rem] bg-card border border-line p-7 shadow-lift"><p class="font-grot font-black text-orange text-2xl">01</p><h3 class="mt-3 font-grot font-bold text-lg">Subscribe</h3><p class="mt-2 text-[13px] text-inkMut">Pick a plan, credits land instantly.</p></div>
+      <div class="reveal rounded-[1.75rem] bg-card border border-line p-7 shadow-lift" style="transition-delay:60ms"><p class="font-grot font-black text-orange text-2xl">02</p><h3 class="mt-3 font-grot font-bold text-lg">Submit a brief</h3><p class="mt-2 text-[13px] text-inkMut">Footage link, ratios, notes. 90 sec.</p></div>
+      <div class="reveal rounded-[1.75rem] bg-card border border-line p-7 shadow-lift" style="transition-delay:120ms"><p class="font-grot font-black text-orange text-2xl">03</p><h3 class="mt-3 font-grot font-bold text-lg">Get matched</h3><p class="mt-2 text-[13px] text-inkMut">Vetted editor by niche. Clock starts.</p></div>
+      <div class="reveal rounded-[1.75rem] bg-ink text-paper p-7 shadow-soft" style="transition-delay:180ms"><p class="font-grot font-black text-orange text-2xl">04</p><h3 class="mt-3 font-grot font-bold text-lg">Approve & post</h3><p class="mt-2 text-[13px] text-paper/70">Notes, revisions, done.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="px-4 py-24 md:py-32">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <h2 class="font-grot font-black text-4xl md:text-6xl leading-[0.98] tracking-tight max-w-lg">One monthly number. No surprises.</h2>
+      <p class="text-inkMut text-[15px] max-w-xs">Credits reset every month. Top up anytime. Cancel anytime.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="reveal rounded-[2rem] bg-card border border-line p-8 shadow-lift">
+        <h3 class="font-grot font-bold text-xl">Quick Sweep</h3>
+        <p class="text-inkMut text-[14px] mt-1">Light monthly needs</p>
+        <p class="mt-7 font-grot font-black text-5xl">$99<span class="text-inkMut text-base font-sans font-medium">/mo</span></p>
+        <p class="text-inkMut text-[14px] mt-2">350 credits · 1 active request</p>
+        <button class="mt-7 w-full rounded-xl border border-line py-3 text-[14px] font-bold ease-lux transition-colors hover:bg-sand">Choose plan</button>
+      </div>
+      <div class="reveal rounded-[2rem] bg-ink text-paper p-8 shadow-soft relative" style="transition-delay:60ms">
+        <span class="absolute -top-3 left-8 rounded-full bg-orange text-card text-[11px] font-bold uppercase tracking-wider px-3 py-1">Most popular</span>
+        <h3 class="font-grot font-bold text-xl">Deep Clean</h3>
+        <p class="text-paper/60 text-[14px] mt-1">Growing brands & agencies</p>
+        <p class="mt-7 font-grot font-black text-5xl text-orange">$249<span class="text-paper/50 text-base font-sans font-medium">/mo</span></p>
+        <p class="text-paper/70 text-[14px] mt-2">950 credits · 2 active requests</p>
+        <button class="mt-7 w-full rounded-xl bg-orange text-card py-3 text-[14px] font-bold ease-lux transition-colors hover:bg-orangeDk">Choose plan</button>
+      </div>
+      <div class="reveal rounded-[2rem] bg-card border border-line p-8 shadow-lift" style="transition-delay:120ms">
+        <h3 class="font-grot font-bold text-xl">Full Service</h3>
+        <p class="text-inkMut text-[14px] mt-1">Ongoing volume</p>
+        <p class="mt-7 font-grot font-black text-5xl">$599<span class="text-inkMut text-base font-sans font-medium">/mo</span></p>
+        <p class="text-inkMut text-[14px] mt-2">2,500 credits · 4 active requests</p>
+        <button class="mt-7 w-full rounded-xl border border-line py-3 text-[14px] font-bold ease-lux transition-colors hover:bg-sand">Choose plan</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="px-4 py-20 md:py-28">
+  <div class="reveal max-w-6xl mx-auto rounded-[2.5rem] bg-orange text-card px-6 py-20 text-center shadow-soft relative overflow-hidden">
+    <h2 class="font-grot font-black text-5xl md:text-7xl leading-[0.92] tracking-tight">Your next reel<br>is already late.</h2>
+    <p class="mt-6 text-card/85 text-[17px] max-w-md mx-auto">Submit your first brief today. Polished short back in 48 hours.</p>
+    <a href="#" class="group inline-flex items-center gap-2 mt-9 rounded-2xl bg-card text-ink pl-7 pr-2 py-2.5 text-[15px] font-bold ease-lux transition-all hover:bg-ink hover:text-paper active:scale-[0.98]">
+      Get started
+      <span class="grid place-items-center w-9 h-9 rounded-xl bg-ink/10 group-hover:bg-white/15 ease-lux transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+<footer class="px-4 py-10">
+  <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] text-inkMut">
+    <div class="flex items-center gap-2.5">
+      <span class="grid place-items-center w-6 h-6 rounded-md bg-orange text-card font-grot font-black text-xs">V</span>
+      <span class="font-grot font-bold text-ink">TheVideoJanitors</span>
+    </div>
+    <p>Clean edits. Fast delivery. No freelancer roulette.</p>
+    <p>© 2026 · Direction 03 — Daylight</p>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+</script>
+</body>
+</html>

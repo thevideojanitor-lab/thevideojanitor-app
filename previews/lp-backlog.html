@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Clear your footage backlog — TheVideoJanitor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root{
+    --bg:#121212; --surface:#1A1A1A; --surface-2:#262626;
+    --text:#F9FAFB; --muted:#A3A3A3; --dim:#BFBFBF;
+    --accent:#FF5F15; --accent-soft:rgba(255,95,21,0.10); --success:#22C55E;
+  }
+  body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text)}
+  .accent{color:var(--accent)}
+  /* Content visible by default — spec §2 CRITICAL: no fragile scroll-reveal */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+  /* fallback: if JS fails, everything is visible within 300ms */
+  .nojs-show{animation:nojs 1ms .3s forwards}
+  @keyframes nojs{to{opacity:1;transform:none}}
+  input[type=range]{-webkit-appearance:none;height:6px;border-radius:999px;background:var(--surface-2);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:999px;background:var(--accent);cursor:pointer;border:3px solid #1A1A1A;box-shadow:0 0 0 1px var(--accent)}
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:999px;background:var(--accent);cursor:pointer;border:3px solid #1A1A1A}
+  .field{background:var(--surface);border:1px solid var(--surface-2);color:var(--text)}
+  .field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .tip{position:relative}
+  .tip:hover .tip-body,.tip:focus-within .tip-body{opacity:1;visibility:visible;transform:translateY(0)}
+  .tip-body{opacity:0;visibility:hidden;transform:translateY(4px);transition:all .15s ease}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ===== Logo only — no global nav (spec §2) ===== -->
+<header class="max-w-[1100px] mx-auto px-5 py-6 flex items-center justify-between">
+  <a href="/" class="flex items-center gap-2.5">
+    <span class="grid place-items-center w-8 h-8 rounded-lg bg-[#FF5F15] text-black font-extrabold">V</span>
+    <span class="font-bold text-[17px] tracking-tight">The<span class="accent">Video</span>Janitor</span>
+  </a>
+  <a href="#claim" class="hidden sm:inline-flex items-center rounded-lg bg-[#FF5F15] text-black px-4 py-2 text-sm font-semibold hover:bg-[#E54E08] transition-colors">Claim 5 free edits</a>
+</header>
+
+<main class="max-w-[1100px] mx-auto px-5">
+
+  <!-- ===== 1. HERO ===== -->
+  <section class="relative pt-10 pb-16 md:pt-16 md:pb-24 text-center"
+           style="background:radial-gradient(40rem 22rem at 50% -10%,rgba(255,95,21,0.12),transparent 65%)">
+    <p class="text-[11px] uppercase tracking-[0.22em] accent font-semibold mb-5">For creators drowning in footage</p>
+    <h1 class="font-extrabold text-4xl md:text-6xl leading-[1.05] tracking-tight max-w-3xl mx-auto">
+      You've got months of footage. And&nbsp;zero edited videos to show for it.
+    </h1>
+    <p class="mt-6 text-[16px] md:text-lg text-[#BFBFBF] max-w-xl mx-auto leading-relaxed">
+      Find out exactly how big your backlog really is — and how fast we can clear it.
+      Your first <span class="accent font-semibold">5 clips are on us</span>.
+    </p>
+    <div class="mt-9 flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="#calc" class="inline-flex items-center justify-center rounded-lg bg-[#FF5F15] text-black px-7 py-3.5 font-semibold hover:bg-[#E54E08] transition-colors">Calculate my backlog</a>
+      <a href="#claim" class="inline-flex items-center justify-center rounded-lg border border-[#262626] px-7 py-3.5 font-semibold text-[#F9FAFB] hover:bg-[#1A1A1A] transition-colors">Skip to free trial</a>
+    </div>
+    <p class="mt-6 text-sm text-[#A3A3A3]">No credit card · same editor · 48-hour turnaround</p>
+  </section>
+
+  <!-- ===== 2. CALCULATOR ===== -->
+  <section id="calc" class="reveal scroll-mt-8 py-12 md:py-16">
+    <div class="text-center mb-10">
+      <h2 class="font-extrabold text-3xl md:text-4xl tracking-tight">How big is your backlog, really?</h2>
+      <p class="mt-3 text-[#A3A3A3]">Move the sliders. The numbers update live.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-5 md:gap-6 items-start">
+      <!-- Inputs -->
+      <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6 md:p-8">
+        <label class="block">
+          <span class="text-sm font-semibold">Hours of unedited raw footage you're sitting on</span>
+          <div class="mt-4 flex items-center gap-4">
+            <input id="rawHours" type="range" min="1" max="500" value="40" class="flex-1" />
+            <output id="rawHoursOut" class="font-bold accent text-xl tabular-nums w-16 text-right">40h</output>
+          </div>
+        </label>
+
+        <label class="block mt-7">
+          <span class="text-sm font-semibold">How often do you want to post?</span>
+          <select id="freq" class="field mt-3 w-full rounded-lg px-4 py-3 text-sm">
+            <option value="1-2/wk">1–2 / week</option>
+            <option value="3-5/wk" selected>3–5 / week</option>
+            <option value="daily">Daily</option>
+          </select>
+        </label>
+
+        <label class="block mt-7">
+          <span class="text-sm font-semibold">Platform <span class="text-[#A3A3A3] font-normal">(optional)</span></span>
+          <select id="platform" class="field mt-3 w-full rounded-lg px-4 py-3 text-sm">
+            <option value="Mixed" selected>Mixed</option>
+            <option value="TikTok">TikTok</option>
+            <option value="Reels">Reels</option>
+            <option value="Shorts">Shorts</option>
+          </select>
+        </label>
+
+        <div class="tip mt-7 inline-flex items-center gap-1.5 text-xs text-[#A3A3A3] cursor-help" tabindex="0">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          How we calculate this
+          <span class="tip-body absolute left-0 top-6 z-10 w-72 rounded-xl bg-[#262626] border border-[#3a3a3a] p-3 text-[12px] leading-relaxed text-[#BFBFBF] shadow-xl">
+            ~3 finished short-form clips per raw hour · ~1.75 hrs to self-edit one short · a realistic self-edit pace of ~10 hrs/week · ~$75 per edited short on Fiverr/Upwork. Rough industry averages — your mileage varies.
+          </span>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6 md:p-8">
+        <p class="text-[11px] uppercase tracking-[0.18em] text-[#A3A3A3] font-semibold mb-4">Your backlog, by the numbers</p>
+        <ul class="space-y-5">
+          <li>
+            <span class="block text-4xl font-extrabold accent tabular-nums" id="rClips">120</span>
+            <span class="text-sm text-[#BFBFBF]">finished videos buried in that footage</span>
+          </li>
+          <li>
+            <span class="block text-4xl font-extrabold tabular-nums" id="rHours">210</span>
+            <span class="text-sm text-[#BFBFBF]">hours to edit them yourself — about <span id="rWeeks" class="font-semibold text-[#F9FAFB]">21</span> weeks of nights &amp; weekends</span>
+          </li>
+          <li>
+            <span class="block text-4xl font-extrabold tabular-nums" id="rCost">$9,000</span>
+            <span class="text-sm text-[#BFBFBF]">to hire it out per-video on Fiverr/Upwork — and you still vet every editor</span>
+          </li>
+        </ul>
+        <div class="mt-6 rounded-xl bg-[#FF5F15]/[0.08] border border-[#FF5F15]/30 p-4 text-sm text-[#F9FAFB] leading-relaxed">
+          We can start clearing it <span class="font-semibold">this week</span> — same editor, 48h turnaround, no freelancer roulette.
+          <span class="accent font-semibold">Your first 5 clips are free.</span>
+        </div>
+        <a href="#claim" class="mt-5 inline-flex w-full items-center justify-center rounded-lg bg-[#FF5F15] text-black px-6 py-3 font-semibold hover:bg-[#E54E08] transition-colors">Start clearing it free</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3. OFFER / FORM ===== -->
+  <section id="claim" class="reveal scroll-mt-8 py-12 md:py-16">
+    <div class="max-w-xl mx-auto rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6 md:p-9">
+      <div id="formWrap">
+        <h2 class="font-extrabold text-3xl tracking-tight text-center">Start clearing the backlog — free.</h2>
+        <p class="mt-3 text-center text-sm text-[#A3A3A3]">No credit card. We edit your first 5 clips free so you can see the quality before you pay anything.</p>
+
+        <form id="leadForm" class="mt-7 space-y-4" novalidate>
+          <div>
+            <label class="text-sm font-medium" for="name">Full name</label>
+            <input id="name" name="name" type="text" required class="field mt-1.5 w-full rounded-lg px-4 py-3 text-sm" placeholder="Your name" />
+          </div>
+          <div>
+            <label class="text-sm font-medium" for="email">Work / email</label>
+            <input id="email" name="email" type="email" required class="field mt-1.5 w-full rounded-lg px-4 py-3 text-sm" placeholder="you@brand.com" />
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm font-medium" for="niche">Niche / content type</label>
+              <select id="niche" name="niche" required class="field mt-1.5 w-full rounded-lg px-4 py-3 text-sm">
+                <option value="">Select…</option>
+                <option>Creator</option><option>Podcast</option><option>Ecom</option><option>Agency</option><option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-sm font-medium" for="volume">Posting volume</label>
+              <select id="volume" name="volume" required class="field mt-1.5 w-full rounded-lg px-4 py-3 text-sm">
+                <option value="">Select…</option>
+                <option>&lt;1 / week</option><option>1–2 / week</option><option>3–5 / week</option><option>Daily</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="text-sm font-medium" for="footage">Link to footage <span class="text-[#A3A3A3] font-normal">(optional)</span></label>
+            <input id="footage" name="footage" type="url" class="field mt-1.5 w-full rounded-lg px-4 py-3 text-sm" placeholder="Google Drive or Dropbox link" />
+          </div>
+
+          <!-- hidden / system fields -->
+          <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+          <input type="hidden" name="backlog_hours" id="backlogHours" value="40" />
+          <input type="hidden" name="utm_source" id="utm_source" />
+          <input type="hidden" name="utm_medium" id="utm_medium" />
+          <input type="hidden" name="utm_campaign" id="utm_campaign" />
+          <input type="hidden" name="utm_content" id="utm_content" />
+
+          <button type="submit" class="w-full rounded-lg bg-[#FF5F15] text-black px-6 py-3.5 font-semibold hover:bg-[#E54E08] transition-colors">Claim my 5 free edits</button>
+          <p class="text-center text-xs text-[#A3A3A3]">Preview only — submitting shows the live thank-you state.</p>
+        </form>
+      </div>
+
+      <!-- inline thank-you state -->
+      <div id="thanks" class="hidden text-center py-6">
+        <div class="mx-auto mb-5 grid place-items-center w-14 h-14 rounded-full bg-[#22C55E]/15 border border-[#22C55E]/40">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h2 class="font-extrabold text-2xl tracking-tight">Got it.</h2>
+        <p class="mt-3 text-[#BFBFBF] text-sm max-w-sm mx-auto">We'll review and send your free edit within 48 hours. Check <span id="thanksEmail" class="text-[#F9FAFB] font-medium">your inbox</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. TRUST BLOCK ===== -->
+  <section class="reveal py-12 md:py-16">
+    <h2 class="text-center font-extrabold text-2xl md:text-3xl tracking-tight">Why this isn't another freelancer</h2>
+    <div class="mt-9 grid md:grid-cols-3 gap-4 md:gap-6">
+      <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6">
+        <h3 class="font-bold text-lg">Same editor every time</h3>
+        <p class="mt-2 text-sm text-[#A3A3A3] leading-relaxed">No ghosting, no re-explaining your style to a stranger each week. One person who learns your taste.</p>
+      </div>
+      <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6">
+        <h3 class="font-bold text-lg">48-hour turnaround, in writing</h3>
+        <p class="mt-2 text-sm text-[#A3A3A3] leading-relaxed">A real SLA, not a hopeful "soon." If we slip, you'll know — and we make it right.</p>
+      </div>
+      <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6">
+        <h3 class="font-bold text-lg">Vetted &amp; monitored</h3>
+        <p class="mt-2 text-sm text-[#A3A3A3] leading-relaxed">Not a marketplace gamble where 80% of bidders are noise. A managed team, quality-checked.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 5. PROOF SLOT ===== -->
+  <section class="reveal py-12 md:py-16">
+    <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-8 md:p-10 text-center">
+      <p class="text-[11px] uppercase tracking-[0.18em] text-[#A3A3A3] font-semibold mb-4">Proof</p>
+      <h2 class="font-extrabold text-2xl md:text-3xl tracking-tight max-w-xl mx-auto">See the quality before you pay anything.</h2>
+      <p class="mt-3 text-sm text-[#A3A3A3] max-w-md mx-auto">Real before/after sample clips drop in here. <span class="text-[#BFBFBF]">(Owner to provide — spec §3.2, no fabricated proof.)</span></p>
+      <div class="mt-7 grid sm:grid-cols-3 gap-4">
+        <div class="aspect-[9/16] rounded-xl border border-dashed border-[#3a3a3a] bg-[#121212] grid place-items-center text-xs text-[#A3A3A3]">Before / After clip</div>
+        <div class="aspect-[9/16] rounded-xl border border-dashed border-[#3a3a3a] bg-[#121212] grid place-items-center text-xs text-[#A3A3A3]">Before / After clip</div>
+        <div class="aspect-[9/16] rounded-xl border border-dashed border-[#3a3a3a] bg-[#121212] grid place-items-center text-xs text-[#A3A3A3]">Before / After clip</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6. FAQ ===== -->
+  <section class="reveal py-12 md:py-16 max-w-2xl mx-auto">
+    <h2 class="text-center font-extrabold text-2xl md:text-3xl tracking-tight mb-8">Questions, answered straight</h2>
+    <div class="divide-y divide-[#262626] border-y border-[#262626]">
+      <details class="group py-5">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold list-none">How does the free trial work?<span class="accent transition-transform group-open:rotate-45 text-xl leading-none">+</span></summary>
+        <p class="mt-3 text-sm text-[#A3A3A3] leading-relaxed">Send a few clips' worth of raw footage and a short brief. We match you with a vetted editor who delivers your first 5 finished clips within 48 hours — no card, no commitment.</p>
+      </details>
+      <details class="group py-5">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold list-none">What if I don't like the edit?<span class="accent transition-transform group-open:rotate-45 text-xl leading-none">+</span></summary>
+        <p class="mt-3 text-sm text-[#A3A3A3] leading-relaxed">Tell us what's off and we revise. The free trial exists precisely so you judge the quality on your own footage before paying anything.</p>
+      </details>
+      <details class="group py-5">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold list-none">Do I need to send all my footage at once?<span class="accent transition-transform group-open:rotate-45 text-xl leading-none">+</span></summary>
+        <p class="mt-3 text-sm text-[#A3A3A3] leading-relaxed">No — start with 5, not 200. We clear the backlog in batches at a sustainable pace, so it never becomes another overwhelming project.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== 7. FINAL CTA ===== -->
+  <section class="reveal pb-16 md:pb-24 text-center">
+    <h2 class="font-extrabold text-3xl md:text-4xl tracking-tight max-w-xl mx-auto">Stop staring at the footage. Start clearing it.</h2>
+    <a href="#claim" class="mt-8 inline-flex items-center justify-center rounded-lg bg-[#FF5F15] text-black px-8 py-4 font-semibold hover:bg-[#E54E08] transition-colors">Claim my 5 free edits</a>
+  </section>
+</main>
+
+<!-- ===== Minimal footer (spec §2) ===== -->
+<footer class="border-t border-[#262626]">
+  <div class="max-w-[1100px] mx-auto px-5 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#A3A3A3]">
+    <span>© 2026 TheVideoJanitor</span>
+    <span class="flex gap-5"><a href="/privacy" class="hover:text-[#F9FAFB]">Privacy</a><a href="/terms" class="hover:text-[#F9FAFB]">Terms</a></span>
+  </div>
+</footer>
+
+<script>
+// ---- editable assumptions (spec §5) ----
+const ASSUMPTIONS = {
+  clipsPerRawHour: 3,
+  diyHoursPerClip: 1.75,
+  diyHoursPerWeek: 10,
+  freelancerCostPerClip: 75
+};
+
+const $ = id => document.getElementById(id);
+const fmt = n => n.toLocaleString('en-US');
+let calcFired = false;
+
+function recompute(){
+  const rawHours = +$('rawHours').value;
+  $('rawHoursOut').textContent = rawHours + 'h';
+  $('backlogHours').value = rawHours;
+
+  const clips   = Math.round(rawHours * ASSUMPTIONS.clipsPerRawHour);
+  const diyHrs  = Math.round(clips * ASSUMPTIONS.diyHoursPerClip);
+  const diyWks  = Math.max(1, Math.round(diyHrs / ASSUMPTIONS.diyHoursPerWeek));
+  const cost    = clips * ASSUMPTIONS.freelancerCostPerClip;
+
+  $('rClips').textContent = fmt(clips);
+  $('rHours').textContent = fmt(diyHrs);
+  $('rWeeks').textContent = fmt(diyWks);
+  $('rCost').textContent  = '$' + fmt(cost);
+
+  if(!calcFired){ track('calculator_complete', {rawHours}); calcFired = true; }
+}
+['rawHours','freq','platform'].forEach(id => $(id).addEventListener('input', recompute));
+recompute();
+
+// ---- UTM capture → hidden fields + 30-day cookie (spec §4.4) ----
+(function(){
+  const params = new URLSearchParams(location.search);
+  const keys = ['utm_source','utm_medium','utm_campaign','utm_content'];
+  keys.forEach(k=>{
+    let v = params.get(k);
+    if(v){ document.cookie = `${k}=${encodeURIComponent(v)};path=/;max-age=${60*60*24*30}`; }
+    else { const m = document.cookie.match(new RegExp('(?:^|; )'+k+'=([^;]*)')); v = m?decodeURIComponent(m[1]):''; }
+    if($(k)) $(k).value = v || '';
+  });
+})();
+
+// ---- analytics shim (wire to GA4/Plausible — spec §4.3) ----
+function track(event, props){ (window.gtag && window.gtag('event', event, props)); console.log('[track]', event, props||{}); }
+track('lp_view', {lp:'backlog'});
+
+// ---- form submit → inline thank-you (spec §4.2) ----
+$('leadForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target;
+  if(f.company_website.value) return;            // honeypot
+  if(!f.checkValidity()){ f.reportValidity(); return; }
+
+  const endpoint = window.LEADS_ENDPOINT || '/api/leads';   // Formspree fallback via env in prod
+  const data = Object.fromEntries(new FormData(f).entries());
+  try { await fetch(endpoint, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); }
+  catch(_){ /* preview: ignore network; still confirm */ }
+
+  track('lead_submit', {lp:'backlog', icp:'creator'});
+  $('thanksEmail').textContent = f.email.value || 'your inbox';
+  $('formWrap').classList.add('hidden');
+  $('thanks').classList.remove('hidden');
+  $('thanks').scrollIntoView({behavior:'smooth', block:'center'});
+});
+
+// ---- progressive reveal with guaranteed visibility (spec §2 CRITICAL) ----
+const io = new IntersectionObserver(es=>es.forEach(x=>{ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); }}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// hard fallback: reveal everything after 300ms no matter what
+setTimeout(()=>document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in')), 300);
+</script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TheVideoJanitors — Cutting Room (Direction 02)</title>
+<link rel="preconnect" href="https://api.fontshare.com" />
+<link href="https://api.fontshare.com/v2/css?f[]=zodiak@400,500,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          espresso: "#15120D", panel: "#1E1A13", panelHi: "#27221A",
+          line: "#342E23", cream: "#F4ECDF", creamMut: "#A89B86", orange: "#FF5F15", clay: "#E8896B",
+        },
+        fontFamily: { serif: ["Zodiak", "serif"], sans: ["General Sans", "sans-serif"] },
+      },
+    },
+  };
+</script>
+<style>
+  :root { color-scheme: dark; }
+  body { background: #15120D; }
+  .ease-lux { transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1); }
+  .grain::before {
+    content: ""; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .glow { background: radial-gradient(50rem 36rem at 80% 0%, rgba(255,95,21,0.14), transparent 60%); }
+  .reveal { opacity: 0; transform: translateY(2rem); transition: all 0.95s cubic-bezier(0.32,0.72,0,1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .rule { height: 1px; background: linear-gradient(90deg, #342E23, transparent); }
+  ::selection { background: rgba(255,95,21,0.28); color: #fff; }
+  .ital { font-style: italic; }
+</style>
+</head>
+<body class="grain font-sans text-cream antialiased overflow-x-hidden">
+
+<!-- NAV -->
+<header class="fixed top-0 inset-x-0 z-50 px-5 md:px-10">
+  <nav class="max-w-7xl mx-auto flex items-center justify-between py-6">
+    <a href="#" class="flex items-center gap-3">
+      <span class="grid place-items-center w-8 h-8 rounded-full bg-orange text-espresso font-serif font-bold">V</span>
+      <span class="font-serif text-lg tracking-tight">TheVideoJanitors</span>
+    </a>
+    <div class="hidden md:flex items-center gap-9 text-[13px] uppercase tracking-[0.15em] text-creamMut">
+      <a href="#problem" class="hover:text-cream ease-lux transition-colors">Problem</a>
+      <a href="#how" class="hover:text-cream ease-lux transition-colors">Process</a>
+      <a href="#pricing" class="hover:text-cream ease-lux transition-colors">Pricing</a>
+    </div>
+    <a href="#pricing" class="text-[13px] uppercase tracking-[0.15em] border-b border-orange text-cream pb-1 ease-lux transition-colors hover:text-orange">Start →</a>
+  </nav>
+</header>
+
+<!-- HERO — editorial split -->
+<section class="glow relative min-h-[100dvh] flex items-center px-5 md:px-10 pt-32 pb-20">
+  <div class="max-w-7xl mx-auto w-full grid md:grid-cols-12 gap-10 items-center">
+    <div class="md:col-span-7">
+      <p class="reveal in text-[12px] uppercase tracking-[0.3em] text-clay mb-7">Managed short-form editing</p>
+      <h1 class="reveal in font-serif font-medium leading-[0.95] tracking-tight text-[15vw] md:text-[7.5rem]">
+        The freelance<br><span class="ital text-orange">roulette</span><br>ends here.
+      </h1>
+      <p class="reveal in mt-9 max-w-md text-[17px] leading-relaxed text-creamMut">
+        You shouldn't need a project manager to get a reel cut. Submit footage,
+        get matched to a vetted editor, and receive a polished short in 48 hours —
+        revisions included, ghosting impossible.
+      </p>
+      <div class="reveal in mt-10 flex flex-wrap items-center gap-4">
+        <a href="#pricing" class="group inline-flex items-center gap-3 rounded-full bg-orange text-espresso px-7 py-4 text-[15px] font-semibold ease-lux transition-all hover:bg-clay active:scale-[0.98]">
+          Claim your editor
+          <svg class="ease-lux transition-transform group-hover:translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#how" class="text-[15px] text-creamMut underline decoration-line underline-offset-4 hover:text-cream ease-lux transition-colors">How it works</a>
+      </div>
+    </div>
+    <div class="md:col-span-5 reveal in">
+      <div class="rounded-[2rem] border border-line bg-panel/70 p-2 backdrop-blur">
+        <div class="rounded-[1.6rem] bg-panelHi border border-line p-7">
+          <div class="flex items-center justify-between">
+            <p class="text-[11px] uppercase tracking-[0.2em] text-creamMut">Live job</p>
+            <span class="text-[11px] rounded-full bg-orange/15 text-orange border border-orange/30 px-2.5 py-0.5">In progress</span>
+          </div>
+          <p class="mt-5 font-serif text-2xl">Q2 launch reel · 9:16</p>
+          <p class="text-[13px] text-creamMut mt-1">Matched to a vetted editor · niche: SaaS</p>
+          <div class="mt-7 space-y-4">
+            <div class="flex justify-between text-[13px]"><span class="text-creamMut">Deadline</span><span class="font-serif text-clay text-base">41 : 12 : 06</span></div>
+            <div class="h-1.5 rounded-full bg-line overflow-hidden"><div class="h-full w-2/3 bg-orange rounded-full"></div></div>
+            <div class="flex justify-between text-[13px]"><span class="text-creamMut">Revisions left</span><span class="text-cream">3 of 3</span></div>
+            <div class="flex justify-between text-[13px]"><span class="text-creamMut">Credits spent</span><span class="text-orange">70 cr</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="text-[12px] text-creamMut/70 text-center mt-3 italic">Representative dashboard — not a real client job.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN POINTS — editorial numbered spread -->
+<section id="problem" class="px-5 md:px-10 py-28 md:py-36">
+  <div class="max-w-7xl mx-auto">
+    <div class="reveal max-w-2xl mb-20">
+      <p class="text-[12px] uppercase tracking-[0.3em] text-clay mb-5">Five reasons it breaks</p>
+      <h2 class="font-serif text-5xl md:text-6xl leading-[1.02]">What the threads<br>actually say.</h2>
+    </div>
+
+    <div class="space-y-0">
+      <!-- row -->
+      <div class="reveal grid md:grid-cols-12 gap-6 py-9 border-t border-line items-start">
+        <div class="md:col-span-1 font-serif text-3xl text-orange">01</div>
+        <div class="md:col-span-5"><h3 class="font-serif text-2xl">They ghost after payment.</h3><p class="text-creamMut text-[15px] mt-2">Editors disappear mid-project — no reply, no file, money gone.</p></div>
+        <div class="md:col-span-6 md:pl-8 md:border-l border-line"><p class="text-[12px] uppercase tracking-[0.2em] text-clay mb-2">Our fix</p><p class="text-[15px] text-cream/90">A vetted-only roster and one-click editor swap that carries the whole job over. Nobody disappears with your footage.</p></div>
+      </div>
+      <div class="reveal grid md:grid-cols-12 gap-6 py-9 border-t border-line items-start">
+        <div class="md:col-span-1 font-serif text-3xl text-orange">02</div>
+        <div class="md:col-span-5"><h3 class="font-serif text-2xl">"Soon" means never.</h3><p class="text-creamMut text-[15px] mt-2">Vague deadlines stretch for weeks and destroy your posting rhythm.</p></div>
+        <div class="md:col-span-6 md:pl-8 md:border-l border-line"><p class="text-[12px] uppercase tracking-[0.2em] text-clay mb-2">Our fix</p><p class="text-[15px] text-cream/90">A real 48-hour countdown on every request. Miss it and the job auto-reassigns to someone who won't.</p></div>
+      </div>
+      <div class="reveal grid md:grid-cols-12 gap-6 py-9 border-t border-line items-start">
+        <div class="md:col-span-1 font-serif text-3xl text-orange">03</div>
+        <div class="md:col-span-5"><h3 class="font-serif text-2xl">Great once, then random.</h3><p class="text-creamMut text-[15px] mt-2">One brilliant cut, then weeks chasing the next. No consistency.</p></div>
+        <div class="md:col-span-6 md:pl-8 md:border-l border-line"><p class="text-[12px] uppercase tracking-[0.2em] text-clay mb-2">Our fix</p><p class="text-[15px] text-cream/90">A dedicated editor who learns your brand kit and holds the look across every video in the series.</p></div>
+      </div>
+      <div class="reveal grid md:grid-cols-12 gap-6 py-9 border-t border-line items-start">
+        <div class="md:col-span-1 font-serif text-3xl text-orange">04</div>
+        <div class="md:col-span-5"><h3 class="font-serif text-2xl">$50 for a caption tweak.</h3><p class="text-creamMut text-[15px] mt-2">1–2 revisions included, then every "quick change" bills again.</p></div>
+        <div class="md:col-span-6 md:pl-8 md:border-l border-line"><p class="text-[12px] uppercase tracking-[0.2em] text-clay mb-2">Our fix</p><p class="text-[15px] text-cream/90">Three full revision rounds inside flat monthly credits. No metered nickel-and-diming, ever.</p></div>
+      </div>
+      <div class="reveal grid md:grid-cols-12 gap-6 py-9 border-y border-line items-start">
+        <div class="md:col-span-1 font-serif text-3xl text-orange">05</div>
+        <div class="md:col-span-5"><h3 class="font-serif text-2xl">~3 workdays a month, gone.</h3><p class="text-creamMut text-[15px] mt-2">Briefing, transfers, reviews, chasing: 1.5–3 hrs per video in overhead.</p></div>
+        <div class="md:col-span-6 md:pl-8 md:border-l border-line"><p class="text-[12px] uppercase tracking-[0.2em] text-clay mb-2">Our fix</p><p class="text-[15px] text-cream/90">A 90-second brief is all you touch. We run matching, delivery, and revisions. You approve and post.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="how" class="px-5 md:px-10 py-28 md:py-32">
+  <div class="max-w-7xl mx-auto">
+    <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+      <h2 class="font-serif text-5xl md:text-6xl leading-[1.02]">From footage to<br><span class="ital text-orange">finished</span> in four moves.</h2>
+      <p class="text-creamMut text-[15px] max-w-xs">No accounts to chase. No status-update DMs. Just a brief and a result.</p>
+    </div>
+    <div class="grid md:grid-cols-4 gap-5">
+      <div class="reveal"><p class="font-serif text-4xl text-orange">01</p><div class="rule my-4"></div><h3 class="font-serif text-xl">Subscribe</h3><p class="text-[14px] text-creamMut mt-2">Pick a plan, credits land instantly.</p></div>
+      <div class="reveal" style="transition-delay:80ms"><p class="font-serif text-4xl text-orange">02</p><div class="rule my-4"></div><h3 class="font-serif text-xl">Submit a brief</h3><p class="text-[14px] text-creamMut mt-2">Footage link, ratios, notes. 90 seconds.</p></div>
+      <div class="reveal" style="transition-delay:160ms"><p class="font-serif text-4xl text-orange">03</p><div class="rule my-4"></div><h3 class="font-serif text-xl">Get matched</h3><p class="text-[14px] text-creamMut mt-2">Vetted editor by niche. Clock starts.</p></div>
+      <div class="reveal" style="transition-delay:240ms"><p class="font-serif text-4xl text-orange">04</p><div class="rule my-4"></div><h3 class="font-serif text-xl">Approve</h3><p class="text-[14px] text-creamMut mt-2">Notes, revisions, done. Then post.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="px-5 md:px-10 py-28 md:py-32">
+  <div class="max-w-7xl mx-auto">
+    <div class="reveal text-center max-w-2xl mx-auto mb-16">
+      <p class="text-[12px] uppercase tracking-[0.3em] text-clay mb-5">One number a month</p>
+      <h2 class="font-serif text-5xl md:text-6xl leading-[1.02]">Pricing that doesn't<br>surprise you.</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="reveal rounded-[2rem] border border-line bg-panel p-8">
+        <h3 class="font-serif text-2xl">Quick Sweep</h3>
+        <p class="text-creamMut text-[14px] mt-1">Light monthly needs</p>
+        <p class="mt-8 font-serif text-5xl text-orange">$99</p>
+        <p class="text-creamMut text-[14px] mt-2">350 credits · 1 active request · 48h · 3 rounds</p>
+      </div>
+      <div class="reveal rounded-[2rem] border border-orange/40 bg-gradient-to-b from-orange/[0.1] to-panel p-8 relative" style="transition-delay:80ms">
+        <span class="absolute -top-3 left-8 rounded-full bg-orange text-espresso text-[11px] font-semibold uppercase tracking-wider px-3 py-1">Most chosen</span>
+        <h3 class="font-serif text-2xl">Deep Clean</h3>
+        <p class="text-creamMut text-[14px] mt-1">Growing brands & agencies</p>
+        <p class="mt-8 font-serif text-5xl text-orange">$249</p>
+        <p class="text-creamMut text-[14px] mt-2">950 credits · 2 active · priority matching · brand templates</p>
+      </div>
+      <div class="reveal rounded-[2rem] border border-line bg-panel p-8" style="transition-delay:160ms">
+        <h3 class="font-serif text-2xl">Full Service</h3>
+        <p class="text-creamMut text-[14px] mt-1">Ongoing volume</p>
+        <p class="mt-8 font-serif text-5xl text-orange">$599</p>
+        <p class="text-creamMut text-[14px] mt-2">2,500 credits · 4 active · account manager · white-label</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="glow px-5 md:px-10 py-28 md:py-44">
+  <div class="reveal max-w-4xl mx-auto text-center">
+    <h2 class="font-serif text-6xl md:text-8xl leading-[0.95]">Hand us the<br><span class="ital text-orange">mess.</span></h2>
+    <p class="mt-7 text-creamMut text-[17px] max-w-md mx-auto">Submit your first brief today. A polished short, back in 48 hours.</p>
+    <a href="#" class="group inline-flex items-center gap-3 mt-10 rounded-full bg-orange text-espresso px-8 py-4 text-[15px] font-semibold ease-lux transition-all hover:bg-clay active:scale-[0.98]">
+      Get started
+      <svg class="ease-lux transition-transform group-hover:translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section>
+
+<footer class="border-t border-line px-5 md:px-10 py-10">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] text-creamMut">
+    <span class="font-serif text-cream text-base">TheVideoJanitors</span>
+    <p class="italic">Clean edits. Fast delivery. No freelancer roulette.</p>
+    <p>© 2026 · Direction 02 — Cutting Room</p>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+</script>
+</body>
+</html>

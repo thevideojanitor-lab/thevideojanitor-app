@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>White-label editing for agencies — TheVideoJanitor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root{
+    --bg:#121212; --surface:#1A1A1A; --surface-2:#262626;
+    --text:#F9FAFB; --muted:#A3A3A3; --dim:#BFBFBF;
+    --accent:#FF5F15; --accent-soft:rgba(255,95,21,0.10); --success:#22C55E;
+  }
+  body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text)}
+  .accent{color:var(--accent)}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .field{background:var(--surface);border:1px solid var(--surface-2);color:var(--text)}
+  .field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- logo only — no global nav -->
+<header class="max-w-[1100px] mx-auto px-5 py-6 flex items-center justify-between">
+  <a href="/" class="flex items-center gap-2.5">
+    <span class="grid place-items-center w-8 h-8 rounded-lg bg-[#FF5F15] text-black font-extrabold">V</span>
+    <span class="font-bold text-[17px] tracking-tight">The<span class="accent">Video</span>Janitor</span>
+  </a>
+  <a href="#book" class="hidden sm:inline-flex items-center rounded-lg bg-[#FF5F15] text-black px-4 py-2 text-sm font-semibold hover:bg-[#E54E08] transition-colors">Book a call</a>
+</header>
+
+<main class="max-w-[1100px] mx-auto px-5">
+
+  <!-- 1. HERO -->
+  <section id="book" class="relative pt-10 pb-16 md:pt-16 md:pb-24 text-center"
+           style="background:radial-gradient(40rem 22rem at 50% -10%,rgba(255,95,21,0.12),transparent 65%)">
+    <p class="text-[11px] uppercase tracking-[0.22em] accent font-semibold mb-5">White-label editing for agencies</p>
+    <h1 class="font-extrabold text-4xl md:text-6xl leading-[1.05] tracking-tight max-w-3xl mx-auto">
+      Add a vetted editing team. Without hiring one.
+    </h1>
+    <p class="mt-6 text-[16px] md:text-lg text-[#BFBFBF] max-w-2xl mx-auto leading-relaxed">
+      Stop gambling on freelancers for client work. We're the white-label editing layer behind your agency —
+      per-client style specs, a revision SLA, and 48-hour turnaround. <span class="text-[#F9FAFB]">Your clients never know we exist.</span>
+    </p>
+    <div class="mt-9 flex flex-col sm:flex-row gap-3 justify-center">
+      <a id="bookCta" href="#" class="inline-flex items-center justify-center rounded-lg bg-[#FF5F15] text-black px-7 py-3.5 font-semibold hover:bg-[#E54E08] transition-colors">Book a 15-min call</a>
+      <a href="#pilot" class="inline-flex items-center justify-center rounded-lg border border-[#262626] px-7 py-3.5 font-semibold text-[#F9FAFB] hover:bg-[#1A1A1A] transition-colors">Get a free pilot edit</a>
+    </div>
+    <p class="mt-6 text-sm text-[#A3A3A3]">No card · no contract · white-labeled delivery</p>
+  </section>
+
+  <!-- 2. THE PROBLEM -->
+  <section class="reveal py-12 md:py-16">
+    <div class="max-w-2xl mx-auto text-center">
+      <p class="text-[11px] uppercase tracking-[0.18em] text-[#A3A3A3] font-semibold mb-4">The reputation tax</p>
+      <p class="font-bold text-2xl md:text-3xl leading-snug tracking-tight">
+        “Everyone calls themselves a video editor now. Quality depends on whoever's free that week —
+        and <span class="accent">every shaky deliverable is your reputation on the line</span>.”
+      </p>
+    </div>
+  </section>
+
+  <!-- 3. SOLUTION CARDS -->
+  <section class="reveal py-12 md:py-16">
+    <h2 class="text-center font-extrabold text-2xl md:text-3xl tracking-tight">The white-label layer behind your agency</h2>
+    <div class="mt-9 grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6">
+        <h3 class="font-bold text-lg">Per-client style specs</h3>
+        <p class="mt-2 text-sm text-[#A3A3A3] leading-relaxed">Documented per client, so quality never depends on who happens to be free that week.</p>
+      </div>
+      <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6">
+        <h3 class="font-bold text-lg">Revision SLA</h3>
+        <p class="mt-2 text-sm text-[#A3A3A3] leading-relaxed">No more chasing a ghosting freelancer at 11pm before a client deadline.</p>
+      </div>
+      <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6">
+        <h3 class="font-bold text-lg">White-label delivery</h3>
+        <p class="mt-2 text-sm text-[#A3A3A3] leading-relaxed">Your brand on every deliverable, not ours. Your clients never know we exist.</p>
+      </div>
+      <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6">
+        <h3 class="font-bold text-lg">Scale without hiring</h3>
+        <p class="mt-2 text-sm text-[#A3A3A3] leading-relaxed">Go from 5 to 50 clients with no new payroll, no onboarding, no HR risk.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. HOW IT WORKS -->
+  <section class="reveal py-12 md:py-16">
+    <h2 class="text-center font-extrabold text-2xl md:text-3xl tracking-tight">How it works</h2>
+    <div class="mt-9 grid md:grid-cols-3 gap-4 md:gap-6">
+      <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6">
+        <span class="text-3xl font-extrabold accent">1</span>
+        <h3 class="mt-2 font-bold text-lg">Subscribe</h3>
+        <p class="mt-2 text-sm text-[#A3A3A3] leading-relaxed">Pick a plan sized to your client load. One predictable monthly cost.</p>
+      </div>
+      <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6">
+        <span class="text-3xl font-extrabold accent">2</span>
+        <h3 class="mt-2 font-bold text-lg">Submit per client</h3>
+        <p class="mt-2 text-sm text-[#A3A3A3] leading-relaxed">Drop raw footage and a brief against each client's saved style spec.</p>
+      </div>
+      <div class="rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6">
+        <span class="text-3xl font-extrabold accent">3</span>
+        <h3 class="mt-2 font-bold text-lg">Receive in 48h</h3>
+        <p class="mt-2 text-sm text-[#A3A3A3] leading-relaxed">Approve, request revisions, then deliver to your client under your brand.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. PILOT OFFER / FORM -->
+  <section id="pilot" class="reveal scroll-mt-8 py-12 md:py-16">
+    <div class="max-w-xl mx-auto rounded-2xl bg-[#1A1A1A] border border-[#262626] p-6 md:p-9">
+      <div id="formWrap">
+        <h2 class="font-extrabold text-3xl tracking-tight text-center">Try us on one client deliverable — free.</h2>
+        <p class="mt-3 text-center text-sm text-[#A3A3A3]">No card, no contract. Send one real brief; we'll deliver it white-labeled in 48h.</p>
+
+        <form id="leadForm" class="mt-7 space-y-4" novalidate>
+          <div>
+            <label class="text-sm font-medium" for="name">Full name</label>
+            <input id="name" name="name" type="text" required class="field mt-1.5 w-full rounded-lg px-4 py-3 text-sm" placeholder="Your name" />
+          </div>
+          <div>
+            <label class="text-sm font-medium" for="email">Work / email</label>
+            <input id="email" name="email" type="email" required class="field mt-1.5 w-full rounded-lg px-4 py-3 text-sm" placeholder="you@agency.com" />
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm font-medium" for="agency">Agency name</label>
+              <input id="agency" name="agency" type="text" required class="field mt-1.5 w-full rounded-lg px-4 py-3 text-sm" placeholder="Your agency" />
+            </div>
+            <div>
+              <label class="text-sm font-medium" for="clients"># of clients</label>
+              <select id="clients" name="clients" required class="field mt-1.5 w-full rounded-lg px-4 py-3 text-sm">
+                <option value="">Select…</option>
+                <option>1–5</option><option>6–15</option><option>16–30</option><option>30+</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="text-sm font-medium" for="footage">Link to footage <span class="text-[#A3A3A3] font-normal">(optional)</span></label>
+            <input id="footage" name="footage" type="url" class="field mt-1.5 w-full rounded-lg px-4 py-3 text-sm" placeholder="Google Drive or Dropbox link" />
+          </div>
+
+          <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+          <input type="hidden" name="utm_source" id="utm_source" />
+          <input type="hidden" name="utm_medium" id="utm_medium" />
+          <input type="hidden" name="utm_campaign" id="utm_campaign" />
+          <input type="hidden" name="utm_content" id="utm_content" />
+
+          <button type="submit" class="w-full rounded-lg bg-[#FF5F15] text-black px-6 py-3.5 font-semibold hover:bg-[#E54E08] transition-colors">Request free pilot edit</button>
+          <p class="text-center text-xs text-[#A3A3A3]">Preview only — submitting shows the live thank-you state.</p>
+        </form>
+      </div>
+
+      <div id="thanks" class="hidden text-center py-6">
+        <div class="mx-auto mb-5 grid place-items-center w-14 h-14 rounded-full bg-[#22C55E]/15 border border-[#22C55E]/40">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h2 class="font-extrabold text-2xl tracking-tight">Got it.</h2>
+        <p class="mt-3 text-[#BFBFBF] text-sm max-w-sm mx-auto">We'll review your brief and deliver your white-labeled pilot edit within 48 hours. Check <span id="thanksEmail" class="text-[#F9FAFB] font-medium">your inbox</span>.</p>
+        <a id="thanksBook" href="#" class="mt-6 inline-flex items-center justify-center rounded-lg border border-[#262626] px-6 py-3 text-sm font-semibold hover:bg-[#262626] transition-colors">Prefer to talk first? Book a 15-min call →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. COMPARISON TABLE (reuse from /pricing — spec §6) -->
+  <section class="reveal py-12 md:py-16">
+    <h2 class="text-center font-extrabold text-2xl md:text-3xl tracking-tight mb-8">How we compare</h2>
+    <div class="overflow-x-auto rounded-2xl border border-[#262626]">
+      <table class="w-full text-sm min-w-[560px]">
+        <thead>
+          <tr class="bg-[#1A1A1A] text-left">
+            <th class="p-4 font-medium text-[#A3A3A3]"></th>
+            <th class="p-4 font-bold accent">TheVideoJanitor</th>
+            <th class="p-4 font-semibold">In-house / Agency hire</th>
+            <th class="p-4 font-semibold">Freelancer marketplace</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#262626]">
+          <tr><td class="p-4 text-[#A3A3A3]">Monthly cost</td><td class="p-4 font-medium">Flat subscription</td><td class="p-4 text-[#BFBFBF]">Full salary + overhead</td><td class="p-4 text-[#BFBFBF]">Per-video, unpredictable</td></tr>
+          <tr><td class="p-4 text-[#A3A3A3]">Consistency</td><td class="p-4 font-medium">Same editor + saved specs</td><td class="p-4 text-[#BFBFBF]">High (if they stay)</td><td class="p-4 text-[#BFBFBF]">Roulette every order</td></tr>
+          <tr><td class="p-4 text-[#A3A3A3]">Turnaround</td><td class="p-4 font-medium">48h SLA, in writing</td><td class="p-4 text-[#BFBFBF]">Depends on workload</td><td class="p-4 text-[#BFBFBF]">Whenever they reply</td></tr>
+          <tr><td class="p-4 text-[#A3A3A3]">White-label</td><td class="p-4 font-medium accent">Yes — your brand</td><td class="p-4 text-[#BFBFBF]">N/A</td><td class="p-4 text-[#BFBFBF]">No</td></tr>
+          <tr><td class="p-4 text-[#A3A3A3]">Scales to 50 clients</td><td class="p-4 font-medium">No new payroll</td><td class="p-4 text-[#BFBFBF]">More hires</td><td class="p-4 text-[#BFBFBF]">More vetting risk</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 7. FAQ + final CTA -->
+  <section class="reveal py-12 md:py-16 max-w-2xl mx-auto">
+    <h2 class="text-center font-extrabold text-2xl md:text-3xl tracking-tight mb-8">Agency FAQ</h2>
+    <div class="divide-y divide-[#262626] border-y border-[#262626]">
+      <details class="group py-5">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold list-none">Is delivery really white-labeled?<span class="accent transition-transform group-open:rotate-45 text-xl leading-none">+</span></summary>
+        <p class="mt-3 text-sm text-[#A3A3A3] leading-relaxed">Yes. Deliverables carry no TheVideoJanitor branding. Your client sees your agency, full stop.</p>
+      </details>
+      <details class="group py-5">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold list-none">Will you sign an NDA?<span class="accent transition-transform group-open:rotate-45 text-xl leading-none">+</span></summary>
+        <p class="mt-3 text-sm text-[#A3A3A3] leading-relaxed">Happily. We work behind a lot of agencies — confidentiality is standard, not an upsell.</p>
+      </details>
+      <details class="group py-5">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold list-none">How does volume / billing work?<span class="accent transition-transform group-open:rotate-45 text-xl leading-none">+</span></summary>
+        <p class="mt-3 text-sm text-[#A3A3A3] leading-relaxed">One monthly subscription sized to your client load, with top-up packs when a busy month hits. Predictable, not per-order.</p>
+      </details>
+    </div>
+    <div class="mt-12 text-center">
+      <h3 class="font-extrabold text-2xl md:text-3xl tracking-tight">See the quality on one real brief.</h3>
+      <div class="mt-7 flex flex-col sm:flex-row gap-3 justify-center">
+        <a id="bookCta2" href="#" class="inline-flex items-center justify-center rounded-lg bg-[#FF5F15] text-black px-7 py-3.5 font-semibold hover:bg-[#E54E08] transition-colors">Book a 15-min call</a>
+        <a href="#pilot" class="inline-flex items-center justify-center rounded-lg border border-[#262626] px-7 py-3.5 font-semibold text-[#F9FAFB] hover:bg-[#1A1A1A] transition-colors">Request free pilot edit</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="border-t border-[#262626]">
+  <div class="max-w-[1100px] mx-auto px-5 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#A3A3A3]">
+    <span>© 2026 TheVideoJanitor</span>
+    <span class="flex gap-5"><a href="/privacy" class="hover:text-[#F9FAFB]">Privacy</a><a href="/terms" class="hover:text-[#F9FAFB]">Terms</a></span>
+  </div>
+</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+
+// Calendly link (env CALENDLY_URL in prod). Preview → '#pilot' so nothing breaks.
+const CALENDLY_URL = window.CALENDLY_URL || '#pilot';
+['bookCta','bookCta2','thanksBook'].forEach(id=>{ const a=$(id); if(a){ a.href = CALENDLY_URL; a.addEventListener('click',()=>track('calendly_click',{lp:'agencies'})); }});
+
+// UTM capture → hidden fields + 30-day cookie
+(function(){
+  const params = new URLSearchParams(location.search);
+  ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k=>{
+    let v = params.get(k);
+    if(v){ document.cookie = `${k}=${encodeURIComponent(v)};path=/;max-age=${60*60*24*30}`; }
+    else { const m = document.cookie.match(new RegExp('(?:^|; )'+k+'=([^;]*)')); v = m?decodeURIComponent(m[1]):''; }
+    if($(k)) $(k).value = v || '';
+  });
+})();
+
+function track(event, props){ (window.gtag && window.gtag('event', event, props)); console.log('[track]', event, props||{}); }
+track('lp_view', {lp:'agencies'});
+
+$('leadForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target;
+  if(f.company_website.value) return;            // honeypot
+  if(!f.checkValidity()){ f.reportValidity(); return; }
+
+  const endpoint = window.LEADS_ENDPOINT || '/api/leads';
+  const data = Object.fromEntries(new FormData(f).entries());
+  try { await fetch(endpoint, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); }
+  catch(_){}
+
+  track('lead_submit', {lp:'agencies', icp:'agency'});
+  $('thanksEmail').textContent = f.email.value || 'your inbox';
+  $('formWrap').classList.add('hidden');
+  $('thanks').classList.remove('hidden');
+  $('thanks').scrollIntoView({behavior:'smooth', block:'center'});
+});
+
+// reveal with hard fallback
+const io = new IntersectionObserver(es=>es.forEach(x=>{ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); }}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+setTimeout(()=>document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in')), 300);
+</script>
+</body>
+</html>
