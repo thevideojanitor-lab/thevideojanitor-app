@@ -1,64 +1,43 @@
-import { motion } from "motion/react";
-import { CreditCard, Upload, Sparkles } from "lucide-react";
+import Section from "@/components/marketing/Section";
+import Reveal from "@/components/marketing/Reveal";
+import EditorialHeading from "@/components/marketing/EditorialHeading";
+import BentoCard from "@/components/marketing/BentoCard";
 
 const steps = [
-  {
-    icon: CreditCard,
-    step: "01",
-    title: "Subscribe",
-    description: "Pick a plan that fits your volume. No contracts, cancel anytime.",
-  },
-  {
-    icon: Upload,
-    step: "02",
-    title: "Submit",
-    description: "Upload raw footage and a brief. We match you with the right editor.",
-  },
-  {
-    icon: Sparkles,
-    step: "03",
-    title: "Receive",
-    description: "Get polished, platform-ready reels back within 48 hours.",
-  },
+  { step: "01", title: "Subscribe", description: "Pick a plan, credits land instantly." },
+  { step: "02", title: "Submit a brief", description: "Footage link, ratios, notes. 90 sec." },
+  { step: "03", title: "Get matched", description: "Vetted editor by niche. Clock starts." },
+  { step: "04", title: "Approve & post", description: "Notes, revisions, done.", ink: true },
 ];
 
 const HowItWorks = () => {
   return (
-    <section id="how-it-works" className="py-24 md:py-32">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">How It Works</p>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold">Three steps. Zero headaches.</h2>
-        </motion.div>
+    <Section id="how" tone="sand">
+      <Reveal className="text-center max-w-2xl mx-auto mb-14">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">
+          The new way
+        </p>
+        <EditorialHeading as="h2">Four steps. Then it just shows up.</EditorialHeading>
+      </Reveal>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {steps.map(({ icon: Icon, step, title, description }, i) => (
-            <motion.div
-              key={title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
-              className="relative p-8 rounded-2xl bg-card border border-border hover:border-primary/30 transition-colors group"
-            >
-              <div className="absolute -top-4 left-8 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">
-                {step}
-              </div>
-              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                <Icon className="w-7 h-7 text-primary" />
-              </div>
-              <h3 className="font-heading text-xl font-semibold mb-3">{title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{description}</p>
-            </motion.div>
-          ))}
-        </div>
+      <div className="grid md:grid-cols-4 gap-4">
+        {steps.map(({ step, title, description, ink }, i) => (
+          <Reveal key={step} delay={i * 0.06}>
+            <BentoCard variant={ink ? "ink" : "default"} className="p-7 h-full">
+              <p className="font-heading font-bold text-primary text-2xl">{step}</p>
+              <h3 className="mt-3 font-heading font-bold text-lg">{title}</h3>
+              <p
+                className={`mt-2 text-[13px] ${
+                  ink ? "text-background/70" : "text-muted-foreground"
+                }`}
+              >
+                {description}
+              </p>
+            </BentoCard>
+          </Reveal>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 };
 
