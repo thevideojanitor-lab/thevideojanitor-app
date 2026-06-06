@@ -40,6 +40,7 @@ export default function LaunchStep() {
     })
 
     if (err) {
+      console.error("[LaunchStep] editor_profiles insert failed:", err.code, err.message)
       setError("Something went wrong. Please try again.")
       setLoading(false)
       return

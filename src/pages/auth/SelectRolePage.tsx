@@ -5,7 +5,6 @@ import { Loader2, Scissors, Video } from "lucide-react"
 import { fadeUp, staggerContainer } from "@/lib/animations"
 import { supabase } from "@/lib/supabase"
 import { detectRegion, persistRegionToUser } from "@/lib/region"
-import { useAuthStore } from "@/stores/authStore"
 import AuthBackground from "@/components/AuthBackground"
 
 export default function SelectRolePage() {
@@ -33,7 +32,13 @@ export default function SelectRolePage() {
     })
 
     if (insertErr) {
-      setError("Something went wrong. Please try again.")
+      console.error("[SelectRolePage] users insert failed:", insertErr.code, insertErr.message)
+      if (insertErr.code === "23505") {
+        // Duplicate key — email already registered with a different sign-in method
+        setError("This email is already registered. Try signing in with your original method.")
+      } else {
+        setError("Something went wrong. Please try again.")
+      }
       setLoading(false)
       return
     }
@@ -44,18 +49,8 @@ export default function SelectRolePage() {
 
     await persistRegionToUser(authUser.id, regionConfig)
 
-    // Prime authStore before navigating — onAuthStateChange won't re-fire since the
-    // Supabase session didn't change, so ProtectedRoute needs this to see the correct role.
-    useAuthStore.getState().setUser({
-      id: authUser.id,
-      email: authUser.email ?? "",
-      role: selectedRole,
-      region: regionConfig.region as "US" | "IN",
-      currency: regionConfig.currency as "USD" | "INR",
-      admin_role: null,
-      created_at: new Date().toISOString(),
-    })
-    useAuthStore.getState().setOnboardingComplete(false)
+    // ProtectedRoute calls useAuth() fresh on mount and loads from DB; no need to
+    // pre-populate the store here. Doing so would race with PublicOnlyRoute's redirect.
 
     if (selectedRole === "editor") {
       navigate("/editor/onboarding")
