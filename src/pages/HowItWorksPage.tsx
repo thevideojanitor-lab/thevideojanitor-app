@@ -1,15 +1,17 @@
 ﻿// src/pages/HowItWorksPage.tsx
-import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import {
   CreditCard, Upload, UserCheck, RefreshCw, ArrowLeftRight,
-  Clock, MessageSquare, Shield, Coins, ArrowRight, Check,
-  ChevronRight, Zap, FileVideo, Link as LinkIcon
+  Clock, MessageSquare, Shield, Coins, ArrowUpRight, ChevronRight,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import Section from "@/components/marketing/Section";
+import Reveal from "@/components/marketing/Reveal";
+import EditorialHeading from "@/components/marketing/EditorialHeading";
+import BentoCard from "@/components/marketing/BentoCard";
 
 const mainSteps = [
   {
@@ -189,65 +191,46 @@ const HowItWorksPage = () => {
         <Navbar />
 
         {/* Hero */}
-        <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
-          <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-sm font-medium uppercase tracking-widest text-primary mb-4"
-            >
-              How It Works
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
-            >
-              Simple process.{" "}
-              <span className="text-primary">Predictable results.</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
-            >
-              No freelancer roulette. No missed deadlines. No chasing people. Here's exactly how
-              TheVideoJanitors works — from your first credit to your finished reel.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
-              <Link to="/pricing">
-                <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                  View Plans <ArrowRight className="w-5 h-5 ml-1" />
-                </Button>
-              </Link>
-              <Link to="/contact">
-                <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
-                  Talk to Us
-                </Button>
-              </Link>
-            </motion.div>
+        <section className="halo relative px-4 pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+          <div className="relative z-10 max-w-4xl mx-auto w-full text-center">
+            <Reveal>
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">How it works</p>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <EditorialHeading as="h1">
+                Simple process. <span className="text-primary">Predictable results.</span>
+              </EditorialHeading>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mt-8 mb-10">
+                No freelancer roulette. No missed deadlines. No chasing people. Here's exactly how
+                TheVideoJanitors works — from your first credit to your finished reel.
+              </p>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link to="/pricing">
+                  <Button variant="hero" size="lg" className="text-base px-7 py-6 w-full sm:w-auto">
+                    View Plans <ArrowUpRight className="w-5 h-5 ml-1" />
+                  </Button>
+                </Link>
+                <Link to="/contact">
+                  <Button variant="hero-outline" size="lg" className="text-base px-7 py-6 w-full sm:w-auto">
+                    Talk to Us
+                  </Button>
+                </Link>
+              </div>
+            </Reveal>
           </div>
         </section>
 
         {/* Step-by-step process */}
-        <section className="py-24 md:py-32">
-          <div className="container mx-auto px-4 max-w-6xl">
+        <section className="px-4 py-24 md:py-32">
+          <div className="max-w-6xl mx-auto">
             <div className="space-y-24">
               {mainSteps.map((step, i) => (
-                <motion.div
+                <Reveal
                   key={step.step}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
                   className={`grid md:grid-cols-2 gap-12 items-center ${
                     i % 2 === 1 ? "md:grid-flow-dense" : ""
                   }`}
@@ -281,7 +264,7 @@ const HowItWorksPage = () => {
 
                   {/* Aside Card */}
                   <div className={i % 2 === 1 ? "md:col-start-1 md:row-start-1" : ""}>
-                    <div className="p-8 rounded-2xl bg-card border border-border">
+                    <BentoCard className="p-8">
                       <p className="text-xs font-bold uppercase tracking-widest text-primary mb-5">
                         {step.aside.label}
                       </p>
@@ -296,116 +279,80 @@ const HowItWorksPage = () => {
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </BentoCard>
                   </div>
-                </motion.div>
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
 
         {/* Platform Guarantees */}
-        <section className="py-24 md:py-32 bg-card/50">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">
-                Platform Standards
-              </p>
-              <h2 className="font-heading text-3xl md:text-4xl font-bold">
-                Built-in protections. Every request.
-              </h2>
-            </motion.div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-              {guarantees.map((g, i) => (
-                <motion.div
-                  key={g.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="p-6 rounded-2xl bg-card border border-border hover:border-primary/30 transition-colors"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+        <Section tone="sand">
+          <Reveal className="text-center mb-14">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">Platform standards</p>
+            <EditorialHeading as="h2">Built-in protections. Every request.</EditorialHeading>
+          </Reveal>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+            {guarantees.map((g, i) => (
+              <Reveal key={g.title} delay={i * 0.06}>
+                <BentoCard className="p-6 h-full">
+                  <div className="w-12 h-12 rounded-card bg-primary/10 flex items-center justify-center mb-5">
                     <g.icon className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-heading text-lg font-semibold mb-3">{g.title}</h3>
+                  <h3 className="font-heading text-lg font-semibold mb-3 text-foreground">{g.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{g.description}</p>
-                </motion.div>
-              ))}
-            </div>
+                </BentoCard>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </Section>
 
         {/* FAQ */}
-        <section className="py-24 md:py-32">
-          <div className="container mx-auto px-4 max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">FAQ</p>
-              <h2 className="font-heading text-3xl md:text-4xl font-bold">
-                Common process questions
-              </h2>
-            </motion.div>
-            <div className="space-y-4">
-              {faqs.map((faq, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className="p-6 rounded-2xl bg-card border border-border"
-                >
-                  <h3 className="font-heading font-semibold mb-3 text-sm">{faq.q}</h3>
+        <Section>
+          <Reveal className="text-center mb-14">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">FAQ</p>
+            <EditorialHeading as="h2">Common process questions</EditorialHeading>
+          </Reveal>
+          <div className="max-w-3xl mx-auto space-y-4">
+            {faqs.map((faq, i) => (
+              <Reveal key={i} delay={i * 0.05}>
+                <BentoCard className="p-6">
+                  <h3 className="font-heading font-semibold mb-3 text-sm text-foreground">{faq.q}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
-                </motion.div>
-              ))}
-            </div>
+                </BentoCard>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </Section>
 
         {/* CTA */}
-        <section className="py-24 md:py-32 bg-card/30">
-          <div className="container mx-auto px-4 text-center max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
-                Ready to clean up{" "}
-                <span className="text-primary">your content workflow?</span>
-              </h2>
-              <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
+        <section className="px-4 py-20 md:py-28">
+          <Reveal className="max-w-6xl mx-auto">
+            <BentoCard variant="primary" className="px-6 py-20 text-center rounded-[2.5rem]">
+              <EditorialHeading as="h2" className="text-4xl md:text-6xl">
+                Ready to clean up your content workflow?
+              </EditorialHeading>
+              <p className="text-primary-foreground/85 text-lg max-w-xl mx-auto mt-6">
                 Subscribe to a plan. Submit your first request. Get polished content back in 48 hours.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="mt-9 flex flex-col sm:flex-row gap-3 justify-center">
                 <Link to="/pricing">
-                  <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                    View Plans <ArrowRight className="w-5 h-5 ml-1" />
+                  <Button size="lg" className="bg-background text-foreground hover:bg-foreground hover:text-background text-base px-8 py-6">
+                    View Plans <ArrowUpRight className="w-5 h-5 ml-1" />
                   </Button>
                 </Link>
                 <Link to="/for-editors">
-                  <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
+                  <Button size="lg" variant="outline" className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary text-base px-8 py-6">
                     Join as Editor
                   </Button>
                 </Link>
               </div>
-              <p className="text-xs text-muted-foreground mt-6">
+              <p className="text-xs text-primary-foreground/70 mt-8">
                 No contracts · Credits roll over while subscribed · Cancel anytime
               </p>
-            </motion.div>
-          </div>
+            </BentoCard>
+          </Reveal>
         </section>
 
         <Footer />
