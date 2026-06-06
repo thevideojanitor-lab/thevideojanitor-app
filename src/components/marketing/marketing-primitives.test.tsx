@@ -1,13 +1,6 @@
-import { describe, it, expect, vi } from "vitest"
+import { describe, it, expect } from "vitest"
 import { render } from "@testing-library/react"
-
-// jsdom does not implement IntersectionObserver; motion's whileInView needs it.
-vi.stubGlobal("IntersectionObserver", class {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-  takeRecords() { return [] }
-})
+// IntersectionObserver is mocked globally in src/test/setup.ts (Reveal uses whileInView).
 import Section from "./Section"
 import BentoCard from "./BentoCard"
 import EditorialHeading from "./EditorialHeading"

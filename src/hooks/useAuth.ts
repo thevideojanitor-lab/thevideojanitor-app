@@ -53,39 +53,8 @@ export function useAuth(): AuthState {
     }
 
     if (!appUser) {
-      // No users row — happens for OAuth sign-ins or if signup row creation failed.
-      // Auto-create the row so the user isn't silently signed out.
-      const { data: { user: authUser } } = await supabase.auth.getUser()
-      if (!authUser) {
-        await supabase.auth.signOut()
-        clear()
-        setLoading(false)
-        return
-      }
-
-      const { data: created, error: createErr } = await supabase
-        .from("users")
-        .insert({
-          id: uid,
-          email: authUser.email ?? "",
-          role: "client",
-          region: "US",
-          currency: "USD",
-        })
-        .select()
-        .single()
-
-      if (createErr || !created) {
-        console.error("[useAuth] failed to create users row:", createErr?.message)
-        await supabase.auth.signOut()
-        clear()
-        setLoading(false)
-        return
-      }
-
-      await supabase.from("client_profiles").upsert({ user_id: uid })
-      setUser(created as AppUser)
-      setOnboardingComplete(false)
+      // No app profile yet — new OAuth user who hasn't selected a role yet.
+      // AuthCallback handles routing them to /auth/select-role.
       setLoading(false)
       return
     }
