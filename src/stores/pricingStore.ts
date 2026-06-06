@@ -1,5 +1,4 @@
 import { create } from "zustand"
-import { supabase } from "@/lib/supabase"
 
 export interface PlanConfig {
   amount: number
@@ -52,33 +51,39 @@ export const usePricingStore = create<PricingStore>((set) => ({
 
   fetch: async (region) => {
     set({ loading: true })
-    const currency = region === "IN" ? "inr" : "usd"
 
-    const { data } = await supabase
-      .from("platform_config")
-      .select("key, value")
-      .in("key", [
-        `pricing_${currency}`,
-        `credit_packs_${currency}`,
-        "edit_costs",
-        "rules",
-      ])
-
-    if (!data) {
+    // Pricing is read via the public get-pricing Edge Function (service-role),
+    // NOT the platform_config table directly: its RLS only allows reads for
+    // authenticated users, so a direct query returns nothing on public pages
+    // like the marketing homepage. (CLAUDE.md §6/§11.)
+    const baseUrl = import.meta.env.VITE_SUPABASE_URL as string
+    const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string
+    if (!baseUrl || !anonKey) {
       set({ loading: false })
       return
     }
 
-    const byKey = Object.fromEntries(data.map((r) => [r.key, r.value]))
-
-    set({
-      config: {
-        plans: byKey[`pricing_${currency}`],
-        creditPacks: byKey[`credit_packs_${currency}`],
-        editCosts: byKey["edit_costs"],
-        rules: byKey["rules"],
-      },
-      loading: false,
-    })
+    try {
+      const res = await fetch(
+        `${baseUrl}/functions/v1/get-pricing?region=${region}`,
+        { headers: { apikey: anonKey, Authorization: `Bearer ${anonKey}` } }
+      )
+      if (!res.ok) {
+        set({ loading: false })
+        return
+      }
+      const data = await res.json()
+      set({
+        config: {
+          plans: data.plans,
+          creditPacks: data.creditPacks,
+          editCosts: data.editCosts,
+          rules: data.rules,
+        },
+        loading: false,
+      })
+    } catch {
+      set({ loading: false })
+    }
   },
 }))

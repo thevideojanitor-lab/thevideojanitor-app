@@ -78,9 +78,18 @@ export default function PlanCalculator() {
       )
     }
 
-    // `fetch` can set a config object whose fields are undefined when the
-    // platform_config table has no matching rows — treat that as unavailable.
-    if (!config || !config.editCosts || !config.plans) {
+    // get-pricing returns {} for plans/editCosts when platform_config has no
+    // matching rows, so check the actual fields we dereference — otherwise we'd
+    // compute on undefined and crash. Treat any missing piece as unavailable.
+    const ready =
+      !!config &&
+      typeof config.editCosts?.basic === "number" &&
+      typeof config.editCosts?.standard === "number" &&
+      typeof config.editCosts?.premium === "number" &&
+      !!config.plans?.quick_sweep &&
+      !!config.plans?.deep_clean &&
+      !!config.plans?.full_service
+    if (!ready) {
       return (
         <BentoCard className="p-6 md:p-8">
           <p className="font-heading text-xl font-semibold text-foreground">

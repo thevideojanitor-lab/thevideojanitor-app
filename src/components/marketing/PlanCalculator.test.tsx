@@ -55,4 +55,15 @@ describe("PlanCalculator", () => {
     renderCalc()
     expect(screen.getByText(/pricing unavailable/i)).toBeTruthy()
   })
+
+  it("falls back on the get-pricing empty-object shape (unseeded config)", () => {
+    // get-pricing returns {} for plans/editCosts/creditPacks/rules when the
+    // platform_config table has no rows. Must render the fallback, not crash.
+    usePricingStore.setState({
+      config: { plans: {}, creditPacks: {}, editCosts: {}, rules: {} } as never,
+      loading: false,
+    })
+    renderCalc()
+    expect(screen.getByText(/pricing unavailable/i)).toBeTruthy()
+  })
 })
