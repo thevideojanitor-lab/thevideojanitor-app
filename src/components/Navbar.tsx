@@ -59,14 +59,13 @@ const Navbar = () => {
   ];
 
   return (
+    <header className="fixed top-0 inset-x-0 z-50 flex justify-center px-4">
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-background/95 backdrop-blur-lg border-b border-border shadow-lg"
-          : "bg-background/80 backdrop-blur-md border-b border-border/50"
+      className={`mt-4 w-full max-w-6xl rounded-2xl bg-card/80 backdrop-blur-xl border border-border transition-shadow duration-300 ${
+        scrolled ? "shadow-lift" : "shadow-soft"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between h-16 px-4">
+      <div className="flex items-center justify-between h-14 px-4">
         {/* Logo */}
         <Link to="/" className="font-heading text-xl font-bold tracking-tight shrink-0">
           The<span className="text-primary">Video</span>Janitors
@@ -160,7 +159,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-background border-b border-border px-4 pb-6 space-y-1 max-h-[85vh] overflow-y-auto">
+        <div className="lg:hidden border-t border-border px-4 pb-6 space-y-1 max-h-[85vh] overflow-y-auto rounded-b-2xl">
           <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground pt-4 pb-2 px-3">
             Solutions
           </p>
@@ -211,6 +210,7 @@ const Navbar = () => {
         </div>
       )}
     </nav>
+    </header>
   );
 };
 

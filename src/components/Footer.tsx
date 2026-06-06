@@ -11,9 +11,12 @@ const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           {/* Brand */}
           <div className="col-span-2">
-            <Link to="/" className="font-heading text-xl font-bold block mb-3">
+            <Link to="/" className="font-heading text-xl font-bold block mb-2">
               The<span className="text-primary">Video</span>Janitors
             </Link>
+            <p className="font-heading text-sm font-semibold text-foreground mb-3">
+              Clean edits. Fast delivery. No freelancer roulette.
+            </p>
             <p className="text-sm text-muted-foreground mb-5 max-w-xs leading-relaxed">
               Managed short-form video editing without the freelancer mess.
               Upload footage. We clean up the rest.
