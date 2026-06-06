@@ -111,7 +111,7 @@ export default function LaunchStep() {
       <div className="flex gap-3">
         <button
           onClick={() => navigate("/editor/onboarding/specialties")}
-          className="flex items-center gap-1.5 px-4 py-3 border border-card text-foreground rounded-lg text-sm font-medium hover:bg-card transition-colors"
+          className="flex items-center gap-1.5 px-4 py-3 border border-border text-foreground rounded-lg text-sm font-medium hover:bg-card transition-colors"
         >
           <ArrowLeft size={16} /> Back
         </button>

@@ -126,14 +126,14 @@ function RequestCard({ req, onSwap }: { req: Request; onSwap: (r: Request) => vo
       <div className="flex gap-2">
         <Link
           to={`/dashboard/requests/${req.id}`}
-          className="flex-1 flex items-center justify-center gap-1.5 border border-card text-foreground text-xs font-medium rounded-lg py-2 hover:bg-surface-elevated transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 border border-border text-foreground text-xs font-medium rounded-lg py-2 hover:bg-surface-elevated transition-colors"
         >
           <Eye size={13} />
           {isDelivered ? "Review Edit" : "View Details"}
         </Link>
         <Link
           to={`/dashboard/requests/${req.id}`}
-          className="flex-1 flex items-center justify-center gap-1.5 border border-card text-foreground text-xs font-medium rounded-lg py-2 hover:bg-surface-elevated transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 border border-border text-foreground text-xs font-medium rounded-lg py-2 hover:bg-surface-elevated transition-colors"
         >
           <MessageSquare size={13} />
           Chat

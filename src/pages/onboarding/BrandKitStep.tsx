@@ -127,7 +127,7 @@ export default function BrandKitStep() {
             onClick={() => fileRef.current?.click()}
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f) }}
-            className="border-2 border-dashed border-card rounded-xl p-6 text-center cursor-pointer hover:border-primary/50 transition-colors"
+            className="border-2 border-dashed border-border rounded-xl p-6 text-center cursor-pointer hover:border-primary/50 transition-colors"
           >
             {logoPreview ? (
               <div className="relative inline-block">

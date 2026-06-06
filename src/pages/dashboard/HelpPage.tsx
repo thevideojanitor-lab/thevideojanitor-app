@@ -178,7 +178,7 @@ export default function HelpPage() {
         <div className="grid sm:grid-cols-2 gap-3">
           <a
             href="mailto:support@thevideojanitor.com"
-            className="flex items-center gap-3 bg-border hover:bg-border border border-card rounded-xl p-4 transition-colors group"
+            className="flex items-center gap-3 bg-border hover:bg-border border border-border rounded-xl p-4 transition-colors group"
           >
             <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
               <Mail size={16} className="text-primary" />
@@ -190,7 +190,7 @@ export default function HelpPage() {
           </a>
           <a
             href="mailto:support@thevideojanitor.com?subject=Chat%20Request"
-            className="flex items-center gap-3 bg-border hover:bg-border border border-card rounded-xl p-4 transition-colors group"
+            className="flex items-center gap-3 bg-border hover:bg-border border border-border rounded-xl p-4 transition-colors group"
           >
             <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
               <MessageSquare size={16} className="text-primary" />

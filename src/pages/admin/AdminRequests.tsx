@@ -490,7 +490,7 @@ export default function AdminRequests() {
               <input type="datetime-local" value={extendDate} onChange={(e) => setExtendDate(e.target.value)} className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground focus:border-primary outline-none" />
               <input value={extendReason} onChange={(e) => setExtendReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
               <div className="flex gap-2">
-                <button onClick={closeActive} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <button onClick={closeActive} className="flex-1 border border-border text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleExtend} disabled={!extendDate || !extendReason.trim() || working} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {working ? "Saving…" : "Save"}
                 </motion.button>
@@ -514,7 +514,7 @@ export default function AdminRequests() {
               </p>
               <input value={actionReason} onChange={(e) => setActionReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
               <div className="flex gap-2">
-                <button onClick={closeActive} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <button onClick={closeActive} className="flex-1 border border-border text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleForceApprove} disabled={!actionReason.trim() || working} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {working ? "Approving…" : "Force Approve"}
                 </motion.button>
@@ -536,7 +536,7 @@ export default function AdminRequests() {
               <input type="number" min="1" value={refundAmount} onChange={(e) => setRefundAmount(e.target.value)} placeholder="Amount (credits)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
               <input value={actionReason} onChange={(e) => setActionReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
               <div className="flex gap-2">
-                <button onClick={closeActive} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <button onClick={closeActive} className="flex-1 border border-border text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleRefund} disabled={!refundAmount || !actionReason.trim() || working} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {working ? "Refunding…" : "Refund"}
                 </motion.button>

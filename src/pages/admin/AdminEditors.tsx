@@ -307,7 +307,7 @@ export default function AdminEditors() {
                 Active in pool
               </label>
               <div className="flex gap-2 pt-1">
-                <button onClick={close} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <button onClick={close} className="flex-1 border border-border text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleEdit} disabled={working} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {working ? "Saving…" : "Save"}
                 </motion.button>
@@ -336,7 +336,7 @@ export default function AdminEditors() {
                 )}
                 <input value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
                 <div className="flex gap-2">
-                  <button onClick={close} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                  <button onClick={close} className="flex-1 border border-border text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
                   <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
                     onClick={actionKey === "suspend" ? handleSuspend : actionKey === "remove" ? handleRemove : handleResetStrikes}
                     disabled={!reason.trim() || working}

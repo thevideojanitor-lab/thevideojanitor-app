@@ -206,7 +206,7 @@ function FootageStep({ onNext, onBack }: { onNext: (url: string, type: "drive_li
       </p>
 
       <div className="flex gap-3">
-        <button onClick={onBack} className="flex-1 border border-card text-foreground rounded-lg py-3 text-sm font-medium hover:bg-card transition-colors">
+        <button onClick={onBack} className="flex-1 border border-border text-foreground rounded-lg py-3 text-sm font-medium hover:bg-card transition-colors">
           Back
         </button>
         <motion.button
@@ -304,7 +304,7 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
               className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-all ${
                 brief.vibe.includes(v)
                   ? "bg-primary/15 text-primary border-primary/30"
-                  : "bg-input text-muted-foreground border-border hover:border-card"
+                  : "bg-input text-muted-foreground border-border hover:border-border"
               }`}
             >
               {v}
@@ -324,7 +324,7 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
               className={`flex-1 py-2.5 rounded-lg text-sm font-medium border transition-all ${
                 brief.captions === value
                   ? "bg-primary/15 text-primary border-primary/30"
-                  : "bg-input text-muted-foreground border-border hover:border-card"
+                  : "bg-input text-muted-foreground border-border hover:border-border"
               }`}
             >
               {label}
@@ -374,7 +374,7 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
               className={`flex-1 py-2.5 rounded-lg text-xs font-medium border transition-all relative ${
                 brief.aspectRatios.includes(value)
                   ? "bg-primary/15 text-primary border-primary/30"
-                  : "bg-input text-muted-foreground border-border hover:border-card"
+                  : "bg-input text-muted-foreground border-border hover:border-border"
               }`}
             >
               {label}
@@ -385,7 +385,7 @@ function BriefStep({ editType, baseCost, onNext, onBack, extraRatioCost }: {
       </div>
 
       <div className="flex gap-3">
-        <button onClick={onBack} className="flex-1 border border-card text-foreground rounded-lg py-3 text-sm font-medium hover:bg-card transition-colors">
+        <button onClick={onBack} className="flex-1 border border-border text-foreground rounded-lg py-3 text-sm font-medium hover:bg-card transition-colors">
           Back
         </button>
         <motion.button

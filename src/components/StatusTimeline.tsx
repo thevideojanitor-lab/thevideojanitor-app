@@ -78,7 +78,7 @@ export default function StatusTimeline({ currentStatus, submittedAt, deliveredAt
                     <span className="relative inline-flex rounded-full w-3 h-3 bg-primary" />
                   </span>
                 ) : (
-                  <span className="w-2.5 h-2.5 rounded-full bg-border border border-card" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-border border border-border" />
                 )}
               </div>
               {i < STEPS.length - 1 && (

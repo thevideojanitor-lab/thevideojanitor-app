@@ -73,7 +73,7 @@ export default function SpecialtiesStep() {
               className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
                 selected.includes(key)
                   ? "bg-primary/10 border-primary/50 text-primary"
-                  : "bg-input border-border text-muted-foreground hover:border-card hover:text-foreground"
+                  : "bg-input border-border text-muted-foreground hover:border-border hover:text-foreground"
               }`}
             >
               {label}
@@ -93,7 +93,7 @@ export default function SpecialtiesStep() {
               className={`flex-1 py-2.5 rounded-lg text-sm font-medium border transition-all ${
                 turnaround === h
                   ? "bg-primary/10 border-primary/50 text-primary"
-                  : "bg-input border-border text-muted-foreground hover:border-card"
+                  : "bg-input border-border text-muted-foreground hover:border-border"
               }`}
             >
               {h}h
@@ -140,7 +140,7 @@ export default function SpecialtiesStep() {
       <div className="flex gap-3">
         <button
           onClick={() => navigate("/editor/onboarding/profile")}
-          className="flex items-center gap-1.5 px-4 py-3 border border-card text-foreground rounded-lg text-sm font-medium hover:bg-card transition-colors"
+          className="flex items-center gap-1.5 px-4 py-3 border border-border text-foreground rounded-lg text-sm font-medium hover:bg-card transition-colors"
         >
           <ArrowLeft size={16} /> Back
         </button>

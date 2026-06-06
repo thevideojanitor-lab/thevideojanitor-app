@@ -234,7 +234,7 @@ export default function EditorProfile() {
                   className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
                     active
                       ? "bg-primary/10 border-primary/50 text-primary"
-                      : "bg-input border-border text-muted-foreground hover:border-card hover:text-foreground"
+                      : "bg-input border-border text-muted-foreground hover:border-border hover:text-foreground"
                   }`}
                 >
                   {label}
@@ -257,7 +257,7 @@ export default function EditorProfile() {
                   className={`flex-1 py-2.5 rounded-lg text-sm font-medium border transition-all ${
                     turnaround === h
                       ? "bg-primary/10 border-primary/50 text-primary"
-                      : "bg-input border-border text-muted-foreground hover:border-card"
+                      : "bg-input border-border text-muted-foreground hover:border-border"
                   }`}
                 >
                   {h}h

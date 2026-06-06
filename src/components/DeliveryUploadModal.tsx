@@ -205,7 +205,7 @@ export default function DeliveryUploadModal({ request, onClose, onDelivered }: P
                       ? "border-editor-accent/60 bg-editor-accent/5"
                       : file
                       ? "border-editor-accent/40 bg-editor-accent/5"
-                      : "border-card hover:border-editor-accent/40"
+                      : "border-border hover:border-editor-accent/40"
                   }`}
                 >
                   {file ? (

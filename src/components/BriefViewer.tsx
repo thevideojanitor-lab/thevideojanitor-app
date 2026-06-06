@@ -154,7 +154,7 @@ export default function BriefViewer({ request, onClose }: Props) {
             <div className="flex gap-3 px-5 py-4 border-t border-border shrink-0 pb-safe">
               <button
                 onClick={onClose}
-                className="flex-1 border border-card text-foreground text-sm font-medium rounded-lg py-2.5 hover:bg-card transition-colors"
+                className="flex-1 border border-border text-foreground text-sm font-medium rounded-lg py-2.5 hover:bg-card transition-colors"
               >
                 Close
               </button>

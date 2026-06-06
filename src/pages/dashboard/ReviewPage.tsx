@@ -971,7 +971,7 @@ export default function ReviewPage() {
                     }`}
                   >
                     <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                      swapReason === reason ? "border-primary" : "border-card"
+                      swapReason === reason ? "border-primary" : "border-border"
                     }`}>
                       {swapReason === reason && <div className="w-2 h-2 rounded-full bg-primary" />}
                     </div>
@@ -991,7 +991,7 @@ export default function ReviewPage() {
                 <div className="flex gap-2 pt-3">
                   <button
                     onClick={() => setSwapOpen(false)}
-                    className="flex-1 border border-card text-muted-foreground text-sm font-medium rounded-lg py-2.5 hover:text-foreground transition-colors"
+                    className="flex-1 border border-border text-muted-foreground text-sm font-medium rounded-lg py-2.5 hover:text-foreground transition-colors"
                   >
                     Cancel
                   </button>

@@ -325,7 +325,7 @@ export default function AdminClients() {
               <input type="number" value={creditDelta} onChange={(e) => setCreditDelta(e.target.value)} placeholder="+100 or -50 credits…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
               <input value={creditReason} onChange={(e) => setCreditReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
               <div className="flex gap-2">
-                <button onClick={close} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <button onClick={close} className="flex-1 border border-border text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleCredits} disabled={!creditDelta || !creditReason.trim() || working} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {working ? "Saving…" : "Apply"}
                 </motion.button>
@@ -347,7 +347,7 @@ export default function AdminClients() {
               <div className="space-y-2">
                 {PLAN_OPTIONS.map((p) => (
                   <label key={p} onClick={() => setNewPlan(p)} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${newPlan === p ? "border-primary/40 bg-primary/8" : "border-border hover:bg-card"}`}>
-                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${newPlan === p ? "border-primary" : "border-card"}`}>
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${newPlan === p ? "border-primary" : "border-border"}`}>
                       {newPlan === p && <div className="w-2 h-2 rounded-full bg-primary" />}
                     </div>
                     <span className="text-sm text-foreground">{PLAN_LABELS[p]}</span>
@@ -355,7 +355,7 @@ export default function AdminClients() {
                 ))}
               </div>
               <div className="flex gap-2">
-                <button onClick={close} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <button onClick={close} className="flex-1 border border-border text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleChangePlan} disabled={working} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {working ? "Saving…" : "Change Plan"}
                 </motion.button>
@@ -377,7 +377,7 @@ export default function AdminClients() {
               <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2.5">This will cancel the subscription and block new submissions.</p>
               <input value={suspendReason} onChange={(e) => setSuspendReason(e.target.value)} placeholder="Reason (required)…" className="w-full bg-input border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary outline-none" />
               <div className="flex gap-2">
-                <button onClick={close} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <button onClick={close} className="flex-1 border border-border text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleSuspend} disabled={!suspendReason.trim() || working} className="flex-1 bg-red-500 text-foreground font-semibold text-sm rounded-lg py-2.5 hover:bg-red-600 disabled:opacity-40 transition-colors">
                   {working ? "Suspending…" : "Suspend"}
                 </motion.button>
@@ -395,7 +395,7 @@ export default function AdminClients() {
               <h2 className="font-heading text-base font-semibold text-foreground">Impersonate Client</h2>
               <p className="text-xs text-muted-foreground">You will see the client dashboard as <span className="text-foreground font-semibold">{activeAction.client.email}</span>. An orange banner will show at all times.</p>
               <div className="flex gap-2">
-                <button onClick={close} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <button onClick={close} className="flex-1 border border-border text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleImpersonate} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover transition-colors">
                   Start Impersonation
                 </motion.button>

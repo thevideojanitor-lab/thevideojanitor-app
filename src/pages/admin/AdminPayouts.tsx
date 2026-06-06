@@ -264,7 +264,7 @@ export default function AdminPayouts() {
                 via <span className="text-muted-foreground">{confirmRow.payout_method ?? "manual"}</span>?
               </p>
               <div className="flex gap-2">
-                <button onClick={() => setConfirmRow(null)} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <button onClick={() => setConfirmRow(null)} className="flex-1 border border-border text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={() => payOne(confirmRow)} disabled={paying} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {paying ? "Sending…" : "Confirm"}
                 </motion.button>
@@ -291,7 +291,7 @@ export default function AdminPayouts() {
                 to {pending.filter((r) => r.currency === bulkCurrency).length} editors?
               </p>
               <div className="flex gap-2">
-                <button onClick={() => setBulkCurrency(null)} className="flex-1 border border-card text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
+                <button onClick={() => setBulkCurrency(null)} className="flex-1 border border-border text-muted-foreground text-sm rounded-lg py-2.5 hover:text-foreground transition-colors">Cancel</button>
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={() => payBulk(bulkCurrency)} disabled={bulkWorking} className="flex-1 bg-primary text-background font-semibold text-sm rounded-lg py-2.5 hover:bg-primary-hover disabled:opacity-40 transition-colors">
                   {bulkWorking ? "Processing…" : "Pay All"}
                 </motion.button>

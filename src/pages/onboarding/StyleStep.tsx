@@ -67,7 +67,7 @@ export default function StyleStep() {
                 className={`px-4 py-3 rounded-xl text-sm font-medium text-left border transition-all ${
                   active
                     ? "bg-primary/15 text-primary border-primary/40"
-                    : "bg-input text-muted-foreground border-border hover:border-card hover:text-foreground"
+                    : "bg-input text-muted-foreground border-border hover:border-border hover:text-foreground"
                 }`}
               >
                 {niche}
@@ -89,7 +89,7 @@ export default function StyleStep() {
               className={`px-4 py-3 rounded-xl text-sm font-medium border transition-all ${
                 frequency === value
                   ? "bg-primary/15 text-primary border-primary/40"
-                  : "bg-input text-muted-foreground border-border hover:border-card hover:text-foreground"
+                  : "bg-input text-muted-foreground border-border hover:border-border hover:text-foreground"
               }`}
             >
               {label}
@@ -101,7 +101,7 @@ export default function StyleStep() {
       <div className="flex gap-3">
         <button
           onClick={() => navigate("/onboarding/brand-kit")}
-          className="flex items-center gap-1.5 px-4 py-3.5 border border-card text-foreground rounded-lg text-sm font-medium hover:bg-card transition-colors"
+          className="flex items-center gap-1.5 px-4 py-3.5 border border-border text-foreground rounded-lg text-sm font-medium hover:bg-card transition-colors"
         >
           <ArrowLeft size={16} /> Back
         </button>

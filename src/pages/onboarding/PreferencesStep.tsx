@@ -71,7 +71,7 @@ export default function PreferencesStep() {
                   ? "bg-primary/15 text-primary border-primary/40"
                   : disabled
                   ? "bg-input text-card border-border cursor-not-allowed"
-                  : "bg-input text-muted-foreground border-border hover:border-card hover:text-foreground"
+                  : "bg-input text-muted-foreground border-border hover:border-border hover:text-foreground"
               }`}
             >
               {label}
@@ -98,7 +98,7 @@ export default function PreferencesStep() {
       <div className="flex gap-3">
         <button
           onClick={() => navigate("/onboarding/style")}
-          className="flex items-center gap-1.5 px-4 py-3.5 border border-card text-foreground rounded-lg text-sm font-medium hover:bg-card transition-colors"
+          className="flex items-center gap-1.5 px-4 py-3.5 border border-border text-foreground rounded-lg text-sm font-medium hover:bg-card transition-colors"
         >
           <ArrowLeft size={16} /> Back
         </button>

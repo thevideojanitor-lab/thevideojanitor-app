@@ -104,7 +104,7 @@ function EditorScoreCard({
           ? "border-green-500/40 bg-green-500/5"
           : rank === 1
           ? "border-primary/30"
-          : "border-card"
+          : "border-border"
       }`}
     >
       {/* Header */}

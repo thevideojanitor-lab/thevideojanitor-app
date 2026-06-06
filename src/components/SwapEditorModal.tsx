@@ -143,7 +143,7 @@ export default function SwapEditorModal({ request, onClose, onSwapped }: Props) 
                 }`}
               >
                 <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                  reason === key ? "border-primary" : "border-card"
+                  reason === key ? "border-primary" : "border-border"
                 }`}>
                   {reason === key && <div className="w-2 h-2 rounded-full bg-primary" />}
                 </div>
@@ -171,7 +171,7 @@ export default function SwapEditorModal({ request, onClose, onSwapped }: Props) 
           <div className="flex gap-2">
             <button
               onClick={onClose}
-              className="flex-1 border border-card text-muted-foreground text-sm rounded-xl py-2.5 hover:text-foreground transition-colors"
+              className="flex-1 border border-border text-muted-foreground text-sm rounded-xl py-2.5 hover:text-foreground transition-colors"
             >
               Cancel
             </button>

@@ -91,7 +91,7 @@ function StripePaymentForm({ clientSecret, plan, onSuccess, onClose }: {
         <button
           type="button"
           onClick={onClose}
-          className="flex-1 border border-card text-foreground rounded-lg py-3 text-sm font-medium hover:bg-card transition-colors"
+          className="flex-1 border border-border text-foreground rounded-lg py-3 text-sm font-medium hover:bg-card transition-colors"
         >
           Cancel
         </button>
@@ -209,7 +209,7 @@ function CancelModal({ gateway, subId, onConfirm, onClose }: {
       <h3 className="font-heading text-lg font-semibold text-foreground mb-2">Cancel subscription?</h3>
       <p className="text-sm text-muted-foreground mb-6">Your access continues until the end of the current billing period. Credits already deducted will not be refunded.</p>
       <div className="flex gap-3">
-        <button onClick={onClose} className="flex-1 border border-card text-foreground rounded-lg py-2.5 text-sm font-medium hover:bg-card transition-colors">Keep Plan</button>
+        <button onClick={onClose} className="flex-1 border border-border text-foreground rounded-lg py-2.5 text-sm font-medium hover:bg-card transition-colors">Keep Plan</button>
         <button onClick={handleCancel} disabled={loading} className="flex-1 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg py-2.5 text-sm font-medium hover:bg-red-500/20 transition-colors flex items-center justify-center gap-2">
           {loading ? <Loader2 size={14} className="animate-spin" /> : null}
           {loading ? "Cancelling…" : "Yes, Cancel"}
