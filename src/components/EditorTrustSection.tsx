@@ -1,13 +1,16 @@
-import { motion } from "motion/react";
 import { Award, Star, Clock, CheckCircle, Users } from "lucide-react";
 import { Link } from "react-router-dom";
+import Section from "@/components/marketing/Section";
+import Reveal from "@/components/marketing/Reveal";
+import EditorialHeading from "@/components/marketing/EditorialHeading";
+import BentoCard from "@/components/marketing/BentoCard";
 
 const tiers = [
   {
     name: "Verified Editor",
     icon: CheckCircle,
     color: "text-muted-foreground",
-    bg: "bg-muted/50",
+    bg: "bg-surface-elevated",
     border: "border-border",
     count: "All approved editors",
     description: "Passed portfolio review, test edit, and onboarding",
@@ -42,52 +45,36 @@ const vettingSteps = [
 
 const EditorTrustSection = () => {
   return (
-    <section className="py-24 md:py-32 bg-card/30">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">Editor Quality</p>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">
-            Not just anyone. Only the{" "}
-            <span className="text-gradient">best get through.</span>
-          </h2>
-          <p className="text-muted-foreground max-w-lg mx-auto">
-            Every editor in our network is manually vetted, tested, and continuously monitored. No freelancer roulette here.
-          </p>
-        </motion.div>
+    <Section tone="sand">
+      <Reveal className="text-center mb-16">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">Editor Quality</p>
+        <EditorialHeading as="h2">
+          Not just anyone. Only the <span className="text-primary">best get through.</span>
+        </EditorialHeading>
+        <p className="text-muted-foreground max-w-lg mx-auto mt-5">
+          Every editor in our network is manually vetted, tested, and continuously monitored. No freelancer roulette here.
+        </p>
+      </Reveal>
 
-        {/* Vetting Steps */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16">
-          {vettingSteps.map((step, i) => (
-            <motion.div
-              key={step.step}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="relative p-6 bg-card rounded-2xl border border-border text-center"
-            >
+      {/* Vetting Steps */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto mb-16">
+        {vettingSteps.map((step, i) => (
+          <Reveal key={step.step} delay={i * 0.06}>
+            <BentoCard className="p-6 text-center h-full">
               <div className="text-4xl font-heading font-bold text-primary/15 mb-3">{step.step}</div>
-              <h3 className="font-heading font-semibold mb-2">{step.title}</h3>
+              <h3 className="font-heading font-semibold mb-2 text-foreground">{step.title}</h3>
               <p className="text-sm text-muted-foreground">{step.desc}</p>
-            </motion.div>
-          ))}
-        </div>
+            </BentoCard>
+          </Reveal>
+        ))}
+      </div>
 
-        {/* Editor Tiers */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
-          {tiers.map((tier, i) => (
-            <motion.div
-              key={tier.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`p-6 rounded-2xl border text-center ${tier.bg} ${tier.border} ${
+      {/* Editor Tiers */}
+      <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12">
+        {tiers.map((tier, i) => (
+          <Reveal key={tier.name} delay={i * 0.06}>
+            <div
+              className={`p-6 rounded-card border text-center h-full ${tier.bg} ${tier.border} ${
                 tier.highlighted ? "ring-1 ring-primary" : ""
               }`}
             >
@@ -95,39 +82,34 @@ const EditorTrustSection = () => {
                 <tier.icon className={`w-6 h-6 ${tier.color}`} />
               </div>
               <span className={`text-xs font-bold uppercase tracking-wider ${tier.color}`}>{tier.count}</span>
-              <h3 className="font-heading font-semibold mt-1 mb-2">{tier.name}</h3>
+              <h3 className="font-heading font-semibold mt-1 mb-2 text-foreground">{tier.name}</h3>
               <p className="text-sm text-muted-foreground">{tier.description}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <div className="flex items-center justify-center gap-6 mb-6">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Users className="w-4 h-4 text-primary" />
-              <span>100+ editors in network</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Clock className="w-4 h-4 text-primary" />
-              <span>48h guaranteed turnaround</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Star className="w-4 h-4 text-primary" />
-              <span>4.8/5 average rating</span>
-            </div>
-          </div>
-          <Link to="/editors" className="text-sm text-primary hover:underline font-medium">
-            Meet our editors →
-          </Link>
-        </motion.div>
+          </Reveal>
+        ))}
       </div>
-    </section>
+
+      {/* CTA */}
+      <Reveal className="text-center">
+        <div className="flex flex-wrap items-center justify-center gap-6 mb-6">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Users className="w-4 h-4 text-primary" />
+            <span>100+ editors in network</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Clock className="w-4 h-4 text-primary" />
+            <span>48h guaranteed turnaround</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Star className="w-4 h-4 text-primary" />
+            <span>4.8/5 average rating</span>
+          </div>
+        </div>
+        <Link to="/editors" className="text-sm text-primary hover:underline font-medium">
+          Meet our editors →
+        </Link>
+      </Reveal>
+    </Section>
   );
 };
 

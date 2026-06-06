@@ -1,5 +1,8 @@
-import { motion } from "motion/react";
 import { Star } from "lucide-react";
+import Section from "@/components/marketing/Section";
+import Reveal from "@/components/marketing/Reveal";
+import EditorialHeading from "@/components/marketing/EditorialHeading";
+import BentoCard from "@/components/marketing/BentoCard";
 
 const testimonials = [
   {
@@ -27,48 +30,36 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   return (
-    <section className="py-24 md:py-32 bg-card/50">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">Testimonials</p>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold">Creators love the results.</h2>
-        </motion.div>
+    <Section tone="sand">
+      <Reveal className="text-center mb-14">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">Testimonials</p>
+        <EditorialHeading as="h2">Creators love the results.</EditorialHeading>
+      </Reveal>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {testimonials.map(({ name, role, company, quote, avatar }, i) => (
-            <motion.div
-              key={name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="p-8 rounded-2xl bg-card border border-border"
-            >
+      <div className="grid md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+        {testimonials.map(({ name, role, company, quote, avatar }, i) => (
+          <Reveal key={name} delay={i * 0.06}>
+            <BentoCard className="p-8 h-full">
               <div className="flex gap-1 mb-4">
                 {[...Array(5)].map((_, j) => (
                   <Star key={j} className="w-4 h-4 fill-primary text-primary" />
                 ))}
               </div>
-              <p className="text-text-secondary leading-relaxed mb-6">"{quote}"</p>
+              <p className="text-muted-foreground leading-relaxed mb-6">"{quote}"</p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-sm font-bold text-primary">
                   {avatar}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold">{name}</p>
+                  <p className="text-sm font-semibold text-foreground">{name}</p>
                   <p className="text-xs text-muted-foreground">{role} · {company}</p>
                 </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
+            </BentoCard>
+          </Reveal>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 };
 

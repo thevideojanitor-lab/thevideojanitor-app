@@ -1,10 +1,12 @@
-import { motion } from "motion/react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Section from "@/components/marketing/Section";
+import Reveal from "@/components/marketing/Reveal";
+import EditorialHeading from "@/components/marketing/EditorialHeading";
 
 const faqs = [
   {
@@ -31,34 +33,27 @@ const faqs = [
 
 const FaqSection = () => {
   return (
-    <section id="faq" className="py-24 md:py-32">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <p className="text-sm font-medium uppercase tracking-widest text-primary mb-3">FAQ</p>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold">Questions? We've got answers.</h2>
-        </motion.div>
+    <Section id="faq">
+      <Reveal className="text-center mb-14">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">FAQ</p>
+        <EditorialHeading as="h2">Questions? We've got answers.</EditorialHeading>
+      </Reveal>
 
-        <div className="max-w-2xl mx-auto">
-          <Accordion type="single" collapsible className="space-y-3">
-            {faqs.map(({ q, a }, i) => (
-              <AccordionItem key={i} value={`faq-${i}`} className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-primary/30">
-                <AccordionTrigger className="text-left font-heading font-semibold hover:no-underline py-5">
-                  {q}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
-                  {a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
+      <div className="max-w-2xl mx-auto">
+        <Accordion type="single" collapsible className="space-y-3">
+          {faqs.map(({ q, a }, i) => (
+            <AccordionItem key={i} value={`faq-${i}`} className="bg-card border border-border rounded-card px-6 shadow-lift data-[state=open]:border-primary/30">
+              <AccordionTrigger className="text-left font-heading font-semibold hover:no-underline py-5">
+                {q}
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+                {a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
-    </section>
+    </Section>
   );
 };
 
