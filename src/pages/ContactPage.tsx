@@ -104,13 +104,13 @@ const ContactPage = () => {
               className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
             >
               We're here to{" "}
-              <span className="text-gradient">help.</span>
+              <span className="text-primary">help.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-text-secondary"
+              className="text-muted-foreground"
             >
               Send us a message below. Our team responds within 24 hours — usually much faster.
             </motion.p>

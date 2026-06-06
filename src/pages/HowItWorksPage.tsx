@@ -206,13 +206,13 @@ const HowItWorksPage = () => {
               className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
             >
               Simple process.{" "}
-              <span className="text-gradient">Predictable results.</span>
+              <span className="text-primary">Predictable results.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto mb-10"
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
             >
               No freelancer roulette. No missed deadlines. No chasing people. Here's exactly how
               TheVideoJanitors works — from your first credit to your finished reel.
@@ -268,12 +268,12 @@ const HowItWorksPage = () => {
                       </div>
                     </div>
                     <p className="text-sm font-medium text-primary mb-4">{step.subtitle}</p>
-                    <p className="text-text-secondary leading-relaxed mb-6">{step.description}</p>
+                    <p className="text-muted-foreground leading-relaxed mb-6">{step.description}</p>
                     <ul className="space-y-3">
                       {step.details.map((detail) => (
                         <li key={detail} className="flex items-start gap-3 text-sm">
                           <ChevronRight className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                          <span className="text-text-secondary">{detail}</span>
+                          <span className="text-muted-foreground">{detail}</span>
                         </li>
                       ))}
                     </ul>
@@ -291,7 +291,7 @@ const HowItWorksPage = () => {
                             key={item.name}
                             className="flex items-center justify-between py-3 border-b border-border last:border-0"
                           >
-                            <span className="text-sm text-text-secondary">{item.name}</span>
+                            <span className="text-sm text-muted-foreground">{item.name}</span>
                             <span className="text-sm font-semibold text-primary">{item.value}</span>
                           </div>
                         ))}
@@ -384,9 +384,9 @@ const HowItWorksPage = () => {
             >
               <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
                 Ready to clean up{" "}
-                <span className="text-gradient">your content workflow?</span>
+                <span className="text-primary">your content workflow?</span>
               </h2>
-              <p className="text-lg text-text-secondary mb-10 max-w-xl mx-auto">
+              <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
                 Subscribe to a plan. Submit your first request. Get polished content back in 48 hours.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

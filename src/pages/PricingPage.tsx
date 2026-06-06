@@ -83,13 +83,13 @@ const PricingPage = () => {
               className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
             >
               Simple plans.{" "}
-              <span className="text-gradient">No surprises.</span>
+              <span className="text-primary">No surprises.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-lg text-text-secondary max-w-xl mx-auto"
+              className="text-lg text-muted-foreground max-w-xl mx-auto"
             >
               Buy credits. Submit requests. Get polished edits back in 48 hours.
               Scale up or down anytime — no contracts.
@@ -251,7 +251,7 @@ const PricingPage = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-text-secondary mb-4">
+              <p className="text-muted-foreground mb-4">
                 Questions about credits, revisions, or billing?
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -280,9 +280,9 @@ const PricingPage = () => {
             >
               <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
                 Upload footage.{" "}
-                <span className="text-gradient">We'll clean up the rest.</span>
+                <span className="text-primary">We'll clean up the rest.</span>
               </h2>
-              <p className="text-lg text-text-secondary mb-10 max-w-xl mx-auto">
+              <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
                 Join 50+ creators and agencies getting polished short-form content on autopilot.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -80,13 +80,13 @@ const ShowcasePage = () => {
               className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
             >
               Raw footage in.{" "}
-              <span className="text-gradient">Polished reels out.</span>
+              <span className="text-primary">Polished reels out.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto mb-10"
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
             >
               See the difference our editors make. Toggle between before and after
               to see exactly what we deliver — across every content type.
@@ -256,9 +256,9 @@ const ShowcasePage = () => {
             >
               <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
                 Ready for content that{" "}
-                <span className="text-gradient">actually looks this good?</span>
+                <span className="text-primary">actually looks this good?</span>
               </h2>
-              <p className="text-lg text-text-secondary mb-10">
+              <p className="text-lg text-muted-foreground mb-10">
                 Subscribe to a plan. Submit your footage. Get polished content back in 48 hours.
               </p>
               <Link to="/pricing">

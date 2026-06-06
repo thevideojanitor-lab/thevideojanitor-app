@@ -154,13 +154,13 @@ const EditorsPage = () => {
               className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
             >
               The editors behind{" "}
-              <span className="text-gradient">the clean content.</span>
+              <span className="text-primary">the clean content.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto mb-10"
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
             >
               Every editor on our platform has been vetted, tested, and approved. No random picks.
               No freelancer roulette. Just skilled, accountable editors who show up and deliver.

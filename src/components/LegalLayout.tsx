@@ -19,7 +19,7 @@ const LegalLayout = ({ title, lastUpdated, children }: LegalLayoutProps) => {
           <h1 className="font-heading text-3xl md:text-4xl font-bold mb-3">{title}</h1>
           <p className="text-sm text-muted-foreground">Last updated: {lastUpdated}</p>
         </div>
-        <div className="prose prose-sm max-w-none space-y-8 text-text-secondary">
+        <div className="prose prose-sm max-w-none space-y-8 text-muted-foreground">
           {children}
         </div>
       </div>

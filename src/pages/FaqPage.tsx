@@ -249,13 +249,13 @@ const FaqPage = () => {
               className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
             >
               Questions?{" "}
-              <span className="text-gradient">We've got answers.</span>
+              <span className="text-primary">We've got answers.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-text-secondary mb-8"
+              className="text-muted-foreground mb-8"
             >
               Everything you need to know about credits, revisions, turnaround, billing, and more.
             </motion.p>
@@ -399,7 +399,7 @@ const FaqPage = () => {
               <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">
                 Still have questions?
               </h2>
-              <p className="text-text-secondary mb-8">
+              <p className="text-muted-foreground mb-8">
                 Can't find what you're looking for? Our team responds within 24 hours.
               </p>
               <Link to="/contact">

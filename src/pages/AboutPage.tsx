@@ -82,13 +82,13 @@ const AboutPage = () => {
               className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
             >
               We clean up your{" "}
-              <span className="text-gradient">content workflow.</span>
+              <span className="text-primary">content workflow.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed"
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed"
             >
               TheVideoJanitors was built because the current way of getting short-form content edited is broken.
               Freelancer roulette. Missed deadlines. Ghost editors. Wildly inconsistent quality. We decided to fix it.
@@ -109,7 +109,7 @@ const AboutPage = () => {
                   transition={{ delay: i * 0.1 }}
                   className="text-center"
                 >
-                  <div className="font-heading text-4xl md:text-5xl font-bold text-gradient mb-2">
+                  <div className="font-heading text-4xl md:text-5xl font-bold text-primary mb-2">
                     {m.number}
                   </div>
                   <p className="text-sm text-muted-foreground">{m.label}</p>
@@ -133,7 +133,7 @@ const AboutPage = () => {
               </p>
             </motion.div>
 
-            <div className="space-y-6 text-text-secondary leading-relaxed">
+            <div className="space-y-6 text-muted-foreground leading-relaxed">
               {[
                 {
                   text: `Short-form video is the single most valuable content format right now. TikTok, Instagram Reels, YouTube Shorts — every creator, brand, and agency needs to be producing it consistently. But editing is where everything breaks down.`,
@@ -269,12 +269,12 @@ const AboutPage = () => {
                   </div>
                   <h3 className="font-heading text-xl font-semibold">For Clients</h3>
                 </div>
-                <p className="text-text-secondary leading-relaxed mb-6 text-sm">
+                <p className="text-muted-foreground leading-relaxed mb-6 text-sm">
                   Our mission is to remove every friction point between your raw footage and a polished,
                   platform-ready video. You shouldn't need to manage people, chase deliverables, or
                   compromise on quality because you can't afford a full-time editor.
                 </p>
-                <p className="text-text-secondary leading-relaxed text-sm">
+                <p className="text-muted-foreground leading-relaxed text-sm">
                   TheVideoJanitors gives you the consistency of an in-house editor at a fraction of
                   the cost, without any of the HR overhead.
                 </p>
@@ -293,12 +293,12 @@ const AboutPage = () => {
                   </div>
                   <h3 className="font-heading text-xl font-semibold">For Editors</h3>
                 </div>
-                <p className="text-text-secondary leading-relaxed mb-6 text-sm">
+                <p className="text-muted-foreground leading-relaxed mb-6 text-sm">
                   Our mission is to give skilled video editors a better way to work. No bidding wars.
                   No chasing invoices. No clients who ghost. Just structured, well-briefed jobs with
                   fair pay and reliable weekly payouts.
                 </p>
-                <p className="text-text-secondary leading-relaxed text-sm">
+                <p className="text-muted-foreground leading-relaxed text-sm">
                   We believe editors deserve to focus on their craft — not on business development.
                   That's why we built a tier system that rewards quality and creates a real career path.
                 </p>
@@ -317,9 +317,9 @@ const AboutPage = () => {
             >
               <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6">
                 Ready to work with us?{" "}
-                <span className="text-gradient">Let's get started.</span>
+                <span className="text-primary">Let's get started.</span>
               </h2>
-              <p className="text-lg text-text-secondary mb-10">
+              <p className="text-lg text-muted-foreground mb-10">
                 Whether you need editing done or you want to join our editor network — we'd love to have you.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
