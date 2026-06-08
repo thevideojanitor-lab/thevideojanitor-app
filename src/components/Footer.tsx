@@ -1,6 +1,8 @@
 ﻿// src/components/Footer.tsx
 import { Link } from "react-router-dom";
 import { Mail, Twitter, Linkedin, Instagram, Youtube } from "lucide-react";
+import logoWebp from "@/assets/logo.webp";
+import logoPng from "@/assets/logo.png";
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -11,8 +13,11 @@ const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           {/* Brand */}
           <div className="col-span-2">
-            <Link to="/" className="font-heading text-xl font-bold block mb-2">
-              The<span className="text-primary">Video</span>Janitors
+            <Link to="/" className="inline-block mb-3" aria-label="TheVideoJanitors — home">
+              <picture>
+                <source srcSet={logoWebp} type="image/webp" />
+                <img src={logoPng} alt="TheVideoJanitors" className="h-16 w-auto" />
+              </picture>
             </Link>
             <p className="font-heading text-sm font-semibold text-foreground mb-3">
               Clean edits. Fast delivery. No freelancer roulette.

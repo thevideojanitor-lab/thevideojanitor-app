@@ -1,6 +1,7 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "TheVideoJanitors",
+  "short_name": "VideoJanitors",
+  "description": "Clean edits. Fast delivery. No freelancer roulette.",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -15,7 +16,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#fcf4d5",
-  "background_color": "#040507",
+  "theme_color": "#121212",
+  "background_color": "#121212",
   "display": "standalone"
 }
