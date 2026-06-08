@@ -1,7 +1,7 @@
 import sharp from 'sharp';
 import { statSync } from 'fs';
 
-const src = 'E:/Docu and Logo TVJ/TVJLogo.png';
+const src = 'brand/TVJLogo-master.png';
 const outDir = 'src/assets';
 
 // Trim transparent padding from the 1920x1080 source -> 1388x898 content

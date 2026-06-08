@@ -1,7 +1,7 @@
 import sharp from 'sharp';
 import { statSync } from 'fs';
 
-const src = 'E:/Docu and Logo TVJ/TVJLogo.png';
+const src = 'brand/TVJLogo-master.png';
 const out = 'public';
 const BG = '#121212';
 
