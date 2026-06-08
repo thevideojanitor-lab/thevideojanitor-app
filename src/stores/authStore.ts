@@ -8,8 +8,10 @@ interface AuthStore {
   currency: Currency
   adminRole: AdminRole | null
   onboardingComplete: boolean
+  needsRoleSelection: boolean
   setUser: (u: AppUser | null) => void
   setOnboardingComplete: (v: boolean) => void
+  setNeedsRoleSelection: (v: boolean) => void
   clear: () => void
 }
 
@@ -20,6 +22,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   currency: "USD",
   adminRole: null,
   onboardingComplete: true,
+  needsRoleSelection: false,
 
   setUser: (u) =>
     set({
@@ -28,9 +31,13 @@ export const useAuthStore = create<AuthStore>((set) => ({
       region: u?.region ?? "US",
       currency: u?.currency ?? "USD",
       adminRole: u?.admin_role ?? null,
+      // Having a real user row means role selection is resolved.
+      ...(u ? { needsRoleSelection: false } : {}),
     }),
 
   setOnboardingComplete: (v) => set({ onboardingComplete: v }),
+
+  setNeedsRoleSelection: (v) => set({ needsRoleSelection: v }),
 
   clear: () =>
     set({
@@ -40,5 +47,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
       currency: "USD",
       adminRole: null,
       onboardingComplete: true,
+      needsRoleSelection: false,
     }),
 }))

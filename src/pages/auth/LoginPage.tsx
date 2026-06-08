@@ -9,7 +9,7 @@ import AuthBackground from "@/components/AuthBackground"
 
 export default function LoginPage() {
   const navigate = useNavigate()
-  const { user, role } = useAuthStore()
+  const { user, role, needsRoleSelection } = useAuthStore()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPw, setShowPw] = useState(false)
@@ -18,11 +18,16 @@ export default function LoginPage() {
   const [googleLoading, setGoogleLoading] = useState(false)
 
   useEffect(() => {
+    // Authenticated but no profile row yet — finish account setup.
+    if (needsRoleSelection) {
+      navigate("/auth/select-role", { replace: true })
+      return
+    }
     if (!user || !role) return
     if (role === "editor") navigate("/editor", { replace: true })
     else if (role === "admin") navigate("/admin", { replace: true })
     else navigate("/dashboard", { replace: true })
-  }, [user, role, navigate])
+  }, [user, role, needsRoleSelection, navigate])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()

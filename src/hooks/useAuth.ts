@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { supabase, AppUser, UserRole, AdminRole, Region, Currency } from "@/lib/supabase"
 import { useAuthStore } from "@/stores/authStore"
-import { detectRegion, persistRegionToUser } from "@/lib/region"
+import { detectRegion } from "@/lib/region"
+import { ensureUserProfile } from "@/lib/ensureUser"
 
 export interface AuthState {
   user: AppUser | null
@@ -10,12 +11,24 @@ export interface AuthState {
   currency: Currency
   adminRole: AdminRole | null
   onboardingComplete: boolean
+  needsRoleSelection: boolean
   loading: boolean
 }
 
 export function useAuth(): AuthState {
-  const { user, role, region, currency, adminRole, onboardingComplete, setUser, setOnboardingComplete, clear } =
-    useAuthStore()
+  const {
+    user,
+    role,
+    region,
+    currency,
+    adminRole,
+    onboardingComplete,
+    needsRoleSelection,
+    setUser,
+    setOnboardingComplete,
+    setNeedsRoleSelection,
+    clear,
+  } = useAuthStore()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -53,12 +66,16 @@ export function useAuth(): AuthState {
     }
 
     if (!appUser) {
-      // No app profile yet — new OAuth user who hasn't selected a role yet.
-      // AuthCallback handles routing them to /auth/select-role.
+      // Authenticated, but no app profile row yet. This covers new OAuth users
+      // who haven't picked a role and any orphaned account (auth user with no
+      // users row). The route guards send these to /auth/select-role so the
+      // login can never strand them.
+      setNeedsRoleSelection(true)
       setLoading(false)
       return
     }
 
+    setNeedsRoleSelection(false)
     setUser(appUser as AppUser)
 
     if (appUser.role === "client") {
@@ -82,40 +99,37 @@ export function useAuth(): AuthState {
     setLoading(false)
   }
 
-  return { user, role, region, currency, adminRole, onboardingComplete, loading }
+  return { user, role, region, currency, adminRole, onboardingComplete, needsRoleSelection, loading }
 }
 
 export async function signUpWithEmail(
   email: string,
   password: string,
   role: "client" | "editor" = "client"
-): Promise<{ error: string | null }> {
+): Promise<{ error: string | null; needsConfirmation: boolean }> {
   const regionConfig = await detectRegion()
 
-  const { data, error } = await supabase.auth.signUp({ email, password })
-  if (error) return { error: error.message }
-  if (!data.user) return { error: "Signup failed" }
-
-  const uid = data.user.id
-
-  const { error: userErr } = await supabase.from("users").insert({
-    id: uid,
+  // Stash the chosen role in auth metadata so the post-confirmation / OAuth
+  // recovery path can provision the right profile even if we can't do it now.
+  const { data, error } = await supabase.auth.signUp({
     email,
-    role,
-    region: regionConfig.region,
-    currency: regionConfig.currency,
+    password,
+    options: { data: { role } },
   })
-  if (userErr) return { error: userErr.message }
+  if (error) return { error: error.message, needsConfirmation: false }
+  if (!data.user) return { error: "Signup failed", needsConfirmation: false }
 
-  if (role === "client") {
-    // Client profile row — triggers onboarding flow
-    await supabase.from("client_profiles").insert({ user_id: uid })
+  // No session means email confirmation is required — we have no authenticated
+  // context to write profile rows under RLS yet. Defer provisioning to the auth
+  // callback (which runs once the user confirms and a session exists).
+  if (!data.session) {
+    return { error: null, needsConfirmation: true }
   }
-  // Editor: no profile row yet — created at end of editor onboarding (LaunchStep)
 
-  await persistRegionToUser(uid, regionConfig)
+  const { error: profileErr } = await ensureUserProfile(data.user.id, email, role, regionConfig)
+  if (profileErr) return { error: profileErr, needsConfirmation: false }
 
-  return { error: null }
+  return { error: null, needsConfirmation: false }
 }
 
 export async function signInWithEmail(

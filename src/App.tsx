@@ -138,14 +138,15 @@ function App() {
             }
           />
           <Route path="/auth/callback" element={<AuthCallback />} />
+          {/* Role selection is reached only by an authenticated user who has no
+              profile row yet, so it is NOT wrapped in PublicOnlyRoute (that
+              would redirect it back onto itself). The page guards itself. */}
           <Route
             path="/auth/select-role"
             element={
-              <PublicOnlyRoute>
-                <AppSuspense>
-                  <SelectRolePage />
-                </AppSuspense>
-              </PublicOnlyRoute>
+              <AppSuspense>
+                <SelectRolePage />
+              </AppSuspense>
             }
           />
           <Route

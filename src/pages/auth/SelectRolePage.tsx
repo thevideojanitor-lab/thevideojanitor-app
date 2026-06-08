@@ -4,11 +4,13 @@ import { motion } from "motion/react"
 import { Loader2, Scissors, Video } from "lucide-react"
 import { fadeUp, staggerContainer } from "@/lib/animations"
 import { supabase } from "@/lib/supabase"
-import { detectRegion, persistRegionToUser } from "@/lib/region"
+import { ensureUserProfile } from "@/lib/ensureUser"
+import { useAuthStore } from "@/stores/authStore"
 import AuthBackground from "@/components/AuthBackground"
 
 export default function SelectRolePage() {
   const navigate = useNavigate()
+  const setNeedsRoleSelection = useAuthStore((s) => s.setNeedsRoleSelection)
   const [selectedRole, setSelectedRole] = useState<"client" | "editor" | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -21,36 +23,22 @@ export default function SelectRolePage() {
     const { data: { user: authUser } } = await supabase.auth.getUser()
     if (!authUser) { navigate("/auth/login"); return }
 
-    const regionConfig = await detectRegion()
+    const { error: profileErr } = await ensureUserProfile(
+      authUser.id,
+      authUser.email ?? "",
+      selectedRole
+    )
 
-    const { error: insertErr } = await supabase.from("users").insert({
-      id: authUser.id,
-      email: authUser.email ?? "",
-      role: selectedRole,
-      region: regionConfig.region,
-      currency: regionConfig.currency,
-    })
-
-    if (insertErr) {
-      console.error("[SelectRolePage] users insert failed:", insertErr.code, insertErr.message)
-      if (insertErr.code === "23505") {
-        // Duplicate key — email already registered with a different sign-in method
-        setError("This email is already registered. Try signing in with your original method.")
-      } else {
-        setError("Something went wrong. Please try again.")
-      }
+    if (profileErr) {
+      console.error("[SelectRolePage] profile provisioning failed:", profileErr)
+      setError("Something went wrong. Please try again.")
       setLoading(false)
       return
     }
 
-    if (selectedRole === "client") {
-      await supabase.from("client_profiles").insert({ user_id: authUser.id })
-    }
-
-    await persistRegionToUser(authUser.id, regionConfig)
-
-    // ProtectedRoute calls useAuth() fresh on mount and loads from DB; no need to
-    // pre-populate the store here. Doing so would race with PublicOnlyRoute's redirect.
+    // The profile row now exists; clear the flag so the route guards let us
+    // through to onboarding instead of bouncing back here.
+    setNeedsRoleSelection(false)
 
     if (selectedRole === "editor") {
       navigate("/editor/onboarding")

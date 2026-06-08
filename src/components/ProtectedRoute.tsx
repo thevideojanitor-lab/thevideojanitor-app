@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function ProtectedRoute({ children, requireRole, requireAdmin, requireOnboarding }: Props) {
-  const { user, role, adminRole, onboardingComplete, loading } = useAuth()
+  const { user, role, adminRole, onboardingComplete, needsRoleSelection, loading } = useAuth()
 
   if (loading) {
     return (
@@ -19,6 +19,10 @@ export default function ProtectedRoute({ children, requireRole, requireAdmin, re
       </div>
     )
   }
+
+  // Authenticated but no profile row yet (new OAuth user or orphaned account) —
+  // finish account setup instead of bouncing to login.
+  if (needsRoleSelection) return <Navigate to="/auth/select-role" replace />
 
   if (!user) return <Navigate to="/auth/login" replace />
 
@@ -50,7 +54,7 @@ export default function ProtectedRoute({ children, requireRole, requireAdmin, re
 }
 
 export function PublicOnlyRoute({ children }: { children: ReactNode }) {
-  const { user, role, loading } = useAuth()
+  const { user, role, needsRoleSelection, loading } = useAuth()
 
   if (loading) {
     return (
@@ -59,6 +63,10 @@ export function PublicOnlyRoute({ children }: { children: ReactNode }) {
       </div>
     )
   }
+
+  // Authenticated on a public-only page but still missing a profile row — send
+  // them to finish setup rather than showing login/signup again.
+  if (needsRoleSelection) return <Navigate to="/auth/select-role" replace />
 
   if (user) {
     if (role === "client") return <Navigate to="/dashboard" replace />

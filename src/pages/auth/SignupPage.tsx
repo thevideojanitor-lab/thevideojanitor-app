@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { motion } from "motion/react"
 import { AlertCircle, CheckCircle, Eye, EyeOff, Loader2, Scissors, Video } from "lucide-react"
 import { fadeUp, staggerContainer } from "@/lib/animations"
@@ -7,6 +7,7 @@ import { signUpWithEmail, signInWithGoogle } from "@/hooks/useAuth"
 import AuthBackground from "@/components/AuthBackground"
 
 export default function SignupPage() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirm, setConfirm] = useState("")
@@ -25,12 +26,17 @@ export default function SignupPage() {
     if (!email.trim() || !passwordStrong || !passwordMatch) return
     setError(null)
     setLoading(true)
-    const { error } = await signUpWithEmail(email.trim(), password, selectedRole)
+    const { error, needsConfirmation } = await signUpWithEmail(email.trim(), password, selectedRole)
     if (error) {
       setError(error.includes("already") ? "An account with this email already exists. Sign in instead." : error)
       setLoading(false)
-    } else {
+    } else if (needsConfirmation) {
+      // Email confirmation required — tell them to check their inbox.
       setDone(true)
+    } else {
+      // Already signed in (no confirmation step) — go straight in; the route
+      // guards route to the right onboarding for their role.
+      navigate(selectedRole === "editor" ? "/editor" : "/dashboard", { replace: true })
     }
   }
 
