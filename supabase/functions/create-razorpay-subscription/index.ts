@@ -1,10 +1,10 @@
 import { corsHeaders, corsResponse, corsError } from "../_shared/cors.ts"
 import { getSupabaseAdmin, getUserFromAuth } from "../_shared/supabase-admin.ts"
 
-const PLAN_CONFIG: Record<string, { amount: number; credits: number; name: string }> = {
-  quick_sweep: { amount: 249900, credits: 350, name: "Quick Sweep" },
-  deep_clean: { amount: 599900, credits: 950, name: "Deep Clean" },
-  full_service: { amount: 1399900, credits: 2500, name: "Full Service" },
+const PLAN_NAMES: Record<string, string> = {
+  quick_sweep: "Quick Sweep",
+  deep_clean: "Deep Clean",
+  full_service: "Full Service",
 }
 
 function razorpayBasicAuth() {
@@ -30,24 +30,43 @@ Deno.serve(async (req) => {
   if (!user) return corsError("Unauthorized", 401)
 
   const { plan } = await req.json()
-  const planConfig = PLAN_CONFIG[plan]
-  if (!planConfig) return corsError("Invalid plan")
+  const planName = PLAN_NAMES[plan]
+  if (!planName) return corsError("Invalid plan")
 
   const supabase = getSupabaseAdmin()
 
-  // Create Razorpay plan (monthly recurring)
+  // Currency is derived server-side from the user's persisted region — never trusted from the client.
+  const { data: dbUser } = await supabase
+    .from("users")
+    .select("currency")
+    .eq("id", user.id)
+    .single()
+  const currency = dbUser?.currency === "USD" ? "USD" : "INR"
+
+  // Amounts come from platform_config, never hardcoded (CLAUDE.md §6/§11).
+  const cfgKey = currency === "USD" ? "pricing_usd" : "pricing_inr"
+  const { data: cfgRow } = await supabase
+    .from("platform_config")
+    .select("value")
+    .eq("key", cfgKey)
+    .single()
+  const plans = (cfgRow?.value ?? {}) as Record<string, { amount: number; credits: number }>
+  const planConfig = plans[plan]
+  if (!planConfig) return corsError("Pricing not configured for plan")
+
+  // Create Razorpay plan (monthly recurring) in the resolved currency.
+  // NOTE: USD requires International Payments enabled on the Razorpay account.
   const rzPlan = await razorpayPost("/plans", {
     period: "monthly",
     interval: 1,
     item: {
-      name: `TheVideoJanitors ${planConfig.name}`,
+      name: `TheVideoJanitors ${planName}`,
       amount: planConfig.amount,
-      currency: "INR",
+      currency,
       description: `${planConfig.credits} credits/month`,
     },
   })
 
-  // Create Razorpay subscription
   const rzSub = await razorpayPost("/subscriptions", {
     plan_id: rzPlan.id,
     customer_notify: 1,
@@ -55,7 +74,6 @@ Deno.serve(async (req) => {
     notes: { userId: user.id, plan },
   })
 
-  // Insert pending subscription row
   await supabase.from("subscriptions").insert({
     client_id: user.id,
     gateway: "razorpay",
@@ -63,7 +81,7 @@ Deno.serve(async (req) => {
     plan,
     credits_total: planConfig.credits,
     credits_remaining: 0, // set on subscription.charged webhook
-    currency: "INR",
+    currency,
     amount_paid: planConfig.amount,
     renews_at: new Date(rzSub.current_end * 1000).toISOString(),
     status: "trialing",
@@ -72,7 +90,8 @@ Deno.serve(async (req) => {
   return corsResponse({
     subscriptionId: rzSub.id,
     keyId: Deno.env.get("RAZORPAY_KEY_ID"),
-    planName: planConfig.name,
+    planName,
     amount: planConfig.amount,
+    currency,
   })
 })
