@@ -267,7 +267,7 @@ export function paymentFailedEmail({
     <td class="bg-wrap" bgcolor="#111111" style="padding:36px 32px 0">
       <p style="margin:0 0 10px;font-size:12px;font-weight:600;letter-spacing:0.10em;text-transform:uppercase;color:#f87171">Action Required</p>
       <h1 class="c-h" style="margin:0 0 12px;font-size:22px;font-weight:700;color:#f9fafb;line-height:1.3">Your payment failed</h1>
-      <p class="c-m" style="margin:0 0 28px;font-size:15px;color:#9ca3af;line-height:1.6">Hi ${clientName}, we couldn't process your payment after 3 attempts. Your account is now paused — active requests are on hold.</p>
+      <p class="c-m" style="margin:0 0 28px;font-size:15px;color:#9ca3af;line-height:1.6">Hi ${clientName}, your latest payment didn't go through, so your account is paused — active requests are on hold. Re-subscribe to restore access.</p>
     </td>
   </tr>
   <tr>
@@ -296,8 +296,8 @@ export function paymentFailedEmail({
   </tr>
   <tr>
     <td class="bg-wrap" bgcolor="#111111" style="padding:0 32px 36px;text-align:center">
-      <a href="${APP}/dashboard/billing" style="display:inline-block;background:#f87171;color:#000000;font-size:14px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none">Update Payment Method →</a>
-      <p class="c-s" style="margin:12px 0 0;font-size:12px;color:#3a3a3a">Your data is safe. Updating your card reactivates the account immediately.</p>
+      <a href="${APP}/dashboard/subscription" style="display:inline-block;background:#f87171;color:#000000;font-size:14px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none">Re-subscribe →</a>
+      <p class="c-s" style="margin:12px 0 0;font-size:12px;color:#3a3a3a">Your data is safe. Re-subscribing restores your account immediately.</p>
     </td>
   </tr>
   `)

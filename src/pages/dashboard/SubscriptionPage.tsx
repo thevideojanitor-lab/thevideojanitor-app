@@ -59,7 +59,7 @@ function loadRazorpayScript(): Promise<boolean> {
 // ── Cancel Modal ──────────────────────────────────────────────────────────────
 
 function CancelModal({ onConfirm, onClose }: {
-  subId: string; onConfirm: () => void; onClose: () => void
+  onConfirm: () => void; onClose: () => void
 }) {
   const [loading, setLoading] = useState(false)
 
@@ -401,7 +401,6 @@ export default function SubscriptionPage() {
         {showModal === "cancel" && subscription && (
           <div className="fixed inset-0 bg-background/70 z-50 flex items-center justify-center p-4">
             <CancelModal
-              subId={subscription.gateway_subscription_id ?? ""}
               onConfirm={() => { setShowModal(null); refetch() }}
               onClose={() => setShowModal(null)}
             />

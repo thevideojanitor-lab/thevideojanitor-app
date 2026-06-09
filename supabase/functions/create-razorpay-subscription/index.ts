@@ -29,11 +29,35 @@ Deno.serve(async (req) => {
   const user = await getUserFromAuth(req)
   if (!user) return corsError("Unauthorized", 401)
 
-  const { plan } = await req.json()
-  const planName = PLAN_NAMES[plan]
-  if (!planName) return corsError("Invalid plan")
+  const { plan, action } = await req.json()
 
   const supabase = getSupabaseAdmin()
+
+  // Cancel flow: cancel the user's active Razorpay subscription at cycle end so
+  // access (and already-issued credits) remain until the current period closes.
+  // The subscription.cancelled webhook flips the DB status when it actually ends.
+  if (action === "cancel") {
+    const { data: activeSub } = await supabase
+      .from("subscriptions")
+      .select("gateway_subscription_id")
+      .eq("client_id", user.id)
+      .eq("gateway", "razorpay")
+      .in("status", ["active", "past_due", "trialing"])
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single()
+
+    if (!activeSub?.gateway_subscription_id) return corsError("No active subscription to cancel")
+
+    await razorpayPost(`/subscriptions/${activeSub.gateway_subscription_id}/cancel`, {
+      cancel_at_cycle_end: 1,
+    })
+
+    return corsResponse({ cancelled: true })
+  }
+
+  const planName = PLAN_NAMES[plan]
+  if (!planName) return corsError("Invalid plan")
 
   // Currency is derived server-side from the user's persisted region — never trusted from the client.
   const { data: dbUser } = await supabase
