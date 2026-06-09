@@ -1,11 +1,5 @@
 import { corsHeaders, corsResponse, corsError } from "../_shared/cors.ts"
-import { getUserFromAuth } from "../_shared/supabase-admin.ts"
-
-const PACK_CONFIG: Record<string, { amount: number; credits: number }> = {
-  small: { amount: 82500, credits: 100 },
-  medium: { amount: 187500, credits: 250 },
-  large: { amount: 349900, credits: 500 },
-}
+import { getSupabaseAdmin, getUserFromAuth } from "../_shared/supabase-admin.ts"
 
 function razorpayBasicAuth() {
   return "Basic " + btoa(`${Deno.env.get("RAZORPAY_KEY_ID")}:${Deno.env.get("RAZORPAY_KEY_SECRET")}`)
@@ -18,7 +12,24 @@ Deno.serve(async (req) => {
   if (!user) return corsError("Unauthorized", 401)
 
   const { pack } = await req.json()
-  const packConfig = PACK_CONFIG[pack]
+
+  const supabase = getSupabaseAdmin()
+
+  const { data: dbUser } = await supabase
+    .from("users")
+    .select("currency")
+    .eq("id", user.id)
+    .single()
+  const currency = dbUser?.currency === "USD" ? "USD" : "INR"
+
+  const cfgKey = currency === "USD" ? "credit_packs_usd" : "credit_packs_inr"
+  const { data: cfgRow } = await supabase
+    .from("platform_config")
+    .select("value")
+    .eq("key", cfgKey)
+    .single()
+  const packs = (cfgRow?.value ?? {}) as Record<string, { amount: number; credits: number }>
+  const packConfig = packs[pack]
   if (!packConfig) return corsError("Invalid pack")
 
   const res = await fetch("https://api.razorpay.com/v1/orders", {
@@ -26,7 +37,7 @@ Deno.serve(async (req) => {
     headers: { "Authorization": razorpayBasicAuth(), "Content-Type": "application/json" },
     body: JSON.stringify({
       amount: packConfig.amount,
-      currency: "INR",
+      currency,
       notes: { userId: user.id, credits: String(packConfig.credits) },
     }),
   })
@@ -40,5 +51,6 @@ Deno.serve(async (req) => {
     keyId: Deno.env.get("RAZORPAY_KEY_ID"),
     amount: packConfig.amount,
     credits: packConfig.credits,
+    currency,
   })
 })
