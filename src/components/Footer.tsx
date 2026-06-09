@@ -178,6 +178,12 @@ const Footer = () => {
                 Refund Policy
               </Link>
               <Link
+                to="/legal/shipping"
+                className="hover:text-foreground transition-colors"
+              >
+                Delivery
+              </Link>
+              <Link
                 to="/legal/cookies"
                 className="hover:text-foreground transition-colors"
               >

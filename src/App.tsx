@@ -23,6 +23,7 @@ import NotFound from "@/pages/NotFound";
 import TermsPage from "@/pages/legal/TermsPage";
 import PrivacyPage from "@/pages/legal/PrivacyPage";
 import RefundPage from "@/pages/legal/RefundPage";
+import ShippingPage from "@/pages/legal/ShippingPage";
 import CookiePage from "@/pages/legal/CookiePage";
 
 // Auth Pages
@@ -114,6 +115,7 @@ function App() {
           <Route path="/legal/terms" element={<TermsPage />} />
           <Route path="/legal/privacy" element={<PrivacyPage />} />
           <Route path="/legal/refunds" element={<RefundPage />} />
+          <Route path="/legal/shipping" element={<ShippingPage />} />
           <Route path="/legal/cookies" element={<CookiePage />} />
 
           {/* ── Auth routes (public-only: redirect if already authed) ── */}
