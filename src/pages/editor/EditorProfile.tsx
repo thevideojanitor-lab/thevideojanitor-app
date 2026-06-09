@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "motion/react"
-import { AlertCircle, Check, Loader2, Plus, Star, X } from "lucide-react"
+import { AlertCircle, Camera, Check, Loader2, Plus, Star, X } from "lucide-react"
 import { fadeUp, staggerContainer } from "@/lib/animations"
 import { supabase } from "@/lib/supabase"
 import { useAuthStore } from "@/stores/authStore"
@@ -21,10 +21,25 @@ const NICHES: { key: string; label: string }[] = [
   { key: "vlog", label: "Vlog" },
 ]
 
+const SKILLS: { key: string; label: string }[] = [
+  { key: "motion_graphics", label: "Motion Graphics" },
+  { key: "color_grading", label: "Color Grading" },
+  { key: "sound_design", label: "Sound Design" },
+  { key: "captions", label: "Captions & Subtitles" },
+  { key: "transitions", label: "Transitions & VFX" },
+  { key: "short_form", label: "Short-Form Pacing" },
+  { key: "storytelling", label: "Storytelling / Structure" },
+  { key: "thumbnails", label: "Thumbnail Design" },
+  { key: "compositing_3d", label: "3D / Compositing" },
+  { key: "retouching", label: "Retouching" },
+]
+
 interface EditorProfileRow {
   display_name: string | null
   bio: string | null
+  avatar_url: string | null
   specialties: string[] | null
+  skills: string[] | null
   portfolio_links: string[] | null
   avg_turnaround_hours: number | null
   max_queue_capacity: number | null
@@ -42,10 +57,14 @@ export default function EditorProfile() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  const fileRef = useRef<HTMLInputElement>(null)
   const [stats, setStats] = useState<{ rating: number; completed: number; queue: number } | null>(null)
   const [name, setName] = useState("")
   const [bio, setBio] = useState("")
+  const [avatarUrl, setAvatarUrl] = useState("")
+  const [uploading, setUploading] = useState(false)
   const [specialties, setSpecialties] = useState<string[]>([])
+  const [skills, setSkills] = useState<string[]>([])
   const [links, setLinks] = useState<string[]>([""])
   const [turnaround, setTurnaround] = useState(48)
   const [capacity, setCapacity] = useState(5)
@@ -67,7 +86,9 @@ export default function EditorProfile() {
       const p = data as EditorProfileRow
       setName(p.display_name ?? "")
       setBio(p.bio ?? "")
+      setAvatarUrl(p.avatar_url ?? "")
       setSpecialties(p.specialties ?? [])
+      setSkills(p.skills ?? [])
       setLinks(p.portfolio_links?.length ? p.portfolio_links : [""])
       setTurnaround(p.avg_turnaround_hours ?? 48)
       setCapacity(p.max_queue_capacity ?? 5)
@@ -86,6 +107,39 @@ export default function EditorProfile() {
 
   function toggleNiche(key: string) {
     setSpecialties((prev) => (prev.includes(key) ? prev.filter((x) => x !== key) : [...prev, key]))
+  }
+  function toggleSkill(key: string) {
+    setSkills((prev) => (prev.includes(key) ? prev.filter((x) => x !== key) : [...prev, key]))
+  }
+
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ""
+    if (!file || !user?.id) return
+    if (!file.type.startsWith("image/")) {
+      setError("Please choose an image file (JPG, PNG, or WebP).")
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError("Image must be under 5MB.")
+      return
+    }
+    setUploading(true)
+    setError(null)
+    const ext = (file.name.split(".").pop() || "jpg").toLowerCase()
+    const path = `${user.id}/avatar-${Date.now()}.${ext}`
+    const { error: upErr } = await supabase.storage
+      .from("avatars")
+      .upload(path, file, { upsert: true, contentType: file.type })
+    if (upErr) {
+      console.error("[EditorProfile] avatar upload failed:", upErr.message)
+      setError("Photo upload failed. Please try again.")
+      setUploading(false)
+      return
+    }
+    const { data } = supabase.storage.from("avatars").getPublicUrl(path)
+    setAvatarUrl(data.publicUrl)
+    setUploading(false)
   }
   function updateLink(i: number, val: string) {
     setLinks((prev) => {
@@ -110,7 +164,9 @@ export default function EditorProfile() {
       .update({
         display_name: name.trim(),
         bio: bio.trim(),
+        avatar_url: avatarUrl || null,
         specialties,
+        skills,
         portfolio_links: links.map((l) => l.trim()).filter(Boolean),
         avg_turnaround_hours: turnaround,
         max_queue_capacity: capacity,
@@ -177,6 +233,35 @@ export default function EditorProfile() {
 
       {/* Editable fields */}
       <motion.div variants={fadeUp} className="space-y-5">
+        {/* Avatar */}
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            disabled={uploading}
+            className="relative rounded-full focus:outline-none focus:ring-2 focus:ring-primary/40"
+            aria-label="Change profile picture"
+          >
+            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-border bg-input flex items-center justify-center">
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="Your profile" className="w-full h-full object-cover" />
+              ) : (
+                <span className="font-heading text-xl font-bold text-muted-foreground">
+                  {(name || "?").trim().split(/\s+/).map((p) => p[0]).slice(0, 2).join("").toUpperCase()}
+                </span>
+              )}
+            </div>
+            <span className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-primary text-background flex items-center justify-center border-2 border-background">
+              {uploading ? <Loader2 size={12} className="animate-spin" /> : <Camera size={12} />}
+            </span>
+          </button>
+          <div>
+            <p className="text-sm font-medium text-foreground">Profile picture</p>
+            <p className="text-xs text-muted-foreground">Shown to clients when you're matched. JPG/PNG/WebP, under 5MB.</p>
+          </div>
+          <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
+        </div>
+
         <div className="space-y-1.5">
           <label htmlFor="ep-name" className="text-xs uppercase tracking-wider text-muted-foreground font-sans">
             Display Name
@@ -234,6 +319,30 @@ export default function EditorProfile() {
                   className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
                     active
                       ? "bg-primary/10 border-primary/50 text-primary"
+                      : "bg-input border-border text-muted-foreground hover:border-border hover:text-foreground"
+                  }`}
+                >
+                  {label}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <p className="text-xs uppercase tracking-wider text-muted-foreground font-sans">Editing Skills</p>
+          <div className="flex flex-wrap gap-2">
+            {SKILLS.map(({ key, label }) => {
+              const active = skills.includes(key)
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => toggleSkill(key)}
+                  aria-pressed={active}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                    active
+                      ? "bg-editor-accent/10 border-editor-accent/50 text-editor-accent"
                       : "bg-input border-border text-muted-foreground hover:border-border hover:text-foreground"
                   }`}
                 >
