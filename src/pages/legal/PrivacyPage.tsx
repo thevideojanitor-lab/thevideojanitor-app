@@ -14,7 +14,7 @@ const PrivacyPage = () => (
         <LegalList
           items={[
             "Name, email address, and account credentials",
-            "Payment information (processed securely via Stripe — we do not store card data)",
+            "Payment information (processed securely via Razorpay — we do not store card data)",
             "Brand details, uploaded footage, and briefs submitted via the platform",
             "Communication with editors and support team",
             "Profile information including timezone, preferences, and notification settings",
@@ -50,7 +50,7 @@ const PrivacyPage = () => (
         <LegalList
           items={[
             "Editors assigned to your requests (limited to job-relevant information)",
-            "Payment processors (Stripe) for billing",
+            "Payment processors (Razorpay) for billing",
             "Analytics providers (anonymised and aggregated)",
             "Legal authorities when required by law",
           ]}
@@ -90,7 +90,7 @@ const PrivacyPage = () => (
       <LegalSection title="6. Security">
         <p>
           We implement industry-standard security measures including encryption in
-          transit (TLS), secure payment processing via Stripe, and access controls.
+          transit (TLS), secure payment processing via Razorpay, and access controls.
           No method of transmission is 100% secure — we cannot guarantee absolute security.
         </p>
       </LegalSection>
