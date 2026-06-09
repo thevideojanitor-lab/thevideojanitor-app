@@ -25,13 +25,3 @@ export function useSubscription() {
 
   return { subscription, loading, refetch: load }
 }
-
-export async function cancelStripeSubscription(gatewaySubId: string): Promise<void> {
-  await supabase.functions.invoke("create-stripe-subscription", {
-    body: { action: "cancel", subscriptionId: gatewaySubId },
-  })
-}
-
-export function getStripePortalUrl(): string {
-  return "https://billing.stripe.com/p/login/test_placeholder"
-}
