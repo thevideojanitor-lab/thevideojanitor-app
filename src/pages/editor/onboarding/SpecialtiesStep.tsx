@@ -21,15 +21,33 @@ const NICHES: { key: string; label: string }[] = [
   { key: "vlog",           label: "Vlog" },
 ]
 
+const SKILLS: { key: string; label: string }[] = [
+  { key: "motion_graphics", label: "Motion Graphics" },
+  { key: "color_grading",   label: "Color Grading" },
+  { key: "sound_design",    label: "Sound Design" },
+  { key: "captions",        label: "Captions & Subtitles" },
+  { key: "transitions",     label: "Transitions & VFX" },
+  { key: "short_form",      label: "Short-Form Pacing" },
+  { key: "storytelling",    label: "Storytelling / Structure" },
+  { key: "thumbnails",      label: "Thumbnail Design" },
+  { key: "compositing_3d",  label: "3D / Compositing" },
+  { key: "retouching",      label: "Retouching" },
+]
+
 export default function SpecialtiesStep() {
   const navigate = useNavigate()
   const saved = JSON.parse(sessionStorage.getItem(DRAFT_KEY) ?? "{}")
   const [selected, setSelected] = useState<string[]>(saved.specialties ?? [])
+  const [skills, setSkills] = useState<string[]>(saved.skills ?? [])
   const [links, setLinks] = useState<string[]>(saved.portfolioLinks?.length ? saved.portfolioLinks : [""])
   const [turnaround, setTurnaround] = useState<number>(saved.avgTurnaround ?? 48)
 
   function toggleNiche(key: string) {
     setSelected((prev) => prev.includes(key) ? prev.filter((x) => x !== key) : [...prev, key])
+  }
+
+  function toggleSkill(key: string) {
+    setSkills((prev) => prev.includes(key) ? prev.filter((x) => x !== key) : [...prev, key])
   }
 
   function updateLink(i: number, val: string) {
@@ -48,7 +66,7 @@ export default function SpecialtiesStep() {
     const cleanLinks = links.map((l) => l.trim()).filter(Boolean)
     sessionStorage.setItem(
       DRAFT_KEY,
-      JSON.stringify({ ...saved, specialties: selected, portfolioLinks: cleanLinks, avgTurnaround: turnaround })
+      JSON.stringify({ ...saved, specialties: selected, skills, portfolioLinks: cleanLinks, avgTurnaround: turnaround })
     )
     navigate("/editor/onboarding/launch")
   }
@@ -72,6 +90,28 @@ export default function SpecialtiesStep() {
               onClick={() => toggleNiche(key)}
               className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
                 selected.includes(key)
+                  ? "bg-primary/10 border-primary/50 text-primary"
+                  : "bg-input border-border text-muted-foreground hover:border-border hover:text-foreground"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Editing skills */}
+      <div className="space-y-2">
+        <label className="text-xs uppercase tracking-wider text-muted-foreground font-sans">
+          Editing Skills * <span className="normal-case">(what you're great at)</span>
+        </label>
+        <div className="flex flex-wrap gap-2">
+          {SKILLS.map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => toggleSkill(key)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                skills.includes(key)
                   ? "bg-primary/10 border-primary/50 text-primary"
                   : "bg-input border-border text-muted-foreground hover:border-border hover:text-foreground"
               }`}
@@ -148,7 +188,7 @@ export default function SpecialtiesStep() {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.97 }}
           onClick={handleNext}
-          disabled={selected.length === 0}
+          disabled={selected.length === 0 || skills.length === 0}
           className="flex-1 bg-primary text-background font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
         >
           Continue <ArrowRight size={16} />

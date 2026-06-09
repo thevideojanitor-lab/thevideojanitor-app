@@ -15,6 +15,14 @@ const NICHE_LABELS: Record<string, string> = {
   education: "Education", tech: "Tech", vlog: "Vlog",
 }
 
+const SKILL_LABELS: Record<string, string> = {
+  motion_graphics: "Motion Graphics", color_grading: "Color Grading",
+  sound_design: "Sound Design", captions: "Captions & Subtitles",
+  transitions: "Transitions & VFX", short_form: "Short-Form Pacing",
+  storytelling: "Storytelling / Structure", thumbnails: "Thumbnail Design",
+  compositing_3d: "3D / Compositing", retouching: "Retouching",
+}
+
 export default function LaunchStep() {
   const navigate = useNavigate()
   const { user, setOnboardingComplete } = useAuthStore()
@@ -22,7 +30,7 @@ export default function LaunchStep() {
   const [error, setError] = useState<string | null>(null)
 
   const draft = JSON.parse(sessionStorage.getItem(DRAFT_KEY) ?? "{}")
-  const { displayName, bio, specialties = [], portfolioLinks = [], avgTurnaround = 48 } = draft
+  const { displayName, bio, avatarUrl = "", specialties = [], skills = [], portfolioLinks = [], avgTurnaround = 48 } = draft
 
   async function handleLaunch() {
     if (!user?.id) return
@@ -33,7 +41,9 @@ export default function LaunchStep() {
       user_id: user.id,
       display_name: displayName,
       bio,
+      avatar_url: avatarUrl || null,
       specialties,
+      skills,
       portfolio_links: portfolioLinks,
       avg_turnaround_hours: avgTurnaround,
       is_active: true,
@@ -60,16 +70,27 @@ export default function LaunchStep() {
 
       {/* Summary card */}
       <div className="bg-card border border-border rounded-xl p-5 space-y-4">
-        <div>
-          <p className="text-xs uppercase tracking-wider text-muted-foreground">Display Name</p>
-          <p className="text-foreground font-medium mt-0.5">{displayName || "—"}</p>
+        <div className="flex items-center gap-3">
+          <div className="w-14 h-14 rounded-full overflow-hidden border border-border bg-input shrink-0 flex items-center justify-center">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt={displayName || "Editor"} className="w-full h-full object-cover" />
+            ) : (
+              <span className="font-heading text-lg font-bold text-muted-foreground">
+                {(displayName || "?").trim().split(/\s+/).map((p: string) => p[0]).slice(0, 2).join("").toUpperCase()}
+              </span>
+            )}
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Display Name</p>
+            <p className="text-foreground font-medium mt-0.5">{displayName || "—"}</p>
+          </div>
         </div>
         <div>
           <p className="text-xs uppercase tracking-wider text-muted-foreground">Bio</p>
           <p className="text-foreground/80 text-sm mt-0.5 leading-relaxed line-clamp-3">{bio || "—"}</p>
         </div>
         <div>
-          <p className="text-xs uppercase tracking-wider text-muted-foreground">Specialties</p>
+          <p className="text-xs uppercase tracking-wider text-muted-foreground">Content Niches</p>
           <div className="flex flex-wrap gap-1.5 mt-1.5">
             {(specialties as string[]).map((s) => (
               <span
@@ -77,6 +98,19 @@ export default function LaunchStep() {
                 className="bg-primary/10 border border-primary/30 text-primary text-xs px-2.5 py-0.5 rounded-full"
               >
                 {NICHE_LABELS[s] ?? s}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="text-xs uppercase tracking-wider text-muted-foreground">Editing Skills</p>
+          <div className="flex flex-wrap gap-1.5 mt-1.5">
+            {(skills as string[]).map((s) => (
+              <span
+                key={s}
+                className="bg-editor-accent/10 border border-editor-accent/30 text-editor-accent text-xs px-2.5 py-0.5 rounded-full"
+              >
+                {SKILL_LABELS[s] ?? s}
               </span>
             ))}
           </div>
@@ -119,7 +153,7 @@ export default function LaunchStep() {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.97 }}
           onClick={handleLaunch}
-          disabled={loading || !displayName || !bio || specialties.length === 0}
+          disabled={loading || !displayName || !bio || !avatarUrl || specialties.length === 0 || skills.length === 0}
           className="flex-1 bg-primary text-background font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {loading ? <Loader2 size={16} className="animate-spin" /> : null}

@@ -45,7 +45,9 @@ export interface EditorProfile {
   user_id: string
   display_name: string | null
   bio: string | null
+  avatar_url: string | null
   specialties: string[]
+  skills: string[]
   portfolio_links: string[]
   avg_turnaround_hours: number
   rating: number
