@@ -46,15 +46,34 @@ export default function AuthCallback() {
         return
       }
 
-      // No profile row yet. If the chosen role rode along in auth metadata
-      // (email signup with confirmation, or a future trigger), provision it now
-      // and continue. Otherwise this is an OAuth user who must pick a role.
+      // No profile row yet. The chosen role can arrive two ways: in auth
+      // metadata (email signup with confirmation) or as a ?role= query param we
+      // attach to the OAuth redirect (Google signup after picking a role). Use
+      // whichever is present to provision now and skip the role step. If neither
+      // is present this is a bare OAuth login, so send them to pick a role.
       const metaRole = session.user.user_metadata?.role
-      if (metaRole === "client" || metaRole === "editor") {
-        const { error } = await ensureUserProfile(session.user.id, session.user.email ?? "", metaRole)
+      const queryRole = new URLSearchParams(window.location.search).get("role")
+      let stashedRole: string | null = null
+      try {
+        stashedRole = localStorage.getItem("tvj_pending_role")
+      } catch {
+        stashedRole = null
+      }
+      const candidate = [metaRole, queryRole, stashedRole].find(
+        (r) => r === "client" || r === "editor"
+      )
+      const chosenRole = (candidate as "client" | "editor" | undefined) ?? null
+
+      if (chosenRole) {
+        const { error } = await ensureUserProfile(session.user.id, session.user.email ?? "", chosenRole)
         if (cancelled) return
+        try {
+          localStorage.removeItem("tvj_pending_role")
+        } catch {
+          // ignore
+        }
         if (!error) {
-          navigate(metaRole === "editor" ? "/editor/onboarding" : "/onboarding", { replace: true })
+          navigate(chosenRole === "editor" ? "/editor/onboarding" : "/onboarding", { replace: true })
           return
         }
       }

@@ -66,10 +66,22 @@ export function useAuth(): AuthState {
     }
 
     if (!appUser) {
-      // Authenticated, but no app profile row yet. This covers new OAuth users
-      // who haven't picked a role and any orphaned account (auth user with no
-      // users row). The route guards send these to /auth/select-role so the
-      // login can never strand them.
+      // No app profile row yet. Before treating this as "needs role selection",
+      // confirm the auth account still exists on the server — getSession()
+      // returns a locally cached session even for a deleted user, which would
+      // otherwise bounce forever between /auth/select-role and /user (403). If
+      // the account is gone, sign the stale session out cleanly.
+      const { data: { user: authUser }, error: authErr } = await supabase.auth.getUser()
+      if (authErr || !authUser) {
+        await supabase.auth.signOut()
+        clear()
+        setLoading(false)
+        return
+      }
+
+      // Authenticated with a live account but no profile row — a new OAuth user
+      // who hasn't picked a role. The route guards send these to
+      // /auth/select-role so the login can never strand them.
       setNeedsRoleSelection(true)
       setLoading(false)
       return
@@ -140,10 +152,30 @@ export async function signInWithEmail(
   return { error: error?.message ?? null }
 }
 
-export async function signInWithGoogle(): Promise<{ error: string | null }> {
+export async function signInWithGoogle(
+  role?: "client" | "editor"
+): Promise<{ error: string | null }> {
+  // Carry the chosen role through the OAuth round-trip so a Google signup lands
+  // straight in the right onboarding instead of stopping again at
+  // /auth/select-role. A query param survives the redirect without depending on
+  // localStorage being intact across the external hop. Supabase appends its own
+  // ?code=... to this URL, so the callback receives both params.
+  const redirectTo = new URL(`${window.location.origin}/auth/callback`)
+  if (role) {
+    redirectTo.searchParams.set("role", role)
+    // Belt-and-suspenders: also stash the role locally in case the Supabase
+    // redirect-URL allow list is configured without a wildcard and strips the
+    // query param. localStorage survives the same-browser OAuth round-trip.
+    try {
+      localStorage.setItem("tvj_pending_role", role)
+    } catch {
+      // localStorage unavailable — the query param still carries the role.
+    }
+  }
+
   const { error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    options: { redirectTo: `${window.location.origin}/auth/callback` },
+    options: { redirectTo: redirectTo.toString() },
   })
   return { error: error?.message ?? null }
 }
