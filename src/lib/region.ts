@@ -8,15 +8,16 @@ export interface RegionConfig {
 
 const STORAGE_KEY = "tvj_region"
 
-function regionToGateway(region: Region): Gateway {
-  return region === "IN" ? "razorpay" : "stripe"
+function regionToGateway(_region: Region): Gateway {
+  // Single gateway: Razorpay handles both INR (domestic) and USD (international).
+  return "razorpay"
 }
 
 function currencyForRegion(region: Region): Currency {
   return region === "IN" ? "INR" : "USD"
 }
 
-const DEFAULT: RegionConfig = { region: "US", currency: "USD", gateway: "stripe" }
+const DEFAULT: RegionConfig = { region: "US", currency: "USD", gateway: "razorpay" }
 
 export function getCachedRegion(): RegionConfig | null {
   try {
