@@ -80,7 +80,7 @@ const FAQ_SECTIONS: { title: string; items: FaqItem[] }[] = [
     items: [
       {
         q: "Which payment methods are accepted?",
-        a: "USD clients pay via Stripe (all major cards, Apple Pay, Google Pay). INR clients pay via Razorpay (cards, UPI, netbanking, wallets).",
+        a: "All payments are processed securely via Razorpay. INR clients pay with cards, UPI, netbanking, and wallets; USD clients pay with international cards.",
       },
       {
         q: "My payment failed — what now?",

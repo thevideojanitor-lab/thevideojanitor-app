@@ -62,7 +62,7 @@ const CookiePage = () => (
         <p>Some third-party services we use may set their own cookies:</p>
         <LegalList
           items={[
-            "Stripe — payment processing and fraud prevention",
+            "Razorpay — payment processing and fraud prevention",
             "Google Analytics — anonymised usage analytics (if enabled)",
             "Intercom or similar — support chat functionality (if enabled)",
           ]}
