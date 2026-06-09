@@ -1,7 +1,7 @@
 import { corsHeaders } from "../_shared/cors.ts"
 import { getSupabaseAdmin } from "../_shared/supabase-admin.ts"
 import { sendEmail } from "../_shared/sendgrid.ts"
-import { paymentConfirmedEmail } from "../_shared/email-templates.ts"
+import { paymentConfirmedEmail, paymentFailedEmail } from "../_shared/email-templates.ts"
 
 const PLAN_NAMES: Record<string, string> = {
   quick_sweep: "Quick Sweep",
@@ -50,7 +50,7 @@ Deno.serve(async (req) => {
 
       const { data: dbSub } = await supabase
         .from("subscriptions")
-        .select("plan, client_id, credits_total")
+        .select("plan, client_id, credits_total, currency")
         .eq("gateway_subscription_id", sub.id)
         .single()
 
@@ -81,15 +81,18 @@ Deno.serve(async (req) => {
       // Notify client — email
       const { data: rzpAuth } = await supabase.auth.admin.getUserById(dbSub.client_id)
       if (rzpAuth?.user?.email) {
+        const cur = dbSub.currency === "USD" ? "USD" : "INR"
+        const locale = cur === "USD" ? "en-US" : "en-IN"
+        const symbol = cur === "USD" ? "$" : "₹"
         const renewsAtFormatted = renewsAt
-          ? new Date(renewsAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
+          ? new Date(renewsAt).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" })
           : "your next billing date"
         const { subject, html } = paymentConfirmedEmail({
           clientName: rzpAuth.user.email.split("@")[0],
           plan: PLAN_NAMES[dbSub.plan] ?? dbSub.plan,
           credits,
-          amount: `₹${((payment?.amount ?? 0) / 100).toLocaleString("en-IN")}`,
-          currency: "INR",
+          amount: `${symbol}${((payment?.amount ?? 0) / 100).toLocaleString(locale)}`,
+          currency: cur,
           renewsAt: renewsAtFormatted,
         })
         await sendEmail({ to: rzpAuth.user.email, subject, html })
@@ -117,6 +120,48 @@ Deno.serve(async (req) => {
           message: "Your subscription has been cancelled.",
           type: "billing",
         })
+      }
+      break
+    }
+
+    case "subscription.halted":
+    case "subscription.pending": {
+      // A renewal charge failed (pending = retrying, halted = retries exhausted).
+      // International/foreign cards commonly fail here — mark past_due so the UI
+      // blocks new requests and prompts re-subscribe.
+      const sub = event.payload.subscription.entity
+
+      const { data: dbSub } = await supabase
+        .from("subscriptions")
+        .select("client_id, plan, amount_paid, currency")
+        .eq("gateway_subscription_id", sub.id)
+        .single()
+
+      await supabase
+        .from("subscriptions")
+        .update({ status: "past_due", updated_at: new Date().toISOString() })
+        .eq("gateway_subscription_id", sub.id)
+
+      if (dbSub) {
+        await supabase.from("notifications").insert({
+          user_id: dbSub.client_id,
+          message: "Payment failed — please re-subscribe to restore access.",
+          type: "billing",
+        })
+
+        const { data: failAuth } = await supabase.auth.admin.getUserById(dbSub.client_id)
+        if (failAuth?.user?.email) {
+          const cur = dbSub.currency === "USD" ? "USD" : "INR"
+          const locale = cur === "USD" ? "en-US" : "en-IN"
+          const symbol = cur === "USD" ? "$" : "₹"
+          const { subject, html } = paymentFailedEmail({
+            clientName: failAuth.user.email.split("@")[0],
+            plan: PLAN_NAMES[dbSub.plan] ?? dbSub.plan,
+            amount: `${symbol}${((dbSub.amount_paid ?? 0) / 100).toLocaleString(locale)}`,
+            currency: cur,
+          })
+          await sendEmail({ to: failAuth.user.email, subject, html })
+        }
       }
       break
     }
