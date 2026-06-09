@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "motion/react"
-import { loadStripe } from "@stripe/stripe-js"
-import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
-import { Check, Coins, AlertCircle, ExternalLink, Loader2, X } from "lucide-react"
+import { Check, Coins, AlertCircle, Loader2, X } from "lucide-react"
 import { staggerContainer, fadeUp, scaleIn } from "@/lib/animations"
 import { useAuthStore } from "@/stores/authStore"
 import { usePricingStore } from "@/stores/pricingStore"
@@ -12,11 +10,8 @@ import CreditsDisplay from "@/components/CreditsDisplay"
 import { supabase } from "@/lib/supabase"
 import { track } from "@vercel/analytics"
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ?? "")
-
 // ── Types ────────────────────────────────────────────────────────────────────
 
-type BillingCycle = "monthly" | "annual"
 type PlanKey = "quick_sweep" | "deep_clean" | "full_service"
 
 const PLAN_META: Record<PlanKey, { label: string; tagline: string; popular: boolean; features: string[] }> = {
@@ -47,133 +42,6 @@ const PACK_META: { key: "small" | "medium" | "large"; tag: string | null }[] = [
   { key: "large", tag: "13% off" },
 ]
 
-// ── Stripe Payment Form ───────────────────────────────────────────────────────
-
-function StripePaymentForm({ clientSecret, plan, onSuccess, onClose }: {
-  clientSecret: string; plan: PlanKey; onSuccess: () => void; onClose: () => void
-}) {
-  const stripe = useStripe()
-  const elements = useElements()
-  const [processing, setProcessing] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!stripe || !elements) return
-
-    setProcessing(true)
-    setError(null)
-
-    const { error: confirmError } = await stripe.confirmPayment({
-      elements,
-      redirect: "if_required",
-    })
-
-    if (confirmError) {
-      setError(confirmError.message ?? "Payment failed. Please try again.")
-      setProcessing(false)
-    } else {
-      track("subscription_started", { plan, currency: "USD", region: "US", gateway: "stripe" })
-      onSuccess()
-    }
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <PaymentElement options={{ layout: "tabs" }} />
-      {error && (
-        <div className="flex items-start gap-2 bg-red-500/10 border border-red-500/20 rounded-lg p-3">
-          <AlertCircle size={16} className="text-red-400 mt-0.5 shrink-0" />
-          <p className="text-sm text-red-400">{error}</p>
-        </div>
-      )}
-      <div className="flex gap-3">
-        <button
-          type="button"
-          onClick={onClose}
-          className="flex-1 border border-border text-foreground rounded-lg py-3 text-sm font-medium hover:bg-card transition-colors"
-        >
-          Cancel
-        </button>
-        <motion.button
-          type="submit"
-          disabled={processing || !stripe}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.97 }}
-          className="flex-1 bg-primary text-background font-semibold rounded-lg py-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-        >
-          {processing ? <Loader2 size={16} className="animate-spin" /> : null}
-          {processing ? "Processing…" : "Confirm Subscription"}
-        </motion.button>
-      </div>
-      <p className="text-center text-[10px] text-muted-foreground">Secured by Stripe · Cancel anytime</p>
-    </form>
-  )
-}
-
-// ── Stripe Subscription Modal ─────────────────────────────────────────────────
-
-function StripeModal({ plan, billingCycle, onSuccess, onClose }: {
-  plan: PlanKey; billingCycle: BillingCycle; onSuccess: () => void; onClose: () => void
-}) {
-  const [clientSecret, setClientSecret] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    supabase.functions.invoke("create-stripe-subscription", {
-      body: { plan, billingCycle },
-    }).then(({ data, error: fnErr }) => {
-      if (fnErr || !data?.clientSecret) {
-        setError("Unable to initialise payment. Please try again.")
-      } else {
-        setClientSecret(data.clientSecret)
-      }
-      setLoading(false)
-    })
-  }, [plan, billingCycle])
-
-  return (
-    <motion.div
-      variants={scaleIn}
-      initial="hidden"
-      animate="visible"
-      exit="hidden"
-      className="bg-input border border-border rounded-2xl p-6 w-full max-w-md mx-auto"
-    >
-      <div className="flex items-center justify-between mb-5">
-        <div>
-          <h3 className="font-heading text-lg font-semibold text-foreground">
-            {PLAN_META[plan].label}
-          </h3>
-          <p className="text-xs text-muted-foreground capitalize">{billingCycle} billing</p>
-        </div>
-        <button onClick={onClose} className="text-muted-foreground hover:text-foreground">
-          <X size={20} />
-        </button>
-      </div>
-
-      {loading && (
-        <div className="flex items-center justify-center py-10">
-          <Loader2 size={24} className="animate-spin text-primary" />
-        </div>
-      )}
-
-      {error && (
-        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 text-sm text-red-400">
-          {error}
-        </div>
-      )}
-
-      {clientSecret && (
-        <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: "night", variables: { colorPrimary: "#FF5F15", colorBackground: "#1A1A1A" } } }}>
-          <StripePaymentForm clientSecret={clientSecret} plan={plan} onSuccess={onSuccess} onClose={onClose} />
-        </Elements>
-      )}
-    </motion.div>
-  )
-}
-
 // ── Razorpay helper ───────────────────────────────────────────────────────────
 
 function loadRazorpayScript(): Promise<boolean> {
@@ -190,15 +58,14 @@ function loadRazorpayScript(): Promise<boolean> {
 
 // ── Cancel Modal ──────────────────────────────────────────────────────────────
 
-function CancelModal({ gateway, subId, onConfirm, onClose }: {
-  gateway: string; subId: string; onConfirm: () => void; onClose: () => void
+function CancelModal({ onConfirm, onClose }: {
+  subId: string; onConfirm: () => void; onClose: () => void
 }) {
   const [loading, setLoading] = useState(false)
 
   const handleCancel = async () => {
     setLoading(true)
-    const fnName = gateway === "stripe" ? "create-stripe-subscription" : "create-razorpay-subscription"
-    await supabase.functions.invoke(fnName, { body: { action: "cancel", subscriptionId: subId } })
+    await supabase.functions.invoke("create-razorpay-subscription", { body: { action: "cancel" } })
     setLoading(false)
     onConfirm()
   }
@@ -227,9 +94,7 @@ export default function SubscriptionPage() {
   const { subscription, loading: subLoading, refetch } = useSubscription()
   const { balance, total, refresh: refreshCredits } = useCreditsStore()
 
-  const [billing, setBilling] = useState<BillingCycle>("monthly")
-  const [selectedPlan, setSelectedPlan] = useState<PlanKey | null>(null)
-  const [showModal, setShowModal] = useState<"stripe" | "cancel" | null>(null)
+  const [showModal, setShowModal] = useState<"cancel" | null>(null)
   const [showSuccess, setShowSuccess] = useState(false)
   const [loadingRzPlan, setLoadingRzPlan] = useState<PlanKey | null>(null)
   const [loadingPack, setLoadingPack] = useState<string | null>(null)
@@ -241,10 +106,8 @@ export default function SubscriptionPage() {
   const getPrice = useCallback((key: PlanKey) => {
     if (!config) return null
     const raw = (config.plans as Record<string, { amount: number }>)[key]?.amount ?? 0
-    const monthly = raw / 100
-    if (billing === "annual") return Math.round(monthly * 0.8)
-    return monthly
-  }, [config, billing])
+    return raw / 100
+  }, [config])
 
   const displayPrice = (key: PlanKey) => {
     const p = getPrice(key)
@@ -253,69 +116,50 @@ export default function SubscriptionPage() {
   }
 
   const handleSelectPlan = async (key: PlanKey) => {
-    setSelectedPlan(key)
-    if (region === "US") {
-      setShowModal("stripe")
-    } else {
-      // Razorpay flow
-      setLoadingRzPlan(key)
-      const loaded = await loadRazorpayScript()
-      if (!loaded) { setLoadingRzPlan(null); return }
+    setLoadingRzPlan(key)
+    const loaded = await loadRazorpayScript()
+    if (!loaded) { setLoadingRzPlan(null); return }
 
-      const { data, error } = await supabase.functions.invoke("create-razorpay-subscription", { body: { plan: key } })
-      if (error || !data) { setLoadingRzPlan(null); return }
+    const { data, error } = await supabase.functions.invoke("create-razorpay-subscription", { body: { plan: key } })
+    if (error || !data) { setLoadingRzPlan(null); return }
 
-      // @ts-expect-error — Razorpay loaded dynamically
-      const rzp = new window.Razorpay({
-        key: data.keyId,
-        subscription_id: data.subscriptionId,
-        name: "TheVideoJanitors",
-        description: `${data.planName} — ${billing} billing`,
-        handler: () => {
-          track("subscription_started", { plan: key, currency: "INR", region: "IN", gateway: "razorpay" })
-          setShowSuccess(true)
-          refetch()
-          if (user?.id) refreshCredits(user.id)
-        },
-      })
-      rzp.open()
-      setLoadingRzPlan(null)
-    }
+    // @ts-expect-error — Razorpay loaded dynamically
+    const rzp = new window.Razorpay({
+      key: data.keyId,
+      subscription_id: data.subscriptionId,
+      name: "TheVideoJanitors",
+      description: `${data.planName} — monthly billing`,
+      handler: () => {
+        track("subscription_started", { plan: key, currency, region, gateway: "razorpay" })
+        setShowSuccess(true)
+        refetch()
+        if (user?.id) refreshCredits(user.id)
+      },
+    })
+    rzp.open()
+    setLoadingRzPlan(null)
   }
 
   const handleBuyCreditPack = async (packKey: string, credits: number) => {
     setLoadingPack(packKey)
-    if (region === "US") {
-      const { data } = await supabase.functions.invoke("create-stripe-credit-pack", { body: { pack: packKey } })
-      if (data?.url) window.location.href = data.url
-    } else {
-      const loaded = await loadRazorpayScript()
-      if (!loaded) { setLoadingPack(null); return }
-      const { data } = await supabase.functions.invoke("create-razorpay-order", { body: { pack: packKey } })
-      if (!data) { setLoadingPack(null); return }
+    const loaded = await loadRazorpayScript()
+    if (!loaded) { setLoadingPack(null); return }
+    const { data } = await supabase.functions.invoke("create-razorpay-order", { body: { pack: packKey } })
+    if (!data) { setLoadingPack(null); return }
 
-      // @ts-expect-error — Razorpay loaded dynamically
-      const rzp = new window.Razorpay({
-        key: data.keyId,
-        order_id: data.orderId,
-        name: "TheVideoJanitors",
-        description: `${credits} Credits`,
-        handler: () => {
-          track("credits_recharged", { pack_size: packKey, currency: "INR", region: "IN" })
-          if (user?.id) refreshCredits(user.id)
-        },
-      })
-      rzp.open()
-    }
+    // @ts-expect-error — Razorpay loaded dynamically
+    const rzp = new window.Razorpay({
+      key: data.keyId,
+      order_id: data.orderId,
+      name: "TheVideoJanitors",
+      description: `${credits} Credits`,
+      handler: () => {
+        track("credits_recharged", { pack_size: packKey, currency, region })
+        if (user?.id) refreshCredits(user.id)
+      },
+    })
+    rzp.open()
     setLoadingPack(null)
-  }
-
-  const handleSubscribeSuccess = () => {
-    setShowModal(null)
-    setSelectedPlan(null)
-    setShowSuccess(true)
-    refetch()
-    if (user?.id) refreshCredits(user.id)
   }
 
   const isCurrentPlan = (key: PlanKey) => subscription?.plan === key
@@ -338,13 +182,14 @@ export default function SubscriptionPage() {
             <AlertCircle size={18} className="text-red-400 shrink-0" />
             <div className="flex-1">
               <p className="text-sm font-medium text-red-400">Payment failed — new request submissions are blocked.</p>
-              <p className="text-xs text-muted-foreground mt-0.5">Update your payment method to restore access.</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Re-subscribe to restore access.</p>
             </div>
-            {subscription?.gateway === "stripe" ? (
-              <a href="https://billing.stripe.com" target="_blank" rel="noreferrer"
+            {subscription?.plan ? (
+              <button
+                onClick={() => handleSelectPlan(subscription.plan as PlanKey)}
                 className="flex items-center gap-1.5 text-xs font-semibold text-primary border border-primary/30 rounded-lg px-3 py-1.5 hover:bg-primary/10 transition-colors">
-                Update Card <ExternalLink size={12} />
-              </a>
+                Re-subscribe
+              </button>
             ) : null}
           </motion.div>
         )}
@@ -409,31 +254,6 @@ export default function SubscriptionPage() {
         </motion.h1>
       </motion.div>
 
-      {/* Billing toggle */}
-      <div className="flex items-center gap-3 mb-8">
-        <div className="inline-flex bg-border rounded-full p-1 gap-1">
-          {(["monthly", "annual"] as BillingCycle[]).map((cycle) => (
-            <button
-              key={cycle}
-              onClick={() => setBilling(cycle)}
-              className={`relative px-5 py-2 rounded-full text-sm font-medium transition-all capitalize ${
-                billing === cycle ? "bg-primary text-background" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {cycle}
-              {cycle === "annual" && (
-                <span className="absolute -top-2 -right-2 bg-green-500 text-background text-[9px] font-bold px-1.5 py-0.5 rounded-full">
-                  20% OFF
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-        {billing === "annual" && (
-          <p className="text-xs text-muted-foreground">Billed once yearly</p>
-        )}
-      </div>
-
       {/* Plan cards */}
       <motion.div variants={staggerContainer} initial="hidden" animate="visible"
         className="grid md:grid-cols-3 gap-5 mb-12">
@@ -475,7 +295,7 @@ export default function SubscriptionPage() {
                 <div className="flex items-baseline gap-1 mt-4">
                   <AnimatePresence mode="wait">
                     <motion.span
-                      key={`${key}-${billing}`}
+                      key={key}
                       initial={{ opacity: 0, y: -8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 8 }}
@@ -486,9 +306,6 @@ export default function SubscriptionPage() {
                     </motion.span>
                   </AnimatePresence>
                   <span className="text-muted-foreground text-sm">/mo</span>
-                  {billing === "annual" && !pricingLoading && (
-                    <span className="text-xs text-green-400 font-medium ml-1">Save 20%</span>
-                  )}
                 </div>
               </div>
 
@@ -517,15 +334,7 @@ export default function SubscriptionPage() {
               </ul>
 
               {/* Cancel option for current active plan */}
-              {isCurrent && subscription?.status === "active" && subscription.gateway === "stripe" && (
-                <div className="mt-5 pt-4 border-t border-border">
-                  <a href="https://billing.stripe.com" target="_blank" rel="noreferrer"
-                    className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
-                    Manage billing <ExternalLink size={11} />
-                  </a>
-                </div>
-              )}
-              {isCurrent && subscription?.status === "active" && subscription.gateway === "razorpay" && (
+              {isCurrent && subscription?.status === "active" && (
                 <div className="mt-5 pt-4 border-t border-border">
                   <button
                     onClick={() => setShowModal("cancel")}
@@ -589,20 +398,9 @@ export default function SubscriptionPage() {
 
       {/* Payment modal overlay */}
       <AnimatePresence>
-        {(showModal === "stripe" && selectedPlan) && (
-          <div className="fixed inset-0 bg-background/70 z-50 flex items-center justify-center p-4">
-            <StripeModal
-              plan={selectedPlan}
-              billingCycle={billing}
-              onSuccess={handleSubscribeSuccess}
-              onClose={() => { setShowModal(null); setSelectedPlan(null) }}
-            />
-          </div>
-        )}
         {showModal === "cancel" && subscription && (
           <div className="fixed inset-0 bg-background/70 z-50 flex items-center justify-center p-4">
             <CancelModal
-              gateway={subscription.gateway}
               subId={subscription.gateway_subscription_id ?? ""}
               onConfirm={() => { setShowModal(null); refetch() }}
               onClose={() => setShowModal(null)}
