@@ -174,7 +174,7 @@ const categories = [
       },
       {
         q: "When are editors paid?",
-        a: "Editors are paid weekly every Friday via PayPal or Stripe. Minimum payout threshold is $50. Earnings accumulate across the week and are released in a single transfer.",
+        a: "Editors are paid weekly every Friday — via bank transfer or UPI in India, or Stripe internationally. Minimum payout threshold is $50. Earnings accumulate across the week and are released in a single transfer.",
       },
       {
         q: "Can I cancel anytime?",

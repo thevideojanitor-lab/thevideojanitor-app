@@ -104,7 +104,7 @@ TheVideoJanitors is a managed short-form video editing platform.
 | Animation | **motion** (`motion/react`) — NOT framer-motion |
 | State | Zustand |
 | Backend | Supabase (Postgres + Auth + Realtime + Storage) |
-| Payments USD | Stripe Billing + Stripe Connect |
+| Payments USD | Razorpay Subscriptions (International) + Stripe Connect payouts |
 | Payments INR | Razorpay Subscriptions + Razorpay Payouts |
 | Video | Mux (`@mux/mux-player-react`) |
 | Routing | React Router v6 |
@@ -313,31 +313,27 @@ Fake stats → use — as placeholder
 // 4. ipapi fail → default { region: "US", currency: "USD" }
 // Never re-detect after signup. Never ask user to choose gateway.
 
+// ALL regions use Razorpay (migrated from Stripe, June 2026).
+// Currency is derived SERVER-SIDE from users.currency — never trusted from client.
 region === "IN"
   ? { gateway: "razorpay", currency: "INR" }
-  : { gateway: "stripe",   currency: "USD" }
+  : { gateway: "razorpay", currency: "USD" }  // requires Razorpay International Payments
 ```
 
-### Stripe (USD)
-- Subscriptions: Stripe Billing API
-- Credit packs: Stripe Checkout (one-time)
-- Editor payouts: Stripe Connect
-- Webhooks: payment_intent.succeeded, invoice.paid,
-  customer.subscription.updated, customer.subscription.deleted
-- Auto-retry failed: 3 attempts → past_due
-
-### Razorpay (INR)
+### Razorpay (all client payments — INR + USD)
 ```javascript
 // Load dynamically — never npm install frontend SDK
 const s = document.createElement("script")
 s.src = "https://checkout.razorpay.com/v1/checkout.js"
 document.body.appendChild(s)
 ```
-- Subscriptions: Razorpay Subscriptions API
-- Credit packs: Razorpay Orders API
-- Editor payouts: Razorpay Payouts (NEFT/IMPS/UPI)
-- Webhooks: payment.captured, subscription.charged, subscription.cancelled
-- BOTH webhook handlers must validate signatures before processing anything
+- Subscriptions: Razorpay Subscriptions API (amounts from platform_config: pricing_usd / pricing_inr)
+- Credit packs: Razorpay Orders API (credit_packs_usd / credit_packs_inr)
+- Editor payouts: Razorpay Payouts (NEFT/IMPS/UPI) for India; Stripe Connect kept for international editors
+- Webhooks: payment.captured, subscription.charged, subscription.cancelled, subscription.halted/pending (→ past_due)
+- Webhook handler must validate signatures before processing anything
+- NOTE: USD requires International Payments activation on the Razorpay account;
+  Subscriptions is a separately-provisioned Razorpay product (new accounts may 401 until support enables it)
 
 ---
 
@@ -718,10 +714,7 @@ supabase.channel(`deliverable-${requestId}`).on('postgres_changes',
 | Function | Purpose |
 |---|---|
 | get-pricing | Pricing config for region from platform_config |
-| create-stripe-subscription | Stripe customer + subscription |
-| stripe-webhook | All Stripe events (validate sig first) |
-| create-stripe-credit-pack | One-time Stripe payment |
-| create-razorpay-subscription | Razorpay subscription |
+| create-razorpay-subscription | Razorpay subscription (currency-aware) + cancel action |
 | razorpay-webhook | All Razorpay events (validate sig first) |
 | create-razorpay-order | One-time Razorpay credit pack |
 | match-editor | Weighted scoring, assigns editor |
@@ -874,10 +867,12 @@ Infrastructure
 [ ] pg_cron scheduled
 
 Payments
-[ ] Stripe live keys + webhooks → production URL, sigs validated
 [ ] Razorpay live keys + webhooks → production URL, sigs validated
+[ ] Razorpay Subscriptions product enabled on live account
+[ ] Razorpay International Payments activated (required for USD)
 [ ] Real ₹1 INR transaction tested
 [ ] Real $1 USD transaction tested
+[ ] Stripe Connect (editor payouts only) keys configured
 
 Content
 [ ] platform_config seeded with production pricing
