@@ -19,7 +19,7 @@ async function razorpayPost(path: string, body: unknown) {
     headers: { "Authorization": razorpayBasicAuth(), "Content-Type": "application/json" },
     body: JSON.stringify(body),
   })
-  if (!res.ok) throw new Error(`Razorpay API error: ${await res.text()}`)
+  if (!res.ok) throw new Error(`Razorpay ${path} → ${res.status}: ${await res.text()}`)
   return res.json()
 }
 
@@ -33,89 +33,95 @@ Deno.serve(async (req) => {
 
   const supabase = getSupabaseAdmin()
 
-  // Cancel flow: cancel the user's active Razorpay subscription at cycle end so
-  // access (and already-issued credits) remain until the current period closes.
-  // The subscription.cancelled webhook flips the DB status when it actually ends.
-  if (action === "cancel") {
-    const { data: activeSub } = await supabase
-      .from("subscriptions")
-      .select("gateway_subscription_id")
-      .eq("client_id", user.id)
-      .eq("gateway", "razorpay")
-      .in("status", ["active", "past_due", "trialing"])
-      .order("created_at", { ascending: false })
-      .limit(1)
+  try {
+    // Cancel flow: cancel the user's active Razorpay subscription at cycle end so
+    // access (and already-issued credits) remain until the current period closes.
+    // The subscription.cancelled webhook flips the DB status when it actually ends.
+    if (action === "cancel") {
+      const { data: activeSub } = await supabase
+        .from("subscriptions")
+        .select("gateway_subscription_id")
+        .eq("client_id", user.id)
+        .eq("gateway", "razorpay")
+        .in("status", ["active", "past_due", "trialing"])
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single()
+
+      if (!activeSub?.gateway_subscription_id) return corsError("No active subscription to cancel")
+
+      await razorpayPost(`/subscriptions/${activeSub.gateway_subscription_id}/cancel`, {
+        cancel_at_cycle_end: 1,
+      })
+
+      return corsResponse({ cancelled: true })
+    }
+
+    const planName = PLAN_NAMES[plan]
+    if (!planName) return corsError("Invalid plan")
+
+    // Currency is derived server-side from the user's persisted region — never trusted from the client.
+    const { data: dbUser } = await supabase
+      .from("users")
+      .select("currency")
+      .eq("id", user.id)
       .single()
+    const currency = dbUser?.currency === "USD" ? "USD" : "INR"
 
-    if (!activeSub?.gateway_subscription_id) return corsError("No active subscription to cancel")
+    // Amounts come from platform_config, never hardcoded (CLAUDE.md §6/§11).
+    const cfgKey = currency === "USD" ? "pricing_usd" : "pricing_inr"
+    const { data: cfgRow } = await supabase
+      .from("platform_config")
+      .select("value")
+      .eq("key", cfgKey)
+      .single()
+    const plans = (cfgRow?.value ?? {}) as Record<string, { amount: number; credits: number }>
+    const planConfig = plans[plan]
+    if (!planConfig) return corsError("Pricing not configured for plan")
 
-    await razorpayPost(`/subscriptions/${activeSub.gateway_subscription_id}/cancel`, {
-      cancel_at_cycle_end: 1,
+    // Create Razorpay plan (monthly recurring) in the resolved currency.
+    // NOTE: USD requires International Payments enabled on the Razorpay account.
+    const rzPlan = await razorpayPost("/plans", {
+      period: "monthly",
+      interval: 1,
+      item: {
+        name: `TheVideoJanitors ${planName}`,
+        amount: planConfig.amount,
+        currency,
+        description: `${planConfig.credits} credits/month`,
+      },
     })
 
-    return corsResponse({ cancelled: true })
-  }
+    const rzSub = await razorpayPost("/subscriptions", {
+      plan_id: rzPlan.id,
+      customer_notify: 1,
+      total_count: 120, // 10 years max, cancel anytime
+      notes: { userId: user.id, plan },
+    })
 
-  const planName = PLAN_NAMES[plan]
-  if (!planName) return corsError("Invalid plan")
+    await supabase.from("subscriptions").insert({
+      client_id: user.id,
+      gateway: "razorpay",
+      gateway_subscription_id: rzSub.id,
+      plan,
+      credits_total: planConfig.credits,
+      credits_remaining: 0, // set on subscription.charged webhook
+      currency,
+      amount_paid: planConfig.amount,
+      renews_at: new Date(rzSub.current_end * 1000).toISOString(),
+      status: "trialing",
+    })
 
-  // Currency is derived server-side from the user's persisted region — never trusted from the client.
-  const { data: dbUser } = await supabase
-    .from("users")
-    .select("currency")
-    .eq("id", user.id)
-    .single()
-  const currency = dbUser?.currency === "USD" ? "USD" : "INR"
-
-  // Amounts come from platform_config, never hardcoded (CLAUDE.md §6/§11).
-  const cfgKey = currency === "USD" ? "pricing_usd" : "pricing_inr"
-  const { data: cfgRow } = await supabase
-    .from("platform_config")
-    .select("value")
-    .eq("key", cfgKey)
-    .single()
-  const plans = (cfgRow?.value ?? {}) as Record<string, { amount: number; credits: number }>
-  const planConfig = plans[plan]
-  if (!planConfig) return corsError("Pricing not configured for plan")
-
-  // Create Razorpay plan (monthly recurring) in the resolved currency.
-  // NOTE: USD requires International Payments enabled on the Razorpay account.
-  const rzPlan = await razorpayPost("/plans", {
-    period: "monthly",
-    interval: 1,
-    item: {
-      name: `TheVideoJanitors ${planName}`,
+    return corsResponse({
+      subscriptionId: rzSub.id,
+      keyId: Deno.env.get("RAZORPAY_KEY_ID"),
+      planName,
       amount: planConfig.amount,
       currency,
-      description: `${planConfig.credits} credits/month`,
-    },
-  })
-
-  const rzSub = await razorpayPost("/subscriptions", {
-    plan_id: rzPlan.id,
-    customer_notify: 1,
-    total_count: 120, // 10 years max, cancel anytime
-    notes: { userId: user.id, plan },
-  })
-
-  await supabase.from("subscriptions").insert({
-    client_id: user.id,
-    gateway: "razorpay",
-    gateway_subscription_id: rzSub.id,
-    plan,
-    credits_total: planConfig.credits,
-    credits_remaining: 0, // set on subscription.charged webhook
-    currency,
-    amount_paid: planConfig.amount,
-    renews_at: new Date(rzSub.current_end * 1000).toISOString(),
-    status: "trialing",
-  })
-
-  return corsResponse({
-    subscriptionId: rzSub.id,
-    keyId: Deno.env.get("RAZORPAY_KEY_ID"),
-    planName,
-    amount: planConfig.amount,
-    currency,
-  })
+    })
+  } catch (e) {
+    // Log the real gateway error for diagnosis; return a clean message to the client (CLAUDE.md §15).
+    console.error("create-razorpay-subscription failed:", e instanceof Error ? e.message : String(e))
+    return corsError("We couldn't start checkout right now. Please try again in a moment.", 500)
+  }
 })

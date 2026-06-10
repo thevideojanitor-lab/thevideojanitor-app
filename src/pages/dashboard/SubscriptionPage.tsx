@@ -96,6 +96,7 @@ export default function SubscriptionPage() {
 
   const [showModal, setShowModal] = useState<"cancel" | null>(null)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
   const [loadingRzPlan, setLoadingRzPlan] = useState<PlanKey | null>(null)
   const [loadingPack, setLoadingPack] = useState<string | null>(null)
 
@@ -116,12 +117,17 @@ export default function SubscriptionPage() {
   }
 
   const handleSelectPlan = async (key: PlanKey) => {
+    setCheckoutError(null)
     setLoadingRzPlan(key)
     const loaded = await loadRazorpayScript()
-    if (!loaded) { setLoadingRzPlan(null); return }
+    if (!loaded) { setLoadingRzPlan(null); setCheckoutError("Couldn't load the payment window. Check your connection and try again."); return }
 
     const { data, error } = await supabase.functions.invoke("create-razorpay-subscription", { body: { plan: key } })
-    if (error || !data) { setLoadingRzPlan(null); return }
+    if (error || !data?.subscriptionId) {
+      setLoadingRzPlan(null)
+      setCheckoutError("We couldn't start checkout right now. Please try again in a moment.")
+      return
+    }
 
     // @ts-expect-error — Razorpay loaded dynamically
     const rzp = new window.Razorpay({
@@ -141,11 +147,16 @@ export default function SubscriptionPage() {
   }
 
   const handleBuyCreditPack = async (packKey: string, credits: number) => {
+    setCheckoutError(null)
     setLoadingPack(packKey)
     const loaded = await loadRazorpayScript()
-    if (!loaded) { setLoadingPack(null); return }
-    const { data } = await supabase.functions.invoke("create-razorpay-order", { body: { pack: packKey } })
-    if (!data) { setLoadingPack(null); return }
+    if (!loaded) { setLoadingPack(null); setCheckoutError("Couldn't load the payment window. Check your connection and try again."); return }
+    const { data, error } = await supabase.functions.invoke("create-razorpay-order", { body: { pack: packKey } })
+    if (error || !data?.orderId) {
+      setLoadingPack(null)
+      setCheckoutError("We couldn't start checkout right now. Please try again in a moment.")
+      return
+    }
 
     // @ts-expect-error — Razorpay loaded dynamically
     const rzp = new window.Razorpay({
@@ -191,6 +202,26 @@ export default function SubscriptionPage() {
                 Re-subscribe
               </button>
             ) : null}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Checkout error banner */}
+      <AnimatePresence>
+        {checkoutError && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-6 flex items-center justify-between gap-3 bg-red-500/10 border border-red-500/30 rounded-xl p-4"
+          >
+            <div className="flex items-center gap-3">
+              <AlertCircle size={18} className="text-red-400 shrink-0" />
+              <p className="text-sm font-medium text-red-400">{checkoutError}</p>
+            </div>
+            <button onClick={() => setCheckoutError(null)} className="text-muted-foreground hover:text-foreground">
+              <X size={16} />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
