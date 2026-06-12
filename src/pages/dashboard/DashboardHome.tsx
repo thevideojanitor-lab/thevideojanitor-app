@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
-import { AlertTriangle, ArrowLeftRight, CreditCard, Eye, FileVideo, HelpCircle, Inbox, MessageSquare, PlusCircle, X } from "lucide-react"
+import { AlertTriangle, ArrowLeftRight, ArrowRight, Inbox, Play, PlusCircle, X } from "lucide-react"
 import { staggerContainer, fadeUp } from "@/lib/animations"
 import { useAuthStore } from "@/stores/authStore"
 import { useRequestsStore } from "@/stores/requestsStore"
 import { useCreditsStore } from "@/stores/creditsStore"
 import { usePricingStore } from "@/stores/pricingStore"
 import { supabase } from "@/lib/supabase"
-import CreditsDisplay from "@/components/CreditsDisplay"
 import StatusBadge from "@/components/StatusBadge"
 import CountdownTimer from "@/components/CountdownTimer"
 import SwapEditorModal from "@/components/SwapEditorModal"
@@ -28,115 +27,143 @@ function getRelativeTime(iso: string): string {
 
 const ACTIVE_STATUSES = ["pending_match", "matched", "in_progress", "in_revision", "delivered"]
 
+interface EditorInfo {
+  display_name: string | null
+  rating: number | null
+}
+
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 
-function CardSkeleton() {
+function RowSkeleton() {
   return (
-    <div className="bg-card border border-border rounded-xl p-5 space-y-3">
-      <div className="flex items-center gap-2">
-        <div className="h-5 w-24 bg-border rounded-full animate-pulse" />
-        <div className="h-5 w-16 bg-border rounded-full animate-pulse" />
-      </div>
-      <div className="flex items-center gap-2">
-        <div className="w-7 h-7 rounded-full bg-border animate-pulse" />
-        <div className="h-4 w-32 bg-border rounded animate-pulse" />
-      </div>
-      <div className="h-4 w-28 bg-border rounded animate-pulse" />
-      <div className="flex gap-2">
-        <div className="flex-1 h-9 bg-border rounded-lg animate-pulse" />
-        <div className="flex-1 h-9 bg-border rounded-lg animate-pulse" />
-      </div>
+    <div className="bg-input border border-border rounded-xl px-5 py-4 flex items-center gap-5">
+      <div className="h-5 w-20 bg-border rounded-full animate-pulse" />
+      <div className="h-4 w-40 bg-border rounded animate-pulse" />
+      <div className="flex-1" />
+      <div className="h-8 w-16 bg-border rounded-lg animate-pulse" />
     </div>
   )
 }
 
-// ── Request card ──────────────────────────────────────────────────────────────
+// ── Delivered strip: the one thing that needs the client right now ───────────
 
-function RequestCard({ req, onSwap }: { req: Request; onSwap: (r: Request) => void }) {
-  const isPending = req.status === "pending_match" || req.status === "matched"
-  const isDelivered = req.status === "delivered"
-  const canSwap = !!req.editor_id && !["approved", "abandoned"].includes(req.status)
-  const editorInitial = req.editor_id?.charAt(0).toUpperCase() ?? "?"
-
+function ReadyStrip({ req, editor }: { req: Request; editor?: EditorInfo }) {
   return (
     <motion.div
       layout
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.25 }}
-      whileHover={{ y: -2 }}
-      className="bg-card border border-border rounded-xl p-5 hover:border-primary/20 transition-colors"
+      className="flex flex-col sm:flex-row sm:items-center gap-4 bg-input border border-[rgba(59,130,246,0.3)] rounded-2xl p-5"
     >
-      {/* Status + countdown */}
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <div className="flex items-center gap-2 flex-wrap">
-          <StatusBadge status={req.status} pulse={isDelivered} />
-          <span className="text-xs font-medium text-muted-foreground capitalize">{req.edit_type} edit</span>
-          <span className="text-xs text-muted-foreground">·</span>
-          <span className="text-xs font-semibold text-primary">{req.credits_cost} cr</span>
-        </div>
-        {req.due_at && !isPending && (
-          <div className="shrink-0 flex items-center gap-1.5">
-            <span className="text-[10px] text-muted-foreground">Due</span>
-            <CountdownTimer dueAt={req.due_at} />
-          </div>
-        )}
+      <div className="w-14 h-14 rounded-xl bg-[rgba(59,130,246,0.15)] border border-[rgba(59,130,246,0.3)] flex items-center justify-center text-info shrink-0">
+        <Play size={20} />
       </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1">
+          <StatusBadge status={req.status} pulse />
+          <span className="text-xs text-muted-foreground capitalize">{req.edit_type} edit</span>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          {editor?.display_name ?? "Your editor"} delivered {req.delivered_at ? getRelativeTime(req.delivered_at) : "recently"}
+          {" · "}{3 - (req.revision_round ?? 0)} revision round{3 - (req.revision_round ?? 0) === 1 ? "" : "s"} left
+        </p>
+      </div>
+      <Link to={`/dashboard/requests/${req.id}`} className="shrink-0">
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
+          className="flex items-center gap-2 bg-primary text-primary-foreground font-semibold rounded-lg px-5 py-2.5 text-sm hover:bg-primary/90 transition-colors"
+        >
+          Review Edit
+          <ArrowRight size={15} />
+        </motion.button>
+      </Link>
+    </motion.div>
+  )
+}
 
-      {/* Editor info + swap */}
-      <div className="flex items-center justify-between gap-2 mb-4">
-        <div className="flex items-center gap-2">
-          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 ${
-            req.editor_id ? "bg-primary/20 border border-primary/30 text-primary" : "bg-border text-muted-foreground"
-          }`}>
-            {req.editor_id ? editorInitial : "?"}
-          </div>
-          <p className="text-sm text-muted-foreground">
-            {isPending ? (
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-pulse" />
-                Finding your editor…
-              </span>
-            ) : "Editor assigned"}
+// ── In-progress row ───────────────────────────────────────────────────────────
+
+function RequestRow({ req, editor, onSwap }: {
+  req: Request
+  editor?: EditorInfo
+  onSwap: (r: Request) => void
+}) {
+  const isPending = req.status === "pending_match" || req.status === "matched"
+  const canSwap = !!req.editor_id && !["approved", "abandoned"].includes(req.status)
+  const initials = editor?.display_name
+    ? editor.display_name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()
+    : "?"
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      whileHover={{ y: -1 }}
+      className="bg-input border border-border rounded-xl px-5 py-4 hover:border-primary/25 transition-colors"
+    >
+      <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-5">
+        <StatusBadge status={req.status} />
+
+        <div className="min-w-0 md:w-48">
+          <p className="text-sm font-medium text-foreground capitalize truncate">
+            {req.edit_type} edit · {(req.aspect_ratios ?? []).join(" + ") || "9:16"}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Submitted {getRelativeTime(req.submitted_at)} · <span className="text-primary font-semibold">{req.credits_cost} cr</span>
           </p>
         </div>
-        {canSwap && (
-          <button
-            onClick={() => onSwap(req)}
-            className="flex items-center gap-1 text-[10px] text-muted-foreground hover:text-primary transition-colors shrink-0"
-          >
-            <ArrowLeftRight size={11} />
-            Swap
-          </button>
-        )}
-      </div>
 
-      {/* Delivered CTA */}
-      {isDelivered && (
-        <div className="bg-[rgba(59,130,246,0.10)] border border-[rgba(59,130,246,0.2)] rounded-lg px-3 py-2 mb-3 text-xs font-medium text-info">
-          Your edit is ready! Review and approve below.
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-semibold shrink-0 ${
+            req.editor_id ? "bg-card text-foreground" : "bg-input border border-dashed border-surface text-muted-foreground"
+          }`}>
+            {req.editor_id ? initials : "?"}
+          </div>
+          <div className="min-w-0">
+            {isPending ? (
+              <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-pulse shrink-0" />
+                Finding your editor…
+              </p>
+            ) : (
+              <>
+                <p className="text-xs font-semibold text-foreground truncate">
+                  {editor?.display_name ?? "Editor assigned"}
+                </p>
+                {editor?.rating != null && (
+                  <p className="text-[10px] text-muted-foreground">★ {Number(editor.rating).toFixed(1)}</p>
+                )}
+              </>
+            )}
+          </div>
+          {canSwap && (
+            <button
+              onClick={() => onSwap(req)}
+              title="Swap editor"
+              className="flex items-center gap-1 text-[10px] text-muted-foreground hover:text-primary transition-colors shrink-0 ml-1"
+            >
+              <ArrowLeftRight size={11} />
+              Swap
+            </button>
+          )}
         </div>
-      )}
 
-      <p className="text-xs text-muted-foreground mb-4" title={new Date(req.submitted_at).toLocaleString()}>
-        Submitted {getRelativeTime(req.submitted_at)}
-      </p>
+        {req.due_at && !isPending && (
+          <div className="text-left md:text-right shrink-0">
+            <CountdownTimer dueAt={req.due_at} />
+            <p className="text-[9px] uppercase tracking-widest text-muted-foreground mt-0.5">until due</p>
+          </div>
+        )}
 
-      <div className="flex gap-2">
         <Link
           to={`/dashboard/requests/${req.id}`}
-          className="flex-1 flex items-center justify-center gap-1.5 border border-border text-foreground text-xs font-medium rounded-lg py-2 hover:bg-surface-elevated transition-colors"
+          className="shrink-0 border border-border text-foreground text-xs font-medium rounded-lg px-4 py-2 hover:bg-card transition-colors text-center"
         >
-          <Eye size={13} />
-          {isDelivered ? "Review Edit" : "View Details"}
-        </Link>
-        <Link
-          to={`/dashboard/requests/${req.id}`}
-          className="flex-1 flex items-center justify-center gap-1.5 border border-border text-foreground text-xs font-medium rounded-lg py-2 hover:bg-surface-elevated transition-colors"
-        >
-          <MessageSquare size={13} />
-          Chat
+          Open
         </Link>
       </div>
     </motion.div>
@@ -185,6 +212,7 @@ export default function DashboardHome() {
   const { config } = usePricingStore()
 
   const [sub, setSub] = useState<SubState>({ status: null, renews_at: null, plan: null })
+  const [editors, setEditors] = useState<Record<string, EditorInfo>>({})
   const [swapTarget, setSwapTarget] = useState<Request | null>(null)
   const [lowCreditsDismissed, setLowCreditsDismissed] = useState(
     () => sessionStorage.getItem("low_credits_dismissed") === "1"
@@ -203,15 +231,39 @@ export default function DashboardHome() {
     loadSubscription(user.id)
   }, [user?.id])
 
+  // Resolve assigned editors' names (clients can read assigned profiles per RLS)
+  useEffect(() => {
+    const ids = [...new Set(activeRequests.map((r) => r.editor_id).filter(Boolean))] as string[]
+    const missing = ids.filter((id) => !(id in editors))
+    if (missing.length === 0) return
+    void (async () => {
+      const { data } = await supabase
+        .from("editor_profiles")
+        .select("user_id, display_name, rating")
+        .in("user_id", missing)
+      if (data) {
+        setEditors((prev) => ({
+          ...prev,
+          ...Object.fromEntries(data.map((e) => [e.user_id, { display_name: e.display_name, rating: e.rating }])),
+        }))
+      }
+    })()
+  }, [activeRequests])
+
   async function loadSubscription(clientId: string) {
+    // Prefer the active row — a stale 'trialing' checkout must never shadow it.
     const { data } = await supabase
       .from("subscriptions")
       .select("status, renews_at, plan")
       .eq("client_id", clientId)
+      .in("status", ["active", "past_due", "cancelled", "trialing"])
       .order("created_at", { ascending: false })
-      .limit(1)
-      .single()
-    if (data) setSub({ status: data.status, renews_at: data.renews_at, plan: data.plan })
+    const rows = data ?? []
+    const best =
+      rows.find((s) => s.status === "active") ??
+      rows.find((s) => s.status === "past_due") ??
+      rows[0]
+    if (best) setSub({ status: best.status as SubState["status"], renews_at: best.renews_at, plan: best.plan })
   }
 
   function dismissLowCredits() {
@@ -221,255 +273,165 @@ export default function DashboardHome() {
 
   const delivered = activeRequests.filter((r) => r.status === "delivered")
   const inProgress = activeRequests.filter((r) => r.status !== "delivered")
-  const recentApproved = pastRequests.slice(0, 10)
+  const approvedCount = pastRequests.filter((r) => r.status === "approved").length
+
+  // One banner slot: only the most urgent alert renders.
+  const banner = isPastDue
+    ? { tone: "danger" as const, text: "Payment failed. New submissions are paused.", cta: "Update Payment Method" }
+    : isCancelled && sub.renews_at
+    ? { tone: "muted" as const, text: `Your plan ends ${new Date(sub.renews_at).toLocaleDateString("en-US", { month: "long", day: "numeric" })}. Existing requests complete normally.`, cta: "Resubscribe" }
+    : balance === 0 && sub.status === "active"
+    ? { tone: "primary" as const, text: "You're out of credits. Add more to submit a new request.", cta: "Recharge Now" }
+    : isLowCredits && !lowCreditsDismissed
+    ? { tone: "warn" as const, text: `Running low on credits — ${balance} cr remaining.`, cta: "Buy Credits", dismissible: true }
+    : null
+
+  const bannerCls = {
+    danger:  "bg-red-500/10 border-red-500/25 text-red-400",
+    warn:    "bg-yellow-500/10 border-yellow-500/25 text-yellow-400",
+    primary: "bg-primary/10 border-primary/30 text-primary",
+    muted:   "bg-card border-border text-muted-foreground",
+  }
+
+  // Hero copy answers "where is my edit?" before anything else.
+  const heroTitle = delivered.length > 0
+    ? delivered.length === 1 ? "One edit is ready for review." : `${delivered.length} edits are ready for review.`
+    : inProgress.length > 0
+    ? `${inProgress.length} edit${inProgress.length === 1 ? " is" : "s are"} being cleaned up.`
+    : "All clear. Ready when you are."
+
+  const heroSub = delivered.length > 0
+    ? inProgress.length > 0
+      ? `${inProgress.length} more in progress. Nothing else needs you yet.`
+      : "Everything else is done."
+    : inProgress.length > 0
+    ? "Nothing needs you yet — we'll let you know the moment one lands."
+    : undefined
+
+  const canSubmit = !isBlocked && activeCount < maxActive
 
   return (
-    <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-5 pb-24 md:pb-6">
+    <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="max-w-5xl space-y-6 pb-24 md:pb-6">
 
-      {/* ── past_due banner ── */}
+      {/* ── Single banner slot ── */}
       <AnimatePresence>
-        {isPastDue && (
+        {banner && (
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="flex items-center justify-between gap-3 bg-red-500/10 border border-red-500/25 rounded-xl px-4 py-3"
+            className={`flex items-center justify-between gap-3 border rounded-xl px-4 py-3 ${bannerCls[banner.tone]}`}
           >
-            <div className="flex items-center gap-2.5">
-              <AlertTriangle size={15} className="text-red-400 shrink-0" />
-              <p className="text-sm font-semibold text-red-400">Payment failed. New submissions are paused.</p>
+            <div className="flex items-center gap-2.5 min-w-0">
+              {banner.tone === "danger" && <AlertTriangle size={15} className="shrink-0" />}
+              <p className="text-sm font-medium truncate">{banner.text}</p>
             </div>
-            <Link
-              to="/dashboard/subscription"
-              className="text-xs font-semibold text-red-400 hover:underline shrink-0"
-            >
-              Update Payment Method
-            </Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── cancelled banner ── */}
-      <AnimatePresence>
-        {isCancelled && sub.renews_at && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="flex items-center justify-between gap-3 bg-card border border-border rounded-xl px-4 py-3"
-          >
-            <p className="text-sm text-muted-foreground">
-              Your plan ends on <span className="text-foreground font-semibold">{new Date(sub.renews_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>. Existing requests will complete normally.
-            </p>
-            <Link
-              to="/dashboard/subscription"
-              className="text-xs font-semibold text-primary hover:underline shrink-0"
-            >
-              Resubscribe
-            </Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── zero credits banner ── */}
-      <AnimatePresence>
-        {balance === 0 && sub.status === "active" && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="flex items-center justify-between gap-3 bg-primary/10 border border-primary/30 rounded-xl px-4 py-3"
-          >
-            <p className="text-sm font-semibold text-primary">You're out of credits. Add more to submit a new request.</p>
-            <Link
-              to="/dashboard/subscription"
-              className="text-xs font-bold text-primary hover:underline shrink-0"
-            >
-              Recharge Now
-            </Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── low credits banner (dismissible per session) ── */}
-      <AnimatePresence>
-        {isLowCredits && !lowCreditsDismissed && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="flex items-center justify-between gap-3 bg-yellow-500/10 border border-yellow-500/25 rounded-xl px-4 py-3"
-          >
-            <p className="text-sm text-yellow-400">
-              Running low on credits — <span className="font-bold">{balance} cr</span> remaining.
-            </p>
             <div className="flex items-center gap-3 shrink-0">
-              <Link to="/dashboard/subscription" className="text-xs font-semibold text-yellow-400 hover:underline">
-                Buy Credits
+              <Link to="/dashboard/subscription" className="text-xs font-semibold hover:underline">
+                {banner.cta}
               </Link>
-              <button onClick={dismissLowCredits} className="text-yellow-400/60 hover:text-yellow-400 transition-colors">
-                <X size={14} />
-              </button>
+              {banner.dismissible && (
+                <button onClick={dismissLowCredits} className="opacity-60 hover:opacity-100 transition-opacity">
+                  <X size={14} />
+                </button>
+              )}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ── Top grid ── */}
-      <div className="grid md:grid-cols-2 gap-5">
-        {/* Credits + stats */}
-        <motion.div variants={fadeUp} className="bg-card border border-border rounded-xl p-5 space-y-5">
-          <div>
-            <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground mb-3">Credits</p>
-            <CreditsDisplay />
-          </div>
-          <div className="flex gap-4 pt-3 border-t border-border">
-            <div>
-              <p className="text-xs text-muted-foreground mb-1">Active Requests</p>
-              <p className="font-heading text-xl font-bold text-primary">
-                {activeCount}<span className="text-muted-foreground text-sm font-normal"> / {maxActive}</span>
-              </p>
-            </div>
-            <div className="w-px bg-border" />
-            <div>
-              <p className="text-xs text-muted-foreground mb-1">Balance</p>
-              <p className="font-heading text-xl font-bold text-primary">
-                {balance.toLocaleString()}<span className="text-xs text-muted-foreground font-normal ml-1">cr</span>
-              </p>
-            </div>
-          </div>
-        </motion.div>
+      {/* ── Hero: the answer, then the action ── */}
+      <motion.div variants={fadeUp} className="flex flex-wrap items-end justify-between gap-4 pt-2">
+        <div>
+          <p className="text-[11px] font-sans uppercase tracking-widest text-muted-foreground mb-2">
+            {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
+          </p>
+          <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground leading-tight">
+            {heroTitle.includes("ready") ? (
+              <>
+                {heroTitle.split("ready")[0]}
+                <span className="text-primary">ready{heroTitle.split("ready")[1]}</span>
+              </>
+            ) : heroTitle}
+          </h1>
+          {heroSub && <p className="text-sm text-muted-foreground mt-1.5">{heroSub}</p>}
+        </div>
 
-        {/* Quick Actions */}
-        <motion.div variants={fadeUp} className="bg-card border border-border rounded-xl p-5 space-y-3">
-          <p className="text-xs font-sans uppercase tracking-wider text-muted-foreground">Quick Actions</p>
-          <Link to={isBlocked ? "/dashboard/subscription" : "/dashboard/submit"}>
+        {/* Primary action only when reviewing isn't the priority */}
+        {delivered.length === 0 && activeRequests.length > 0 && (
+          <Link to={canSubmit ? "/dashboard/submit" : "/dashboard/subscription"}>
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
-              disabled={activeCount >= maxActive || isBlocked}
+              disabled={!canSubmit && !isBlocked}
               title={
                 isPastDue ? "Update your payment method to submit"
                 : balance === 0 ? "Recharge credits to submit"
-                : activeCount >= maxActive ? "Max active requests reached"
+                : activeCount >= maxActive ? "Max active requests reached — approve one first"
                 : undefined
               }
-              className="w-full bg-primary text-background font-semibold rounded-lg py-3 text-sm flex items-center justify-center gap-2 hover:bg-primary-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 bg-primary text-background font-semibold rounded-lg px-5 py-2.5 text-sm hover:bg-primary-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              <PlusCircle size={16} />
+              <PlusCircle size={15} />
               Submit New Request
             </motion.button>
           </Link>
-          {isPastDue && (
-            <p className="text-xs text-red-400 text-center">Payment failed — update your payment method.</p>
-          )}
-          {!isPastDue && activeCount >= maxActive && (
-            <p className="text-xs text-muted-foreground text-center">Max active requests reached — approve one first.</p>
-          )}
-          {!isPastDue && balance === 0 && activeCount < maxActive && (
-            <p className="text-xs text-primary text-center">
-              Out of credits — <Link to="/dashboard/subscription" className="underline">recharge</Link>
-            </p>
-          )}
-          {!isPastDue && balance > 0 && balance < 50 && activeCount < maxActive && (
-            <p className="text-xs text-yellow-400 text-center">
-              Need {50 - balance} more credits to submit a basic edit.
-            </p>
-          )}
-          <div className="grid grid-cols-3 gap-2 pt-1">
-            {[
-              { to: "/dashboard/requests", icon: FileVideo,   label: "Past Edits" },
-              { to: "/dashboard/subscription", icon: CreditCard, label: "Subscription" },
-              { to: "/dashboard/help",     icon: HelpCircle,  label: "Get Help" },
-            ].map(({ to, icon: Icon, label }) => (
-              <Link key={to} to={to}>
-                <button className="w-full border border-border text-muted-foreground hover:text-foreground hover:bg-surface-elevated rounded-lg py-2 text-xs font-medium flex flex-col items-center gap-1 transition-colors">
-                  <Icon size={15} />
-                  {label}
-                </button>
-              </Link>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-
-      {/* ── Delivered — action needed first ── */}
-      <AnimatePresence>
-        {delivered.length > 0 && (
-          <motion.div variants={fadeUp} initial="hidden" animate="visible">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-sm font-semibold text-foreground">Action Needed</span>
-              <span className="text-xs bg-[rgba(59,130,246,0.15)] text-info border border-[rgba(59,130,246,0.3)] rounded-full px-2 py-0.5 animate-pulse">
-                {delivered.length} edit{delivered.length > 1 ? "s" : ""} ready
-              </span>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              <AnimatePresence>
-                {delivered.map((r) => (
-                  <RequestCard key={r.id} req={r} onSwap={setSwapTarget} />
-                ))}
-              </AnimatePresence>
-            </div>
-          </motion.div>
         )}
+      </motion.div>
+
+      {/* ── Delivered: full-width strips, one primary CTA each ── */}
+      <AnimatePresence>
+        {delivered.map((r) => (
+          <ReadyStrip key={r.id} req={r} editor={r.editor_id ? editors[r.editor_id] : undefined} />
+        ))}
       </AnimatePresence>
 
-      {/* ── Active requests ── */}
+      {/* ── In progress ── */}
       <motion.div variants={fadeUp}>
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-semibold text-foreground">Active Requests</span>
+        <div className="flex items-center gap-3 mb-3">
+          <span className="text-xs font-sans font-semibold uppercase tracking-widest text-muted-foreground">In Progress</span>
+          <div className="flex-1 h-px bg-border" />
           {inProgress.length > 0 && (
-            <span className="text-xs text-muted-foreground">{inProgress.length} in progress</span>
+            <span className="text-xs text-muted-foreground">{inProgress.length}</span>
           )}
         </div>
 
         {loading ? (
-          <div className="grid md:grid-cols-2 gap-4">
-            <CardSkeleton />
-            <CardSkeleton />
+          <div className="space-y-2.5">
+            <RowSkeleton />
+            <RowSkeleton />
           </div>
         ) : inProgress.length > 0 ? (
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="space-y-2.5">
             <AnimatePresence>
               {inProgress.map((r) => (
-                <RequestCard key={r.id} req={r} onSwap={setSwapTarget} />
+                <RequestRow key={r.id} req={r} editor={r.editor_id ? editors[r.editor_id] : undefined} onSwap={setSwapTarget} />
               ))}
             </AnimatePresence>
           </div>
-        ) : (
+        ) : activeRequests.length === 0 ? (
           <EmptyState />
+        ) : (
+          <p className="text-sm text-muted-foreground py-6 text-center">Nothing in progress — everything's delivered.</p>
         )}
       </motion.div>
 
-      {/* ── Past approved ── */}
-      {recentApproved.length > 0 && (
-        <motion.details variants={fadeUp} className="group">
-          <summary className="flex items-center justify-between cursor-pointer list-none py-3 border-t border-border">
-            <span className="text-sm font-semibold text-muted-foreground group-open:text-foreground transition-colors">
-              Past Approved Edits
-            </span>
-            <span className="text-xs text-muted-foreground">{recentApproved.length} edits ›</span>
-          </summary>
-          <div className="grid md:grid-cols-2 gap-4 pt-3">
-            {recentApproved.map((r) => (
-              <motion.div
-                key={r.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="bg-input border border-border rounded-xl p-4 flex items-center justify-between gap-3"
-              >
-                <div className="flex items-center gap-2">
-                  <StatusBadge status={r.status} />
-                  <span className="text-xs text-muted-foreground capitalize">{r.edit_type}</span>
-                </div>
-                <Link to={`/dashboard/requests/${r.id}`} className="text-xs text-primary hover:underline shrink-0">
-                  View
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </motion.details>
-      )}
+      {/* ── Quiet footer stats ── */}
+      <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-x-7 gap-y-2 pt-4 border-t border-border text-sm text-muted-foreground">
+        <span><span className="font-heading font-bold text-foreground">{activeCount}</span> of {maxActive} active slots</span>
+        <span><span className="font-heading font-bold text-foreground">{approvedCount}</span> edits approved</span>
+        {sub.renews_at && sub.status === "active" && (
+          <span>credits reset <span className="font-heading font-bold text-foreground">
+            {new Date(sub.renews_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+          </span></span>
+        )}
+        <span className="flex-1" />
+        {pastRequests.length > 0 && (
+          <Link to="/dashboard/requests" className="text-xs font-semibold text-primary hover:underline">
+            View past edits →
+          </Link>
+        )}
+      </motion.div>
 
       {/* ── Swap editor modal ── */}
       <AnimatePresence>

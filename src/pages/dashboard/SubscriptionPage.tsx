@@ -62,11 +62,19 @@ function CancelModal({ onConfirm, onClose }: {
   onConfirm: () => void; onClose: () => void
 }) {
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleCancel = async () => {
     setLoading(true)
-    await supabase.functions.invoke("create-razorpay-subscription", { body: { action: "cancel" } })
+    setError(null)
+    const { data, error: invokeError } = await supabase.functions.invoke(
+      "create-razorpay-subscription", { body: { action: "cancel" } }
+    )
     setLoading(false)
+    if (invokeError || data?.error) {
+      setError("We couldn't cancel right now. Please try again, or contact support if it keeps failing.")
+      return
+    }
     onConfirm()
   }
 
@@ -75,11 +83,41 @@ function CancelModal({ onConfirm, onClose }: {
       className="bg-input border border-border rounded-2xl p-6 w-full max-w-sm mx-auto">
       <h3 className="font-heading text-lg font-semibold text-foreground mb-2">Cancel subscription?</h3>
       <p className="text-sm text-muted-foreground mb-6">Your access continues until the end of the current billing period. Credits already deducted will not be refunded.</p>
+      {error && (
+        <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2.5 mb-4">{error}</p>
+      )}
       <div className="flex gap-3">
         <button onClick={onClose} className="flex-1 border border-border text-foreground rounded-lg py-2.5 text-sm font-medium hover:bg-card transition-colors">Keep Plan</button>
         <button onClick={handleCancel} disabled={loading} className="flex-1 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg py-2.5 text-sm font-medium hover:bg-red-500/20 transition-colors flex items-center justify-center gap-2">
           {loading ? <Loader2 size={14} className="animate-spin" /> : null}
           {loading ? "Cancelling…" : "Yes, Cancel"}
+        </button>
+      </div>
+    </motion.div>
+  )
+}
+
+// Switching plans charges the new plan immediately and replaces the current
+// one — never do that on a single unconfirmed click.
+function SwitchPlanModal({ planLabel, currentLabel, price, onConfirm, onClose, loading }: {
+  planLabel: string; currentLabel: string; price: string
+  onConfirm: () => void; onClose: () => void; loading: boolean
+}) {
+  return (
+    <motion.div variants={scaleIn} initial="hidden" animate="visible" exit="hidden"
+      className="bg-input border border-border rounded-2xl p-6 w-full max-w-sm mx-auto">
+      <h3 className="font-heading text-lg font-semibold text-foreground mb-2">Switch to {planLabel}?</h3>
+      <p className="text-sm text-muted-foreground mb-6">
+        You'll be charged <span className="text-primary font-semibold">{price}</span> now.
+        Your {currentLabel} plan is cancelled and replaced as soon as the payment completes —
+        your new credits arrive right away.
+      </p>
+      <div className="flex gap-3">
+        <button onClick={onClose} className="flex-1 border border-border text-foreground rounded-lg py-2.5 text-sm font-medium hover:bg-card transition-colors">Keep Current</button>
+        <button onClick={onConfirm} disabled={loading}
+          className="flex-1 bg-primary text-primary-foreground rounded-lg py-2.5 text-sm font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+          {loading ? <Loader2 size={14} className="animate-spin" /> : null}
+          {loading ? "Opening…" : `Pay ${price}`}
         </button>
       </div>
     </motion.div>
@@ -95,7 +133,9 @@ export default function SubscriptionPage() {
   const { balance, total, refresh: refreshCredits } = useCreditsStore()
 
   const [showModal, setShowModal] = useState<"cancel" | null>(null)
+  const [confirmPlan, setConfirmPlan] = useState<PlanKey | null>(null)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [cancelScheduled, setCancelScheduled] = useState(false)
   const [checkoutError, setCheckoutError] = useState<string | null>(null)
   const [loadingRzPlan, setLoadingRzPlan] = useState<PlanKey | null>(null)
   const [loadingPack, setLoadingPack] = useState<string | null>(null)
@@ -202,6 +242,28 @@ export default function SubscriptionPage() {
                 Re-subscribe
               </button>
             ) : null}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Cancellation scheduled notice */}
+      <AnimatePresence>
+        {cancelScheduled && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-6 flex items-center justify-between gap-3 bg-card border border-border rounded-xl p-4"
+          >
+            <p className="text-sm text-muted-foreground">
+              Cancellation scheduled. You keep full access
+              {subscription?.renews_at
+                ? ` until ${new Date(subscription.renews_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`
+                : " until the end of this billing period"}.
+            </p>
+            <button onClick={() => setCancelScheduled(false)} className="text-muted-foreground hover:text-foreground shrink-0">
+              <X size={16} />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -343,7 +405,12 @@ export default function SubscriptionPage() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => canSubscribe(key) && handleSelectPlan(key)}
+                onClick={() => {
+                  if (!canSubscribe(key)) return
+                  // Confirm before charging when this replaces a live plan
+                  if (subscription?.status === "active") setConfirmPlan(key)
+                  else handleSelectPlan(key)
+                }}
                 disabled={!canSubscribe(key) || !!loadingRzPlan}
                 className={`w-full py-2.5 rounded-lg text-sm font-semibold mb-5 flex items-center justify-center gap-2 transition-colors ${
                   isCurrent
@@ -432,8 +499,20 @@ export default function SubscriptionPage() {
         {showModal === "cancel" && subscription && (
           <div className="fixed inset-0 bg-background/70 z-50 flex items-center justify-center p-4">
             <CancelModal
-              onConfirm={() => { setShowModal(null); refetch() }}
+              onConfirm={() => { setShowModal(null); setCancelScheduled(true); refetch() }}
               onClose={() => setShowModal(null)}
+            />
+          </div>
+        )}
+        {confirmPlan && subscription && (
+          <div className="fixed inset-0 bg-background/70 z-50 flex items-center justify-center p-4">
+            <SwitchPlanModal
+              planLabel={PLAN_META[confirmPlan].label}
+              currentLabel={PLAN_META[subscription.plan as PlanKey]?.label ?? subscription.plan}
+              price={`${displayPrice(confirmPlan)}`}
+              loading={!!loadingRzPlan}
+              onConfirm={async () => { await handleSelectPlan(confirmPlan); setConfirmPlan(null) }}
+              onClose={() => setConfirmPlan(null)}
             />
           </div>
         )}

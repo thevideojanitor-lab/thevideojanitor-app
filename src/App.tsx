@@ -65,6 +65,7 @@ const EditorProfile       = lazy(() => import("@/pages/editor/EditorProfile"))
 
 // Dashboard extras
 const HelpPage = lazy(() => import("@/pages/dashboard/HelpPage"));
+const ProfilePage = lazy(() => import("@/pages/dashboard/ProfilePage"));
 
 // Admin Pages
 const AdminHome      = lazy(() => import("@/pages/admin/AdminHome"));
@@ -197,6 +198,7 @@ function App() {
             <Route path="submit" element={<AppSuspense><SubmitPage /></AppSuspense>} />
             <Route path="subscription" element={<AppSuspense><SubscriptionPage /></AppSuspense>} />
             <Route path="help" element={<AppSuspense><HelpPage /></AppSuspense>} />
+            <Route path="profile" element={<AppSuspense><ProfilePage /></AppSuspense>} />
           </Route>
 
           {/* ── Editor onboarding (no editor_profile yet) ── */}

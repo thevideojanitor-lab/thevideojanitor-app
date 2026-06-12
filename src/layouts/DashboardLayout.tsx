@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react"
-import { NavLink, Outlet, useNavigate } from "react-router-dom"
+import { useState, useEffect, useRef } from "react"
+import { NavLink, Outlet, useNavigate, Link } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
-import { LayoutDashboard, FileVideo, PlusCircle, CreditCard, HelpCircle, Menu, X, LogOut } from "lucide-react"
+import { LayoutDashboard, FileVideo, PlusCircle, CreditCard, HelpCircle, Menu, X, LogOut, User } from "lucide-react"
 import { slideInFromRight } from "@/lib/animations"
 import { useAuthStore } from "@/stores/authStore"
 import { useCreditsStore } from "@/stores/creditsStore"
@@ -37,6 +37,60 @@ function NavItem({ to, icon: Icon, label, end, onClick }: typeof NAV[0] & { onCl
       <Icon size={18} />
       {label}
     </NavLink>
+  )
+}
+
+function AvatarMenu({ email, onSignOut }: { email: string; onSignOut: () => void }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const close = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener("mousedown", close)
+    return () => document.removeEventListener("mousedown", close)
+  }, [open])
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-label="Account menu"
+        className="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center hover:scale-105 transition-transform"
+      >
+        <span className="text-xs font-semibold text-primary">{email.charAt(0).toUpperCase()}</span>
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.98 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="absolute right-0 top-11 w-56 bg-input border border-border rounded-xl p-1.5 shadow-xl z-50"
+          >
+            <div className="px-3 py-2.5 border-b border-border mb-1.5">
+              <p className="text-xs font-semibold text-foreground truncate">{email.split("@")[0]}</p>
+              <p className="text-[11px] text-muted-foreground truncate">{email}</p>
+            </div>
+            <Link to="/dashboard/profile" onClick={() => setOpen(false)}
+              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-card transition-colors">
+              <User size={15} /> View Profile
+            </Link>
+            <Link to="/dashboard/subscription" onClick={() => setOpen(false)}
+              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-card transition-colors">
+              <CreditCard size={15} /> Billing & Plan
+            </Link>
+            <button onClick={onSignOut}
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-card transition-colors">
+              <LogOut size={15} /> Sign Out
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   )
 }
 
@@ -177,11 +231,7 @@ export default function DashboardLayout() {
             <CreditsDisplay compact />
             <NotificationBell />
             <ThemeToggle />
-            <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center">
-              <span className="text-xs font-semibold text-primary">
-                {user?.email?.charAt(0).toUpperCase() ?? "?"}
-              </span>
-            </div>
+            <AvatarMenu email={user?.email ?? "?"} onSignOut={handleSignOut} />
           </div>
         </header>
 
