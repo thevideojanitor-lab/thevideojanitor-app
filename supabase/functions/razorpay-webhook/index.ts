@@ -64,6 +64,41 @@ Deno.serve(async (req) => {
 
       if (!dbSub) break
 
+      // Plan switch: the client paid for a new subscription, so cancel any
+      // other still-active Razorpay subscription they hold — otherwise both
+      // keep charging monthly.
+      const { data: otherSubs } = await supabase
+        .from("subscriptions")
+        .select("id, gateway_subscription_id")
+        .eq("client_id", dbSub.client_id)
+        .eq("gateway", "razorpay")
+        .in("status", ["active", "past_due"])
+        .neq("gateway_subscription_id", sub.id)
+
+      for (const old of otherSubs ?? []) {
+        if (old.gateway_subscription_id) {
+          const keyId = Deno.env.get("RAZORPAY_KEY_ID")!
+          const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET")!
+          const res = await fetch(
+            `https://api.razorpay.com/v1/subscriptions/${old.gateway_subscription_id}/cancel`,
+            {
+              method: "POST",
+              headers: {
+                "Authorization": "Basic " + btoa(`${keyId}:${keySecret}`),
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ cancel_at_cycle_end: 0 }),
+            },
+          )
+          // Already-cancelled subs 400 here — fine, the DB update below settles it.
+          if (!res.ok) console.error("cancel old sub failed:", old.gateway_subscription_id, res.status, await res.text())
+        }
+        await supabase
+          .from("subscriptions")
+          .update({ status: "cancelled", updated_at: new Date().toISOString() })
+          .eq("id", old.id)
+      }
+
       const credits = await planCredits(supabase, dbSub.plan, dbSub.currency, dbSub.credits_total)
       const renewsAt = sub.current_end ? new Date(sub.current_end * 1000).toISOString() : null
 
