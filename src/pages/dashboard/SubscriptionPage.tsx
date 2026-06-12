@@ -237,7 +237,7 @@ export default function SubscriptionPage() {
           >
             <div className="flex items-center gap-3">
               <Check size={18} className="text-success shrink-0" />
-              <p className="text-sm font-medium text-success">Subscription activated! Your credits are ready.</p>
+              <p className="text-sm font-medium text-success">Payment received! Your credits will appear in a moment.</p>
             </div>
             <button onClick={() => setShowSuccess(false)} className="text-muted-foreground hover:text-foreground">
               <X size={16} />

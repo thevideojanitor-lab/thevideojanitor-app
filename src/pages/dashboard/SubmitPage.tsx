@@ -578,22 +578,10 @@ export default function SubmitPage() {
       // 1. Deduct credits optimistically
       deduct(totalCost)
 
-      // 2. DB deduction
-      const { data: sub } = await supabase
-        .from("subscriptions")
-        .select("id, credits_remaining")
-        .eq("client_id", user.id)
-        .eq("status", "active")
-        .order("created_at", { ascending: false })
-        .limit(1)
-        .single()
-
-      if (sub) {
-        await supabase
-          .from("subscriptions")
-          .update({ credits_remaining: sub.credits_remaining - totalCost })
-          .eq("id", sub.id)
-      }
+      // 2. DB deduction — atomic server-side check-and-deduct (clients have no
+      // write access to subscriptions; raises INSUFFICIENT_CREDITS on shortfall)
+      const { error: deductError } = await supabase.rpc("deduct_credits", { amount: totalCost })
+      if (deductError) throw deductError
 
       // 3. Insert request
       const { data: reqData } = await supabase

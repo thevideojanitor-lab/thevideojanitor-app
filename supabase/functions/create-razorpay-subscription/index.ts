@@ -79,21 +79,40 @@ Deno.serve(async (req) => {
     const planConfig = plans[plan]
     if (!planConfig) return corsError("Pricing not configured for plan")
 
-    // Create Razorpay plan (monthly recurring) in the resolved currency.
+    // Razorpay plans are created once per (currency, plan, amount) and reused —
+    // a new one per checkout litters the dashboard. Cached in platform_config;
+    // a price change in pricing config invalidates the cache automatically.
     // NOTE: USD requires International Payments enabled on the Razorpay account.
-    const rzPlan = await razorpayPost("/plans", {
-      period: "monthly",
-      interval: 1,
-      item: {
-        name: `TheVideoJanitors ${planName}`,
-        amount: planConfig.amount,
-        currency,
-        description: `${planConfig.credits} credits/month`,
-      },
-    })
+    const { data: planCacheRow } = await supabase
+      .from("platform_config")
+      .select("value")
+      .eq("key", "razorpay_plan_ids")
+      .maybeSingle()
+    const planCache = (planCacheRow?.value ?? {}) as Record<
+      string, Record<string, { id: string; amount: number }>
+    >
+
+    let rzPlanId = planCache[currency]?.[plan]?.id
+    if (!rzPlanId || planCache[currency][plan].amount !== planConfig.amount) {
+      const rzPlan = await razorpayPost("/plans", {
+        period: "monthly",
+        interval: 1,
+        item: {
+          name: `TheVideoJanitors ${planName}`,
+          amount: planConfig.amount,
+          currency,
+          description: `${planConfig.credits} credits/month`,
+        },
+      })
+      rzPlanId = rzPlan.id
+      planCache[currency] = { ...planCache[currency], [plan]: { id: rzPlanId, amount: planConfig.amount } }
+      await supabase
+        .from("platform_config")
+        .upsert({ key: "razorpay_plan_ids", value: planCache, updated_at: new Date().toISOString() })
+    }
 
     const rzSub = await razorpayPost("/subscriptions", {
-      plan_id: rzPlan.id,
+      plan_id: rzPlanId,
       customer_notify: 1,
       total_count: 120, // 10 years max, cancel anytime
       notes: { userId: user.id, plan },

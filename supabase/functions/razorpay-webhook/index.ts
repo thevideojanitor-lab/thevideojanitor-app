@@ -9,10 +9,18 @@ const PLAN_NAMES: Record<string, string> = {
   full_service: "Full Service",
 }
 
-const PLAN_CREDITS: Record<string, number> = {
-  quick_sweep: 350,
-  deep_clean: 950,
-  full_service: 2500,
+// Credits per plan come from platform_config (rule: business numbers never in
+// code). Falls back to the row's credits_total if config is missing.
+async function planCredits(
+  supabase: ReturnType<typeof getSupabaseAdmin>,
+  plan: string,
+  currency: string,
+  fallback: number,
+): Promise<number> {
+  const cfgKey = currency === "USD" ? "pricing_usd" : "pricing_inr"
+  const { data } = await supabase.from("platform_config").select("value").eq("key", cfgKey).single()
+  const plans = (data?.value ?? {}) as Record<string, { credits?: number }>
+  return plans[plan]?.credits ?? fallback
 }
 
 async function verifyWebhookSignature(body: string, signature: string, secret: string): Promise<boolean> {
@@ -56,7 +64,7 @@ Deno.serve(async (req) => {
 
       if (!dbSub) break
 
-      const credits = PLAN_CREDITS[dbSub.plan] ?? dbSub.credits_total
+      const credits = await planCredits(supabase, dbSub.plan, dbSub.currency, dbSub.credits_total)
       const renewsAt = sub.current_end ? new Date(sub.current_end * 1000).toISOString() : null
 
       await supabase

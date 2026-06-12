@@ -15,9 +15,15 @@ export function useSubscription() {
       .eq("client_id", user.id)
       .in("status", ["active", "past_due", "trialing"])
       .order("created_at", { ascending: false })
-      .limit(1)
-      .single()
-    setSubscription(data as Subscription | null)
+    // A 'trialing' row is created when checkout opens and only becomes 'active'
+    // once payment lands — never let an abandoned checkout shadow a paid plan.
+    const rows = (data ?? []) as Subscription[]
+    const best =
+      rows.find((s) => s.status === "active") ??
+      rows.find((s) => s.status === "past_due") ??
+      rows[0] ??
+      null
+    setSubscription(best)
     setLoading(false)
   }
 

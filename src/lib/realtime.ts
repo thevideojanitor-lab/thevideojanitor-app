@@ -27,6 +27,20 @@ export function initialiseRealtime(userId: string) {
     .subscribe()
   activeChannels.push(clientRequests)
 
+  // Subscription changes (webhook lands credits, renewals, cancellations)
+  // → refresh credits so the header balance updates without a reload
+  const clientSubs = supabase
+    .channel("client-subscriptions")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "subscriptions", filter: `client_id=eq.${userId}` },
+      () => {
+        useCreditsStore.getState().refresh(userId)
+      }
+    )
+    .subscribe()
+  activeChannels.push(clientSubs)
+
   // Editor queue updates → refresh editor store
   const editorQueue = supabase
     .channel("editor-queue")
