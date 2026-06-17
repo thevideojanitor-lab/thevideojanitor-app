@@ -7,6 +7,9 @@ import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TallyModal } from "@/components/TallyModal";
+
+const WAITLIST_FORM_URL = "https://tally.so/embed/xX0z6G";
 
 const comparisons = [
   {
@@ -286,11 +289,15 @@ const PricingPage = () => {
                 Join 50+ creators and agencies getting polished short-form content on autopilot.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/contact">
+                <TallyModal
+                  url={WAITLIST_FORM_URL}
+                  title="Join the Waitlist"
+                  subtitle="Get early access when we launch"
+                >
                   <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                    Get Started <ArrowRight className="w-5 h-5 ml-1" />
+                    Join the Waitlist <ArrowRight className="w-5 h-5 ml-1" />
                   </Button>
-                </Link>
+                </TallyModal>
                 <Link to="/how-it-works">
                   <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
                     See How It Works

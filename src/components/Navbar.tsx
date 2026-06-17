@@ -142,7 +142,7 @@ const Navbar = () => {
             subtitle="Get early access when we launch"
           >
             <Button variant="hero" size="sm">
-              Get Started
+              Join the Waitlist
             </Button>
           </TallyModal>
         </div>
@@ -203,7 +203,7 @@ const Navbar = () => {
             </TallyModal>
             <TallyModal url={WAITLIST_FORM_URL}>
               <Button variant="hero" size="sm" className="w-full">
-                Get Started
+                Join the Waitlist
               </Button>
             </TallyModal>
           </div>

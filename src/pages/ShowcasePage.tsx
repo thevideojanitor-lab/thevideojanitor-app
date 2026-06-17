@@ -6,6 +6,9 @@ import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, Play, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TallyModal } from "@/components/TallyModal";
+
+const WAITLIST_FORM_URL = "https://tally.so/embed/xX0z6G";
 import Section from "@/components/marketing/Section";
 import Reveal from "@/components/marketing/Reveal";
 import EditorialHeading from "@/components/marketing/EditorialHeading";
@@ -72,11 +75,15 @@ const ShowcasePage = () => {
             </Reveal>
             <Reveal delay={0.15}>
               <div className="mt-9 flex flex-col sm:flex-row gap-3 justify-center">
-                <Link to="/pricing">
+                <TallyModal
+                  url={WAITLIST_FORM_URL}
+                  title="Join the Waitlist"
+                  subtitle="Get early access when we launch"
+                >
                   <Button variant="hero" size="lg" className="text-base px-7 py-6 w-full sm:w-auto">
-                    Get Started <ArrowUpRight className="w-5 h-5 ml-1" />
+                    Join the Waitlist <ArrowUpRight className="w-5 h-5 ml-1" />
                   </Button>
-                </Link>
+                </TallyModal>
                 <Link to="/how-it-works">
                   <Button variant="hero-outline" size="lg" className="text-base px-7 py-6 w-full sm:w-auto">
                     How It Works
